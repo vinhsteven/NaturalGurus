@@ -15,9 +15,15 @@ enum {
     kLogOutTag,
 };
 
-@interface LeftSideViewController : UITableViewController {
+@interface LeftSideViewController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
     NSMutableArray *mainArray;
 }
 
 @property (unsafe_unretained) id parent;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) IBOutlet UILabel *lbTitle;
+@property (strong, nonatomic) IBOutlet UIButton *btnLogout;
+
+- (IBAction) handleLogout:(id)sender;
+
 @end

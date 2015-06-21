@@ -8,17 +8,11 @@
 
 #import "MyProfileViewController.h"
 
-enum {
-    kDetailProfileSection = 0,
-    kPreferencesSection
-};
-
 @interface MyProfileViewController ()
 
 @end
 
 @implementation MyProfileViewController
-@synthesize mainTableView;
 @synthesize imgExpertView;
 
 - (BOOL)shouldAutorotate {
@@ -40,67 +34,56 @@ enum {
     
     screenSize = [[UIScreen mainScreen] bounds].size;
     
+    self.view.backgroundColor = TABLE_BACKGROUND_COLOR;
+    
+    //allocate left button
     UIButton *btnLeft = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnLeft.frame = CGRectMake(0, 0, 22, 9);
+    btnLeft.frame = CGRectMake(0, 0, 20, 16);
     [btnLeft setImage:[UIImage imageNamed:@"reveal-icon.png"] forState:UIControlStateNormal];
     [btnLeft addTarget:self action:@selector(leftButtonPress) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *btnItem = [[UIBarButtonItem alloc] initWithCustomView:btnLeft];
+    
     self.navigationItem.leftBarButtonItem = btnItem;
     
-    //allocate firstname, last name, email
-    txtFirstName = [[UITextField alloc] initWithFrame:CGRectMake(5, 0, screenSize.width-5, 41)];
-    txtFirstName.font = [UIFont fontWithName:DEFAULT_FONT size:13];
-    txtFirstName.placeholder = @"First name";
-    txtFirstName.borderStyle = UITextBorderStyleNone;
-    txtFirstName.returnKeyType = UIReturnKeyNext;
-    txtFirstName.delegate = self;
-    txtFirstName.backgroundColor = [UIColor lightGrayColor];
+    UIBarButtonItem *leftSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    leftSpacer.width = -5;
     
-    txtLastName = [[UITextField alloc] initWithFrame:CGRectMake(5, 0, screenSize.width-5, 41)];
-    txtLastName.font = [UIFont fontWithName:DEFAULT_FONT size:13];
-    txtLastName.placeholder = @"Last name";
-    txtLastName.borderStyle = UITextBorderStyleNone;
-    txtLastName.returnKeyType = UIReturnKeyNext;
-    txtLastName.delegate = self;
-
-    txtEmail = [[UITextField alloc] initWithFrame:CGRectMake(5, 0, screenSize.width-5, 41)];
-    txtEmail.font = [UIFont fontWithName:DEFAULT_FONT size:13];
-    txtEmail.placeholder = @"Email address";
-    txtEmail.borderStyle = UITextBorderStyleNone;
-    txtEmail.returnKeyType = UIReturnKeyNext;
-    txtEmail.delegate = self;
+    self.navigationItem.leftBarButtonItems = @[leftSpacer, btnItem];
     
-    txtCountryCode = [[UITextField alloc] initWithFrame:CGRectMake(5, 0, 100, 41)];
-    txtCountryCode.font = [UIFont fontWithName:DEFAULT_FONT size:13];
-    txtCountryCode.placeholder = @"Country code";
-    txtCountryCode.borderStyle = UITextBorderStyleNone;
-    txtCountryCode.returnKeyType = UIReturnKeyNext;
-    txtCountryCode.delegate = self;
     
-    txtPhoneNumber = [[UITextField alloc] initWithFrame:CGRectMake(txtCountryCode.frame.size.width+5, 0, screenSize.width-txtCountryCode.frame.size.width-5, 41)];
-    txtPhoneNumber.font = [UIFont fontWithName:DEFAULT_FONT size:13];
-    txtPhoneNumber.placeholder = @"Phone number";
-    txtPhoneNumber.borderStyle = UITextBorderStyleNone;
-    txtPhoneNumber.returnKeyType = UIReturnKeyDone;
-    txtPhoneNumber.delegate = self;
+    //right bar button
+    UIBarButtonItem *rightSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    rightSpacer.width = 15;
     
-    btnSave = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton *btnRight = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnRight.frame = CGRectMake(0, 0, 19, 16);
+    [btnRight setImage:[UIImage imageNamed:@"btnSave.png"] forState:UIControlStateNormal];
+    [btnRight addTarget:self action:@selector(handleSaveProfile) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *btnItem2 = [[UIBarButtonItem alloc] initWithCustomView:btnRight];
+    self.navigationItem.rightBarButtonItem = btnItem2;
     
-    //allocate 2 switches
-    switchPushNotification = [[UISwitch alloc] initWithFrame:CGRectMake(screenSize.width-80, 5, 51, 31)];
-    switchPushNotification.on = YES;
+    self.navigationItem.rightBarButtonItems = @[leftSpacer, btnItem2, rightSpacer];
     
-    switchSMS = [[UISwitch alloc] initWithFrame:CGRectMake(screenSize.width-80, 5, 51, 31)];
-    switchSMS.on = YES;
+    //disable all text view
+    self.txtFirstName.enabled   = NO;
+    self.txtLastName.enabled    = NO;
+    self.txtEmail.enabled       = NO;
+    self.txtCountryCode.enabled = NO;
+    self.txtPhoneNumber.enabled = NO;
+    
+    //style for container view
+    self.containerView.backgroundColor = [UIColor whiteColor];
+    self.containerView.layer.cornerRadius   = 5;
+    self.containerView.layer.masksToBounds  = YES;
     
     //load expert image
     //get expert image
     UIImageView *se = self.imgExpertView;
     
     NSString *imgUrl = @"https://naturalgurus.com/uploads/users/2015_06_11_08_05_56_Keith%20at%20Homeopathy%20For%20Kidscr.jpeg";
-    [self.imgExpertView setImageWithURL:[NSURL URLWithString:imgUrl]
+    [self.imgExpertView sd_setImageWithURL:[NSURL URLWithString:imgUrl]
                        placeholderImage:[UIImage imageNamed:NSLocalizedString(@"image_loading_placeholder", nil)]
-                              completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                              completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                                   
                                   se.image = [[ToolClass instance] imageByScalingAndCroppingForSize:CGSizeMake(EXPERT_IMAGE_WIDTH, EXPERT_IMAGE_HEIGHT) source:image];
                                   
@@ -109,18 +92,14 @@ enum {
     [imgExpertView.layer setCornerRadius:EXPERT_IMAGE_WIDTH/2];
     [imgExpertView.layer setMasksToBounds:YES];
     
-    //allocate save button
-    btnSave = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnSave.frame = CGRectMake(0, 0, 195, 30);
-    btnSave.center = CGPointMake(screenSize.width/2, 23);
-    [btnSave setBackgroundImage:[ToolClass imageFromColor:GREEN_COLOR] forState:UIControlStateNormal];
-    [btnSave setBackgroundImage:[ToolClass imageFromColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
-    [btnSave setTitle:@"Save" forState:UIControlStateNormal];
-    [btnSave addTarget:self action:@selector(handleSaveProfile) forControlEvents:UIControlEventTouchUpInside];
-    
     //handle single touch on view to dismiss keyboard if it has showed
+    self.imgExpertView.userInteractionEnabled = YES;
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
     [self.view addGestureRecognizer:singleTap];
+    
+    //handle tap profile picture
+    UITapGestureRecognizer *profileImageTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditProfileImage)];
+    [self.imgExpertView addGestureRecognizer:profileImageTap];
 }
 
 - (void) handleSaveProfile {
@@ -130,139 +109,61 @@ enum {
 
 - (void) handleSingleTap:(UITapGestureRecognizer*)recognizer {
     //hide keyboard if it has already showed
-    [txtFirstName resignFirstResponder];
-    [txtLastName resignFirstResponder];
-    [txtEmail resignFirstResponder];
-    [txtCountryCode resignFirstResponder];
-    [txtPhoneNumber resignFirstResponder];
+    [self.txtFirstName resignFirstResponder];
+    [self.txtLastName resignFirstResponder];
+    [self.txtEmail resignFirstResponder];
+    [self.txtCountryCode resignFirstResponder];
+    [self.txtPhoneNumber resignFirstResponder];
 }
 
 - (void) leftButtonPress {
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
 }
 
-#pragma mark UITableViewDelegate 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 2;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    int numberRowsInSection = 0;
-    switch (section) {
-        case kDetailProfileSection:
-            numberRowsInSection = 4;
-            break;
-        case kPreferencesSection:
-            numberRowsInSection = 3;
-            break;
-        default:
-            break;
-    }
-    return numberRowsInSection;
-}
-
-- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString* cellIdentifier = @"cell";
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
-    
-    switch (indexPath.section) {
-        case kDetailProfileSection:
-            if (indexPath.row == 0)
-                [cell.contentView addSubview:txtFirstName];
-            else if (indexPath.row == 1)
-                [cell.contentView addSubview:txtLastName];
-            else if (indexPath.row == 2)
-                [cell.contentView addSubview:txtEmail];
-            else if (indexPath.row == 3) {
-                [cell.contentView addSubview:txtCountryCode];
-                [cell.contentView addSubview:txtPhoneNumber];
-            }
-            break;
-        case kPreferencesSection:
-        {
-            if (indexPath.row == 0) {
-                UILabel *lbTitle = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, screenSize.width-5, 41)];
-                lbTitle.backgroundColor = [UIColor clearColor];
-                lbTitle.font = [UIFont fontWithName:DEFAULT_FONT size:13];
-                lbTitle.text = @"Receive push notifications";
-                [cell.contentView addSubview:lbTitle];
-                
-                [cell.contentView addSubview:switchPushNotification];
-            }
-            else if (indexPath.row == 1){
-                UILabel *lbTitle = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, screenSize.width-5, 41)];
-                lbTitle.backgroundColor = [UIColor clearColor];
-                lbTitle.font = [UIFont fontWithName:DEFAULT_FONT size:13];
-                lbTitle.text = @"Receive SMS messages";
-                [cell.contentView addSubview:lbTitle];
-                
-                [cell.contentView addSubview:switchSMS];
-            }
-            else {
-                [cell.contentView addSubview:btnSave];
-            }
-                
-            break;
-        }
-        default:
-            break;
-    }
-    
-    return cell;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSString *headerTitle = @"";
-    switch (section) {
-        case kDetailProfileSection:
-        {
-            headerTitle = @"Details";
-            break;
-        }
-        case kPreferencesSection:
-            headerTitle = @"Preferences";
-            break;
-        default:
-            break;
-    }
-    return headerTitle;
-}
-
 #pragma mark UITextFieldDelegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    if (textField == txtFirstName) {
-        [txtLastName becomeFirstResponder];
+    if (textField == self.txtFirstName) {
+        [self.txtLastName becomeFirstResponder];
     }
-    else if (textField == txtLastName) {
-        [txtEmail becomeFirstResponder];
+    else if (textField == self.txtLastName) {
+        [self.txtEmail becomeFirstResponder];
     }
-    else if (textField == txtEmail) {
-        [txtCountryCode becomeFirstResponder];
+    else if (textField == self.txtEmail) {
+        [self.txtCountryCode becomeFirstResponder];
     }
-    else if (textField == txtCountryCode) {
-        [txtPhoneNumber becomeFirstResponder];
+    else if (textField == self.txtCountryCode) {
+        [self.txtPhoneNumber becomeFirstResponder];
     }
-    else if (textField == txtPhoneNumber) {
+    else if (textField == self.txtPhoneNumber) {
         [textField resignFirstResponder];
     }
     return YES;
 }
 
-- (IBAction) handleEditProfileImage:(id)sender {
-    NSString *other1 = @"Take Photo";
-    NSString *other2 = @"Choose Existing";
+- (IBAction) handleEditProfile:(id)sender {
+    self.txtFirstName.enabled   = YES;
+    self.txtLastName.enabled    = YES;
+    self.txtEmail.enabled       = YES;
+    self.txtCountryCode.enabled = YES;
+    self.txtPhoneNumber.enabled = YES;
     
-    
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                                  initWithTitle:nil
-                                  delegate:self
-                                  cancelButtonTitle:@"Cancel"
-                                  destructiveButtonTitle:nil
-                                  otherButtonTitles:other1, other2, nil];
-    [actionSheet showInView:self.view];
+    [self.txtFirstName becomeFirstResponder];
+}
+
+- (void) handleEditProfileImage {
+    if (self.txtFirstName.enabled) {
+        NSString *other1 = @"Take Photo";
+        NSString *other2 = @"Choose Existing";
+        
+        
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                      initWithTitle:nil
+                                      delegate:self
+                                      cancelButtonTitle:@"Cancel"
+                                      destructiveButtonTitle:nil
+                                      otherButtonTitles:other1, other2, nil];
+        [actionSheet showInView:self.view];
+    }
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

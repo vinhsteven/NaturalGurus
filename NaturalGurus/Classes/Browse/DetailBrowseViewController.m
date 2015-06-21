@@ -225,8 +225,12 @@ enum {
         lbSectionTitle.textInsets = UIEdgeInsetsMake(0, 10, 0, 0);
         [header addSubview:lbSectionTitle];
         
-        lbSectionTitle.layer.cornerRadius = 5;
-        lbSectionTitle.layer.masksToBounds = YES;
+        //set corner radius for header section label: just top left and top right
+        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, lbSectionTitle.frame.size.width, lbSectionTitle.frame.size.height) byRoundingCorners:(UIRectCornerTopLeft | UIRectCornerTopRight) cornerRadii:CGSizeMake(5.0, 5.0)];
+        
+        CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+        maskLayer.path  = maskPath.CGPath;
+        lbSectionTitle.layer.mask = maskLayer;
         
         //add arrow image
         UIImageView *imgArrow = [[UIImageView alloc] initWithFrame:CGRectMake(header.frame.size.width-10, 10, 12, 7)];
@@ -269,7 +273,7 @@ enum {
     if (indexPath.section == kAboutSection) {
         NSString *desciptionText = [[self.data objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         
-        UITextView *txtView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, screenSize.width, 10)];
+        UITextView *txtView = [[UITextView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-10, 10)];
 //        UITextView *txtView = [[UITextView alloc] initWithFrame:CGRectMake(10, 0, bgView.frame.size.width, 10)];
         txtView.userInteractionEnabled = NO;
         txtView.text = desciptionText;
@@ -405,6 +409,13 @@ enum {
             
             imgArrow.frame  = CGRectMake(imgArrow.frame.origin.x, imgArrow.frame.origin.y, 12, 7);
             imgArrow.center = CGPointMake(imgArrow.center.x, lbHeaderSection.center.y);
+            
+            //set corner radius for header section label: just top left and top right
+            UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, lbHeaderSection.frame.size.width, lbHeaderSection.frame.size.height) byRoundingCorners:(UIRectCornerTopLeft | UIRectCornerTopRight) cornerRadii:CGSizeMake(5.0, 5.0)];
+            
+            CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+            maskLayer.path  = maskPath.CGPath;
+            lbHeaderSection.layer.mask = maskLayer;
         }
         else {
             UIImage * portraitImage = [[UIImage alloc] initWithCGImage: imgArrow.image.CGImage
@@ -413,6 +424,13 @@ enum {
             imgArrow.image = portraitImage;
             imgArrow.frame = CGRectMake(imgArrow.frame.origin.x, imgArrow.frame.origin.y, 7, 12);
             imgArrow.center = CGPointMake(imgArrow.center.x, lbHeaderSection.center.y);
+            
+            //set corner radius for header section label for 4 corner
+            UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, lbHeaderSection.frame.size.width, lbHeaderSection.frame.size.height) byRoundingCorners:(UIRectCornerTopLeft | UIRectCornerTopRight |UIRectCornerBottomLeft | UIRectCornerBottomRight) cornerRadii:CGSizeMake(5.0, 5.0)];
+            
+            CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+            maskLayer.path  = maskPath.CGPath;
+            lbHeaderSection.layer.mask = maskLayer;
         }
         
     }

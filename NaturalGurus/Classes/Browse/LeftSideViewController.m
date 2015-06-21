@@ -19,15 +19,6 @@
 @implementation LeftSideViewController
 @synthesize parent;
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 -(BOOL)prefersStatusBarHidden{
     return HIDE_STATUS_BAR;
 }
@@ -36,7 +27,7 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"Menu";
+    self.navigationController.navigationBarHidden = YES;
     
     UIView *navBorder = [[UIView alloc] initWithFrame:CGRectMake(0,self.navigationController.navigationBar.frame.size.height-1,self.navigationController.navigationBar.frame.size.width, 1)];
     
@@ -48,18 +39,21 @@
     
     mainArray = [NSMutableArray arrayWithCapacity:1];
     
+    self.lbTitle.font = [UIFont fontWithName:MONTSERRAT_BOLD size:16];
+    self.lbTitle.textColor = GREEN_COLOR;
+    
+    self.btnLogout.titleLabel.font = [UIFont fontWithName:MONTSERRAT_BOLD size:13];
+    
     NSString *imageTitle[] = {
-        @"icon_dashboard.png",
-        @"icon_home.png",
-        @"icon_small_application.png",
-        @"icon_small_resume.png",
+        @"iconDashboard.png",
+        @"iconBrowse.png",
+        @"iconProfile.png",
     };
     
     NSString *titleStr[] = {
-        @"Dashboard",
-        @"Browse",
-        @"My Profile",
-        @"Log Out"
+        @"DASHBOARD",
+        @"BROWSE",
+        @"PROFILE",
     };
     
     for (int i=0;i < sizeof(imageTitle)/sizeof(imageTitle[0]);i++) {
@@ -67,8 +61,9 @@
         [mainArray addObject:dict];
     }
     
-    self.tableView.backgroundColor = TABLEVIEW_BACKGROUND_COLOR;
-    self.tableView.separatorColor  = [UIColor clearColor];
+    self.tableView.backgroundColor = [UIColor colorWithRed:(float)38/255 green:(float)38/255 blue:(float)38/255 alpha:1.0];
+    self.tableView.rowHeight = 48;
+//    self.tableView.separatorColor  = [UIColor clearColor];
 }
 
 
@@ -84,6 +79,11 @@
     return [mainArray count];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier = @"CellIdentifier";
@@ -92,35 +92,27 @@
     NSDictionary *dict = [mainArray objectAtIndex:indexPath.row];
     int index = [[dict objectForKey:@"index"] intValue];
     
-//    UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[dict objectForKey:@"image"]]];
-//    switch (index) {
-//        case kHomeTag:
-//            img.frame = CGRectMake(10, 10, 28, 22);
-//            break;
-//        case kApplicationTag:
-//            img.frame = CGRectMake(10, 10, 24, 33);
-//            break;
-//        case kResumeTag:
-//            img.frame = CGRectMake(10, 10, 20, 27);
-//            break;
-//        case kSearchJobTag:
-//            img.frame = CGRectMake(10, 10, 22, 26);
-//            break;
-//        case kSavedJobsTag:
-//            img.frame = CGRectMake(10, 10, 25, 21);
-//            break;
-//        case kSignOutTag:
-//            img.frame = CGRectMake(10, 10, 23, 25);
-//            break;
-//        default:
-//            break;
-//    }
-//    
-//    [cell.contentView addSubview:img];
+    UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[dict objectForKey:@"image"]]];
+    switch (index) {
+        case kDashboardTag:
+            img.frame = CGRectMake(28, 15, 16, 16);
+            break;
+        case kBrowseTag:
+            img.frame = CGRectMake(28, 15, 13, 16);
+            break;
+        case kProfileTag:
+            img.frame = CGRectMake(28, 15, 15, 16);
+            break;
+        default:
+            break;
+    }
     
-    UILabel *lbTitle = [[UILabel alloc] initWithFrame:CGRectMake(50, 15, 150, 21)];
+    [cell.contentView addSubview:img];
+    
+    UILabel *lbTitle = [[UILabel alloc] initWithFrame:CGRectMake(56, 15, 150, 21)];
     lbTitle.backgroundColor = [UIColor clearColor];
-    lbTitle.textColor = TEXT_COLOR;
+    lbTitle.font = [UIFont fontWithName:MONTSERRAT_BOLD size:14];
+    lbTitle.textColor = [UIColor whiteColor];
     lbTitle.text = [dict objectForKey:@"title"];
     [cell.contentView addSubview:lbTitle];
     
@@ -136,9 +128,6 @@
     NSLog(@"controller = %@",((LoginViewController*)parent).centerViewController);
 
     switch (index) {
-        case kLogOutTag:
-            [((LoginViewController*)parent).drawerController.navigationController popViewControllerAnimated:YES];
-            break;
         case kDashboardTag:
         {
             DashboardViewController *controller = [[DashboardViewController alloc] initWithNibName:@"DashboardViewController" bundle:nil];
@@ -178,6 +167,10 @@
         default:
             break;
     }
+}
+
+- (IBAction) handleLogout:(id)sender {
+    [((LoginViewController*)parent).drawerController.navigationController popViewControllerAnimated:YES];
 }
 
 @end

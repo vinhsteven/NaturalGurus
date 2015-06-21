@@ -108,7 +108,7 @@
     [self.drawerController setShowsShadow:NO];
     
     [self.drawerController setRestorationIdentifier:@"MMDrawer"];
-    [self.drawerController setMaximumLeftDrawerWidth:160];
+    [self.drawerController setMaximumLeftDrawerWidth:280];
     [self.drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
     [self.drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
     
@@ -142,7 +142,7 @@
 }
 
 - (void) loginSuccess {
-    LeftSideViewController *leftViewController = [[LeftSideViewController alloc] init];
+    LeftSideViewController *leftViewController = [[LeftSideViewController alloc] initWithNibName:@"LeftSideViewController" bundle:nil];
     
     centerViewController = [[BrowseViewController alloc] initWithNibName:@"BrowseViewController" bundle:nil];
     
@@ -161,7 +161,7 @@
     [self.drawerController setShowsShadow:NO];
     
     [self.drawerController setRestorationIdentifier:@"MMDrawer"];
-    [self.drawerController setMaximumLeftDrawerWidth:160];
+    [self.drawerController setMaximumLeftDrawerWidth:280];
     [self.drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
     [self.drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
     
