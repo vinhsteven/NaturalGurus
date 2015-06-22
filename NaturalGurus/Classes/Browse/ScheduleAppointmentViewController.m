@@ -21,7 +21,6 @@ enum {
 };
 
 @implementation ScheduleAppointmentViewController
-@synthesize mainTableView;
 
 - (BOOL)shouldAutorotate {
     return NO;
@@ -42,58 +41,74 @@ enum {
     
     self.navigationItem.title = @"Schedule";
     
+    //set corner radius for container view
+    self.containerView.layer.cornerRadius  = 5;
+    self.containerView.layer.masksToBounds = YES;
+    self.containerView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.containerView.layer.borderWidth = 1;
+    
     //allocate message text view
-    txtMessage = [[SZTextView alloc] initWithFrame:CGRectMake(5, 5, screenSize.width-5, 75)];
-    txtMessage.font = [UIFont fontWithName:DEFAULT_FONT size:13];
-    txtMessage.placeholder = @"Type a personal message here about what you want to talk about...";
-    txtMessage.returnKeyType = UIReturnKeyNext;
-    txtMessage.delegate = self;
+    self.txtMessage.layer.cornerRadius  = 5;
+    self.txtMessage.layer.masksToBounds = YES;
+    self.txtMessage.layer.borderWidth   = 1;
+    self.txtMessage.layer.borderColor   = [UIColor lightGrayColor].CGColor;
+    self.txtMessage.font = [UIFont fontWithName:DEFAULT_FONT size:13];
+    self.txtMessage.placeholder = @"Type a personal message here about what you want to talk about...";
+    self.txtMessage.returnKeyType = UIReturnKeyNext;
+    
+    //style for container view
+    self.containerView.layer.cornerRadius  = 5;
+    self.containerView.layer.masksToBounds = YES;
+    self.containerView.layer.borderWidth   = 1;
+    self.containerView.layer.borderColor   = [UIColor lightGrayColor].CGColor;
     
     //allocate firstname, last name, email
-    txtFirstName = [[UITextField alloc] initWithFrame:CGRectMake(5, 0, screenSize.width-5, 30)];
-    txtFirstName.font = [UIFont fontWithName:DEFAULT_FONT size:13];
-    txtFirstName.placeholder = @"First name";
-    txtFirstName.borderStyle = UITextBorderStyleNone;
-    txtFirstName.returnKeyType = UIReturnKeyNext;
-    txtFirstName.delegate = self;
+    self.txtFirstName.font = [UIFont fontWithName:DEFAULT_FONT size:13];
+    self.txtFirstName.placeholder = @"First name";
+    self.txtFirstName.borderStyle = UITextBorderStyleNone;
+    self.txtFirstName.returnKeyType = UIReturnKeyNext;
     
-    txtLastName = [[UITextField alloc] initWithFrame:CGRectMake(5, 0, screenSize.width-5, 30)];
-    txtLastName.font = [UIFont fontWithName:DEFAULT_FONT size:13];
-    txtLastName.placeholder = @"Last name";
-    txtLastName.borderStyle = UITextBorderStyleNone;
-    txtLastName.returnKeyType = UIReturnKeyNext;
-    txtLastName.delegate = self;
+    self.txtLastName.font = [UIFont fontWithName:DEFAULT_FONT size:13];
+    self.txtLastName.placeholder = @"Last name";
+    self.txtLastName.borderStyle = UITextBorderStyleNone;
+    self.txtLastName.returnKeyType = UIReturnKeyNext;
     
-    txtEmail = [[UITextField alloc] initWithFrame:CGRectMake(5, 0, screenSize.width-5, 30)];
-    txtEmail.font = [UIFont fontWithName:DEFAULT_FONT size:13];
-    txtEmail.placeholder = @"Email address";
-    txtEmail.borderStyle = UITextBorderStyleNone;
-    txtEmail.returnKeyType = UIReturnKeyDone;
-    txtEmail.delegate = self;
+    self.txtEmail.font = [UIFont fontWithName:DEFAULT_FONT size:13];
+    self.txtEmail.placeholder = @"Email address";
+    self.txtEmail.borderStyle = UITextBorderStyleNone;
+    self.txtEmail.returnKeyType = UIReturnKeyDone;
     
     //allocate duration button
-    btnDuration = [UIButton buttonWithType:UIButtonTypeSystem];
-    btnDuration.frame = CGRectMake(5, 0, screenSize.width-5, 30);
-    btnDuration.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT size:13];
-    btnDuration.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-//    btnDuration.contentEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
-    [btnDuration addTarget:self action:@selector(hanldeChangeDuration) forControlEvents:UIControlEventTouchUpInside];
-    [btnDuration setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [btnDuration setTitle:@"Select duration" forState:UIControlStateNormal];
+    self.btnDuration.layer.cornerRadius  = 5;
+    self.btnDuration.layer.masksToBounds = YES;
+    self.btnDuration.layer.borderWidth   = 1;
+    self.btnDuration.layer.borderColor   = [UIColor lightGrayColor].CGColor;
+    self.btnDuration.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+    [self.btnDuration setTitleColor:GREEN_COLOR forState:UIControlStateNormal];
+    [self.btnDuration setTitle:@"Select duration" forState:UIControlStateNormal];
     
     
     //allocate time zone
-    btnTimeZone = [UIButton buttonWithType:UIButtonTypeSystem];
-    btnTimeZone.frame = CGRectMake(5, 0, screenSize.width-5, 30);
-    btnTimeZone.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT size:13];
-//    btnTimeZone.contentEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
-    btnTimeZone.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [btnTimeZone addTarget:self action:@selector(handleChangeTimezone) forControlEvents:UIControlEventTouchUpInside];
-    [btnTimeZone setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [btnTimeZone setTitle:@"Select time zone" forState:UIControlStateNormal];
+    self.btnTimeZone.layer.cornerRadius  = 5;
+    self.btnTimeZone.layer.masksToBounds = YES;
+    self.btnTimeZone.layer.borderWidth   = 1;
+    self.btnTimeZone.layer.borderColor   = [UIColor lightGrayColor].CGColor;
+    self.btnTimeZone.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+    [self.btnTimeZone setTitleColor:GREEN_COLOR forState:UIControlStateNormal];
+    [self.btnTimeZone setTitle:@"Select time zone" forState:UIControlStateNormal];
+    
+    //set style for availability button
+    self.btnViewAvailability.layer.cornerRadius  = 5;
+    self.btnViewAvailability.layer.masksToBounds = YES;
+    self.btnViewAvailability.layer.borderWidth   = 1;
+    self.btnViewAvailability.layer.borderColor   = [UIColor lightGrayColor].CGColor;
+    self.btnViewAvailability.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+    [self.btnViewAvailability setTitleColor:GREEN_COLOR forState:UIControlStateNormal];
+    [self.btnViewAvailability setTitle:@"View Availability" forState:UIControlStateNormal];
+    
     
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
-    [self.mainTableView addGestureRecognizer:singleTap];
+    [self.view addGestureRecognizer:singleTap];
     
     //init data for duration array
     NSString *durationValue[] = {
@@ -121,12 +136,12 @@ enum {
     }
 }
 
-- (void) hanldeChangeDuration {
+- (IBAction) hanldeChangeDuration:(id)sender {
     //hide keyboard if it has already showed
-    [txtFirstName resignFirstResponder];
-    [txtLastName resignFirstResponder];
-    [txtEmail resignFirstResponder];
-    [txtMessage resignFirstResponder];
+    [self.txtFirstName resignFirstResponder];
+    [self.txtLastName resignFirstResponder];
+    [self.txtEmail resignFirstResponder];
+    [self.txtMessage resignFirstResponder];
     
     currentPickerSelected = kCurrentDurationPicker;
     
@@ -135,19 +150,19 @@ enum {
                            withOptions:nil
                             completion:^(NSString *selectedString) {
                                 //selectedString is the return value which you can use as you wish
-                                [btnDuration setTitle:selectedString forState:UIControlStateNormal];
-                                btnDuration.titleLabel.text = selectedString;
+                                [self.btnDuration setTitle:selectedString forState:UIControlStateNormal];
+                                self.btnDuration.titleLabel.text = selectedString;
                             }];
     
     
 }
 
-- (void) handleChangeTimezone {
+- (IBAction) handleChangeTimezone:(id)sender {
     //hide keyboard if it has already showed
-    [txtFirstName resignFirstResponder];
-    [txtLastName resignFirstResponder];
-    [txtEmail resignFirstResponder];
-    [txtMessage resignFirstResponder];
+    [self.txtFirstName resignFirstResponder];
+    [self.txtLastName resignFirstResponder];
+    [self.txtEmail resignFirstResponder];
+    [self.txtMessage resignFirstResponder];
     
     currentPickerSelected = kCurrentTimezonePicker;
     
@@ -156,128 +171,32 @@ enum {
                            withOptions:nil
                             completion:^(NSString *selectedString) {
                                 //selectedString is the return value which you can use as you wish
-                                [btnTimeZone setTitle:selectedString forState:UIControlStateNormal];
-                                btnTimeZone.titleLabel.text = selectedString;
+                                [self.btnTimeZone setTitle:selectedString forState:UIControlStateNormal];
+                                self.btnTimeZone.titleLabel.text = selectedString;
                             }];
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 4;
-}
-
-- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString* cellIdentifier = @"cell";
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
+- (IBAction) handleViewAvailability:(id)sender {
     
-    switch (indexPath.section) {
-        case kMessageSection:
-            [cell.contentView addSubview:txtMessage];
-            break;
-        case kDetailSection:
-            if (indexPath.row == 0)
-                [cell.contentView addSubview:txtFirstName];
-            else if (indexPath.row == 1)
-                [cell.contentView addSubview:txtLastName];
-            else
-                [cell.contentView addSubview:txtEmail];
-            break;
-        case kLengthOfSessionSection:
-            [cell.contentView addSubview:btnDuration];
-            break;
-        case kTimezoneSection:
-            [cell.contentView addSubview:btnTimeZone];
-            break;
-        default:
-            break;
-    }
-    
-    return cell;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    int numberRowsInSection = 0;
-    switch (section) {
-        case kMessageSection:
-            numberRowsInSection = 1;
-            break;
-        case kDetailSection:
-            numberRowsInSection = 3;
-            break;
-        case kLengthOfSessionSection:
-            numberRowsInSection = 1;
-            break;
-        case kTimezoneSection:
-            numberRowsInSection = 1;
-            break;
-        default:
-            break;
-    }
-    return numberRowsInSection;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 40;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSString *headerTitle = @"";
-    switch (section) {
-        case kMessageSection:
-        {
-            NSString *expertName = @"Jackie Ward";
-            headerTitle = [NSString stringWithFormat:@"Message to %@",expertName];
-            break;
-        }
-        case kDetailSection:
-            headerTitle = @"Your details";
-            break;
-        case kLengthOfSessionSection:
-            headerTitle = @"Length of session";
-            break;
-        case kTimezoneSection:
-            headerTitle = @"Your time zone";
-            break;
-        default:
-            break;
-    }
-    return headerTitle;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    int height;
-    switch (indexPath.section) {
-        case kMessageSection:
-            height = 80;
-            break;
-        default:
-            height = 30;
-            break;
-    }
-    return height;
 }
 
 - (void) handleSingleTap:(UITapGestureRecognizer*)tap {
-    [txtMessage resignFirstResponder];
-    [txtFirstName resignFirstResponder];
-    [txtLastName resignFirstResponder];
-    [txtEmail resignFirstResponder];
+    [self.txtMessage resignFirstResponder];
+    [self.txtFirstName resignFirstResponder];
+    [self.txtLastName resignFirstResponder];
+    [self.txtEmail resignFirstResponder];
 }
 
 #pragma mark UITextFieldDelegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    if (textField == txtFirstName) {
-        [txtLastName becomeFirstResponder];
+    if (textField == self.txtFirstName) {
+        [self.txtLastName becomeFirstResponder];
     }
-    else if (textField == txtLastName) {
-        [txtEmail becomeFirstResponder];
+    else if (textField == self.txtLastName) {
+        [self.txtEmail becomeFirstResponder];
     }
-    else if (textField == txtEmail) {
-        [txtEmail resignFirstResponder];
+    else if (textField == self.txtEmail) {
+        [self.txtEmail resignFirstResponder];
     }
     return YES;
 }
@@ -291,7 +210,7 @@ enum {
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     if ([text isEqualToString:@"\n"]) {
-        [txtFirstName becomeFirstResponder];
+        [self.txtFirstName becomeFirstResponder];
         return NO;
     }
     return YES;
