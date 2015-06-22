@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ScheduleAppointmentViewController : UIViewController <UITextFieldDelegate,UITextViewDelegate> {
+@interface ScheduleAppointmentViewController : UIViewController <UITextFieldDelegate,UITextViewDelegate,UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate> {
     
     NSMutableArray *mainArray;
     
@@ -20,6 +20,7 @@
     int currentPickerSelected;
 }
 
+@property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
 @property (strong, nonatomic) IBOutlet UILabel *lbMessageTo;
 @property (strong, nonatomic) IBOutlet UILabel *lbYourDetails;
 @property (strong, nonatomic) IBOutlet UILabel *lbYourTimezone;

@@ -20,4 +20,7 @@
 - (NSDictionary *) indexKeyedDictionaryFromArray:(NSMutableArray *)array;
 - (UIImage *)changeImageColor:(NSString *)name withColor:(UIColor *)color;
 
+//Handle Date format
++ (NSString*) dateByFormat:(NSString*)format date:(NSDate*)date;
+
 @end

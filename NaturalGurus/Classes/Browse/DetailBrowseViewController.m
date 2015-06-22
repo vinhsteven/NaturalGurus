@@ -90,9 +90,11 @@ enum {
     [self.tableView openSection:2 animated:NO];
 }
 
-- (void) setupUI {
+- (void) viewWillAppear:(BOOL)animated {
     self.navigationItem.title = [expertDict objectForKey:@"expertName"];
-    
+}
+
+- (void) setupUI {
     self.view.backgroundColor = TABLE_BACKGROUND_COLOR;
     
     self.headerView.backgroundColor = [UIColor whiteColor];
@@ -441,6 +443,7 @@ enum {
 }
 
 - (IBAction) handleScheduleAppointment:(id)sender {
+    self.navigationItem.title = @"";
     ScheduleAppointmentViewController *controller = [[ScheduleAppointmentViewController alloc] initWithNibName:@"ScheduleAppointmentViewController" bundle:nil];
     [self.navigationController pushViewController:controller animated:YES];
 }

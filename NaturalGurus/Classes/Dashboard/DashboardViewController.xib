@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DashboardViewController">
@@ -16,15 +16,14 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Upcoming appointments" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="40P-Zr-REK">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Appointments" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="40P-Zr-REK">
                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
-                    <color key="backgroundColor" red="0.87450980389999999" green="0.87843137250000003" blue="0.87843137250000003" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="aJ4-gT-Ya1">
                             <variation key="heightClass=regular-widthClass=compact" constant="30"/>
                         </constraint>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                     <variation key="default">
@@ -49,6 +48,9 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="sY9-bd-Z0V" firstAttribute="top" secondItem="40P-Zr-REK" secondAttribute="bottom" id="3Na-Kh-NOr"/>
+                <constraint firstAttribute="trailing" secondItem="40P-Zr-REK" secondAttribute="trailing" constant="10" id="59x-tr-kNt"/>
+                <constraint firstItem="40P-Zr-REK" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="FK6-vH-F5d"/>
                 <constraint firstItem="sY9-bd-Z0V" firstAttribute="top" secondItem="40P-Zr-REK" secondAttribute="bottom" id="HFh-lc-YP6"/>
                 <constraint firstAttribute="trailing" secondItem="sY9-bd-Z0V" secondAttribute="trailing" id="LVI-wr-H4d"/>
                 <constraint firstAttribute="centerY" secondItem="40P-Zr-REK" secondAttribute="centerY" id="NCw-iG-5K8"/>
@@ -70,10 +72,13 @@
                     <exclude reference="sY9-bd-Z0V"/>
                 </mask>
                 <mask key="constraints">
+                    <exclude reference="59x-tr-kNt"/>
+                    <exclude reference="FK6-vH-F5d"/>
                     <exclude reference="NCw-iG-5K8"/>
                     <exclude reference="csy-cS-fMp"/>
                     <exclude reference="nrb-K2-Fla"/>
                     <exclude reference="u36-Eu-FfO"/>
+                    <exclude reference="3Na-Kh-NOr"/>
                     <exclude reference="HFh-lc-YP6"/>
                     <exclude reference="LVI-wr-H4d"/>
                     <exclude reference="O3T-Lw-xw6"/>
@@ -88,12 +93,15 @@
                     <include reference="sY9-bd-Z0V"/>
                 </mask>
                 <mask key="constraints">
+                    <include reference="59x-tr-kNt"/>
+                    <include reference="FK6-vH-F5d"/>
                     <exclude reference="NCw-iG-5K8"/>
                     <include reference="csy-cS-fMp"/>
-                    <include reference="nrb-K2-Fla"/>
-                    <include reference="u36-Eu-FfO"/>
+                    <exclude reference="nrb-K2-Fla"/>
+                    <exclude reference="u36-Eu-FfO"/>
+                    <include reference="3Na-Kh-NOr"/>
                     <exclude reference="HFh-lc-YP6"/>
-                    <include reference="LVI-wr-H4d"/>
+                    <exclude reference="LVI-wr-H4d"/>
                     <include reference="O3T-Lw-xw6"/>
                     <include reference="d7c-Gz-l0X"/>
                     <include reference="dzJ-dQ-rio"/>

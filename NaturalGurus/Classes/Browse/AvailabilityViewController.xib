@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AvailabilityViewController">
+            <connections>
+                <outlet property="lbInstructionTitle" destination="KjW-vO-ukT" id="nP0-4O-hPn"/>
+                <outlet property="mainTableView" destination="cZG-ws-AtY" id="mGe-wb-fZA"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="cZG-ws-AtY" customClass="STCollapseTableView">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="5x7-Fu-5QW"/>
+                        <outlet property="delegate" destination="-1" id="CVr-5i-Ad0"/>
+                    </connections>
+                </tableView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please pick a day and time for your  appointment" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KjW-vO-ukT">
+                    <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="2BQ-k1-tMd"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="2BQ-k1-tMd"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=regular-widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="2BQ-k1-tMd"/>
+                        </mask>
+                    </variation>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="KjW-vO-ukT" secondAttribute="trailing" id="6GS-Kw-wpn"/>
+                <constraint firstAttribute="centerY" secondItem="KjW-vO-ukT" secondAttribute="centerY" id="A6x-Rb-0DZ"/>
+                <constraint firstAttribute="centerX" secondItem="KjW-vO-ukT" secondAttribute="centerX" id="M91-Cs-WVe"/>
+                <constraint firstAttribute="trailing" secondItem="cZG-ws-AtY" secondAttribute="trailing" id="PtV-rJ-9mW"/>
+                <constraint firstItem="cZG-ws-AtY" firstAttribute="top" secondItem="KjW-vO-ukT" secondAttribute="bottom" id="boP-fV-lbZ"/>
+                <constraint firstItem="KjW-vO-ukT" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="45" id="iIN-o9-dtN"/>
+                <constraint firstItem="KjW-vO-ukT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="oEM-pu-1Mx"/>
+                <constraint firstAttribute="bottom" secondItem="cZG-ws-AtY" secondAttribute="bottom" constant="8" id="uBr-EL-GC3"/>
+                <constraint firstItem="cZG-ws-AtY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="xsO-pc-b1P"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="cZG-ws-AtY"/>
+                    <exclude reference="KjW-vO-ukT"/>
+                </mask>
+                <mask key="constraints">
+                    <exclude reference="6GS-Kw-wpn"/>
+                    <exclude reference="A6x-Rb-0DZ"/>
+                    <exclude reference="M91-Cs-WVe"/>
+                    <exclude reference="iIN-o9-dtN"/>
+                    <exclude reference="oEM-pu-1Mx"/>
+                    <exclude reference="PtV-rJ-9mW"/>
+                    <exclude reference="boP-fV-lbZ"/>
+                    <exclude reference="uBr-EL-GC3"/>
+                    <exclude reference="xsO-pc-b1P"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular-widthClass=compact">
+                <mask key="subviews">
+                    <include reference="cZG-ws-AtY"/>
+                    <include reference="KjW-vO-ukT"/>
+                </mask>
+                <mask key="constraints">
+                    <include reference="6GS-Kw-wpn"/>
+                    <exclude reference="A6x-Rb-0DZ"/>
+                    <include reference="M91-Cs-WVe"/>
+                    <include reference="iIN-o9-dtN"/>
+                    <include reference="oEM-pu-1Mx"/>
+                    <include reference="PtV-rJ-9mW"/>
+                    <include reference="boP-fV-lbZ"/>
+                    <include reference="uBr-EL-GC3"/>
+                    <include reference="xsO-pc-b1P"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+</document>

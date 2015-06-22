@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B00F66EC1B37FF6C00521850 /* iconCancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B00F66EB1B37FF6C00521850 /* iconCancel@2x.png */; };
+		B00F66EF1B380BA400521850 /* bgAvailability_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B00F66ED1B380BA400521850 /* bgAvailability_1@2x.png */; };
+		B00F66F01B380BA400521850 /* bgAvailability_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B00F66EE1B380BA400521850 /* bgAvailability_0@2x.png */; };
+		B00F66F41B380BF400521850 /* AvailabilityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B00F66F21B380BF400521850 /* AvailabilityViewController.m */; };
+		B00F66F51B380BF400521850 /* AvailabilityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B00F66F31B380BF400521850 /* AvailabilityViewController.xib */; };
 		C21391FE1B36B19200A2A1B5 /* btnSave@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C21391FD1B36B19200A2A1B5 /* btnSave@2x.png */; };
 		C21392001B36B6AE00A2A1B5 /* LeftSideViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C21391FF1B36B6AE00A2A1B5 /* LeftSideViewController.xib */; };
 		C21392051B36B82000A2A1B5 /* iconBrowse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C21392011B36B82000A2A1B5 /* iconBrowse@2x.png */; };
@@ -115,6 +120,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B00F66EB1B37FF6C00521850 /* iconCancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconCancel@2x.png"; sourceTree = "<group>"; };
+		B00F66ED1B380BA400521850 /* bgAvailability_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgAvailability_1@2x.png"; sourceTree = "<group>"; };
+		B00F66EE1B380BA400521850 /* bgAvailability_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgAvailability_0@2x.png"; sourceTree = "<group>"; };
+		B00F66F11B380BF400521850 /* AvailabilityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AvailabilityViewController.h; sourceTree = "<group>"; };
+		B00F66F21B380BF400521850 /* AvailabilityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AvailabilityViewController.m; sourceTree = "<group>"; };
+		B00F66F31B380BF400521850 /* AvailabilityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AvailabilityViewController.xib; sourceTree = "<group>"; };
 		C21391FD1B36B19200A2A1B5 /* btnSave@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btnSave@2x.png"; sourceTree = "<group>"; };
 		C21391FF1B36B6AE00A2A1B5 /* LeftSideViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftSideViewController.xib; sourceTree = "<group>"; };
 		C21392011B36B82000A2A1B5 /* iconBrowse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconBrowse@2x.png"; sourceTree = "<group>"; };
@@ -393,6 +404,9 @@
 		C2A5E3C01B27FACB000F7F29 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B00F66ED1B380BA400521850 /* bgAvailability_1@2x.png */,
+				B00F66EE1B380BA400521850 /* bgAvailability_0@2x.png */,
+				B00F66EB1B37FF6C00521850 /* iconCancel@2x.png */,
 				C2E7B8431B36D578003E4D99 /* iconDropDown@2x.png */,
 				C21392011B36B82000A2A1B5 /* iconBrowse@2x.png */,
 				C21392021B36B82000A2A1B5 /* iconDashboard@2x.png */,
@@ -572,6 +586,9 @@
 				C2195AFF1B2EC887005733EB /* ScheduleAppointmentViewController.h */,
 				C2195B001B2EC887005733EB /* ScheduleAppointmentViewController.m */,
 				C2195B021B2EC8AF005733EB /* ScheduleAppointmentViewController.xib */,
+				B00F66F11B380BF400521850 /* AvailabilityViewController.h */,
+				B00F66F21B380BF400521850 /* AvailabilityViewController.m */,
+				B00F66F31B380BF400521850 /* AvailabilityViewController.xib */,
 			);
 			path = Browse;
 			sourceTree = "<group>";
@@ -672,6 +689,7 @@
 				C24638991B317213002A4820 /* iconSkip@2x.png in Resources */,
 				C2BA2F161B2C291200811E56 /* star.png in Resources */,
 				C2F740D11B2A748C00C8635F /* LoginViewController.xib in Resources */,
+				B00F66EF1B380BA400521850 /* bgAvailability_1@2x.png in Resources */,
 				C22633C91B328FFF00CB368D /* Montserrat-Regular.ttf in Resources */,
 				C2FD42191B33C080002F2D2C /* btnSorting@2x.png in Resources */,
 				C22633C81B328FFF00CB368D /* Montserrat-Bold.ttf in Resources */,
@@ -684,16 +702,19 @@
 				C22633CC1B32B1C900CB368D /* iconOffline@2x.png in Resources */,
 				C2A5E3C41B27FACB000F7F29 /* reveal-icon@2x.png in Resources */,
 				C2FD421B1B33D3E4002F2D2C /* btnShare@2x.png in Resources */,
+				B00F66F01B380BA400521850 /* bgAvailability_0@2x.png in Resources */,
 				C2BA2F171B2C291200811E56 /* star@2x.png in Resources */,
 				C21392051B36B82000A2A1B5 /* iconBrowse@2x.png in Resources */,
 				C2FD42131B33B65C002F2D2C /* category_1@2x.png in Resources */,
 				C24638951B317213002A4820 /* btnFacebook@2x.png in Resources */,
 				C21A94B71B26E12B00698B01 /* Images.xcassets in Resources */,
+				B00F66EC1B37FF6C00521850 /* iconCancel@2x.png in Resources */,
 				C2BA2F201B2C33FB00811E56 /* camera@2x.png in Resources */,
 				C2BA2F151B2C291200811E56 /* star_highlighted@2x.png in Resources */,
 				C21392061B36B82000A2A1B5 /* iconDashboard@2x.png in Resources */,
 				C2BA2F1F1B2C33FB00811E56 /* camera.png in Resources */,
 				C22633D21B32D5E400CB368D /* btnFilter@2x.png in Resources */,
+				B00F66F51B380BF400521850 /* AvailabilityViewController.xib in Resources */,
 				C2FD42141B33B65C002F2D2C /* category_2@2x.png in Resources */,
 				C2ED33A21B30173A0032F885 /* btnCollapse@2x.png in Resources */,
 				C21392071B36B82000A2A1B5 /* iconLock@2x.png in Resources */,
@@ -751,6 +772,7 @@
 				C2F740B51B2A71D300C8635F /* SDWebImageDownloaderOperation.m in Sources */,
 				C2195AFE1B2EC807005733EB /* TPKeyboardAvoidingTableView.m in Sources */,
 				C2F740BE1B2A71D300C8635F /* UIView+WebCacheOperation.m in Sources */,
+				B00F66F41B380BF400521850 /* AvailabilityViewController.m in Sources */,
 				C2F740B41B2A71D300C8635F /* SDWebImageDownloader.m in Sources */,
 				C2F740B91B2A71D300C8635F /* UIImage+GIF.m in Sources */,
 				C2E4C30E1B34405B000DF6BF /* TTTAttributedLabel.m in Sources */,

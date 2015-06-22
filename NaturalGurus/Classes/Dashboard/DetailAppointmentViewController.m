@@ -37,31 +37,7 @@
     // Do any additional setup after loading the view from its nib.
     screenSize = [[UIScreen mainScreen] bounds].size;
     
-//    btnEnter.center = CGPointMake(screenSize.width/2-10-btnEnter.frame.size.width/2, btnEnter.frame.origin.y);
-//    btnCancel.center = CGPointMake(screenSize.width/2+10+btnCancel.frame.size.width/2, btnCancel.frame.origin.y);
-    
-    //get appointment data
-    NSString *status = [appointmentDict objectForKey:@"status"];
-    lbStatus.text = status;
-    if ([status isEqualToString:@"Confirmed"])
-        lbStatus.textColor = [UIColor greenColor];
-    else
-        lbStatus.textColor = [UIColor redColor];
-    
-    //set Service name label text
-    self.lbServiceName.text = [appointmentDict objectForKey:@"serviceName"];
-    
-    //get expert image
-    UIImageView *se = self.imgExpertView;
-    
-    NSString *imgUrl = [appointmentDict objectForKey:@"imageUrl"];
-    [self.imgExpertView setImageWithURL:[NSURL URLWithString:imgUrl]
-                       placeholderImage:[UIImage imageNamed:NSLocalizedString(@"image_loading_placeholder", nil)]
-                              completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                  
-                                  se.image = [[ToolClass instance] imageByScalingAndCroppingForSize:CGSizeMake(EXPERT_IN_LIST_WIDTH, EXPERT_IN_LIST_HEIGHT) source:image];
-                                  
-                              }];
+    [self setupUI];
     
 }
 
@@ -71,6 +47,73 @@
         [self.mainScrollView setContentSize:CGSizeMake(mainScrollView.frame.size.width, screenSize.height+200)];
     else
         [self.mainScrollView setContentSize:CGSizeMake(mainScrollView.frame.size.width, screenSize.height-44)];
+}
+
+- (void) setupUI {
+    self.navigationItem.title = @"Alan Smith";
+    
+    self.view.backgroundColor = TABLE_BACKGROUND_COLOR;
+    
+    self.detailContainerView.layer.cornerRadius  = 5;
+    self.detailContainerView.layer.masksToBounds = YES;
+    self.detailContainerView.backgroundColor = [UIColor whiteColor];
+    self.detailContainerView.layer.borderColor = LIGHT_GREY_COLOR.CGColor;
+    self.detailContainerView.layer.borderWidth = 1;
+    
+    //style for detail label
+    self.lbDetailTitle.font = [UIFont fontWithName:MONTSERRAT_BOLD size:14];
+    self.lbDetailTitle.textColor = GREEN_COLOR;
+    
+    //style for enter room button
+    self.btnEnter.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+    self.btnEnter.layer.cornerRadius = 5;
+    self.btnEnter.layer.masksToBounds = YES;
+    [self.btnEnter setBackgroundImage:[ToolClass imageFromColor:GREEN_COLOR] forState:UIControlStateNormal];
+    [self.btnEnter setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    //style for cancel button
+    [self.btnCancel setTitleColor:[UIColor colorWithRed:(float)215/255 green:(float)53/255 blue:(float)53/255 alpha:1.0] forState:UIControlStateNormal];
+    [self.btnCancel setBackgroundImage:[ToolClass imageFromColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    
+    //get appointment data
+    self.lbStatus.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+    
+    NSString *status = [appointmentDict objectForKey:@"status"];
+    lbStatus.text = status;
+    if ([status isEqualToString:@"Confirmed"])
+        lbStatus.textColor = GREEN_COLOR;
+    else if ([status isEqualToString:@"Pending"])
+        lbStatus.textColor = [UIColor colorWithRed:(float)215/255 green:(float)186/255 blue:(float)53/255 alpha:1.0];
+    else
+        lbStatus.textColor = [UIColor colorWithRed:(float)215/255 green:(float)53/255 blue:(float)53/255 alpha:1.0];
+    
+    //set Service name label text
+    self.lbServiceName.text = [appointmentDict objectForKey:@"serviceName"];
+    
+    //get expert image
+    UIImageView *se = self.imgExpertView;
+    
+    NSString *imgUrl = [appointmentDict objectForKey:@"imageUrl"];
+    [self.imgExpertView sd_setImageWithURL:[NSURL URLWithString:imgUrl]
+                       placeholderImage:[UIImage imageNamed:NSLocalizedString(@"image_loading_placeholder", nil)]
+                              completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType,NSURL *url) {
+                                  
+                                  se.image = [[ToolClass instance] imageByScalingAndCroppingForSize:CGSizeMake(EXPERT_IN_LIST_WIDTH, EXPERT_IN_LIST_HEIGHT) source:image];
+                                  
+                              }];
+    self.imgExpertView.layer.cornerRadius  = EXPERT_IMAGE_WIDTH/2;
+    self.imgExpertView.layer.masksToBounds = YES;
+    
+    //get number of star
+    //set number of rating
+    self.starRatingView.backgroundImage = nil;
+    self.starRatingView.starImage = [UIImage imageNamed:@"star_highlighted.png"];
+    self.starRatingView.starHighlightedImage = [UIImage imageNamed:@"star.png"];
+    self.starRatingView.maxRating = 5.0;
+    self.starRatingView.horizontalMargin = 0;
+    self.starRatingView.editable    = NO;
+    self.starRatingView.rating = 3.5;
+    self.starRatingView.displayMode = EDStarRatingDisplayAccurate;
 }
 
 - (IBAction) handleCollapseExpandView:(id)sender {

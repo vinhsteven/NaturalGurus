@@ -17,6 +17,7 @@
 @interface DetailBrowseViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
     CGSize screenSize;
     BOOL isSelectDescription;
+    NSMutableArray *reviewArray;
 }
 
 @property (weak, nonatomic) NSMutableDictionary *expertDict;

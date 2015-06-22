@@ -362,5 +362,16 @@
     return coloredImg;
 }
 
+#pragma mark DATE FORMATTER
++ (NSString*) dateByFormat:(NSString*)format date:(NSDate*)date {
+    NSString *dateStr = @"";
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:format];
+    dateStr = [dateFormatter stringFromDate:date];
+    
+    return dateStr;
+}
+
 
 @end

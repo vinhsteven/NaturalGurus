@@ -14,5 +14,6 @@
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *mainTableView;
+@property (strong, nonatomic) IBOutlet UILabel *lbMyAppointments;
 
 @end

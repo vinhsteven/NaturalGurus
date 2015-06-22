@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "UIImageView+WebCache.h"
+#import "EDStarRating.h"
 
 @interface DetailAppointmentViewController : UIViewController <UIAlertViewDelegate> {
     CGSize screenSize;
@@ -21,9 +22,12 @@
 @property (strong, nonatomic) IBOutlet UILabel *lbStatus;
 @property (strong, nonatomic) IBOutlet UIButton *btnEnter;
 @property (strong, nonatomic) IBOutlet UIButton *btnCancel;
+@property (strong, nonatomic) IBOutlet EDStarRating *starRatingView;
+@property (strong, nonatomic) IBOutlet UILabel *lbPrice;
 
 //Detail View
 @property (strong, nonatomic) IBOutlet UIView *detailContainerView;
+@property (strong, nonatomic) IBOutlet UILabel *lbDetailTitle;
 @property (strong ,nonatomic) IBOutlet UIButton *btnCollapseExpand;
 @property (strong, nonatomic) IBOutlet UILabel *lbExpertName;
 @property (strong, nonatomic) IBOutlet UILabel *lbTotalPrice;

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DetailBrowseViewController">
@@ -122,26 +122,6 @@
                         </mask>
                     </variation>
                 </imageView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pvn-H9-nji" customClass="EDStarRating">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="55" id="1bh-4b-9OU"/>
-                        <constraint firstAttribute="height" constant="32" id="dsV-M7-aRp"/>
-                    </constraints>
-                    <variation key="default">
-                        <mask key="constraints">
-                            <exclude reference="1bh-4b-9OU"/>
-                            <exclude reference="dsV-M7-aRp"/>
-                        </mask>
-                    </variation>
-                    <variation key="heightClass=regular-widthClass=compact">
-                        <mask key="constraints">
-                            <include reference="1bh-4b-9OU"/>
-                            <include reference="dsV-M7-aRp"/>
-                        </mask>
-                    </variation>
-                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Eug-wy-abM">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -337,6 +317,26 @@
                         <outlet property="delegate" destination="-1" id="Bxt-4a-U8L"/>
                     </connections>
                 </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pvn-H9-nji" customClass="EDStarRating">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="55" id="1bh-4b-9OU"/>
+                        <constraint firstAttribute="height" constant="32" id="dsV-M7-aRp"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="1bh-4b-9OU"/>
+                            <exclude reference="dsV-M7-aRp"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=regular-widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="1bh-4b-9OU"/>
+                            <include reference="dsV-M7-aRp"/>
+                        </mask>
+                    </variation>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
@@ -395,12 +395,12 @@
                     <exclude reference="epE-uv-Tc7"/>
                     <exclude reference="YW8-2f-NrG"/>
                     <exclude reference="6FH-05-fPb"/>
-                    <exclude reference="Pvn-H9-nji"/>
                     <exclude reference="Eug-wy-abM"/>
                     <exclude reference="7YJ-Kg-nca"/>
                     <exclude reference="DlW-zZ-Yg8"/>
                     <exclude reference="oaJ-Y8-BVU"/>
                     <exclude reference="j0X-7B-EwF"/>
+                    <exclude reference="Pvn-H9-nji"/>
                 </mask>
                 <mask key="constraints">
                     <exclude reference="14J-oW-moo"/>
@@ -447,12 +447,12 @@
                     <include reference="epE-uv-Tc7"/>
                     <include reference="YW8-2f-NrG"/>
                     <include reference="6FH-05-fPb"/>
-                    <include reference="Pvn-H9-nji"/>
                     <include reference="Eug-wy-abM"/>
                     <include reference="7YJ-Kg-nca"/>
                     <include reference="DlW-zZ-Yg8"/>
                     <include reference="oaJ-Y8-BVU"/>
                     <include reference="j0X-7B-EwF"/>
+                    <include reference="Pvn-H9-nji"/>
                 </mask>
                 <mask key="constraints">
                     <exclude reference="14J-oW-moo"/>

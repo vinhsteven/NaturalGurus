@@ -22,7 +22,7 @@
      NSForegroundColorAttributeName,
      [NSValue valueWithUIOffset:UIOffsetMake(0, -1)],
      NSForegroundColorAttributeName,
-     [UIFont fontWithName:MONTSERRAT_BOLD size:0.0],
+     [UIFont fontWithName:MONTSERRAT_BOLD size:16.0],
      NSFontAttributeName,nil];
     
     // Override point for customization after application launch.

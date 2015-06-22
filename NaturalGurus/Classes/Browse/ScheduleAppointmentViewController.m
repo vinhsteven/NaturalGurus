@@ -7,6 +7,7 @@
 //
 
 #import "ScheduleAppointmentViewController.h"
+#import "AvailabilityViewController.h"
 
 enum {
     kMessageSection,
@@ -38,8 +39,6 @@ enum {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     screenSize = [[UIScreen mainScreen] bounds].size;
-    
-    self.navigationItem.title = @"Schedule";
     
     //set corner radius for container view
     self.containerView.layer.cornerRadius  = 5;
@@ -103,9 +102,9 @@ enum {
     self.btnViewAvailability.layer.borderWidth   = 1;
     self.btnViewAvailability.layer.borderColor   = [UIColor lightGrayColor].CGColor;
     self.btnViewAvailability.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
-    [self.btnViewAvailability setTitleColor:GREEN_COLOR forState:UIControlStateNormal];
+    [self.btnViewAvailability setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.btnViewAvailability setTitle:@"View Availability" forState:UIControlStateNormal];
-    
+    [self.btnViewAvailability setBackgroundImage:[ToolClass imageFromColor:GREEN_COLOR] forState:UIControlStateNormal];
     
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
     [self.view addGestureRecognizer:singleTap];
@@ -133,6 +132,19 @@ enum {
     timezoneArray = [NSMutableArray arrayWithCapacity:1];
     for (int i=0;i < sizeof(timezoneTitle)/sizeof(timezoneTitle[0]);i++){
         [timezoneArray addObject:timezoneTitle[i]];
+    }
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    self.navigationItem.title = @"Schedule";
+}
+
+- (void) viewDidLayoutSubviews {
+    if (screenSize.height == 568) {
+        [self.mainScrollView setContentSize:CGSizeMake(self.mainScrollView.frame.size.width, self.mainScrollView.frame.size.height+100)];
+    }
+    else if (screenSize.height == 480) {
+        [self.mainScrollView setContentSize:CGSizeMake(self.mainScrollView.frame.size.width, self.mainScrollView.frame.size.height+200)];
     }
 }
 
@@ -177,7 +189,10 @@ enum {
 }
 
 - (IBAction) handleViewAvailability:(id)sender {
+    self.navigationItem.title = @"";
     
+    AvailabilityViewController *controller = [[AvailabilityViewController alloc] initWithNibName:@"AvailabilityViewController" bundle:nil];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void) handleSingleTap:(UITapGestureRecognizer*)tap {
@@ -188,12 +203,23 @@ enum {
 }
 
 #pragma mark UITextFieldDelegate
+- (void) textFieldDidBeginEditing:(UITextField *)textField {
+    CGRect rect = [textField bounds];
+    rect = [textField convertRect:rect toView:self.mainScrollView];
+    rect.origin.x = 0 ;
+    rect.origin.y -= 60 ;
+    rect.size.height = 400;
+    
+    [self.mainScrollView scrollRectToVisible:rect animated:YES];
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField == self.txtFirstName) {
         [self.txtLastName becomeFirstResponder];
     }
     else if (textField == self.txtLastName) {
         [self.txtEmail becomeFirstResponder];
+        
     }
     else if (textField == self.txtEmail) {
         [self.txtEmail resignFirstResponder];
