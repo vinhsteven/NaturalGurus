@@ -56,7 +56,7 @@
     rightSpacer.width = 15;
     
     UIButton *btnRight = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnRight.frame = CGRectMake(0, 0, 19, 16);
+    btnRight.frame = CGRectMake(0, 0, 19, 13);
     [btnRight setImage:[UIImage imageNamed:@"btnSave.png"] forState:UIControlStateNormal];
     [btnRight addTarget:self action:@selector(handleSaveProfile) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *btnItem2 = [[UIBarButtonItem alloc] initWithCustomView:btnRight];

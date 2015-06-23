@@ -84,42 +84,6 @@
                                 <action selector="loginButtonTapped:" destination="-1" eventType="touchUpInside" id="DrE-UG-cMh"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5yX-Ph-9hM">
-                            <rect key="frame" x="202" y="285" width="197" height="30"/>
-                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="360" id="ZjV-Vv-2D9">
-                                    <variation key="heightClass=regular-widthClass=compact" constant="380"/>
-                                </constraint>
-                                <constraint firstAttribute="height" constant="45" id="bmx-gv-HkS"/>
-                                <constraint firstAttribute="width" constant="290" id="pLK-4y-vwq"/>
-                                <constraint firstAttribute="height" constant="30" id="zZy-iJ-xcw"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                            <state key="normal" title="Create Account">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="ZjV-Vv-2D9"/>
-                                    <exclude reference="bmx-gv-HkS"/>
-                                    <exclude reference="pLK-4y-vwq"/>
-                                    <exclude reference="zZy-iJ-xcw"/>
-                                </mask>
-                            </variation>
-                            <variation key="heightClass=regular-widthClass=compact">
-                                <mask key="constraints">
-                                    <exclude reference="ZjV-Vv-2D9"/>
-                                    <include reference="bmx-gv-HkS"/>
-                                    <include reference="pLK-4y-vwq"/>
-                                    <exclude reference="zZy-iJ-xcw"/>
-                                </mask>
-                            </variation>
-                            <connections>
-                                <action selector="createAccount:" destination="-1" eventType="touchUpInside" id="fDw-Ib-Obj"/>
-                            </connections>
-                        </button>
                         <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9jn-cR-g0O">
                             <rect key="frame" x="202" y="285" width="197" height="30"/>
                             <constraints>
@@ -318,6 +282,42 @@
                                 <action selector="loginButtonTapped:" destination="-1" eventType="touchUpInside" id="N2r-Ka-89W"/>
                             </connections>
                         </button>
+                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5yX-Ph-9hM">
+                            <rect key="frame" x="202" y="285" width="197" height="30"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="360" id="ZjV-Vv-2D9">
+                                    <variation key="heightClass=regular-widthClass=compact" constant="380"/>
+                                </constraint>
+                                <constraint firstAttribute="height" constant="45" id="bmx-gv-HkS"/>
+                                <constraint firstAttribute="width" constant="290" id="pLK-4y-vwq"/>
+                                <constraint firstAttribute="height" constant="30" id="zZy-iJ-xcw"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                            <state key="normal" title="Create Account">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="ZjV-Vv-2D9"/>
+                                    <exclude reference="bmx-gv-HkS"/>
+                                    <exclude reference="pLK-4y-vwq"/>
+                                    <exclude reference="zZy-iJ-xcw"/>
+                                </mask>
+                            </variation>
+                            <variation key="heightClass=regular-widthClass=compact">
+                                <mask key="constraints">
+                                    <exclude reference="ZjV-Vv-2D9"/>
+                                    <include reference="bmx-gv-HkS"/>
+                                    <include reference="pLK-4y-vwq"/>
+                                    <exclude reference="zZy-iJ-xcw"/>
+                                </mask>
+                            </variation>
+                            <connections>
+                                <action selector="createAccount:" destination="-1" eventType="touchUpInside" id="fDw-Ib-Obj"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <constraints>
                         <constraint firstAttribute="centerX" secondItem="pd9-Sz-FZr" secondAttribute="centerX" id="44D-xf-nIJ"/>
@@ -372,7 +372,6 @@
                             <exclude reference="99Z-xU-W0A"/>
                             <exclude reference="jKo-Zi-cpR"/>
                             <exclude reference="pd9-Sz-FZr"/>
-                            <exclude reference="5yX-Ph-9hM"/>
                             <exclude reference="9jn-cR-g0O"/>
                             <exclude reference="tzt-AC-hsy"/>
                             <exclude reference="Rbx-5s-uLh"/>
@@ -381,6 +380,7 @@
                             <exclude reference="KlJ-fm-zgi"/>
                             <exclude reference="uuI-GH-WKf"/>
                             <exclude reference="vLs-m4-LTS"/>
+                            <exclude reference="5yX-Ph-9hM"/>
                         </mask>
                         <mask key="constraints">
                             <exclude reference="J7e-zj-jlH"/>
@@ -421,7 +421,6 @@
                             <include reference="99Z-xU-W0A"/>
                             <include reference="jKo-Zi-cpR"/>
                             <include reference="pd9-Sz-FZr"/>
-                            <include reference="5yX-Ph-9hM"/>
                             <include reference="9jn-cR-g0O"/>
                             <include reference="tzt-AC-hsy"/>
                             <include reference="Rbx-5s-uLh"/>
@@ -430,6 +429,7 @@
                             <include reference="KlJ-fm-zgi"/>
                             <include reference="uuI-GH-WKf"/>
                             <include reference="vLs-m4-LTS"/>
+                            <include reference="5yX-Ph-9hM"/>
                         </mask>
                         <mask key="constraints">
                             <include reference="J7e-zj-jlH"/>

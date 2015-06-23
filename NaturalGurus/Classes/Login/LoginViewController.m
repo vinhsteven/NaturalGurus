@@ -11,6 +11,7 @@
 #import "LeftSideViewController.h"
 #import "MMDrawerVisualState.h"
 #import "MMExampleDrawerVisualStateManager.h"
+#import "SignUpViewController.h"
 
 @interface LoginViewController ()
 
@@ -61,9 +62,6 @@
     
     //set style for Sign In button
     [self.btnSignIn setBackgroundImage:[ToolClass imageFromColor:GREEN_COLOR] forState:UIControlStateNormal];
-//    [self.btnSignIn setBackgroundImage:[ToolClass imageFromColor:BOLD_GREEN_COLOR] forState:UIControlStateHighlighted];
-
-//    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.btnSignIn.bounds byRoundingCorners:(UIRectCornerTopLeft | UIRectCornerTopRight) cornerRadii:CGSizeMake(5.0, 5.0)];
 
     UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, 290, 45) byRoundingCorners:(UIRectCornerBottomLeft | UIRectCornerBottomRight) cornerRadii:CGSizeMake(5.0, 5.0)];
     
@@ -182,7 +180,10 @@
 
 //handle create account
 - (IBAction) createAccount:(id)sender {
+    self.navigationItem.title = @"";
     
+    SignUpViewController *controller = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 #pragma mark UIScrollViewDelegate
