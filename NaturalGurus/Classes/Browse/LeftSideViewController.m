@@ -27,22 +27,9 @@
 {
     [super viewDidLoad];
     
-    self.navigationController.navigationBarHidden = YES;
-    
-    UIView *navBorder = [[UIView alloc] initWithFrame:CGRectMake(0,self.navigationController.navigationBar.frame.size.height-1,self.navigationController.navigationBar.frame.size.width, 1)];
-    
-    // Change the frame size to suit yours //
-    
-    [navBorder setBackgroundColor:LINE_COLOR];
-    [navBorder setOpaque:YES];
-    [self.navigationController.navigationBar addSubview:navBorder];
+    [self setupUI];
     
     mainArray = [NSMutableArray arrayWithCapacity:1];
-    
-    self.lbTitle.font = [UIFont fontWithName:MONTSERRAT_BOLD size:16];
-    self.lbTitle.textColor = GREEN_COLOR;
-    
-    self.btnLogout.titleLabel.font = [UIFont fontWithName:MONTSERRAT_BOLD size:13];
     
     NSString *imageTitle[] = {
         @"iconDashboard.png",
@@ -63,7 +50,90 @@
     
     self.tableView.backgroundColor = [UIColor colorWithRed:(float)38/255 green:(float)38/255 blue:(float)38/255 alpha:1.0];
     self.tableView.rowHeight = 48;
-//    self.tableView.separatorColor  = [UIColor clearColor];
+
+    //check whether login or not
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL isLogin = [[userDefaults objectForKey:IS_LOGIN] boolValue];
+    if (isLogin)
+        self.scrollView.hidden = YES;
+    else
+        self.scrollView.hidden = NO;
+    
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+    [self.scrollView addGestureRecognizer:singleTap];
+}
+
+- (void) setupUI {
+    screenSize = [UIScreen mainScreen].bounds.size;
+    
+    self.navigationController.navigationBarHidden = YES;
+    
+    UIView *navBorder = [[UIView alloc] initWithFrame:CGRectMake(0,self.navigationController.navigationBar.frame.size.height-1,self.navigationController.navigationBar.frame.size.width, 1)];
+    
+    // Change the frame size to suit yours //
+    
+    [navBorder setBackgroundColor:LINE_COLOR];
+    [navBorder setOpaque:YES];
+    [self.navigationController.navigationBar addSubview:navBorder];
+    
+    self.containerView.backgroundColor = [UIColor colorWithRed:(float)17/255 green:(float)17/255 blue:(float)17/255 alpha:1];
+    self.containerView.layer.cornerRadius = 5;
+    self.containerView.layer.masksToBounds = YES;
+    self.containerView.layer.borderColor = LIGHT_GREY_COLOR.CGColor;
+    self.containerView.layer.borderWidth = 0.5;
+    
+    self.lbTitle.font = [UIFont fontWithName:MONTSERRAT_BOLD size:16];
+    self.lbTitle.textColor = GREEN_COLOR;
+    
+    self.btnLogout.titleLabel.font = [UIFont fontWithName:MONTSERRAT_BOLD size:13];
+    
+    //style for login form
+    self.txtEmail.textAlignment = NSTextAlignmentLeft;
+    self.txtPassword.textAlignment = NSTextAlignmentLeft;
+    self.txtEmail.attributedPlaceholder = [[NSAttributedString alloc]
+                                           initWithString:@"Email"
+                                           attributes:@{NSForegroundColorAttributeName:LIGHT_GREY_COLOR}];
+    self.txtPassword.attributedPlaceholder    = [[NSAttributedString alloc]
+                                                 initWithString:@"Password"
+                                                 attributes:@{NSForegroundColorAttributeName:LIGHT_GREY_COLOR}];
+    //add icon image to text field
+    UIImageView *iconEmail = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconEmail.png"]];
+    
+    [self.txtEmail setRightViewMode:UITextFieldViewModeAlways];
+    self.txtEmail.rightView = iconEmail;
+    
+    UIImageView *iconKey = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconKey.png"]];
+    
+    [self.txtPassword setRightViewMode:UITextFieldViewModeAlways];
+    self.txtPassword.rightView = iconKey;
+    
+    //set style for create account button
+    self.btnCreateAccount.layer.cornerRadius  = 5;
+    self.btnCreateAccount.layer.masksToBounds = YES;
+    self.btnCreateAccount.contentMode = UIViewContentModeScaleAspectFill;
+    [self.btnCreateAccount setBackgroundImage:[ToolClass imageFromColor:GREEN_COLOR] forState:UIControlStateNormal];
+    
+    //set style for Sign In button
+    [self.btnSignIn setBackgroundImage:[ToolClass imageFromColor:GREEN_COLOR] forState:UIControlStateNormal];
+    
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, 290, 45) byRoundingCorners:(UIRectCornerBottomLeft | UIRectCornerBottomRight) cornerRadii:CGSizeMake(5.0, 5.0)];
+    
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.path  = maskPath.CGPath;
+    self.btnSignIn.layer.mask = maskLayer;
+    
+    self.scrollView.backgroundColor = [UIColor colorWithRed:(float)38/255 green:(float)38/255 blue:(float)38/255 alpha:1];
+    
+    //set content size for iphone 4,4s
+    if (screenSize.height == 480) {
+        self.scrollView.scrollEnabled = YES;
+        [self.scrollView setContentSize:CGSizeMake(280, 618)];
+    }
+}
+
+- (void) handleSingleTap:(UITapGestureRecognizer*)recognizer {
+    [self.txtEmail resignFirstResponder];
+    [self.txtPassword resignFirstResponder];
 }
 
 
@@ -170,7 +240,38 @@
 }
 
 - (IBAction) handleLogout:(id)sender {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:IS_LOGIN];
+    
     [((LoginViewController*)parent).drawerController.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction) loginButtonTapped:(id)sender {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:[NSNumber numberWithBool:YES] forKey:IS_LOGIN];
+    
+    self.scrollView.hidden = YES;
+    [self.txtEmail resignFirstResponder];
+    [self.txtPassword resignFirstResponder];
+}
+
+- (IBAction) createAccount:(id)sender {
+    
+}
+
+- (IBAction) handleForgotPassword:(id)sender {
+    
+}
+
+#pragma mark UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if (textField == self.txtEmail)
+        [self.txtPassword becomeFirstResponder];
+    else {
+        [textField resignFirstResponder];
+        [self loginButtonTapped:nil];
+    }
+    return YES;
 }
 
 @end

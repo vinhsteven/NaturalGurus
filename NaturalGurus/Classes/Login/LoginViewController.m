@@ -61,7 +61,6 @@
     self.btnCreateAccount.layer.masksToBounds = YES;
     self.btnCreateAccount.contentMode = UIViewContentModeScaleAspectFill;
     [self.btnCreateAccount setBackgroundImage:[ToolClass imageFromColor:GREEN_COLOR] forState:UIControlStateNormal];
-//    [self.btnCreateAccount setBackgroundImage:[ToolClass imageFromColor:BOLD_GREEN_COLOR] forState:UIControlStateHighlighted];
     
     //set style for Sign In button
     [self.btnSignIn setBackgroundImage:[ToolClass imageFromColor:GREEN_COLOR] forState:UIControlStateNormal];
@@ -90,6 +89,9 @@
 
 //skip this step
 - (IBAction) skipStep:(id)sender {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:IS_LOGIN];
+    
     LeftSideViewController *leftViewController = [[LeftSideViewController alloc] init];
     
     centerViewController = [[BrowseViewController alloc] initWithNibName:@"BrowseViewController" bundle:nil];
@@ -143,6 +145,9 @@
 }
 
 - (void) loginSuccess {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:[NSNumber numberWithBool:YES] forKey:IS_LOGIN];
+    
     LeftSideViewController *leftViewController = [[LeftSideViewController alloc] initWithNibName:@"LeftSideViewController" bundle:nil];
     
     centerViewController = [[BrowseViewController alloc] initWithNibName:@"BrowseViewController" bundle:nil];
@@ -210,8 +215,10 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField == self.txtEmail)
         [self.txtPassword becomeFirstResponder];
-    else
+    else {
         [textField resignFirstResponder];
+        [self loginButtonTapped:nil];
+    }
     return YES;
 }
 

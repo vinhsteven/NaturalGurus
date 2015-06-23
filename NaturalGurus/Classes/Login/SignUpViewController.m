@@ -59,7 +59,9 @@
 }
 
 - (void) viewDidLayoutSubviews {
-    
+    if (screenSize.height == 480) {
+        self.mainScrollView.contentSize = CGSizeMake(self.mainScrollView.frame.size.width, screenSize.height+100);
+    }
 }
 
 - (void) setupUI {
@@ -188,7 +190,10 @@
     }
     else if (textField == self.txtConfirmPassword) {
         [textField resignFirstResponder];
-        self.mainScrollView.contentSize = CGSizeMake(self.mainScrollView.frame.size.width, screenSize.height);
+        if (screenSize.height == 480)
+            self.mainScrollView.contentSize = CGSizeMake(self.mainScrollView.frame.size.width, screenSize.height+100);
+        else
+            self.mainScrollView.contentSize = CGSizeMake(self.mainScrollView.frame.size.width, screenSize.height);
         [self.mainScrollView setContentOffset:CGPointMake(self.mainScrollView.contentOffset.x, -44) animated:YES];
         
     }

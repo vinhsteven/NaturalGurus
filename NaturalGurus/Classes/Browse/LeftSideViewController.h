@@ -16,6 +16,7 @@ enum {
 };
 
 @interface LeftSideViewController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
+    CGSize screenSize;
     NSMutableArray *mainArray;
 }
 
@@ -24,6 +25,19 @@ enum {
 @property (strong, nonatomic) IBOutlet UILabel *lbTitle;
 @property (strong, nonatomic) IBOutlet UIButton *btnLogout;
 
+//login scroll view
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) IBOutlet UIView *containerView;
+@property (strong,nonatomic) IBOutlet UITextField *txtEmail;
+@property (strong,nonatomic) IBOutlet UITextField *txtPassword;
+@property (strong,nonatomic) IBOutlet UIButton *btnCreateAccount;
+@property (strong,nonatomic) IBOutlet UIButton *btnSignIn;
+
+
 - (IBAction) handleLogout:(id)sender;
+
+- (IBAction) loginButtonTapped:(id)sender;
+- (IBAction) createAccount:(id)sender;
+- (IBAction) handleForgotPassword:(id)sender;
 
 @end
