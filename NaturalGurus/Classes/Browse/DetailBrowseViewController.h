@@ -17,7 +17,6 @@
 @interface DetailBrowseViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
     CGSize screenSize;
     BOOL isSelectDescription;
-    NSMutableArray *reviewArray;
 }
 
 @property (weak, nonatomic) NSMutableDictionary *expertDict;
@@ -35,6 +34,10 @@
 @property (strong, nonatomic) IBOutlet UIButton *btnReview;
 @property (strong, nonatomic) IBOutlet UIButton *btnBookLive;
 @property (strong, nonatomic) IBOutlet UIButton *btnSchedule;
+
+//for Review section
+@property (strong, nonatomic) NSMutableArray *reviewData;
+@property (strong, nonatomic) NSMutableArray *reviewHeaders;
 
 - (IBAction) handleBookLive:(id)sender;
 - (IBAction) handleScheduleAppointment:(id)sender;

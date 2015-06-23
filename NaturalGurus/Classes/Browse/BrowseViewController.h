@@ -29,6 +29,9 @@
     CGPoint originalPointExperts;
     
     BOOL isSelectCategory;
+    
+    NSMutableArray *filterArray;
+    NSMutableArray *sortArray;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *mainTableView;

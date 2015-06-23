@@ -48,13 +48,17 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="KjW-vO-ukT" secondAttribute="trailing" id="6GS-Kw-wpn"/>
+                <constraint firstAttribute="trailing" secondItem="KjW-vO-ukT" secondAttribute="trailing" id="6GS-Kw-wpn">
+                    <variation key="heightClass=regular-widthClass=compact" constant="10"/>
+                </constraint>
                 <constraint firstAttribute="centerY" secondItem="KjW-vO-ukT" secondAttribute="centerY" id="A6x-Rb-0DZ"/>
                 <constraint firstAttribute="centerX" secondItem="KjW-vO-ukT" secondAttribute="centerX" id="M91-Cs-WVe"/>
                 <constraint firstAttribute="trailing" secondItem="cZG-ws-AtY" secondAttribute="trailing" id="PtV-rJ-9mW"/>
                 <constraint firstItem="cZG-ws-AtY" firstAttribute="top" secondItem="KjW-vO-ukT" secondAttribute="bottom" id="boP-fV-lbZ"/>
                 <constraint firstItem="KjW-vO-ukT" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="45" id="iIN-o9-dtN"/>
-                <constraint firstItem="KjW-vO-ukT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="oEM-pu-1Mx"/>
+                <constraint firstItem="KjW-vO-ukT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="oEM-pu-1Mx">
+                    <variation key="heightClass=regular-widthClass=compact" constant="10"/>
+                </constraint>
                 <constraint firstAttribute="bottom" secondItem="cZG-ws-AtY" secondAttribute="bottom" constant="8" id="uBr-EL-GC3"/>
                 <constraint firstItem="cZG-ws-AtY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="xsO-pc-b1P"/>
             </constraints>

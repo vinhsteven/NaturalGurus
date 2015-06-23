@@ -192,6 +192,10 @@
         NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:categoryTitle[i],@"categoryTitle",[NSString stringWithFormat:@"category_%d",i],@"categoryImage", nil];
         [categoryArray addObject:dict];
     }
+    
+    //init filter array
+    filterArray = [NSMutableArray arrayWithObjects:@"Filter 1",@"Filter 2",@"Filter 3", nil];
+    sortArray   = [NSMutableArray arrayWithObjects:@"Sort by Name",@"Sort by the Latest",@"Sort by Rating", nil];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -213,7 +217,13 @@
 }
 
 - (void) rightButtonPress {
-    
+    [MMPickerView showPickerViewInView:self.view
+                           withStrings:filterArray
+                           withOptions:nil
+                            completion:^(NSString *selectedString) {
+                                //selectedString is the return value which you can use as you wish
+                                
+                            }];
 }
 
 #pragma mark UITableViewDelegate
@@ -430,7 +440,13 @@
 }
 
 - (IBAction) handleSorting:(id)sender {
-    
+    [MMPickerView showPickerViewInView:self.view
+                           withStrings:sortArray
+                           withOptions:nil
+                            completion:^(NSString *selectedString) {
+                                //selectedString is the return value which you can use as you wish
+                                
+                            }];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -177,10 +177,10 @@
         NSDictionary *dict = [[self.data objectAtIndex:indexPath.section] objectAtIndex:index];
         NSString *title = [dict objectForKey:@"title"];
         
-        
         btnButton.frame = CGRectMake(10, 0, 145, 40);
         [btnButton setBackgroundImage:[UIImage imageNamed:@"bgAvailability_0.png"] forState:UIControlStateNormal];
         [btnButton setTitle:title forState:UIControlStateNormal];
+        [btnButton addTarget:self action:@selector(handleSelectAvailability:) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:btnButton];
         
         //check for the next index
@@ -198,6 +198,7 @@
             btnButton2.frame = CGRectMake(screenSize.width-155, 0, 145, 40);
             [btnButton2 setBackgroundImage:[UIImage imageNamed:@"bgAvailability_1.png"] forState:UIControlStateNormal];
             [btnButton2 setTitle:title2 forState:UIControlStateNormal];
+            [btnButton2 addTarget:self action:@selector(handleSelectAvailability:) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:btnButton2];
             
         }
@@ -241,6 +242,11 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     return [self.headers objectAtIndex:section];
+}
+
+#pragma mark HANDLE EVENT
+- (void) handleSelectAvailability:(UIButton*)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
