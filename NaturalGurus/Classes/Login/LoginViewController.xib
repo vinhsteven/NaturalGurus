@@ -115,6 +115,9 @@
                                     <exclude reference="ov2-uJ-g8F"/>
                                 </mask>
                             </variation>
+                            <connections>
+                                <action selector="handleForgotPassword:" destination="-1" eventType="touchUpInside" id="JGK-B2-vLH"/>
+                            </connections>
                         </button>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tzt-AC-hsy">
                             <rect key="frame" x="0.0" y="-30" width="97" height="30"/>

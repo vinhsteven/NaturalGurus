@@ -28,6 +28,7 @@
 - (IBAction) loginButtonTapped:(id)sender;
 - (IBAction) skipStep:(id)sender;
 - (IBAction) createAccount:(id)sender;
+- (IBAction) handleForgotPassword:(id)sender;
 
 @end
 

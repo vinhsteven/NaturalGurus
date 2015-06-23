@@ -12,6 +12,7 @@
 #import "MMDrawerVisualState.h"
 #import "MMExampleDrawerVisualStateManager.h"
 #import "SignUpViewController.h"
+#import "ForgotPasswordViewController.h"
 
 @interface LoginViewController ()
 
@@ -39,6 +40,8 @@
     //hide navigation bar for this screen
 //    self.navigationController.navigationBarHidden = YES;
     screenSize = [[UIScreen mainScreen] bounds].size;
+    
+    self.navigationItem.title = @"";
     
     self.txtEmail.textAlignment = NSTextAlignmentLeft;
     self.txtPassword.textAlignment = NSTextAlignmentLeft;
@@ -180,9 +183,12 @@
 
 //handle create account
 - (IBAction) createAccount:(id)sender {
-    self.navigationItem.title = @"";
-    
     SignUpViewController *controller = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
+    [self.navigationController pushViewController:controller animated:YES];
+}
+
+- (IBAction) handleForgotPassword:(id)sender {
+    ForgotPasswordViewController *controller = [[ForgotPasswordViewController alloc] initWithNibName:@"ForgotPasswordViewController" bundle:nil];
     [self.navigationController pushViewController:controller animated:YES];
 }
 

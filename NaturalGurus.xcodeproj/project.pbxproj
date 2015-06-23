@@ -16,6 +16,8 @@
 		B0CD2E451B3901CF00764216 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0CD2E431B3901CF00764216 /* LoginViewController.xib */; };
 		B0CD2E491B3901F800764216 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CD2E471B3901F800764216 /* SignUpViewController.m */; };
 		B0CD2E4A1B3901F800764216 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0CD2E481B3901F800764216 /* SignUpViewController.xib */; };
+		B0CD2E4E1B39224A00764216 /* ForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CD2E4C1B39224A00764216 /* ForgotPasswordViewController.m */; };
+		B0CD2E4F1B39224A00764216 /* ForgotPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0CD2E4D1B39224A00764216 /* ForgotPasswordViewController.xib */; };
 		C21391FE1B36B19200A2A1B5 /* btnSave@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C21391FD1B36B19200A2A1B5 /* btnSave@2x.png */; };
 		C21392001B36B6AE00A2A1B5 /* LeftSideViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C21391FF1B36B6AE00A2A1B5 /* LeftSideViewController.xib */; };
 		C21392051B36B82000A2A1B5 /* iconBrowse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C21392011B36B82000A2A1B5 /* iconBrowse@2x.png */; };
@@ -134,6 +136,9 @@
 		B0CD2E461B3901F800764216 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		B0CD2E471B3901F800764216 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		B0CD2E481B3901F800764216 /* SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpViewController.xib; sourceTree = "<group>"; };
+		B0CD2E4B1B39224A00764216 /* ForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPasswordViewController.h; sourceTree = "<group>"; };
+		B0CD2E4C1B39224A00764216 /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; };
+		B0CD2E4D1B39224A00764216 /* ForgotPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ForgotPasswordViewController.xib; sourceTree = "<group>"; };
 		C21391FD1B36B19200A2A1B5 /* btnSave@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btnSave@2x.png"; sourceTree = "<group>"; };
 		C21391FF1B36B6AE00A2A1B5 /* LeftSideViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftSideViewController.xib; sourceTree = "<group>"; };
 		C21392011B36B82000A2A1B5 /* iconBrowse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconBrowse@2x.png"; sourceTree = "<group>"; };
@@ -303,6 +308,9 @@
 				B0CD2E461B3901F800764216 /* SignUpViewController.h */,
 				B0CD2E471B3901F800764216 /* SignUpViewController.m */,
 				B0CD2E481B3901F800764216 /* SignUpViewController.xib */,
+				B0CD2E4B1B39224A00764216 /* ForgotPasswordViewController.h */,
+				B0CD2E4C1B39224A00764216 /* ForgotPasswordViewController.m */,
+				B0CD2E4D1B39224A00764216 /* ForgotPasswordViewController.xib */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -695,6 +703,7 @@
 				C2ED33A71B3017AD0032F885 /* btnExpand.png in Resources */,
 				C2FD42161B33B65C002F2D2C /* category_4@2x.png in Resources */,
 				C2A5E3B01B27F3CF000F7F29 /* FacebookSDKStrings.bundle in Resources */,
+				B0CD2E4F1B39224A00764216 /* ForgotPasswordViewController.xib in Resources */,
 				C2BA2F191B2C30CB00811E56 /* DetailBrowseViewController.xib in Resources */,
 				C2ED339A1B2FC4FE0032F885 /* DashboardViewController.xib in Resources */,
 				B0CD2E4A1B3901F800764216 /* SignUpViewController.xib in Resources */,
@@ -770,6 +779,7 @@
 				C2F462AA1B283233005C5418 /* MMExampleDrawerVisualStateManager.m in Sources */,
 				C2F740B71B2A71D300C8635F /* SDWebImagePrefetcher.m in Sources */,
 				C2F740B61B2A71D300C8635F /* SDWebImageManager.m in Sources */,
+				B0CD2E4E1B39224A00764216 /* ForgotPasswordViewController.m in Sources */,
 				B0CD2E491B3901F800764216 /* SignUpViewController.m in Sources */,
 				C2195B061B2ED5DE005733EB /* SZTextView.m in Sources */,
 				C2F462A71B283233005C5418 /* MMDrawerBarButtonItem.m in Sources */,
