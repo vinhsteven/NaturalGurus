@@ -153,13 +153,13 @@
     static NSString* cellIdentifier = @"cell";
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
     
-    int index = indexPath.row;
+    int index = indexPath.row*2;
     
     UIButton *btnButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     btnButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
     
-    if (index % 2 == 0) {
+//    if (index % 2 == 0) {
         NSDictionary *dict = [[self.data objectAtIndex:indexPath.section] objectAtIndex:index];
         NSString *title = [dict objectForKey:@"title"];
         
@@ -167,24 +167,42 @@
         btnButton.frame = CGRectMake(10, 0, 145, 40);
         [btnButton setBackgroundImage:[UIImage imageNamed:@"bgAvailability_0.png"] forState:UIControlStateNormal];
         [btnButton setTitle:title forState:UIControlStateNormal];
-    }
-    else {
-        //if dont have more record, don't add button
-        if (index == [[self.data objectAtIndex:indexPath.section] count]) {
-            ;
+        [cell.contentView addSubview:btnButton];
+    
+        //check for the next index
+        if (index+1 == [[self.data objectAtIndex:indexPath.section] count]) {
+            //dont have more record
         }
         else {
-            NSDictionary *dict = [[self.data objectAtIndex:indexPath.section] objectAtIndex:index+1];
-            NSString *title = [dict objectForKey:@"title"];
-            
-            
-            btnButton.frame = CGRectMake(screenSize.width-155, 0, 145, 40);
-            [btnButton setBackgroundImage:[UIImage imageNamed:@"bgAvailability_1.png"] forState:UIControlStateNormal];
-            [btnButton setTitle:title forState:UIControlStateNormal];
+            NSDictionary *dict2 = [[self.data objectAtIndex:indexPath.section] objectAtIndex:index+1];
+
+            NSString *title2 = [dict2 objectForKey:@"title"];
+            //add button
+            UIButton *btnButton2 = [UIButton buttonWithType:UIButtonTypeCustom];
+            [btnButton2 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            btnButton2.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+            btnButton2.frame = CGRectMake(screenSize.width-155, 0, 145, 40);
+            [btnButton2 setBackgroundImage:[UIImage imageNamed:@"bgAvailability_1.png"] forState:UIControlStateNormal];
+            [btnButton2 setTitle:title2 forState:UIControlStateNormal];
+            [cell.contentView addSubview:btnButton2];
+
         }
-    }
-    
-    [cell.contentView addSubview:btnButton];
+//    }
+//    else {
+//        //if dont have more record, don't add button
+//        if (index == [[self.data objectAtIndex:indexPath.section] count]) {
+//            ;
+//        }
+//        else {
+//            NSDictionary *dict = [[self.data objectAtIndex:indexPath.section] objectAtIndex:index+1];
+//            NSString *title = [dict objectForKey:@"title"];
+//            
+//            
+//            btnButton.frame = CGRectMake(screenSize.width-155, 0, 145, 40);
+//            [btnButton setBackgroundImage:[UIImage imageNamed:@"bgAvailability_1.png"] forState:UIControlStateNormal];
+//            [btnButton setTitle:title forState:UIControlStateNormal];
+//        }
+//    }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
@@ -201,6 +219,8 @@
         numberRow = totalRecord / 2;
     else
         numberRow = totalRecord /2 + 1;
+    
+    NSLog(@"section %d total=%d row=%d",section,totalRecord,numberRow);
     return numberRow;
 }
 
