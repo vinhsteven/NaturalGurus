@@ -34,10 +34,11 @@
     
     mainArray = [NSMutableArray arrayWithCapacity:1];
     
-    self.lbInstructionTitle.backgroundColor = TABLE_BACKGROUND_COLOR;
+    self.lbInstructionTitle.backgroundColor = [UIColor whiteColor];
     
     //create temporary data for next 3 days
     self.mainTableView.separatorColor = [UIColor clearColor];
+    self.mainTableView.backgroundColor = [UIColor whiteColor];
     [self.mainTableView setExclusiveSections:!self.mainTableView.exclusiveSections];
     
     [self setupTableViewData];
@@ -53,7 +54,13 @@
 }
 
 - (void) viewDidLayoutSubviews {
-    
+//    //example
+//    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, self.lbInstructionTitle.frame.size.width, self.lbInstructionTitle.frame.size.height) byRoundingCorners:(UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerBottomRight) cornerRadii:CGSizeMake(self.lbInstructionTitle.frame.size.height/2, self.lbInstructionTitle.frame.size.height/2)];
+//    
+//    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+//    maskLayer.path  = maskPath.CGPath;
+//    self.lbInstructionTitle.layer.mask = maskLayer;
+//    //
 }
 
 - (void) setupTableViewData {
@@ -116,26 +123,31 @@
     self.headers = [[NSMutableArray alloc] init];
     for (int i = 0 ; i < [sectionArray count] ; i++)
     {
-        UIView* header = [[UIView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, 40)];
+        UIView* header = [[UIView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width, 40)];
         [header setBackgroundColor:[UIColor clearColor]];
         
-        TTTAttributedLabel *lbSectionTitle = [[TTTAttributedLabel alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, 40)];
+        UILabel *lbSectionTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, screenSize.width/2-20, 30)];
 //        lbSectionTitle.tag = kLabelHeaderTag;
-        lbSectionTitle.backgroundColor = [UIColor whiteColor];
-        lbSectionTitle.textColor = GREEN_COLOR;
+        lbSectionTitle.backgroundColor = [UIColor colorWithRed:(float)245/255 green:(float)245/255 blue:(float)245/255 alpha:1.0];
+        lbSectionTitle.textColor = [UIColor blackColor];
         lbSectionTitle.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
         lbSectionTitle.text = [sectionArray objectAtIndex:i];
-        lbSectionTitle.textInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+        lbSectionTitle.textAlignment = NSTextAlignmentCenter;
         [header addSubview:lbSectionTitle];
         
-        //set corner radius for header section label: just top left and top right
-        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, lbSectionTitle.frame.size.width, lbSectionTitle.frame.size.height) byRoundingCorners:(UIRectCornerTopLeft | UIRectCornerTopRight) cornerRadii:CGSizeMake(5.0, 5.0)];
         
-        CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-        maskLayer.path  = maskPath.CGPath;
-        lbSectionTitle.layer.mask = maskLayer;
+        //create round edge for left and right side
+        lbSectionTitle.layer.cornerRadius  = lbSectionTitle.frame.size.height/2;
+        lbSectionTitle.layer.masksToBounds = YES;
         
         [self.headers addObject:header];
+        
+        //set position for title label
+        lbSectionTitle.center = CGPointMake(screenSize.width/2, lbSectionTitle.center.y);
+        
+        //set border color for title label in header section. Here is Mon, Jun 25
+        lbSectionTitle.layer.borderColor = LIGHT_GREY_COLOR.CGColor;
+        lbSectionTitle.layer.borderWidth = 1;
     }
 }
 
@@ -153,13 +165,15 @@
     static NSString* cellIdentifier = @"cell";
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
     
-    int index = indexPath.row*2;
+    int totalRecord = [[self.data objectAtIndex:indexPath.section] count];
     
-    UIButton *btnButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btnButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    btnButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
-    
-//    if (index % 2 == 0) {
+    if (totalRecord > 0) {
+        int index = indexPath.row*2;
+        
+        UIButton *btnButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [btnButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        btnButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+        
         NSDictionary *dict = [[self.data objectAtIndex:indexPath.section] objectAtIndex:index];
         NSString *title = [dict objectForKey:@"title"];
         
@@ -168,14 +182,14 @@
         [btnButton setBackgroundImage:[UIImage imageNamed:@"bgAvailability_0.png"] forState:UIControlStateNormal];
         [btnButton setTitle:title forState:UIControlStateNormal];
         [cell.contentView addSubview:btnButton];
-    
+        
         //check for the next index
         if (index+1 == [[self.data objectAtIndex:indexPath.section] count]) {
             //dont have more record
         }
         else {
             NSDictionary *dict2 = [[self.data objectAtIndex:indexPath.section] objectAtIndex:index+1];
-
+            
             NSString *title2 = [dict2 objectForKey:@"title"];
             //add button
             UIButton *btnButton2 = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -185,24 +199,17 @@
             [btnButton2 setBackgroundImage:[UIImage imageNamed:@"bgAvailability_1.png"] forState:UIControlStateNormal];
             [btnButton2 setTitle:title2 forState:UIControlStateNormal];
             [cell.contentView addSubview:btnButton2];
-
+            
         }
-//    }
-//    else {
-//        //if dont have more record, don't add button
-//        if (index == [[self.data objectAtIndex:indexPath.section] count]) {
-//            ;
-//        }
-//        else {
-//            NSDictionary *dict = [[self.data objectAtIndex:indexPath.section] objectAtIndex:index+1];
-//            NSString *title = [dict objectForKey:@"title"];
-//            
-//            
-//            btnButton.frame = CGRectMake(screenSize.width-155, 0, 145, 40);
-//            [btnButton setBackgroundImage:[UIImage imageNamed:@"bgAvailability_1.png"] forState:UIControlStateNormal];
-//            [btnButton setTitle:title forState:UIControlStateNormal];
-//        }
-//    }
+    }
+    else {
+        UILabel *lbTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, 40)];
+        lbTitle.backgroundColor = [UIColor colorWithRed:(float)245/255 green:(float)245/255 blue:(float)245/255 alpha:1];
+        lbTitle.font = [UIFont fontWithName:DEFAULT_FONT size:13];
+        lbTitle.text = @"Expert is not available on this day";
+        lbTitle.textAlignment = NSTextAlignmentCenter;
+        [cell.contentView addSubview:lbTitle];
+    }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
@@ -220,7 +227,9 @@
     else
         numberRow = totalRecord /2 + 1;
     
-    NSLog(@"section %d total=%d row=%d",section,totalRecord,numberRow);
+    //if don't have record, add 1 row to show title No Expert is available
+    if (totalRecord == 0)
+        return 1;
     return numberRow;
 }
 
