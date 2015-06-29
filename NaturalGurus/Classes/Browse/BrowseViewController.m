@@ -404,11 +404,16 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSMutableDictionary *dict = [expertArray objectAtIndex:indexPath.row];
-
-    DetailBrowseViewController *controller = [[DetailBrowseViewController alloc] initWithNibName:@"DetailBrowseViewController" bundle:nil];
-    controller.expertDict = dict;
-    [self.navigationController pushViewController:controller animated:YES];
+    if (!isSelectCategory) {
+        NSMutableDictionary *dict = [expertArray objectAtIndex:indexPath.row];
+        
+        DetailBrowseViewController *controller = [[DetailBrowseViewController alloc] initWithNibName:@"DetailBrowseViewController" bundle:nil];
+        controller.expertDict = dict;
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+    else {
+        [self selectExperts:nil];
+    }
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {

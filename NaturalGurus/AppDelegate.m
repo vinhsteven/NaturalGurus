@@ -8,12 +8,31 @@
 
 #import "AppDelegate.h"
 
+@implementation UINavigationController (Rotation_For_iOS6)
+
+-(BOOL)shouldAutorotate
+{
+    return NO;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationPortrait | UIInterfaceOrientationPortraitUpsideDown;
+}
+
+
+@end
+
 @interface AppDelegate ()
 
 @end
 
 @implementation AppDelegate
-
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     NSDictionary *navigationTitleAttribute = [NSDictionary dictionaryWithObjectsAndKeys:GREEN_COLOR,

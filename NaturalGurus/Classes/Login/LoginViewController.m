@@ -98,6 +98,7 @@
     [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:IS_LOGIN];
     
     LeftSideViewController *leftViewController = [[LeftSideViewController alloc] init];
+    leftViewController.parent = self;
     
     centerViewController = [[BrowseViewController alloc] initWithNibName:@"BrowseViewController" bundle:nil];
     

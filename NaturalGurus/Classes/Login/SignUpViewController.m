@@ -33,13 +33,13 @@
 
 @implementation SignUpViewController
 
-- (BOOL)shouldAutorotate {
-    return NO;
-}
-
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    return UIInterfaceOrientationPortrait | UIInterfaceOrientationPortraitUpsideDown;
-}
+//- (BOOL)shouldAutorotate {
+//    return NO;
+//}
+//
+//- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+//    return UIInterfaceOrientationPortrait | UIInterfaceOrientationPortraitUpsideDown;
+//}
 
 -(BOOL)prefersStatusBarHidden{
     return HIDE_STATUS_BAR;

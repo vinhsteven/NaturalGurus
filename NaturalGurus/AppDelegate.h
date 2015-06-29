@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "LoginViewController.h"
 
+@interface UINavigationController (Rotation_For_iOS6)
+@end
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

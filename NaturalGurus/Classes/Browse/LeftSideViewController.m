@@ -11,6 +11,9 @@
 #import "LoginViewController.h"
 #import "DashboardViewController.h"
 #import "MyProfileViewController.h"
+#import "SignUpViewController.h"
+#import "ForgotPasswordViewController.h"
+#import "AppDelegate.h"
 
 @interface LeftSideViewController ()
 
@@ -21,6 +24,14 @@
 
 -(BOOL)prefersStatusBarHidden{
     return YES;//HIDE_STATUS_BAR;
+}
+
+- (BOOL)shouldAutorotate {
+    return NO;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return UIInterfaceOrientationPortrait | UIInterfaceOrientationPortraitUpsideDown;
 }
 
 - (void)viewDidLoad
@@ -129,6 +140,10 @@
         self.scrollView.scrollEnabled = YES;
         [self.scrollView setContentSize:CGSizeMake(280, 618)];
     }
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void) handleSingleTap:(UITapGestureRecognizer*)recognizer {
@@ -256,7 +271,9 @@
 }
 
 - (IBAction) createAccount:(id)sender {
-    
+//    UINavigationController *navController = [(AppDelegate*)[[UIApplication sharedApplication] delegate] navController];
+    SignUpViewController *controller = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
+    [((LoginViewController*)parent).drawerController.navigationController presentViewController:controller animated:YES completion:nil];
 }
 
 - (IBAction) handleForgotPassword:(id)sender {

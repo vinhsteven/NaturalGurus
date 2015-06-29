@@ -20,7 +20,7 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6uV-61-zM1">
@@ -382,7 +382,7 @@
                         </mask>
                     </variation>
                     <variation key="heightClass=regular-widthClass=compact" ambiguous="YES">
-                        <rect key="frame" x="0.0" y="0.0" width="400" height="736"/>
+                        <rect key="frame" x="0.0" y="64" width="400" height="736"/>
                         <mask key="subviews">
                             <include reference="CWC-a0-e3K"/>
                             <include reference="V0A-p6-LUY"/>
@@ -425,6 +425,32 @@
                         <outlet property="delegate" destination="-1" id="XgW-mo-XWb"/>
                     </connections>
                 </scrollView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DAa-xG-eYI">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BNX-34-phH">
+                            <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                            <state key="normal" title="Close">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                <rect key="frame" x="8" y="8" width="40" height="30"/>
+                            </variation>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <variation key="default">
+                        <mask key="subviews">
+                            <exclude reference="BNX-34-phH"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                        <rect key="frame" x="0.0" y="20" width="400" height="44"/>
+                        <mask key="subviews">
+                            <include reference="BNX-34-phH"/>
+                        </mask>
+                    </variation>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -435,17 +461,19 @@
                 </constraint>
                 <constraint firstAttribute="centerX" secondItem="6uV-61-zM1" secondAttribute="centerX" id="ZXA-Ba-qPa"/>
                 <constraint firstItem="6uV-61-zM1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="45" id="dsm-GD-cmL">
-                    <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                    <variation key="heightClass=regular-widthClass=compact" constant="64"/>
                 </constraint>
                 <constraint firstItem="6uV-61-zM1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="jAv-NN-FKe"/>
                 <constraint firstAttribute="trailing" secondItem="6uV-61-zM1" secondAttribute="trailing" id="kf4-De-1wQ"/>
                 <constraint firstAttribute="centerY" secondItem="6uV-61-zM1" secondAttribute="centerY" constant="-22.5" id="wGz-un-T8B"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
             <variation key="default">
                 <mask key="subviews">
                     <exclude reference="6uV-61-zM1"/>
+                    <exclude reference="DAa-xG-eYI"/>
                 </mask>
                 <mask key="constraints">
                     <exclude reference="8LS-NB-ucl"/>
@@ -461,6 +489,7 @@
             <variation key="heightClass=regular-widthClass=compact">
                 <mask key="subviews">
                     <include reference="6uV-61-zM1"/>
+                    <include reference="DAa-xG-eYI"/>
                 </mask>
                 <mask key="constraints">
                     <include reference="8LS-NB-ucl"/>

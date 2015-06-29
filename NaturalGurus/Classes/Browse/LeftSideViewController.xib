@@ -822,6 +822,7 @@
                 <constraint firstItem="rlQ-Kk-39X" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="zm0-bj-IpF"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
             <variation key="default">
                 <mask key="subviews">
                     <exclude reference="Bd9-aY-Qi7"/>
