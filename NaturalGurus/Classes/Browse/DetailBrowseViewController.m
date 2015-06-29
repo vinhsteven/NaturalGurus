@@ -103,6 +103,8 @@ enum {
     topLineHeader.backgroundColor = [UIColor lightGrayColor];
     [self.headerView addSubview:topLineHeader];
     
+    [self setUpStyleForReviewButton];
+    
     //set style for Description and Review button
     [self.btnDescription setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.btnDescription setTitleColor:GREEN_COLOR forState:UIControlStateHighlighted];
@@ -141,6 +143,40 @@ enum {
     UIBarButtonItem *btnShareItem = [[UIBarButtonItem alloc] initWithCustomView:btnShare];
     self.navigationItem.rightBarButtonItem = btnShareItem;
 
+}
+
+- (void) setUpStyleForReviewButton {
+    NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    [style setAlignment:NSTextAlignmentCenter];
+    [style setLineBreakMode:NSLineBreakByWordWrapping];
+    
+    UIFont *font1 = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+    UIFont *font2 = [UIFont fontWithName:DEFAULT_FONT  size:13];
+    NSDictionary *dict1 = @{NSUnderlineStyleAttributeName:@(NSUnderlineStyleNone),
+                            NSFontAttributeName:font1,
+                            NSParagraphStyleAttributeName:style};
+    NSDictionary *dict2 = @{NSUnderlineStyleAttributeName:@(NSUnderlineStyleNone),
+                            NSFontAttributeName:font2,
+                            NSParagraphStyleAttributeName:style};
+    
+    NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] init];
+    [attString appendAttributedString:[[NSAttributedString alloc] initWithString:@"REVIEWS "    attributes:dict1]];
+    [attString appendAttributedString:[[NSAttributedString alloc] initWithString:@"(10)"      attributes:dict2]];
+    [self.btnReview setAttributedTitle:attString forState:UIControlStateNormal];
+    
+    //create color title
+    NSDictionary *dict3 = @{NSUnderlineStyleAttributeName:@(NSUnderlineStyleNone),
+                            NSFontAttributeName:font1,
+                            NSParagraphStyleAttributeName:style,NSForegroundColorAttributeName:
+                            GREEN_COLOR};
+    NSDictionary *dict4 = @{NSUnderlineStyleAttributeName:@(NSUnderlineStyleNone),
+                            NSFontAttributeName:font2,
+                            NSParagraphStyleAttributeName:style,NSForegroundColorAttributeName:
+                                GREEN_COLOR};
+    NSMutableAttributedString *attString2 = [[NSMutableAttributedString alloc] init];
+    [attString2 appendAttributedString:[[NSAttributedString alloc] initWithString:@"REVIEWS "    attributes:dict3]];
+    [attString2 appendAttributedString:[[NSAttributedString alloc] initWithString:@"(10)"      attributes:dict4]];
+    [self.btnReview setAttributedTitle:attString2 forState:UIControlStateSelected];
 }
 
 - (void) handleShareAction {
@@ -224,14 +260,20 @@ enum {
         lbSectionTitle.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
         lbSectionTitle.text = [sectionArray objectAtIndex:i];
         lbSectionTitle.textInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+
         [header addSubview:lbSectionTitle];
         
         //set corner radius for header section label: just top left and top right
-        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, lbSectionTitle.frame.size.width, lbSectionTitle.frame.size.height) byRoundingCorners:(UIRectCornerTopLeft | UIRectCornerTopRight) cornerRadii:CGSizeMake(5.0, 5.0)];
+        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, lbSectionTitle.frame.size.width, lbSectionTitle.frame.size.height) byRoundingCorners:(UIRectCornerTopLeft | UIRectCornerTopRight) cornerRadii:CGSizeMake(CORNER_RADIUS, CORNER_RADIUS)];
         
         CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
         maskLayer.path  = maskPath.CGPath;
         lbSectionTitle.layer.mask = maskLayer;
+        
+        //create border with 3 edges: top, left, right
+        
+        CAShapeLayer *strokeLayer = [self addBorderLineWithFrame:lbSectionTitle.frame top:YES bottom:NO left:YES right:YES];
+        [lbSectionTitle.layer addSublayer:strokeLayer];
         
         //add arrow image
         UIImageView *imgArrow = [[UIImageView alloc] initWithFrame:CGRectMake(header.frame.size.width-10, 10, 12, 7)];
@@ -286,6 +328,7 @@ enum {
         lbSectionTitle.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
         lbSectionTitle.text = customerName[i];
         lbSectionTitle.textInsets = UIEdgeInsetsMake(-30, 60, 0, 0);
+        
         [header addSubview:lbSectionTitle];
         
         //set corner radius for header section label: just top left and top right
@@ -294,6 +337,12 @@ enum {
         CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
         maskLayer.path  = maskPath.CGPath;
         lbSectionTitle.layer.mask = maskLayer;
+        lbSectionTitle.layer.masksToBounds = YES;
+        
+        //create border with 3 edges: top, left, right
+        
+        CAShapeLayer *strokeLayer = [self addBorderLineWithFrame:lbSectionTitle.frame top:YES bottom:NO left:YES right:YES];
+        [lbSectionTitle.layer addSublayer:strokeLayer];
         
         //add star rating view
         EDStarRating *ratingView = [[EDStarRating alloc] initWithFrame:CGRectMake(70, 20, 55, 32)];
@@ -331,11 +380,11 @@ enum {
         [header addSubview:lbTitle];
         
         //add arrow image
-        UIImageView *imgArrow = [[UIImageView alloc] initWithFrame:CGRectMake(header.frame.size.width-10, 10, 12, 7)];
-        imgArrow.tag = kIconArrowTag;
-        imgArrow.center = CGPointMake(imgArrow.frame.origin.x, lbSectionTitle.center.y);
-        imgArrow.image = [UIImage imageNamed:@"iconArrowDown.png"];
-        [header addSubview:imgArrow];
+//        UIImageView *imgArrow = [[UIImageView alloc] initWithFrame:CGRectMake(header.frame.size.width-10, 10, 12, 7)];
+//        imgArrow.tag = kIconArrowTag;
+//        imgArrow.center = CGPointMake(imgArrow.frame.origin.x, lbSectionTitle.center.y);
+//        imgArrow.image = [UIImage imageNamed:@"iconArrowDown.png"];
+//        [header addSubview:imgArrow];
         
         [self.reviewHeaders addObject:header];
     }
@@ -375,6 +424,8 @@ enum {
         //create background view cell
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, 40)];
         bgView.backgroundColor = [UIColor whiteColor];
+//        bgView.layer.borderWidth = 1.0;
+//        bgView.layer.borderColor = LIGHT_GREY_COLOR.CGColor;
         
         UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, bgView.frame.size.width, bgView.frame.size.height) byRoundingCorners:(UIRectCornerBottomLeft | UIRectCornerBottomRight) cornerRadii:CGSizeMake(5.0, 5.0)];
         
@@ -392,13 +443,20 @@ enum {
             CGSize size = [txtView sizeThatFits:CGSizeMake(screenSize.width, CGFLOAT_MAX)];
             
             txtView.frame = CGRectMake(0, -5, bgView.frame.size.width, size.height);
+            txtView.textContainerInset = UIEdgeInsetsMake(5.0, 5.0, 0.0, 0.0);
             [bgView addSubview:txtView];
             
             //set corner border for textview
-            maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, txtView.frame.size.width, txtView.frame.size.height) byRoundingCorners:(UIRectCornerBottomLeft | UIRectCornerBottomRight) cornerRadii:CGSizeMake(5.0, 5.0)];
+            maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, txtView.frame.size.width, txtView.frame.size.height) byRoundingCorners:(UIRectCornerBottomLeft | UIRectCornerBottomRight) cornerRadii:CGSizeMake(CORNER_RADIUS, CORNER_RADIUS)];
             
             maskLayer.path  = maskPath.CGPath;
             txtView.layer.mask = maskLayer;
+            
+            //create bezier path for border line txtview
+            //create border with 3 edges: bottom, left, right
+
+            CAShapeLayer *strokeLayer = [self addBorderLineWithFrame:txtView.frame top:NO bottom:YES left:YES right:YES];
+            [txtView.layer addSublayer:strokeLayer];
         }
         else if (indexPath.section == kQualificationsSection){
             NSMutableArray *qualificationArray = [self.data objectAtIndex:indexPath.section];
@@ -420,6 +478,15 @@ enum {
             //make corner radius for last row
             if (indexPath.row == [qualificationArray count]-1) {
                 bgView.layer.mask = maskLayer;
+                
+                //draw border for last cell
+                CAShapeLayer *strokeLayer = [self addBorderLineWithFrame:bgView.frame top:NO bottom:YES left:YES right:YES];
+                [bgView.layer addSublayer:strokeLayer];
+            }
+            else {
+                //draw border left and right
+                CAShapeLayer *strokeLayer = [self addBorderLineWithFrame:bgView.frame top:NO bottom:NO left:YES right:YES];
+                [bgView.layer addSublayer:strokeLayer];
             }
         }
         else if (indexPath.section == kQuickStatsSection) {
@@ -442,6 +509,15 @@ enum {
             //make corner radius for last row
             if (indexPath.row == [quickStatsArray count]-1) {
                 bgView.layer.mask = maskLayer;
+                
+                //draw border for last cell
+                CAShapeLayer *strokeLayer = [self addBorderLineWithFrame:bgView.frame top:NO bottom:YES left:YES right:YES];
+                [bgView.layer addSublayer:strokeLayer];
+            }
+            else {
+                //draw border left and right
+                CAShapeLayer *strokeLayer = [self addBorderLineWithFrame:bgView.frame top:NO bottom:NO left:YES right:YES];
+                [bgView.layer addSublayer:strokeLayer];
             }
         }
         [cell.contentView addSubview:bgView];
@@ -466,6 +542,12 @@ enum {
         CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
         maskLayer.path  = maskPath.CGPath;
         txtView.layer.mask = maskLayer;
+        
+        //create bezier path for border line txtview
+        //create border with 3 edges: bottom, left, right
+        
+        CAShapeLayer *strokeLayer = [self addBorderLineWithFrame:txtView.frame top:NO bottom:YES left:YES right:YES];
+        [txtView.layer addSublayer:strokeLayer];
         
         [cell.contentView addSubview:bgView];
 
@@ -497,28 +579,31 @@ enum {
 {
     UIView *view;
     
-    if (isSelectDescription)
+    if (isSelectDescription) {
         view = [self.headers objectAtIndex:section];
+        
+        //handle tap on header section
+        NSArray* gestures = view.gestureRecognizers;
+        BOOL tapGestureFound = NO;
+        for (UIGestureRecognizer* gesture in gestures)
+        {
+            if ([gesture isKindOfClass:[UITapGestureRecognizer class]])
+            {
+                tapGestureFound = YES;
+                break;
+            }
+        }
+        
+        if (!tapGestureFound)
+        {
+            [view setTag:section];
+            [view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)]];
+        }
+    }
     else
         view = [self.reviewHeaders objectAtIndex:section];
     
-    //handle tap on header section
-    NSArray* gestures = view.gestureRecognizers;
-    BOOL tapGestureFound = NO;
-    for (UIGestureRecognizer* gesture in gestures)
-    {
-        if ([gesture isKindOfClass:[UITapGestureRecognizer class]])
-        {
-            tapGestureFound = YES;
-            break;
-        }
-    }
     
-    if (!tapGestureFound)
-    {
-        [view setTag:section];
-        [view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)]];
-    }
     
     return view;
 }
@@ -585,6 +670,14 @@ enum {
             CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
             maskLayer.path  = maskPath.CGPath;
             lbHeaderSection.layer.mask = maskLayer;
+            
+            //remove previous layer
+            CAShapeLayer *previousLayer = [lbHeaderSection.layer.sublayers lastObject];
+            [previousLayer removeFromSuperlayer];
+            
+            //add new layer
+            CAShapeLayer *strokeLayer = [self addBorderLineWithFrame:lbHeaderSection.frame top:YES bottom:NO left:YES right:YES];
+            [lbHeaderSection.layer addSublayer:strokeLayer];
         }
         else {
             UIImage * portraitImage = [[UIImage alloc] initWithCGImage: imgArrow.image.CGImage
@@ -600,6 +693,13 @@ enum {
             CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
             maskLayer.path  = maskPath.CGPath;
             lbHeaderSection.layer.mask = maskLayer;
+            
+            //remove previous layer
+            CAShapeLayer *previousLayer = [lbHeaderSection.layer.sublayers lastObject];
+            [previousLayer removeFromSuperlayer];
+            
+            CAShapeLayer *strokeLayer = [self addBorderLineWithFrame:lbHeaderSection.frame top:YES bottom:YES left:YES right:YES];
+            [lbHeaderSection.layer addSublayer:strokeLayer];
         }
     }
 }
@@ -654,6 +754,70 @@ enum {
     for (int i=0;i < [self.reviewHeaders count];i++) {
         [self.tableView openSection:i animated:NO];
     }
+}
+
+- (CAShapeLayer*) addBorderLineWithFrame:(CGRect)rect top:(BOOL)isTop bottom:(BOOL)isBottom left:(BOOL)isLeft right:(BOOL)isRight {
+    UIBezierPath* borderPath = [UIBezierPath bezierPath];
+    CAShapeLayer *strokeLayer = [CAShapeLayer layer];
+    if (isTop && isLeft && isRight && !isBottom) {
+        [borderPath moveToPoint:CGPointMake(0, rect.size.height)];
+        [borderPath addLineToPoint:CGPointMake(0, rect.size.height-CORNER_RADIUS)];
+        [borderPath addArcWithCenter:CGPointMake(CORNER_RADIUS, CORNER_RADIUS) radius:CORNER_RADIUS startAngle:M_PI endAngle:-M_PI_2 clockwise:YES];
+        [borderPath addLineToPoint:CGPointMake(rect.size.width-CORNER_RADIUS, 0)];
+        [borderPath addArcWithCenter:CGPointMake(rect.size.width-CORNER_RADIUS, CORNER_RADIUS) radius:CORNER_RADIUS startAngle:-M_PI_2 endAngle:0 clockwise:YES];
+        [borderPath addLineToPoint:CGPointMake(rect.size.width, rect.size.height)];
+        
+        strokeLayer.path = borderPath.CGPath;
+        strokeLayer.fillColor = [UIColor clearColor].CGColor;
+        strokeLayer.strokeColor = LIGHT_GREY_COLOR.CGColor;
+        strokeLayer.lineWidth = 1; // the stroke splits the width evenly inside and outside,
+        // but the outside part will be clipped by the containerView’s mask.
+
+    }
+    else if (!isTop && isBottom && isLeft && isRight) {
+        [borderPath moveToPoint:CGPointMake(0, 0)];
+        [borderPath addLineToPoint:CGPointMake(0, rect.size.height-CORNER_RADIUS)];
+        [borderPath addArcWithCenter:CGPointMake(CORNER_RADIUS, rect.size.height-CORNER_RADIUS) radius:CORNER_RADIUS startAngle:M_PI endAngle:M_PI_2 clockwise:NO];
+        [borderPath addLineToPoint:CGPointMake(rect.size.width-CORNER_RADIUS, rect.size.height)];
+        [borderPath addArcWithCenter:CGPointMake(rect.size.width-CORNER_RADIUS, rect.size.height-CORNER_RADIUS) radius:CORNER_RADIUS startAngle:M_PI_2 endAngle:0 clockwise:NO];
+        [borderPath addLineToPoint:CGPointMake(rect.size.width, 0)];
+        
+        strokeLayer.path = borderPath.CGPath;
+        strokeLayer.fillColor = [UIColor clearColor].CGColor;
+        strokeLayer.strokeColor = LIGHT_GREY_COLOR.CGColor;
+        strokeLayer.lineWidth = 1; // the stroke splits the width evenly inside and outside,
+        // but the outside part will be clipped by the containerView’s mask.
+
+    }
+    else if (isTop && isBottom && isLeft && isRight) {
+        [borderPath moveToPoint:CGPointMake(0, 0)];
+        [borderPath addLineToPoint:CGPointMake(0, rect.size.height-CORNER_RADIUS)];
+        [borderPath addArcWithCenter:CGPointMake(CORNER_RADIUS, rect.size.height-CORNER_RADIUS) radius:CORNER_RADIUS startAngle:M_PI endAngle:M_PI_2 clockwise:NO];
+        [borderPath addLineToPoint:CGPointMake(rect.size.width-CORNER_RADIUS, rect.size.height)];
+        [borderPath addArcWithCenter:CGPointMake(rect.size.width-CORNER_RADIUS, rect.size.height-CORNER_RADIUS) radius:CORNER_RADIUS startAngle:M_PI_2 endAngle:0 clockwise:NO];
+        [borderPath addLineToPoint:CGPointMake(rect.size.width, CORNER_RADIUS)];
+        [borderPath addArcWithCenter:CGPointMake(rect.size.width-CORNER_RADIUS, CORNER_RADIUS) radius:CORNER_RADIUS startAngle:0 endAngle:-M_PI_2 clockwise:NO];
+        [borderPath addLineToPoint:CGPointMake(CORNER_RADIUS, 0)];
+        [borderPath addArcWithCenter:CGPointMake(CORNER_RADIUS, CORNER_RADIUS) radius:CORNER_RADIUS startAngle:-M_PI_2 endAngle:M_PI clockwise:NO];
+        
+        strokeLayer.path = borderPath.CGPath;
+        strokeLayer.fillColor = [UIColor clearColor].CGColor;
+        strokeLayer.strokeColor = LIGHT_GREY_COLOR.CGColor;
+        strokeLayer.lineWidth = 1; // the stroke splits the width evenly inside and outside,
+        // but the outside part will be clipped by the containerView’s mask.
+    }
+    else if (!isTop && !isBottom && isLeft && isRight) {
+        [borderPath moveToPoint:CGPointMake(0, 0)];
+        [borderPath addLineToPoint:CGPointMake(0, rect.size.height)];
+        [borderPath moveToPoint:CGPointMake(rect.size.width, rect.size.height)];
+        [borderPath addLineToPoint:CGPointMake(rect.size.width, 0)];
+        
+        strokeLayer.path = borderPath.CGPath;
+        strokeLayer.fillColor = [UIColor clearColor].CGColor;
+        strokeLayer.strokeColor = LIGHT_GREY_COLOR.CGColor;
+        strokeLayer.lineWidth = 0.5;
+    }
+    return strokeLayer;
 }
 
 @end

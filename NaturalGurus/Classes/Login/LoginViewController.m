@@ -33,6 +33,11 @@
     return HIDE_STATUS_BAR;
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
@@ -97,11 +102,11 @@
     centerViewController = [[BrowseViewController alloc] initWithNibName:@"BrowseViewController" bundle:nil];
     
     UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:centerViewController];
-    navigationController.navigationBar.barStyle = UIBarStyleBlack;
+//    navigationController.navigationBar.barStyle = UIBarStyleBlack;
     [navigationController setRestorationIdentifier:@"MMExampleCenterNavigationControllerRestorationKey"];
     
     UINavigationController * leftNavigationController = [[UINavigationController alloc] initWithRootViewController:leftViewController];
-    leftNavigationController.navigationBar.barStyle = UIBarStyleBlack;
+    leftNavigationController.navigationBar.barStyle = UIBarStyleDefault;
     [leftNavigationController setRestorationIdentifier:@"MMExampleCenterNavigationControllerRestorationKey"];
     
     self.drawerController = [[MMDrawerController alloc]

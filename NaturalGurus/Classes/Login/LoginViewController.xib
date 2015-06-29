@@ -351,12 +351,14 @@
                         <constraint firstItem="5yX-Ph-9hM" firstAttribute="top" secondItem="Qnh-nS-QBa" secondAttribute="bottom" constant="8" id="Qnl-sp-tqs"/>
                         <constraint firstAttribute="centerX" secondItem="99Z-xU-W0A" secondAttribute="centerX" id="QrB-f2-kHv"/>
                         <constraint firstItem="99Z-xU-W0A" firstAttribute="top" secondItem="acF-Jh-d7l" secondAttribute="top" constant="117" id="TwK-X2-cfL">
-                            <variation key="heightClass=regular-widthClass=compact" constant="60"/>
+                            <variation key="heightClass=regular-widthClass=compact" constant="75"/>
                         </constraint>
                         <constraint firstItem="jKo-Zi-cpR" firstAttribute="top" secondItem="uuI-GH-WKf" secondAttribute="bottom" constant="-49" id="Uuw-ku-hyA"/>
                         <constraint firstItem="Qnh-nS-QBa" firstAttribute="trailing" secondItem="KlJ-fm-zgi" secondAttribute="trailing" constant="-120" id="V9Y-jL-M3O"/>
                         <constraint firstAttribute="centerX" secondItem="Qnh-nS-QBa" secondAttribute="centerX" id="bqH-IY-1Lh"/>
-                        <constraint firstItem="jKo-Zi-cpR" firstAttribute="top" secondItem="99Z-xU-W0A" secondAttribute="bottom" constant="32" id="cF9-vz-TJh"/>
+                        <constraint firstItem="jKo-Zi-cpR" firstAttribute="top" secondItem="99Z-xU-W0A" secondAttribute="bottom" constant="32" id="cF9-vz-TJh">
+                            <variation key="heightClass=regular-widthClass=compact" constant="15"/>
+                        </constraint>
                         <constraint firstItem="pd9-Sz-FZr" firstAttribute="top" secondItem="jKo-Zi-cpR" secondAttribute="bottom" constant="-6" id="cth-rP-8LN"/>
                         <constraint firstAttribute="centerX" secondItem="jKo-Zi-cpR" secondAttribute="centerX" id="dhk-xl-1n7"/>
                         <constraint firstItem="l3F-V0-uEr" firstAttribute="leading" secondItem="Qnh-nS-QBa" secondAttribute="leading" constant="-120" id="hir-5l-91X">
@@ -564,7 +566,7 @@
                 <constraint firstAttribute="centerY" secondItem="acF-Jh-d7l" secondAttribute="centerY" id="xZc-Ju-v5L"/>
                 <constraint firstAttribute="trailing" secondItem="mi1-wj-GOo" secondAttribute="trailing" id="yB6-zK-HP9"/>
             </constraints>
-            <nil key="simulatedStatusBarMetrics"/>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
             <variation key="default">
                 <mask key="subviews">

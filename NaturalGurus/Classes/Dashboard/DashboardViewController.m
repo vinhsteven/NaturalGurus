@@ -97,6 +97,8 @@
 - (void) setupUI {
     self.view.backgroundColor = TABLE_BACKGROUND_COLOR;
     
+    [self addNavigationBottomLine];
+    
     self.mainTableView.rowHeight = 60;
     self.mainTableView.separatorColor = [UIColor clearColor];
     self.mainTableView.backgroundColor = TABLE_BACKGROUND_COLOR;
@@ -116,6 +118,12 @@
     rightSpacer.width = 15;
     
     self.navigationItem.leftBarButtonItems = @[leftSpacer, btnItem, rightSpacer];
+}
+
+- (void) addNavigationBottomLine {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 44, screenSize.width, 1)];
+    view.backgroundColor = LIGHT_GREY_COLOR;
+    [self.navigationController.navigationBar addSubview:view];
 }
 
 #pragma mark UITableViewDelegate
@@ -140,6 +148,7 @@
     
     //create background view cell
     UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, self.mainTableView.rowHeight-6)];
+    bgView.tag = kBGVIEW_TAG;
     bgView.backgroundColor = [UIColor whiteColor];
     bgView.layer.borderColor = LIGHT_GREY_COLOR.CGColor;
     bgView.layer.borderWidth = 1.0;
@@ -183,6 +192,8 @@
     
     [cell.contentView addSubview:bgView];
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     return cell;
 }
 
@@ -194,6 +205,20 @@
     DetailAppointmentViewController *controller = [[DetailAppointmentViewController alloc] initWithNibName:@"DetailAppointmentViewController" bundle:nil];
     controller.appointmentDict = dict;
     [self.navigationController pushViewController:controller animated:YES];
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    UIView *bgView = [cell.contentView viewWithTag:kBGVIEW_TAG];
+    bgView.backgroundColor = LIGHT_GREY_COLOR;
+    return indexPath;
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    UIView *bgView = [cell.contentView viewWithTag:kBGVIEW_TAG];
+    bgView.backgroundColor = [UIColor whiteColor];
+    return indexPath;
 }
 
 - (void)didReceiveMemoryWarning {

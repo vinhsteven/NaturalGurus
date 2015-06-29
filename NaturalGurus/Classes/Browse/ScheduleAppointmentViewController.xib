@@ -549,7 +549,7 @@
                             <exclude reference="piB-ph-TYj"/>
                         </mask>
                     </variation>
-                    <variation key="heightClass=regular-widthClass=compact" ambiguous="YES">
+                    <variation key="heightClass=regular-widthClass=compact" ambiguous="YES" misplaced="YES">
                         <rect key="frame" x="0.0" y="44" width="400" height="682"/>
                         <mask key="subviews">
                             <include reference="gvC-zA-vCq"/>
@@ -618,10 +618,12 @@
                 <constraint firstAttribute="trailing" secondItem="jgl-l6-LT6" secondAttribute="trailing" constant="8" id="XNf-Ma-Htr"/>
                 <constraint firstItem="r9R-gn-pJV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="aHn-b2-N9S"/>
                 <constraint firstAttribute="trailing" secondItem="r9R-gn-pJV" secondAttribute="trailing" id="dqG-DE-hHO"/>
-                <constraint firstItem="r9R-gn-pJV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="44" id="hgh-ax-brq"/>
+                <constraint firstItem="r9R-gn-pJV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="44" id="hgh-ax-brq">
+                    <variation key="heightClass=regular-widthClass=compact" constant="64"/>
+                </constraint>
                 <constraint firstAttribute="bottom" secondItem="jgl-l6-LT6" secondAttribute="bottom" constant="16" id="uNo-Br-01b"/>
             </constraints>
-            <nil key="simulatedStatusBarMetrics"/>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <variation key="default">
                 <mask key="subviews">
                     <exclude reference="jgl-l6-LT6"/>

@@ -26,6 +26,11 @@
     return HIDE_STATUS_BAR;
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
@@ -33,6 +38,9 @@
     screenSize = [[UIScreen mainScreen] bounds].size;
     
     self.view.backgroundColor = TABLE_BACKGROUND_COLOR;
+    
+    //add bottom line of navigation bar
+    [self addNavigationBottomLine];
     
     UIButton *btnLeft = [UIButton buttonWithType:UIButtonTypeCustom];
     btnLeft.frame = CGRectMake(0, 0, 20, 16);
@@ -52,7 +60,7 @@
 
     //right bar button
     UIButton *btnRight = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnRight.frame = CGRectMake(0, 0, 18, 19);
+    btnRight.frame = CGRectMake(0, 0, 17, 20);
     [btnRight setImage:[UIImage imageNamed:@"btnFilter.png"] forState:UIControlStateNormal];
     [btnRight addTarget:self action:@selector(rightButtonPress) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *btnItem2 = [[UIBarButtonItem alloc] initWithCustomView:btnRight];
@@ -212,6 +220,12 @@
     }
 }
 
+- (void) addNavigationBottomLine {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 44, screenSize.width, 1)];
+    view.backgroundColor = LIGHT_GREY_COLOR;
+    [self.navigationController.navigationBar addSubview:view];
+}
+
 - (void) leftButtonPress {
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
 }
@@ -264,9 +278,12 @@
         
         //create background view cell
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, self.mainTableView.rowHeight-6)];
+        bgView.tag = kBGVIEW_TAG;
         bgView.backgroundColor = [UIColor whiteColor];
         bgView.layer.cornerRadius = 5;
         bgView.layer.masksToBounds = YES;
+        bgView.layer.borderWidth = 1;
+        bgView.layer.borderColor = LIGHT_GREY_COLOR.CGColor;
         
         // add the expert image
         
@@ -357,6 +374,8 @@
         [bgView addSubview:bottomView];
         
         [cell.contentView addSubview:bgView];
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     else {
         NSDictionary *dict = [categoryArray objectAtIndex:indexPath.row];
@@ -390,6 +409,20 @@
     DetailBrowseViewController *controller = [[DetailBrowseViewController alloc] initWithNibName:@"DetailBrowseViewController" bundle:nil];
     controller.expertDict = dict;
     [self.navigationController pushViewController:controller animated:YES];
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    UIView *bgView = [cell.contentView viewWithTag:kBGVIEW_TAG];
+    bgView.backgroundColor = LIGHT_GREY_COLOR;
+    return indexPath;
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    UIView *bgView = [cell.contentView viewWithTag:kBGVIEW_TAG];
+    bgView.backgroundColor = [UIColor whiteColor];
+    return indexPath;
 }
 
 - (IBAction) selectCategories:(id)sender {

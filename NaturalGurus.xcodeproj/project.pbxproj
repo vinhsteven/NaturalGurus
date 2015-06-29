@@ -12,6 +12,7 @@
 		B00F66F01B380BA400521850 /* bgAvailability_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B00F66EE1B380BA400521850 /* bgAvailability_0@2x.png */; };
 		B00F66F41B380BF400521850 /* AvailabilityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B00F66F21B380BF400521850 /* AvailabilityViewController.m */; };
 		B00F66F51B380BF400521850 /* AvailabilityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B00F66F31B380BF400521850 /* AvailabilityViewController.xib */; };
+		B06B7B3D1B411DE20030608F /* UIView+Borders.m in Sources */ = {isa = PBXBuildFile; fileRef = B06B7B3C1B411DE20030608F /* UIView+Borders.m */; };
 		B0CD2E441B3901CF00764216 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CD2E421B3901CF00764216 /* LoginViewController.m */; };
 		B0CD2E451B3901CF00764216 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0CD2E431B3901CF00764216 /* LoginViewController.xib */; };
 		B0CD2E491B3901F800764216 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CD2E471B3901F800764216 /* SignUpViewController.m */; };
@@ -130,6 +131,8 @@
 		B00F66F11B380BF400521850 /* AvailabilityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AvailabilityViewController.h; sourceTree = "<group>"; };
 		B00F66F21B380BF400521850 /* AvailabilityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AvailabilityViewController.m; sourceTree = "<group>"; };
 		B00F66F31B380BF400521850 /* AvailabilityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AvailabilityViewController.xib; sourceTree = "<group>"; };
+		B06B7B3B1B411DE20030608F /* UIView+Borders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Borders.h"; sourceTree = "<group>"; };
+		B06B7B3C1B411DE20030608F /* UIView+Borders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Borders.m"; sourceTree = "<group>"; };
 		B0CD2E411B3901CF00764216 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		B0CD2E421B3901CF00764216 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		B0CD2E431B3901CF00764216 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -583,6 +586,8 @@
 		C2F740C01B2A742300C8635F /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				B06B7B3B1B411DE20030608F /* UIView+Borders.h */,
+				B06B7B3C1B411DE20030608F /* UIView+Borders.m */,
 				C2E4C30C1B34405B000DF6BF /* TTTAttributedLabel.h */,
 				C2E4C30D1B34405B000DF6BF /* TTTAttributedLabel.m */,
 				C2195B071B2EE0EC005733EB /* MMPickerView.h */,
@@ -799,6 +804,7 @@
 				C2F740BB1B2A71D300C8635F /* UIImage+WebP.m in Sources */,
 				C2F740B51B2A71D300C8635F /* SDWebImageDownloaderOperation.m in Sources */,
 				C2195AFE1B2EC807005733EB /* TPKeyboardAvoidingTableView.m in Sources */,
+				B06B7B3D1B411DE20030608F /* UIView+Borders.m in Sources */,
 				C2F740BE1B2A71D300C8635F /* UIView+WebCacheOperation.m in Sources */,
 				B00F66F41B380BF400521850 /* AvailabilityViewController.m in Sources */,
 				C2F740B41B2A71D300C8635F /* SDWebImageDownloader.m in Sources */,
@@ -836,6 +842,81 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		B0C8A2AE1B3A57E5004BC4D7 /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NaturalGurus-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Adhoc;
+		};
+		B0C8A2AF1B3A57E5004BC4D7 /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Phu Xuan Nguyen (L9SWRELL6W)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/NaturalGurus/Libraries/FacebookSDK",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NaturalGurus-Prefix.pch";
+				INFOPLIST_FILE = NaturalGurus/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "c117b9fa-a45d-4bbe-b937-9b4db482b7c1";
+			};
+			name = Adhoc;
+		};
+		B0C8A2B01B3A57E5004BC4D7 /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = NaturalGurusTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NaturalGurus.app/NaturalGurus";
+			};
+			name = Adhoc;
+		};
 		C21A94C71B26E12B00698B01 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -874,7 +955,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -913,7 +994,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -936,6 +1017,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "c117b9fa-a45d-4bbe-b937-9b4db482b7c1";
 			};
 			name = Debug;
 		};
@@ -955,6 +1037,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "c117b9fa-a45d-4bbe-b937-9b4db482b7c1";
 			};
 			name = Release;
 		};
@@ -1000,6 +1083,7 @@
 			buildConfigurations = (
 				C21A94C71B26E12B00698B01 /* Debug */,
 				C21A94C81B26E12B00698B01 /* Release */,
+				B0C8A2AE1B3A57E5004BC4D7 /* Adhoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1009,6 +1093,7 @@
 			buildConfigurations = (
 				C21A94CA1B26E12B00698B01 /* Debug */,
 				C21A94CB1B26E12B00698B01 /* Release */,
+				B0C8A2AF1B3A57E5004BC4D7 /* Adhoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1018,6 +1103,7 @@
 			buildConfigurations = (
 				C21A94CD1B26E12B00698B01 /* Debug */,
 				C21A94CE1B26E12B00698B01 /* Release */,
+				B0C8A2B01B3A57E5004BC4D7 /* Adhoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

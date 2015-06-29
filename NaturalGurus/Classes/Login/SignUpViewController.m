@@ -62,6 +62,9 @@
     if (screenSize.height == 480) {
         self.mainScrollView.contentSize = CGSizeMake(self.mainScrollView.frame.size.width, screenSize.height+100);
     }
+    else {
+        self.mainScrollView.contentSize = CGSizeMake(self.mainScrollView.frame.size.width, screenSize.height+20);
+    }
 }
 
 - (void) setupUI {
@@ -139,6 +142,7 @@
     [self.btnCreateAccount setBackgroundImage:[ToolClass imageFromColor:GREEN_COLOR] forState:UIControlStateNormal];
     [self.btnCreateAccount setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 
+    
 }
 
 - (IBAction) handleConfirmCreateAccount:(id)sender {

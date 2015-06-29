@@ -20,7 +20,7 @@
 @synthesize parent;
 
 -(BOOL)prefersStatusBarHidden{
-    return HIDE_STATUS_BAR;
+    return YES;//HIDE_STATUS_BAR;
 }
 
 - (void)viewDidLoad

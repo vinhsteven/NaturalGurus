@@ -24,7 +24,7 @@
                         </constraint>
                     </constraints>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                     <variation key="default">
                         <mask key="constraints">
@@ -40,6 +40,9 @@
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="sY9-bd-Z0V">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                        <rect key="frame" x="0.0" y="95" width="400" height="705"/>
+                    </variation>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="jnD-q1-lLT"/>
                         <outlet property="delegate" destination="-1" id="7bi-Nw-u0N"/>
@@ -55,7 +58,9 @@
                 <constraint firstAttribute="trailing" secondItem="sY9-bd-Z0V" secondAttribute="trailing" id="LVI-wr-H4d"/>
                 <constraint firstAttribute="centerY" secondItem="40P-Zr-REK" secondAttribute="centerY" id="NCw-iG-5K8"/>
                 <constraint firstItem="sY9-bd-Z0V" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="O3T-Lw-xw6"/>
-                <constraint firstItem="40P-Zr-REK" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="44" id="csy-cS-fMp"/>
+                <constraint firstItem="40P-Zr-REK" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="44" id="csy-cS-fMp">
+                    <variation key="heightClass=regular-widthClass=compact" constant="64"/>
+                </constraint>
                 <constraint firstAttribute="centerX" secondItem="sY9-bd-Z0V" secondAttribute="centerX" id="d7c-Gz-l0X"/>
                 <constraint firstItem="sY9-bd-Z0V" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="74" id="dzJ-dQ-rio"/>
                 <constraint firstItem="40P-Zr-REK" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="nrb-K2-Fla">
@@ -104,7 +109,7 @@
                     <exclude reference="LVI-wr-H4d"/>
                     <include reference="O3T-Lw-xw6"/>
                     <include reference="d7c-Gz-l0X"/>
-                    <include reference="dzJ-dQ-rio"/>
+                    <exclude reference="dzJ-dQ-rio"/>
                     <include reference="w82-ld-eIa"/>
                 </mask>
             </variation>

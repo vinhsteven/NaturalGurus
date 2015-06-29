@@ -35,7 +35,6 @@
     //color of navigation title
     [[UINavigationBar appearance] setTitleTextAttributes:navigationTitleAttribute];
     
-    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     self.viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];

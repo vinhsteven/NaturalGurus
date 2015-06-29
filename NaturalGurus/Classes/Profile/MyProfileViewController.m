@@ -36,6 +36,8 @@
     
     self.view.backgroundColor = TABLE_BACKGROUND_COLOR;
     
+    [self addNavigationBottomLine];
+    
     //allocate left button
     UIButton *btnLeft = [UIButton buttonWithType:UIButtonTypeCustom];
     btnLeft.frame = CGRectMake(0, 0, 20, 16);
@@ -75,6 +77,8 @@
     self.containerView.backgroundColor = [UIColor whiteColor];
     self.containerView.layer.cornerRadius   = 5;
     self.containerView.layer.masksToBounds  = YES;
+    self.containerView.layer.borderColor = LIGHT_GREY_COLOR.CGColor;
+    self.containerView.layer.borderWidth = 1;
     
     //load expert image
     //get expert image
@@ -100,6 +104,12 @@
     //handle tap profile picture
     UITapGestureRecognizer *profileImageTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditProfileImage)];
     [self.imgExpertView addGestureRecognizer:profileImageTap];
+}
+
+- (void) addNavigationBottomLine {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 44, screenSize.width, 1)];
+    view.backgroundColor = LIGHT_GREY_COLOR;
+    [self.navigationController.navigationBar addSubview:view];
 }
 
 - (void) handleSaveProfile {
