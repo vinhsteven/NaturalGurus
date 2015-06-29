@@ -12,6 +12,7 @@
 @interface MyProfileViewController : UIViewController <UITextFieldDelegate,UIImagePickerControllerDelegate,UIActionSheetDelegate>{
     
     CGSize screenSize;
+    CGPoint originalPoint;
 }
 
 @property (strong, nonatomic) IBOutlet UIImageView *imgExpertView;

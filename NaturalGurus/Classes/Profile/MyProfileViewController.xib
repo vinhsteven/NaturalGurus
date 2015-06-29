@@ -483,7 +483,7 @@
                 <constraint firstAttribute="trailing" secondItem="ccy-0R-xgr" secondAttribute="trailing" constant="10" id="WYa-ep-cWv"/>
                 <constraint firstAttribute="trailing" secondItem="zur-zy-Rmt" secondAttribute="trailing" constant="10" id="b1e-1g-yse"/>
                 <constraint firstAttribute="bottom" secondItem="joY-YA-Zm0" secondAttribute="bottom" constant="188" id="fzt-fF-OpM">
-                    <variation key="heightClass=regular-widthClass=compact" constant="140"/>
+                    <variation key="heightClass=regular-widthClass=compact" constant="120"/>
                 </constraint>
                 <constraint firstItem="joY-YA-Zm0" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="591" id="h6N-vm-jjx"/>
                 <constraint firstItem="jQ6-FZ-hm9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="kdr-Pt-D6r"/>

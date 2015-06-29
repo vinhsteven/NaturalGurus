@@ -106,6 +106,10 @@
     [self.imgExpertView addGestureRecognizer:profileImageTap];
 }
 
+- (void) viewDidLayoutSubviews {
+    originalPoint = self.view.center;
+}
+
 - (void) addNavigationBottomLine {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 44, screenSize.width, 1)];
     view.backgroundColor = LIGHT_GREY_COLOR;
@@ -124,6 +128,9 @@
     [self.txtEmail resignFirstResponder];
     [self.txtCountryCode resignFirstResponder];
     [self.txtPhoneNumber resignFirstResponder];
+    
+    if (screenSize.height == 480)
+        self.view.center = CGPointMake(screenSize.width/2, screenSize.height/2);
 }
 
 - (void) leftButtonPress {
@@ -146,8 +153,16 @@
     }
     else if (textField == self.txtPhoneNumber) {
         [textField resignFirstResponder];
+
+        if (screenSize.height == 480)
+            self.view.center = CGPointMake(screenSize.width/2, screenSize.height/2);
     }
     return YES;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (screenSize.height == 480)
+        self.view.center = CGPointMake(screenSize.width/2, screenSize.height/2-120);
 }
 
 - (IBAction) handleEditProfile:(id)sender {
