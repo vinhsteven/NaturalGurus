@@ -15,13 +15,13 @@
 
 @implementation ForgotPasswordViewController
 
-- (BOOL)shouldAutorotate {
-    return NO;
-}
-
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    return UIInterfaceOrientationPortrait | UIInterfaceOrientationPortraitUpsideDown;
-}
+//- (BOOL)shouldAutorotate {
+//    return NO;
+//}
+//
+//- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+//    return UIInterfaceOrientationPortrait | UIInterfaceOrientationPortraitUpsideDown;
+//}
 
 -(BOOL)prefersStatusBarHidden{
     return HIDE_STATUS_BAR;
@@ -36,9 +36,21 @@
 }
 
 - (void) setupUI {
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    
     self.navigationItem.title = @"Restore Password";
     
     self.view.backgroundColor = TABLE_BACKGROUND_COLOR;
+    self.topView.backgroundColor = [UIColor colorWithRed:(float)245/255 green:(float)245/255 blue:(float)245/255 alpha:1.0];
+    
+    //add bottom line of top view
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 44, screenSize.width, 1)];
+    view.backgroundColor = LIGHT_GREY_COLOR;
+    [self.topView addSubview:view];
+    
+    //style for title label
+    self.lbTitle.textColor = GREEN_COLOR;
+    self.lbTitle.font = [UIFont fontWithName:MONTSERRAT_BOLD size:16];
     
     //set style for Email text field
     self.txtEmail.backgroundColor = [UIColor whiteColor];
@@ -66,6 +78,10 @@
 - (IBAction) handleSubmit:(id)sender {
     UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Email Sent" message:@"An email has been sent to your email. Please follow the instruction to get your password." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [dialog show];
+}
+
+- (IBAction) closeView:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

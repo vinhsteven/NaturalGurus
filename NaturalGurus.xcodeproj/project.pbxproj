@@ -13,6 +13,7 @@
 		B00F66F41B380BF400521850 /* AvailabilityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B00F66F21B380BF400521850 /* AvailabilityViewController.m */; };
 		B00F66F51B380BF400521850 /* AvailabilityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B00F66F31B380BF400521850 /* AvailabilityViewController.xib */; };
 		B06B7B3D1B411DE20030608F /* UIView+Borders.m in Sources */ = {isa = PBXBuildFile; fileRef = B06B7B3C1B411DE20030608F /* UIView+Borders.m */; };
+		B0C9A4A31B422ECF00F74FCD /* btnClose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C9A4A21B422ECF00F74FCD /* btnClose@2x.png */; };
 		B0CD2E441B3901CF00764216 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CD2E421B3901CF00764216 /* LoginViewController.m */; };
 		B0CD2E451B3901CF00764216 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0CD2E431B3901CF00764216 /* LoginViewController.xib */; };
 		B0CD2E491B3901F800764216 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CD2E471B3901F800764216 /* SignUpViewController.m */; };
@@ -133,6 +134,7 @@
 		B00F66F31B380BF400521850 /* AvailabilityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AvailabilityViewController.xib; sourceTree = "<group>"; };
 		B06B7B3B1B411DE20030608F /* UIView+Borders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Borders.h"; sourceTree = "<group>"; };
 		B06B7B3C1B411DE20030608F /* UIView+Borders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Borders.m"; sourceTree = "<group>"; };
+		B0C9A4A21B422ECF00F74FCD /* btnClose@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btnClose@2x.png"; sourceTree = "<group>"; };
 		B0CD2E411B3901CF00764216 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		B0CD2E421B3901CF00764216 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		B0CD2E431B3901CF00764216 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 		C2A5E3C01B27FACB000F7F29 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B0C9A4A21B422ECF00F74FCD /* btnClose@2x.png */,
 				B00F66ED1B380BA400521850 /* bgAvailability_1@2x.png */,
 				B00F66EE1B380BA400521850 /* bgAvailability_0@2x.png */,
 				B00F66EB1B37FF6C00521850 /* iconCancel@2x.png */,
@@ -704,6 +707,7 @@
 			files = (
 				C2FD42151B33B65C002F2D2C /* category_3@2x.png in Resources */,
 				C21AFF831B35672A002DCACC /* iconArrowDown@2x.png in Resources */,
+				B0C9A4A31B422ECF00F74FCD /* btnClose@2x.png in Resources */,
 				C246389D1B3177BA002A4820 /* bgLoginContainer@2x.png in Resources */,
 				C2ED33A71B3017AD0032F885 /* btnExpand.png in Resources */,
 				C2FD42161B33B65C002F2D2C /* category_4@2x.png in Resources */,

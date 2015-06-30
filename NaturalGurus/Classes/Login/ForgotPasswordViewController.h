@@ -13,7 +13,11 @@
 
 @property (strong, nonatomic) IBOutlet CustomTextField *txtEmail;
 @property (strong, nonatomic) IBOutlet UIButton *btnSubmit;
+@property (strong, nonatomic) IBOutlet UIView *containerView;
+@property (strong, nonatomic) IBOutlet UIView *topView;
+@property (strong, nonatomic) IBOutlet UILabel *lbTitle;
 
 - (IBAction) handleSubmit:(id)sender;
+- (IBAction) closeView:(id)sender;
 
 @end

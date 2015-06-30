@@ -65,12 +65,26 @@
     else {
         self.mainScrollView.contentSize = CGSizeMake(self.mainScrollView.frame.size.width, screenSize.height+20);
     }
+    
+    //check if this view is opened from Login Screen.
+    if (_isFirstScreen)
+        self.mainScrollView.frame = CGRectMake(self.mainScrollView.frame.origin.x, self.mainScrollView.frame.origin.y-64, self.mainScrollView.frame.size.width, self.mainScrollView.frame.size.height+64);
 }
 
 - (void) setupUI {
     self.navigationItem.title = @"Create Account";
     
     self.view.backgroundColor = TABLE_BACKGROUND_COLOR;
+    self.topView.backgroundColor = [UIColor colorWithRed:(float)245/255 green:(float)245/255 blue:(float)245/255 alpha:1.0];
+    
+    //add bottom line of top view
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 44, screenSize.width, 1)];
+    view.backgroundColor = LIGHT_GREY_COLOR;
+    [self.topView addSubview:view];
+    
+    //style for title label
+    self.lbTitle.textColor = GREEN_COLOR;
+    self.lbTitle.font = [UIFont fontWithName:MONTSERRAT_BOLD size:16];
     
     //set style for First name text field
     self.txtFirstname.backgroundColor = [UIColor whiteColor];
@@ -202,6 +216,10 @@
         
     }
     return YES;
+}
+
+- (IBAction) closeView:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

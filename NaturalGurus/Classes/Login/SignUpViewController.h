@@ -19,6 +19,7 @@
     CGSize screenSize;
 }
 
+@property (assign, readwrite) BOOL isFirstScreen;
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
 @property (strong, nonatomic) IBOutlet CustomTextField *txtFirstname;
 @property (strong, nonatomic) IBOutlet CustomTextField *txtLastname;
@@ -27,7 +28,10 @@
 @property (strong, nonatomic) IBOutlet CustomTextField *txtConfirmPassword;
 @property (strong, nonatomic) IBOutlet UIButton *btnCreateAccount;
 @property (strong, nonatomic) IBOutlet UIView *containerView;
+@property (strong, nonatomic) IBOutlet UIView *topView;
+@property (strong, nonatomic) IBOutlet UILabel *lbTitle;
 
 - (IBAction) handleConfirmCreateAccount:(id)sender;
+- (IBAction) closeView:(id)sender;
 
 @end

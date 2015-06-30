@@ -271,13 +271,13 @@
 }
 
 - (IBAction) createAccount:(id)sender {
-//    UINavigationController *navController = [(AppDelegate*)[[UIApplication sharedApplication] delegate] navController];
     SignUpViewController *controller = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
     [((LoginViewController*)parent).drawerController.navigationController presentViewController:controller animated:YES completion:nil];
 }
 
 - (IBAction) handleForgotPassword:(id)sender {
-    
+    ForgotPasswordViewController *controller = [[ForgotPasswordViewController alloc] initWithNibName:@"ForgotPasswordViewController" bundle:nil];
+    [((LoginViewController*)parent).drawerController.navigationController presentViewController:controller animated:YES completion:nil];
 }
 
 #pragma mark UITextFieldDelegate

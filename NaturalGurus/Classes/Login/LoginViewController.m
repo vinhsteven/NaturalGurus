@@ -195,6 +195,7 @@
 //handle create account
 - (IBAction) createAccount:(id)sender {
     SignUpViewController *controller = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
+    controller.isFirstScreen = YES;
     [self.navigationController pushViewController:controller animated:YES];
 }
 
