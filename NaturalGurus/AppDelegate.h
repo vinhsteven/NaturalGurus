@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LoginViewController.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 @interface UINavigationController (Rotation_For_iOS6)
 @end
@@ -17,6 +18,9 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) LoginViewController *viewController;
 @property (strong, nonatomic) UINavigationController *navController;
+
++ (void) showMessage:(NSString*)message withTitle:(NSString*)title;
+- (void)sessionStateChanged:(FBSession *)session state:(FBSessionState) state error:(NSError *)error;
 
 @end
 

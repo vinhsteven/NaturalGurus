@@ -202,8 +202,8 @@
     }
     
     //init filter array
-    filterArray = [NSMutableArray arrayWithObjects:@"Filter 1",@"Filter 2",@"Filter 3", nil];
-    sortArray   = [NSMutableArray arrayWithObjects:@"Sort by Name",@"Sort by the Latest",@"Sort by Rating", nil];
+    filterArray = [NSMutableArray arrayWithObjects:@"Available now (live)",@"Free sessions", nil];
+    sortArray   = [NSMutableArray arrayWithObjects:@"Price (highest to lowest)",@"Experience (highest to lowest)", nil];
 }
 
 - (void) viewWillAppear:(BOOL)animated {

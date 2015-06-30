@@ -141,13 +141,32 @@
     UIButton *btnLogin = (UIButton*)sender;
     switch (btnLogin.tag) {
         case kFacebookButton:
+        {
+            // Open a session showing the user the login UI
+            // You must ALWAYS ask for public_profile permissions when opening a session
+            [FBSession openActiveSessionWithReadPermissions:@[@"public_profile",@"email"]
+                                               allowLoginUI:YES
+                                          completionHandler:
+             ^(FBSession *session, FBSessionState state, NSError *error) {
+                 
+                 // Retrieve the app delegate
+                 AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+                 // Call the app delegate's sessionStateChanged:state:error method to handle session state changes
+                 [appDelegate sessionStateChanged:session state:state error:error];
+             }];
+            
             break;
-        case kGoogleButton:
+        }
+        case kTwitterButton:
+            break;
+        case kNaturalButton:
+        {
+            [self loginSuccess];
+        }
             break;
         default:
             break;
     }
-    [self loginSuccess];
 }
 
 - (void) loginSuccess {
@@ -207,15 +226,6 @@
 #pragma mark UIScrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     NSLog(@"scroll: %f %f",scrollView.contentOffset.x,scrollView.contentOffset.y);
-}
-
-#pragma mark FBSDKLoginButtonDelegate
-- (void)  loginButton:(FBSDKLoginButton *)loginButton didCompleteWithResult:(FBSDKLoginManagerLoginResult *)result
-                error:(NSError *)error {
-    NSLog(@"permission = %@",result.grantedPermissions);
-    if ([result.grantedPermissions containsObject:@"public_profile"]) {
-        [self loginSuccess];
-    }
 }
 
 #pragma mark UITextFieldDelegate 

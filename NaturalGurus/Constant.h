@@ -12,7 +12,7 @@
 //define constant id for 3 buttons at login screen
 enum {
     kFacebookButton = 1,
-    kGoogleButton,
+    kTwitterButton,
     kNaturalButton
 };
 

@@ -18,6 +18,8 @@
     #import "MMPickerView.h"
     #import "TTTAttributedLabel.h"
     #import "UIView+Borders.h"
+    #import "AppDelegate.h"
+
 #endif
 
 #define HIDE_STATUS_BAR NO
@@ -54,3 +56,8 @@
 
 #define IS_LOGIN        @"isLogin"
 #define LOGIN_TYPE      @"loginType"
+enum {
+    LOGIN_EMAIL,
+    LOGIN_FACEBOOK,
+    LOGIN_TWITTER
+};

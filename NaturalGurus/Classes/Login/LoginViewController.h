@@ -8,12 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "Constant.h"
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import "MMDrawerController.h"
 #import "BrowseViewController.h"
 
-@interface LoginViewController : UIViewController <FBSDKLoginButtonDelegate,UITextFieldDelegate,UIScrollViewDelegate> {
+@interface LoginViewController : UIViewController <UITextFieldDelegate,UIScrollViewDelegate> {
     CGSize screenSize;
 }
 
@@ -29,6 +27,7 @@
 - (IBAction) skipStep:(id)sender;
 - (IBAction) createAccount:(id)sender;
 - (IBAction) handleForgotPassword:(id)sender;
+- (void) loginSuccess;
 
 @end
 
