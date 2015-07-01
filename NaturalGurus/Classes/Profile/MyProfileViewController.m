@@ -84,7 +84,7 @@
     //get expert image
     UIImageView *se = self.imgExpertView;
     
-    NSString *imgUrl = @"https://naturalgurus.com/uploads/users/2015_06_11_08_05_56_Keith%20at%20Homeopathy%20For%20Kidscr.jpeg";
+    NSString *imgUrl = [[ToolClass instance] getProfileImageURL];
     [self.imgExpertView sd_setImageWithURL:[NSURL URLWithString:imgUrl]
                        placeholderImage:[UIImage imageNamed:NSLocalizedString(@"image_loading_placeholder", nil)]
                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {

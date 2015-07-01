@@ -102,6 +102,7 @@
     self.mainTableView.rowHeight = 60;
     self.mainTableView.separatorColor = [UIColor clearColor];
     self.mainTableView.backgroundColor = TABLE_BACKGROUND_COLOR;
+    [self.mainTableView.refreshControl addTarget:self action:@selector(handleRefresh) forControlEvents:UIControlEventValueChanged];
     
     UIButton *btnLeft = [UIButton buttonWithType:UIButtonTypeCustom];
     btnLeft.frame = CGRectMake(0, 0, 20, 16);
@@ -124,6 +125,11 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 44, screenSize.width, 1)];
     view.backgroundColor = LIGHT_GREY_COLOR;
     [self.navigationController.navigationBar addSubview:view];
+}
+
+- (void) handleRefresh {
+    NSLog(@"Refresh Table");
+    [self.mainTableView.refreshControl endRefreshing];
 }
 
 #pragma mark UITableViewDelegate

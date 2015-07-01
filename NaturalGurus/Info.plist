@@ -33,6 +33,8 @@
 	<string>1</string>
 	<key>FacebookAppID</key>
 	<string>1530797753842771</string>
+	<key>FacebookAppSecret</key>
+	<string>c7f9464678f95c548101a46b87a88137</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>

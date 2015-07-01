@@ -19,6 +19,7 @@
 #define EXPERT_ACCREDITATION    @"acrrecditation"
 
 #import <UIKit/UIKit.h>
+#import "TableView+RefreshControl.h"
 
 @interface BrowseViewController : UIViewController <UISearchControllerDelegate,UITableViewDataSource,UITableViewDelegate> {
     CGSize screenSize;
@@ -34,7 +35,7 @@
     NSMutableArray *sortArray;
 }
 
-@property (strong, nonatomic) IBOutlet UITableView *mainTableView;
+@property (strong, nonatomic) IBOutlet TableView_RefreshControl *mainTableView;
 @property (strong, nonatomic) IBOutlet UIView *containerView;
 @property (strong, nonatomic) IBOutlet UIButton *btnCategory;
 @property (strong, nonatomic) IBOutlet UIButton *btnExpert;

@@ -19,7 +19,6 @@
     #import "TTTAttributedLabel.h"
     #import "UIView+Borders.h"
     #import "AppDelegate.h"
-
 #endif
 
 #define HIDE_STATUS_BAR NO
@@ -28,6 +27,9 @@
 #define DEFAULT_FONT_BOLD   @"Helvetica-Bold"
 #define MONTSERRAT_BOLD     @"Montserrat-Bold"
 #define MONTSERRAT_REGULAR  @"Montserrat-Regular"
+
+#define FACEBOOK_APP_ID     [[NSBundle mainBundle] objectForInfoDictionaryKey:@"FacebookAppID"]
+#define FACEBOOK_APP_SECRET [[NSBundle mainBundle] objectForInfoDictionaryKey:@"FacebookAppSecret"]
 
 #define CATEGORY_ITEM_WIDTH     140
 #define CATEGORY_ITEM_HEIGHT    140
@@ -53,6 +55,8 @@
 #define NAVIGATION_BACKGROUND_COLOR [UIColor colorWithRed:(float)245/255 green:(float)245/255 blue:(float)245/255 alpha:1.0]
 #define TABLE_BACKGROUND_COLOR [UIColor colorWithRed:(float)240/255 green:(float)240/255 blue:(float)240/255 alpha:1.0]
 #define LIGHT_GREY_COLOR [UIColor colorWithRed:(float)204/255 green:(float)204/255 blue:(float)204/255 alpha:1.0]
+
+#define PROFILE_IMAGE_URL   @"profileImageURL"
 
 #define IS_LOGIN        @"isLogin"
 #define LOGIN_TYPE      @"loginType"

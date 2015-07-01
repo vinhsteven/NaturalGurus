@@ -40,7 +40,20 @@
 }
 
 - (void) userLoggedIn {
-    [self.viewController loginSuccess];
+    [[FBRequest requestForMe] startWithCompletionHandler:
+     ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+         if (!error) {
+             NSLog(@"user id %@",user.objectID);
+             NSLog(@"Email %@",[user objectForKey:@"email"]);
+             NSLog(@"User Name: %@ %@ %@",[user objectForKey:@"first_name"],[user objectForKey:@"middle_name"],[user objectForKey:@"last_name"]);
+             NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", user.objectID];
+             
+             //set current profile image
+             [[ToolClass instance] setProfileImageURL:userImageURL];
+             
+             [self.viewController loginSuccess];
+         }
+     }];
 }
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
@@ -54,6 +67,7 @@
     if (!error && state == FBSessionStateOpen){
         NSLog(@"Session opened");
         // Show the user the logged-in UI
+        [[ToolClass instance] setLoginType:LOGIN_FACEBOOK];
         [self userLoggedIn];
         return;
     }
@@ -138,7 +152,7 @@
     if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
         
         // If there's one, just open the session silently, without showing the user the login UI
-        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile"]
+        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile",@"email"]
                                            allowLoginUI:NO
                                       completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
                                           // Handler for session state changes

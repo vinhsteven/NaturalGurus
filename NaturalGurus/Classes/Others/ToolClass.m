@@ -373,5 +373,41 @@
     return dateStr;
 }
 
+#pragma mark HANDLE STORE DATA
+- (void) setLogin:(BOOL)isLogin {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:[NSNumber numberWithBool:isLogin] forKey:IS_LOGIN];
+}
+
+- (BOOL) isLogin {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [[userDefaults objectForKey:IS_LOGIN] boolValue];
+}
+
+- (void) setLoginType:(int)loginType {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:[NSNumber numberWithInt:loginType] forKey:LOGIN_TYPE];
+}
+
+- (int) getLoginType {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [[userDefaults objectForKey:LOGIN_TYPE] intValue];
+}
+
+- (NSString*) getProfileImageURL {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [userDefaults objectForKey:PROFILE_IMAGE_URL];
+}
+
+- (void) setProfileImageURL:(NSString*)url {
+    @try {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:url forKey:PROFILE_IMAGE_URL];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"image null");
+    }
+}
+
 
 @end

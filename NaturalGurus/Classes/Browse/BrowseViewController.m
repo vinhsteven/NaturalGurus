@@ -84,6 +84,7 @@
     self.mainTableView.rowHeight = 138;
     self.mainTableView.separatorColor = [UIColor clearColor];
     self.mainTableView.backgroundColor = TABLE_BACKGROUND_COLOR;
+    [self.mainTableView.refreshControl addTarget:self action:@selector(handleRefresh) forControlEvents:UIControlEventValueChanged];
     
     //default is expert
     isSelectCategory = YES;
@@ -238,6 +239,11 @@
                                 //selectedString is the return value which you can use as you wish
                                 
                             }];
+}
+
+- (void) handleRefresh {
+    NSLog(@"Refresh Table");
+    [self.mainTableView.refreshControl endRefreshing];
 }
 
 #pragma mark UITableViewDelegate

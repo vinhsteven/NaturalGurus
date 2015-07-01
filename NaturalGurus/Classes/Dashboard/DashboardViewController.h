@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TableView+RefreshControl.h"
 
 @interface DashboardViewController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
     CGSize screenSize;
     NSMutableArray *mainArray;
 }
 
-@property (strong, nonatomic) IBOutlet UITableView *mainTableView;
+@property (strong, nonatomic) IBOutlet TableView_RefreshControl *mainTableView;
 @property (strong, nonatomic) IBOutlet UILabel *lbMyAppointments;
 
 @end

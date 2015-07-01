@@ -23,4 +23,14 @@
 //Handle Date format
 + (NSString*) dateByFormat:(NSString*)format date:(NSDate*)date;
 
+#pragma mark HANDLE STORE DATA 
+- (void) setLogin:(BOOL)isLogin;
+- (BOOL) isLogin;
+
+- (void) setLoginType:(int)loginType;
+- (int) getLoginType;
+
+- (NSString*) getProfileImageURL;
+- (void) setProfileImageURL:(NSString*)url;
+
 @end

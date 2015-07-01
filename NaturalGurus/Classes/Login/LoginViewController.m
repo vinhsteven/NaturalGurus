@@ -94,8 +94,7 @@
 
 //skip this step
 - (IBAction) skipStep:(id)sender {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:IS_LOGIN];
+    [[ToolClass instance] setLogin:NO];
     
     LeftSideViewController *leftViewController = [[LeftSideViewController alloc] init];
     leftViewController.parent = self;
@@ -161,6 +160,7 @@
             break;
         case kNaturalButton:
         {
+            [[ToolClass instance] setLoginType:LOGIN_EMAIL];
             [self loginSuccess];
         }
             break;
@@ -170,8 +170,7 @@
 }
 
 - (void) loginSuccess {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:[NSNumber numberWithBool:YES] forKey:IS_LOGIN];
+    [[ToolClass instance] setLogin:YES];
     
     LeftSideViewController *leftViewController = [[LeftSideViewController alloc] initWithNibName:@"LeftSideViewController" bundle:nil];
     
