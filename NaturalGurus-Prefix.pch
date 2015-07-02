@@ -69,3 +69,15 @@ enum {
     LOGIN_FACEBOOK,
     LOGIN_TWITTER
 };
+
+enum {
+    isAdmin = 1,
+    isExpert,
+    isUser
+};
+
+#define USER_FIRSTNAME   @"userFirstName"
+#define USER_LASTNAME    @"userLastName"
+#define USER_ROLE        @"userRole"
+#define USER_TOKEN       @"userToken"
+#define USER_EMAIL       @"userEmail"

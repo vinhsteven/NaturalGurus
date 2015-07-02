@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "SignUpViewController.h"
+#import "LoginViewController.h"
+#import "LeftSideViewController.h"
 
 @interface ToolClass : NSObject 
 + (ToolClass *) instance;
@@ -34,7 +36,20 @@
 - (NSString*) getProfileImageURL;
 - (void) setProfileImageURL:(NSString*)url;
 
+- (void) setUserFirstName:(NSString*)firstName;
+- (NSString*) getUserFirstName;
+
+- (void) setUserLastName:(NSString*)firstName;
+- (NSString*) getUserLastName;
+
+- (void) setUserRole:(int)roleId;
+- (int) getUserRole;
+
+- (void) setUserToken:(NSString*)token;
+- (NSString*) getUserToken;
+
 #pragma mark HANDLE CONNECT TO GET DATA
 - (void) registerAccount:(NSDictionary*)params withViewController:(SignUpViewController*)viewController;
+- (void) signIn:(NSDictionary*)params withViewController:(id)viewController;
 
 @end

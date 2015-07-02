@@ -214,18 +214,31 @@
         }
         case kNaturalButton:
         {
-            [[ToolClass instance] setLoginType:LOGIN_EMAIL];
-            [self loginSuccess];
-        }
+            if ([self.txtEmail.text isEqualToString:@""]) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Email Required" message:@"Please input your email" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+                return;
+            }
+            
+            if ([self.txtPassword.text isEqualToString:@""]) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Password Required" message:@"Please input your password" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+                return;
+            }
+            
+            //connect webservice to sign in
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.txtEmail.text,@"email",self.txtPassword.text,@"password", nil];
+            
+            [[ToolClass instance] signIn:params withViewController:self];
+        
             break;
+        }
         default:
             break;
     }
 }
 
-- (void) loginSuccess {
-    [[ToolClass instance] setLogin:YES];
-    
+- (void) loginSuccess {    
     LeftSideViewController *leftViewController = [[LeftSideViewController alloc] initWithNibName:@"LeftSideViewController" bundle:nil];
     
     centerViewController = [[BrowseViewController alloc] initWithNibName:@"BrowseViewController" bundle:nil];
@@ -287,7 +300,7 @@
         [self.txtPassword becomeFirstResponder];
     else {
         [textField resignFirstResponder];
-        [self loginButtonTapped:nil];
+        [self loginButtonTapped:self.btnSignIn];
     }
     return YES;
 }

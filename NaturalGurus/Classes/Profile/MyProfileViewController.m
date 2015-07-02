@@ -110,6 +110,12 @@
     originalPoint = self.view.center;
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+    self.txtFirstName.text  = [[ToolClass instance] getUserFirstName];
+    self.txtLastName.text   = [[ToolClass instance] getUserLastName];
+    self.txtEmail.text
+}
+
 - (void) addNavigationBottomLine {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 44, screenSize.width, 1)];
     view.backgroundColor = LIGHT_GREY_COLOR;

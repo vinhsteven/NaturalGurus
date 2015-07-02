@@ -303,7 +303,22 @@
             break;
         case kNaturalButton:
         {
-            [self loginSuccess];
+            if ([self.txtEmail.text isEqualToString:@""]) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Email Required" message:@"Please input your email" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+                return;
+            }
+            
+            if ([self.txtPassword.text isEqualToString:@""]) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Password Required" message:@"Please input your password" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+                return;
+            }
+            
+            //connect webservice to sign in
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.txtEmail.text,@"email",self.txtPassword.text,@"password", nil];
+            
+            [[ToolClass instance] signIn:params withViewController:self];
         }
             break;
         default:
@@ -322,7 +337,8 @@
 
 - (IBAction) createAccount:(id)sender {
     SignUpViewController *controller = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
-    [((LoginViewController*)parent).drawerController.navigationController presentViewController:controller animated:YES completion:nil];
+//    [((LoginViewController*)parent).drawerController.navigationController presentViewController:controller animated:YES completion:nil];
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 - (IBAction) handleForgotPassword:(id)sender {
@@ -336,7 +352,7 @@
         [self.txtPassword becomeFirstResponder];
     else {
         [textField resignFirstResponder];
-        [self loginButtonTapped:nil];
+        [self loginButtonTapped:self.btnSignIn];
     }
     return YES;
 }
