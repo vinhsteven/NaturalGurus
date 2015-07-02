@@ -13,6 +13,30 @@
 		B00F66F41B380BF400521850 /* AvailabilityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B00F66F21B380BF400521850 /* AvailabilityViewController.m */; };
 		B00F66F51B380BF400521850 /* AvailabilityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B00F66F31B380BF400521850 /* AvailabilityViewController.xib */; };
 		B06B7B3D1B411DE20030608F /* UIView+Borders.m in Sources */ = {isa = PBXBuildFile; fileRef = B06B7B3C1B411DE20030608F /* UIView+Borders.m */; };
+		B0C3F46C1B45287E001F44B9 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = B0C3F46B1B45287E001F44B9 /* MBProgressHUD.m */; };
+		B0C3F46E1B45288B001F44B9 /* btnEndCall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C3F46D1B45288B001F44B9 /* btnEndCall@2x.png */; };
+		B0C3F4701B4528A4001F44B9 /* OpenTok.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C3F46F1B4528A4001F44B9 /* OpenTok.framework */; };
+		B0C3F4721B4528EC001F44B9 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C3F4711B4528EC001F44B9 /* AudioToolbox.framework */; };
+		B0C3F4741B4528F4001F44B9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C3F4731B4528F4001F44B9 /* AVFoundation.framework */; };
+		B0C3F4761B4528FD001F44B9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C3F4751B4528FD001F44B9 /* CoreGraphics.framework */; };
+		B0C3F4781B452903001F44B9 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C3F4771B452903001F44B9 /* CoreMedia.framework */; };
+		B0C3F47A1B45290A001F44B9 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C3F4791B45290A001F44B9 /* CoreTelephony.framework */; };
+		B0C3F47C1B452912001F44B9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C3F47B1B452912001F44B9 /* CoreVideo.framework */; };
+		B0C3F47E1B452919001F44B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C3F47D1B452919001F44B9 /* Foundation.framework */; };
+		B0C3F4801B452920001F44B9 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C3F47F1B452920001F44B9 /* GLKit.framework */; };
+		B0C3F4821B45292A001F44B9 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C3F4811B45292A001F44B9 /* libc++.dylib */; };
+		B0C3F4841B452930001F44B9 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C3F4831B452930001F44B9 /* libsqlite3.dylib */; };
+		B0C3F4861B452937001F44B9 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C3F4851B452937001F44B9 /* OpenGLES.framework */; };
+		B0C3F4881B452948001F44B9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C3F4871B452947001F44B9 /* UIKit.framework */; };
+		B0C3F48A1B452950001F44B9 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C3F4891B452950001F44B9 /* VideoToolbox.framework */; };
+		B0C3F4901B452C04001F44B9 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C3F48C1B452C04001F44B9 /* Fabric.framework */; };
+		B0C3F4911B452C04001F44B9 /* TwitterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C3F48D1B452C04001F44B9 /* TwitterKit.framework */; };
+		B0C3F4921B452C04001F44B9 /* TwitterKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B0C3F48E1B452C04001F44B9 /* TwitterKitResources.bundle */; };
+		B0C3F4931B452C04001F44B9 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C3F48F1B452C04001F44B9 /* TwitterCore.framework */; };
+		B0C3F4B31B452E12001F44B9 /* StreamingVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0C3F4B21B452E12001F44B9 /* StreamingVideoViewController.m */; };
+		B0C3F4B41B4530CA001F44B9 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C3F48C1B452C04001F44B9 /* Fabric.framework */; };
+		B0C3F4B51B4530CD001F44B9 /* TwitterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C3F48D1B452C04001F44B9 /* TwitterKit.framework */; };
+		B0C3F4B61B4530D1001F44B9 /* TwitterKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B0C3F48E1B452C04001F44B9 /* TwitterKitResources.bundle */; };
 		B0C9A4A31B422ECF00F74FCD /* btnClose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C9A4A21B422ECF00F74FCD /* btnClose@2x.png */; };
 		B0C9A4B91B42802200F74FCD /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C9A4B11B42802200F74FCD /* FacebookSDK.framework */; };
 		B0C9A4BA1B42802200F74FCD /* FacebookSDKStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B0C9A4B21B42802200F74FCD /* FacebookSDKStrings.bundle */; };
@@ -156,6 +180,29 @@
 		B00F66F31B380BF400521850 /* AvailabilityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AvailabilityViewController.xib; sourceTree = "<group>"; };
 		B06B7B3B1B411DE20030608F /* UIView+Borders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Borders.h"; sourceTree = "<group>"; };
 		B06B7B3C1B411DE20030608F /* UIView+Borders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Borders.m"; sourceTree = "<group>"; };
+		B0C3F46A1B45287E001F44B9 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		B0C3F46B1B45287E001F44B9 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		B0C3F46D1B45288B001F44B9 /* btnEndCall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btnEndCall@2x.png"; sourceTree = "<group>"; };
+		B0C3F46F1B4528A4001F44B9 /* OpenTok.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenTok.framework; path = ../../OpenTok.framework; sourceTree = "<group>"; };
+		B0C3F4711B4528EC001F44B9 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		B0C3F4731B4528F4001F44B9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		B0C3F4751B4528FD001F44B9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		B0C3F4771B452903001F44B9 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		B0C3F4791B45290A001F44B9 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		B0C3F47B1B452912001F44B9 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		B0C3F47D1B452919001F44B9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		B0C3F47F1B452920001F44B9 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		B0C3F4811B45292A001F44B9 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		B0C3F4831B452930001F44B9 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		B0C3F4851B452937001F44B9 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		B0C3F4871B452947001F44B9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		B0C3F4891B452950001F44B9 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		B0C3F48C1B452C04001F44B9 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		B0C3F48D1B452C04001F44B9 /* TwitterKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterKit.framework; sourceTree = "<group>"; };
+		B0C3F48E1B452C04001F44B9 /* TwitterKitResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TwitterKitResources.bundle; path = TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle; sourceTree = "<group>"; };
+		B0C3F48F1B452C04001F44B9 /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterCore.framework; sourceTree = "<group>"; };
+		B0C3F4B11B452E12001F44B9 /* StreamingVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamingVideoViewController.h; sourceTree = "<group>"; };
+		B0C3F4B21B452E12001F44B9 /* StreamingVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StreamingVideoViewController.m; sourceTree = "<group>"; };
 		B0C9A4A21B422ECF00F74FCD /* btnClose@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btnClose@2x.png"; sourceTree = "<group>"; };
 		B0C9A4B11B42802200F74FCD /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		B0C9A4B21B42802200F74FCD /* FacebookSDKStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FacebookSDKStrings.bundle; sourceTree = "<group>"; };
@@ -342,6 +389,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0C3F48A1B452950001F44B9 /* VideoToolbox.framework in Frameworks */,
+				B0C3F4881B452948001F44B9 /* UIKit.framework in Frameworks */,
+				B0C3F4861B452937001F44B9 /* OpenGLES.framework in Frameworks */,
+				B0C3F4841B452930001F44B9 /* libsqlite3.dylib in Frameworks */,
+				B0C3F4821B45292A001F44B9 /* libc++.dylib in Frameworks */,
+				B0C3F4801B452920001F44B9 /* GLKit.framework in Frameworks */,
+				B0C3F47E1B452919001F44B9 /* Foundation.framework in Frameworks */,
+				B0C3F47C1B452912001F44B9 /* CoreVideo.framework in Frameworks */,
+				B0C3F47A1B45290A001F44B9 /* CoreTelephony.framework in Frameworks */,
+				B0C3F4781B452903001F44B9 /* CoreMedia.framework in Frameworks */,
+				B0C3F4761B4528FD001F44B9 /* CoreGraphics.framework in Frameworks */,
+				B0C3F4911B452C04001F44B9 /* TwitterKit.framework in Frameworks */,
+				B0C3F4741B4528F4001F44B9 /* AVFoundation.framework in Frameworks */,
+				B0C3F4721B4528EC001F44B9 /* AudioToolbox.framework in Frameworks */,
 				B0D21C241B438F8800D703B0 /* QuartzCore.framework in Frameworks */,
 				B0D21C021B43843F00D703B0 /* Security.framework in Frameworks */,
 				B0D21C001B43843000D703B0 /* SystemConfiguration.framework in Frameworks */,
@@ -350,10 +411,13 @@
 				B0C9A4C51B42807500F74FCD /* CoreMotion.framework in Frameworks */,
 				B0C9A4C31B42805A00F74FCD /* StoreKit.framework in Frameworks */,
 				B0C9A4C11B42804900F74FCD /* CFNetwork.framework in Frameworks */,
+				B0C3F4901B452C04001F44B9 /* Fabric.framework in Frameworks */,
 				B0C9A4BB1B42802200F74FCD /* FBAudienceNetwork.framework in Frameworks */,
 				B0C9A4BC1B42802200F74FCD /* FBSDKCoreKit.framework in Frameworks */,
 				B0C9A4BD1B42802200F74FCD /* FBSDKLoginKit.framework in Frameworks */,
+				B0C3F4931B452C04001F44B9 /* TwitterCore.framework in Frameworks */,
 				B0C9A4BF1B42802200F74FCD /* FBSDKShareKit.framework in Frameworks */,
+				B0C3F4701B4528A4001F44B9 /* OpenTok.framework in Frameworks */,
 				B0C9A4BE1B42802200F74FCD /* FBSDKMessengerShareKit.framework in Frameworks */,
 				B0C9A4B91B42802200F74FCD /* FacebookSDK.framework in Frameworks */,
 			);
@@ -364,6 +428,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B0C9A4C81B42819A00F74FCD /* FacebookSDK.framework in Frameworks */,
+				B0C3F4B41B4530CA001F44B9 /* Fabric.framework in Frameworks */,
+				B0C3F4B51B4530CD001F44B9 /* TwitterKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,6 +505,24 @@
 		C21A949D1B26E12B00698B01 = {
 			isa = PBXGroup;
 			children = (
+				B0C3F48C1B452C04001F44B9 /* Fabric.framework */,
+				B0C3F48D1B452C04001F44B9 /* TwitterKit.framework */,
+				B0C3F48E1B452C04001F44B9 /* TwitterKitResources.bundle */,
+				B0C3F48F1B452C04001F44B9 /* TwitterCore.framework */,
+				B0C3F4891B452950001F44B9 /* VideoToolbox.framework */,
+				B0C3F4871B452947001F44B9 /* UIKit.framework */,
+				B0C3F4851B452937001F44B9 /* OpenGLES.framework */,
+				B0C3F4831B452930001F44B9 /* libsqlite3.dylib */,
+				B0C3F4811B45292A001F44B9 /* libc++.dylib */,
+				B0C3F47F1B452920001F44B9 /* GLKit.framework */,
+				B0C3F47D1B452919001F44B9 /* Foundation.framework */,
+				B0C3F47B1B452912001F44B9 /* CoreVideo.framework */,
+				B0C3F4791B45290A001F44B9 /* CoreTelephony.framework */,
+				B0C3F4771B452903001F44B9 /* CoreMedia.framework */,
+				B0C3F4751B4528FD001F44B9 /* CoreGraphics.framework */,
+				B0C3F4731B4528F4001F44B9 /* AVFoundation.framework */,
+				B0C3F4711B4528EC001F44B9 /* AudioToolbox.framework */,
+				B0C3F46F1B4528A4001F44B9 /* OpenTok.framework */,
 				B0D21C231B438F8800D703B0 /* QuartzCore.framework */,
 				B0D21C011B43843F00D703B0 /* Security.framework */,
 				B0D21BFF1B43843000D703B0 /* SystemConfiguration.framework */,
@@ -540,6 +624,7 @@
 		C2A5E3C01B27FACB000F7F29 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B0C3F46D1B45288B001F44B9 /* btnEndCall@2x.png */,
 				B0C9A4A21B422ECF00F74FCD /* btnClose@2x.png */,
 				B00F66ED1B380BA400521850 /* bgAvailability_1@2x.png */,
 				B00F66EE1B380BA400521850 /* bgAvailability_0@2x.png */,
@@ -694,6 +779,8 @@
 		C2F740C01B2A742300C8635F /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				B0C3F46A1B45287E001F44B9 /* MBProgressHUD.h */,
+				B0C3F46B1B45287E001F44B9 /* MBProgressHUD.m */,
 				B06B7B3B1B411DE20030608F /* UIView+Borders.h */,
 				B06B7B3C1B411DE20030608F /* UIView+Borders.m */,
 				C2E4C30C1B34405B000DF6BF /* TTTAttributedLabel.h */,
@@ -713,6 +800,8 @@
 		C2F740C41B2A748C00C8635F /* Browse */ = {
 			isa = PBXGroup;
 			children = (
+				B0C3F4B11B452E12001F44B9 /* StreamingVideoViewController.h */,
+				B0C3F4B21B452E12001F44B9 /* StreamingVideoViewController.m */,
 				C2F740C51B2A748C00C8635F /* BrowseViewController.h */,
 				C2F740C61B2A748C00C8635F /* BrowseViewController.m */,
 				C2F740C71B2A748C00C8635F /* BrowseViewController.xib */,
@@ -742,6 +831,7 @@
 				C21A94A21B26E12B00698B01 /* Sources */,
 				C21A94A31B26E12B00698B01 /* Frameworks */,
 				C21A94A41B26E12B00698B01 /* Resources */,
+				B0C3F48B1B452BE9001F44B9 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -831,6 +921,7 @@
 				C2BA2F161B2C291200811E56 /* star.png in Resources */,
 				B00F66EF1B380BA400521850 /* bgAvailability_1@2x.png in Resources */,
 				C22633C91B328FFF00CB368D /* Montserrat-Regular.ttf in Resources */,
+				B0C3F46E1B45288B001F44B9 /* btnEndCall@2x.png in Resources */,
 				C2FD42191B33C080002F2D2C /* btnSorting@2x.png in Resources */,
 				C22633C81B328FFF00CB368D /* Montserrat-Bold.ttf in Resources */,
 				C21391FE1B36B19200A2A1B5 /* btnSave@2x.png in Resources */,
@@ -869,6 +960,7 @@
 				C21392001B36B6AE00A2A1B5 /* LeftSideViewController.xib in Resources */,
 				C2ED33AD1B302D2E0032F885 /* MyProfileViewController.xib in Resources */,
 				C2195B031B2EC8AF005733EB /* ScheduleAppointmentViewController.xib in Resources */,
+				B0C3F4921B452C04001F44B9 /* TwitterKitResources.bundle in Resources */,
 				C2ED33A31B30173A0032F885 /* btnExpand@2x.png in Resources */,
 				C246389A1B317213002A4820 /* loginBackground@2x.png in Resources */,
 				C2FD42171B33B65C002F2D2C /* category_5@2x.png in Resources */,
@@ -879,10 +971,27 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0C3F4B61B4530D1001F44B9 /* TwitterKitResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B0C3F48B1B452BE9001F44B9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 61814f1bcaf9a302d372388a75ad8af9486c503d 0aaae3877584a916e48c10d7b522c121157ee49e0804afe021510bc3384cb5f1";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C21A94A21B26E12B00698B01 /* Sources */ = {
@@ -894,6 +1003,7 @@
 				C2195B011B2EC887005733EB /* ScheduleAppointmentViewController.m in Sources */,
 				B0CD2E441B3901CF00764216 /* LoginViewController.m in Sources */,
 				C2F462AA1B283233005C5418 /* MMExampleDrawerVisualStateManager.m in Sources */,
+				B0C3F4B31B452E12001F44B9 /* StreamingVideoViewController.m in Sources */,
 				C2F740B71B2A71D300C8635F /* SDWebImagePrefetcher.m in Sources */,
 				C2F740B61B2A71D300C8635F /* SDWebImageManager.m in Sources */,
 				B0CD2E4E1B39224A00764216 /* ForgotPasswordViewController.m in Sources */,
@@ -913,6 +1023,7 @@
 				C2F740CF1B2A748C00C8635F /* LeftSideViewController.m in Sources */,
 				C2ED339E1B2FD0240032F885 /* DetailAppointmentViewController.m in Sources */,
 				C2F740B21B2A71D300C8635F /* SDWebImageCompat.m in Sources */,
+				B0C3F46C1B45287E001F44B9 /* MBProgressHUD.m in Sources */,
 				B0D21C171B43849300D703B0 /* AFHTTPRequestOperation.m in Sources */,
 				C2F462A81B283233005C5418 /* MMDrawerController.m in Sources */,
 				C2F740B31B2A71D300C8635F /* SDWebImageDecoder.m in Sources */,
@@ -1011,6 +1122,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/NaturalGurus/Libraries/FacebookSDK",
+					"$(PROJECT_DIR)",
+					/Users/steven/Desktop/MyProject/NaturalGuruProject,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NaturalGurus-Prefix.pch";
@@ -1031,6 +1144,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(PROJECT_DIR)/NaturalGurus/Libraries/FacebookSDK",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = NaturalGurusTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1133,6 +1247,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/NaturalGurus/Libraries/FacebookSDK",
+					"$(PROJECT_DIR)",
+					/Users/steven/Desktop/MyProject/NaturalGuruProject,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NaturalGurus-Prefix.pch";
@@ -1153,6 +1269,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/NaturalGurus/Libraries/FacebookSDK",
+					"$(PROJECT_DIR)",
+					/Users/steven/Desktop/MyProject/NaturalGuruProject,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NaturalGurus-Prefix.pch";
@@ -1173,6 +1291,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(PROJECT_DIR)/NaturalGurus/Libraries/FacebookSDK",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1193,6 +1312,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(PROJECT_DIR)/NaturalGurus/Libraries/FacebookSDK",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = NaturalGurusTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

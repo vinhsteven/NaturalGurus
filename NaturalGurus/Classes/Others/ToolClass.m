@@ -409,5 +409,47 @@
     }
 }
 
+#pragma mark HANDLE CONNECT TO GET DATA
+- (void) registerAccount:(NSDictionary*)params withViewController:(SignUpViewController*)viewController {
+    [MBProgressHUD showHUDAddedTo:viewController.navigationController.view animated:YES];
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+//    NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:self.txtFirstname.text,@"firstname",self.txtLastname.text,@"lastname",self.txtEmail.text,@"email",self.txtPassword.text,@"password", nil];
+    
+    [manager POST:@"/api/v1/register" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        //hide hud progress
+        [MBProgressHUD hideHUDForView:viewController.navigationController.view animated:YES];
+        // 3
+        NSLog(@"response: %@",(NSDictionary*)responseObject);
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        
+        if (status == 500) {
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:[responseObject objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+        }
+        else if (status == 200){
+            BOOL isSuccess = [[[responseObject objectForKey:@"data"] objectForKey:@"register_success"] boolValue];
+            if (isSuccess) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Account Created" message:@"Your account has been created successfully" delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [MBProgressHUD hideHUDForView:viewController.navigationController.view animated:YES];
+        
+        // 4
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Ok"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
+}
 
 @end

@@ -25,16 +25,35 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb1530797753842771</string>
+				<string>fb768347636614673</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>61814f1bcaf9a302d372388a75ad8af9486c503d</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict>
+					<key>consumerKey</key>
+					<string>WPwqZBSMwk4niDhJkqrLpPgAZ</string>
+					<key>consumerSecret</key>
+					<string>2oAQM1HF8zzvfwxfM4CGzz5kb4aT1yOgnKyZ30NNmMEx8izZAx</string>
+				</dict>
+				<key>KitName</key>
+				<string>Twitter</string>
+			</dict>
+		</array>
+	</dict>
 	<key>FacebookAppID</key>
-	<string>1530797753842771</string>
+	<string>768347636614673</string>
 	<key>FacebookAppSecret</key>
-	<string>c7f9464678f95c548101a46b87a88137</string>
+	<string>8bf24d818ce2bd063190f3d2a3092e92</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>
@@ -48,13 +67,13 @@
 	</array>
 	<key>UIStatusBarHidden</key>
 	<false/>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleDefault</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>

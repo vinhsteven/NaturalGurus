@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SignUpViewController.h"
 
 @interface ToolClass : NSObject 
 + (ToolClass *) instance;
@@ -32,5 +33,8 @@
 
 - (NSString*) getProfileImageURL;
 - (void) setProfileImageURL:(NSString*)url;
+
+#pragma mark HANDLE CONNECT TO GET DATA
+- (void) registerAccount:(NSDictionary*)params withViewController:(SignUpViewController*)viewController;
 
 @end

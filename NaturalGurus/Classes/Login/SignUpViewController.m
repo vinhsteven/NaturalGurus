@@ -160,8 +160,39 @@
 }
 
 - (IBAction) handleConfirmCreateAccount:(id)sender {
-    UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Account Created" message:@"Your account has been created successfully" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [dialog show];
+    if ([self.txtFirstname.text isEqualToString:@""]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please input your first name" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    
+    if ([self.txtLastname.text isEqualToString:@""]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please input your last name" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    
+    if ([self.txtEmail.text isEqualToString:@""]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please input your email" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    
+    if ([self.txtPassword.text isEqualToString:@""]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please input your password" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    
+    if (![self.txtConfirmPassword.text isEqualToString:self.txtPassword.text]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Password doesn't match. Please try again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    
+    //connect server to call webservice for registering
+    NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:self.txtFirstname.text,@"firstname",self.txtLastname.text,@"lastname",self.txtEmail.text,@"email",self.txtPassword.text,@"password", nil];
+    [[ToolClass instance] registerAccount:parameters withViewController:self];
 }
 
 - (void) handleSingleTap:(UITapGestureRecognizer*)recognizer {
@@ -214,6 +245,8 @@
             self.mainScrollView.contentSize = CGSizeMake(self.mainScrollView.frame.size.width, screenSize.height);
         [self.mainScrollView setContentOffset:CGPointMake(self.mainScrollView.contentOffset.x, -44) animated:YES];
         
+        //handle register account
+        [self handleConfirmCreateAccount:nil];
     }
     return YES;
 }

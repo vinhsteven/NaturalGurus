@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "LoginViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import <Fabric/Fabric.h>
+#import <TwitterKit/TwitterKit.h>
 
 @interface UINavigationController (Rotation_For_iOS6)
 @end

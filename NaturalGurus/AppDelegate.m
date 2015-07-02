@@ -162,6 +162,9 @@
                                       }];
     }
     
+    //init Twitter
+    [Fabric with:@[TwitterKit]];
+    
     [self.window makeKeyAndVisible];
     
     return YES;

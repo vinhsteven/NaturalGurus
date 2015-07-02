@@ -145,6 +145,7 @@
                         </textField>
                         <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rbx-5s-uLh">
                             <rect key="frame" x="202" y="285" width="197" height="30"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="BZV-mz-cRm"/>
                                 <constraint firstAttribute="width" constant="360" id="OQQ-UQ-H1H">
@@ -168,6 +169,9 @@
                                     <exclude reference="OQQ-UQ-H1H"/>
                                 </mask>
                             </variation>
+                            <connections>
+                                <action selector="loginButtonTapped:" destination="-1" eventType="touchUpInside" id="xyc-Ha-Rup"/>
+                            </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qnh-nS-QBa">
                             <rect key="frame" x="0.0" y="-21" width="42" height="21"/>

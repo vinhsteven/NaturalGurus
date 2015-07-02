@@ -7,6 +7,12 @@
 //
 
 #import "DetailAppointmentViewController.h"
+#import "StreamingVideoViewController.h"
+
+enum {
+    kEnterRoomDialog = 1,
+    kCancelAppointmentDialog
+};
 
 @interface DetailAppointmentViewController ()
 
@@ -137,12 +143,25 @@
 
 - (IBAction) handleEnterRoom:(id)sender {
     UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Enter Appointment" message:@"You are about to enter the meeting room." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",@"Cancel", nil];
+    dialog.tag = kEnterRoomDialog;
     [dialog show];
 }
 
 - (IBAction) handleCancelAppointment:(id)sender {
     UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Important" message:@"Cancellation will incur a 10% penalty fee." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",@"Cancel", nil];
+    dialog.tag = kCancelAppointmentDialog;
     [dialog show];
+}
+
+#pragma mark UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == kEnterRoomDialog) {
+        if (buttonIndex == 0) {
+            //ok enter meeting room
+            StreamingVideoViewController *controller = [[StreamingVideoViewController alloc] init];
+            [self presentViewController:controller animated:YES completion:nil];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {
