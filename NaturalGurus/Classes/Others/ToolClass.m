@@ -677,4 +677,38 @@
     }];
 }
 
+- (void) loadCategoriesWithViewController:(BrowseViewController*)viewController {
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager GET:@"/api/v1/categories" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        // 3
+        NSLog(@"response: %@",(NSDictionary*)responseObject);
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        
+        if (status == 200) {
+            NSArray *categoryArray = [[responseObject objectForKey:@"data"] objectForKey:@"categories"];
+            [viewController reorganizeCategoryArray:categoryArray];
+        }
+        else if (status == 401){
+            //            NSString *message = [responseObject objectForKey:@"message"];
+            //            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            //            [dialog show];
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        // 4
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+//                                                            message:[error localizedDescription]
+//                                                           delegate:nil
+//                                                  cancelButtonTitle:@"Ok"
+//                                                  otherButtonTitles:nil];
+//        [alertView show];
+    }];
+}
+
 @end

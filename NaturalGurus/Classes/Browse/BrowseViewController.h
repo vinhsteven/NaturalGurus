@@ -49,6 +49,7 @@
 - (IBAction) handleSorting:(id)sender;
 
 - (void) reorganizeExpertArray:(NSArray*)array;
+- (void) reorganizeCategoryArray:(NSArray*)array;
 
 @end
 

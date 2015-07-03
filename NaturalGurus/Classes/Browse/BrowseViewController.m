@@ -100,26 +100,13 @@
     //init category array
     categoryArray = [NSMutableArray arrayWithCapacity:1];
     
-    NSString *categoryTitle[] = {
-        @"WEIGHT LOSS",
-        @"DETOX PLANS",
-        @"SPIRITUAL",
-        @"AROMATHERAPY",
-        @"GENERAL HEALTH",
-        @"DIET & LIFESTYLE"
-    };
-    
-    for (int i=0;i < sizeof(categoryTitle)/sizeof(categoryTitle[0]);i++) {
-        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:categoryTitle[i],@"categoryTitle",[NSString stringWithFormat:@"category_%d",i],@"categoryImage", nil];
-        [categoryArray addObject:dict];
-    }
-    
     //init filter array
     filterArray = [NSMutableArray arrayWithObjects:@"Available now (live)",@"Free sessions", nil];
     sortArray   = [NSMutableArray arrayWithObjects:@"Price (highest to lowest)",@"Experience (highest to lowest)", nil];
     
     isLoading = NO;
     [self reloadTheLatestExpert];
+    [self performSelectorInBackground:@selector(loadCategories) withObject:nil];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -156,10 +143,19 @@
                             }];
 }
 
+- (void) loadCategories {
+    [[ToolClass instance] loadCategoriesWithViewController:self];
+}
+
 - (void) handleRefresh {
-    [self.mainTableView.refreshControl endRefreshing];
-    [self reloadTheLatestExpert];
-    [self.mainTableView reloadData];
+    if (!isSelectCategory) {
+        [self.mainTableView.refreshControl endRefreshing];
+        [self reloadTheLatestExpert];
+        [self.mainTableView reloadData];
+    }
+    else {
+        [self.mainTableView.refreshControl endRefreshing];
+    }
 }
 
 - (void) reloadTheLatestExpert {
@@ -222,13 +218,48 @@
     }
 }
 
+- (void) reorganizeCategoryArray:(NSArray*)array {
+    for (int i=0;i < [array count];i++) {
+        NSDictionary *dict = [array objectAtIndex:i];
+        
+        int categoryId = [[dict objectForKey:@"id"] intValue];
+        NSString *name = [dict objectForKey:@"name"];
+        NSString *thumbnail = [dict objectForKey:@"thumbnail"];
+        
+        //add %20 if there are some space in link
+        thumbnail = [thumbnail stringByReplacingOccurrencesOfString:@" " withString:@"\%20"];
+        
+        NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:categoryId],@"categoryId",name,@"categoryTitle",thumbnail,@"categoryImage", nil];
+        [categoryArray addObject:tmpDict];
+        
+        //write image to file
+        UIImageView *addView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, screenSize.width, CATEGORY_IMAGE_HEIGHT)];
+        
+        UIImageView *se = addView;
+        
+        [addView sd_setImageWithURL:[NSURL URLWithString:thumbnail]
+                   placeholderImage:[UIImage imageNamed:NSLocalizedString(@"image_loading_placeholder", nil)]
+                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType,NSURL *url) {
+                              
+                              se.image = [[ToolClass instance] imageByScalingAndCroppingForSize:CGSizeMake(screenSize.width, CATEGORY_IMAGE_HEIGHT) source:image];
+                              NSData *imageData = UIImageJPEGRepresentation(se.image, 1.0);
+                              
+                              NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+                              NSString *documentsDirectory = [paths objectAtIndex:0];
+                              NSString *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory, [NSString stringWithFormat:@"category_%d.jpg",categoryId]];
+                              
+                              [imageData writeToFile:filePath atomically:YES];
+                          }];
+    }
+}
+
 -(void) scrollViewDidScroll:(UIScrollView *)scrollView {
     
     // Check if we are at the bottom of the table
     // This will load more experts
     if (self.mainTableView.contentOffset.y >= (self.mainTableView.contentSize.height - self.mainTableView.bounds.size.height))
     {
-        if (!isLoading && currentPage < lastPage) {
+        if (!isLoading && currentPage < lastPage && !isSelectCategory) {
             NSLog(@"load more");
             [self loadTheLastestExpert];
         }
@@ -328,13 +359,8 @@
         [bgView addSubview:lbServiceName];
         
         //add description
-        
-//        NSString * htmlString = [dict objectForKey:@"description"];
-//        NSAttributedString * attrStr = [[NSAttributedString alloc] initWithData:[htmlString dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
-        
         UILabel *lbDescription = [[UILabel alloc] initWithFrame:CGRectMake(95, 55, bgView.frame.size.width-100, 60)];
         lbDescription.backgroundColor = [UIColor clearColor];
-//        lbDescription.text = [dict objectForKey:@"description"];
         lbDescription.attributedText = [dict objectForKey:@"description"];
         lbDescription.textColor = [UIColor darkGrayColor];
         lbDescription.font = [UIFont fontWithName:DEFAULT_FONT size:11];
@@ -382,8 +408,16 @@
     else {
         NSDictionary *dict = [categoryArray objectAtIndex:indexPath.row];
         
-        UIImageView *bgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, screenSize.width, 79)];
-        [bgView setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@",[dict objectForKey:@"categoryImage"]]]];
+        int categoryId = [[dict objectForKey:@"categoryId"] intValue];
+        
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory, [NSString stringWithFormat:@"category_%d.jpg",categoryId]];
+        
+        UIImage *categoryImage = [UIImage imageWithContentsOfFile:filePath];
+        
+        UIImageView *bgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, screenSize.width, CATEGORY_IMAGE_HEIGHT)];
+        [bgView setImage:categoryImage];
         [cell.contentView addSubview:bgView];
         
         //add black translucent view

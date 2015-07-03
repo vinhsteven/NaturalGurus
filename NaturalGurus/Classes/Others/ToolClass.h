@@ -59,5 +59,6 @@
 - (void) requestResetPassword:(NSDictionary*)params withViewController:(ForgotPasswordViewController*)viewController;
 
 - (void) loadTheLatestExperts:(int)_pageIndex withViewController:(BrowseViewController*)viewController;
+- (void) loadCategoriesWithViewController:(BrowseViewController*)viewController;
 
 @end
