@@ -11,6 +11,7 @@
 #import "LoginViewController.h"
 #import "LeftSideViewController.h"
 #import "ForgotPasswordViewController.h"
+#import "BrowseViewController.h"
 
 @interface ToolClass : NSObject 
 + (ToolClass *) instance;
@@ -56,5 +57,7 @@
 - (void) registerAccount:(NSDictionary*)params withViewController:(SignUpViewController*)viewController;
 - (void) signIn:(NSDictionary*)params withViewController:(id)viewController;
 - (void) requestResetPassword:(NSDictionary*)params withViewController:(ForgotPasswordViewController*)viewController;
+
+- (void) loadTheLatestExperts:(int)_pageIndex withViewController:(BrowseViewController*)viewController;
 
 @end

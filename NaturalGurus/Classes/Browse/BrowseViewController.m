@@ -13,6 +13,9 @@
 #import "DetailBrowseViewController.h"
 
 @implementation BrowseViewController
+@synthesize currentPage;
+@synthesize lastPage;
+@synthesize isLoading;
 
 - (BOOL)shouldAutorotate {
     return NO;
@@ -94,97 +97,6 @@
     //init expert array data
     expertArray = [NSMutableArray arrayWithCapacity:1];
     
-    NSString *imgUrl[] = {
-        @"https://naturalgurus.com/uploads/users/2015_06_11_08_05_56_Keith%20at%20Homeopathy%20For%20Kidscr.jpeg",
-        @"http://tapchianhdep.com/wp-content/uploads/2015/04/hinh-anh-hoat-hinh-tom-and-jerry-dang-yeu-nhat-1.jpg"
-    };
-    
-    NSString *expertName[] = {
-        @"Keith Avedissian",
-        @"Alan Phan"
-    };
-    
-    NSString *serviceName[] = {
-        @"Herbal remedies advices",
-        @"Chronic disease"
-    };
-    
-    NSString *description[] = {
-        @"Lorem ip dsadvvs hhdshd dsjhdj dsjahdsj dsjhjda dhjahd dajhsdj dasjd ghhdhahd dsaghgdh dahsgd dhagdh ga hdghsadh dhgashdg hfjhsf fskfdsj fsdjfdj fdksjjkf fdksjfjk fds",
-        @"Lorem ip dsadvvs hhdshd dsjhdj dsjahdsj dsjhjda dhjahd dajhsdj dasjd"
-    };
-    
-    NSString *duration[] = {
-        @"$2.80/pm",
-        @"$3.50/pm"
-    };
-    
-    NSString *status[] = {
-        @"1",
-        @"0"
-    };
-    
-    NSString *rating[] = {
-        @"3.0",
-        @"2.5"
-    };
-    
-    //init qualification data, use same data for every expert. In fact, number of qualification array depend on number of experts
-    NSString *qualificationTitle[] = {
-        @"Bachelore of Computer Science",
-        @"Master of Computer Science"
-    };
-    NSString *qualificationYear[] = {
-        @"2004-2009",
-        @"2009-2011"
-    };
-    NSMutableArray *qualificationArray = [NSMutableArray arrayWithCapacity:1];
-    for (int i=0;i < sizeof(qualificationTitle)/sizeof(qualificationTitle[0]);i++) {
-        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:qualificationTitle[i],@"qualificationTitle",qualificationYear[i],@"qualificationYear", nil];
-        [qualificationArray addObject:dict];
-    }
-    //end qualification data
-    
-    //init Quick Stats data
-    NSString *joinedDate[] = {
-        @"May 2015",
-        @"August 2016"
-    };
-    NSString *experience[] = {
-        @"15+ years",
-        @"2+ years"
-    };
-    NSString *level[] = {
-        @"Practitioner",
-        @"Practitioner"
-    };
-    NSString *sessions[] = {
-        @"5",
-        @"8"
-    };
-    NSString *minimumSession[] = {
-        @"30 mins",
-        @"20 mins"
-    };
-    NSString *maximumSession[] = {
-        @"180 mins",
-        @"120 mins"
-    };
-    NSString *association[] = {
-        @"ANTA",
-        @"Incipient Capital"
-    };
-    NSString *accrecditation[] = {
-        @"7564",
-        @"8723"
-    };
-    //end Quick Stats data
-    
-    for (int i=0;i < sizeof(imgUrl)/sizeof(imgUrl[0]);i++) {
-        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:imgUrl[i],@"imageUrl",expertName[i],@"expertName",serviceName[i],@"serviceName",description[i],@"description",duration[i],@"durationPrice",status[i],@"status",rating[i],@"rating",qualificationArray,@"qualificationStats",joinedDate[i],EXPERT_JOINED_DATE,experience[i],EXPERT_EXPERIENCE,level[i],EXPERT_LEVEL,sessions[i],EXPERT_SESSION,minimumSession[i],EXPERT_MIN_SESSION,maximumSession[i],EXPERT_MAX_SESSION,association[i],EXPERT_ASSOCIATION,accrecditation[i],EXPERT_ACCREDITATION, nil];
-        [expertArray addObject:dict];
-    }
-    
     //init category array
     categoryArray = [NSMutableArray arrayWithCapacity:1];
     
@@ -205,6 +117,9 @@
     //init filter array
     filterArray = [NSMutableArray arrayWithObjects:@"Available now (live)",@"Free sessions", nil];
     sortArray   = [NSMutableArray arrayWithObjects:@"Price (highest to lowest)",@"Experience (highest to lowest)", nil];
+    
+    isLoading = NO;
+    [self reloadTheLatestExpert];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -242,9 +157,85 @@
 }
 
 - (void) handleRefresh {
-    NSLog(@"Refresh Table");
     [self.mainTableView.refreshControl endRefreshing];
+    [self reloadTheLatestExpert];
+    [self.mainTableView reloadData];
 }
+
+- (void) reloadTheLatestExpert {
+    currentPage = 1;
+    [expertArray removeAllObjects];
+    [self loadTheLastestExpert];
+}
+
+- (void) loadTheLastestExpert {
+    isLoading = YES;
+    [[ToolClass instance] loadTheLatestExperts:currentPage withViewController:self];
+}
+
+- (void) reorganizeExpertArray:(NSArray*)array {
+    unsigned long startIndex = [expertArray count]-1;
+    unsigned long endIndex   = startIndex + [array count];
+    
+    //reorganize expert array after requesting, and add to current expert array
+    for (int i=0;i < [array count];i++) {
+        NSDictionary *dict = [array objectAtIndex:i];
+        
+        long expertId       = [[dict objectForKey:@"id"] longValue];
+        int rating          = [[dict objectForKey:@"rating"] intValue];
+        NSString *avatar    = [dict objectForKey:@"avatar"];
+        BOOL isOnline       = [[dict objectForKey:@"online"] boolValue];
+        NSString *price     = [dict objectForKey:@"price"];
+        NSString *title     = [dict objectForKey:@"title"];
+        NSString *name      = [dict objectForKey:@"name"];
+        NSString *description   = [dict objectForKey:@"description"];
+        NSString *joinedDate  = [dict objectForKey:@"join_date"];
+        
+        //process html format string in description
+        NSAttributedString * attrStr = [[NSAttributedString alloc] initWithData:[description dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+
+        
+        NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithLong:expertId],@"expertId",avatar,@"imageUrl",name,@"expertName",title,@"serviceName",attrStr,@"description",price,@"durationPrice",[NSNumber numberWithBool:isOnline],@"status",[NSNumber numberWithInt:rating],@"rating",joinedDate,EXPERT_JOINED_DATE, nil];
+        [expertArray addObject:tmpDict];
+    }
+    
+    //hide hud progress
+    [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+    
+    currentPage++;
+    isLoading = NO;
+    
+    if ([expertArray count] == [array count]) {
+        [self.mainTableView reloadData];
+    }
+    else {
+        //show drop down animation effect
+        NSMutableArray* indexPathsToInsert = [NSMutableArray arrayWithCapacity:1];
+        
+        for (unsigned long i=startIndex;i < endIndex;i++) {
+            [indexPathsToInsert addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+        }
+        
+        [self.mainTableView beginUpdates];
+        [self.mainTableView insertRowsAtIndexPaths:indexPathsToInsert withRowAnimation:UITableViewRowAnimationTop];
+        [self.mainTableView endUpdates];
+    }
+}
+
+-(void) scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    // Check if we are at the bottom of the table
+    // This will load more experts
+    if (self.mainTableView.contentOffset.y >= (self.mainTableView.contentSize.height - self.mainTableView.bounds.size.height))
+    {
+        if (!isLoading && currentPage < lastPage) {
+            NSLog(@"load more");
+            [self loadTheLastestExpert];
+        }
+    }
+    
+}
+
 
 #pragma mark UITableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -337,9 +328,14 @@
         [bgView addSubview:lbServiceName];
         
         //add description
+        
+//        NSString * htmlString = [dict objectForKey:@"description"];
+//        NSAttributedString * attrStr = [[NSAttributedString alloc] initWithData:[htmlString dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+        
         UILabel *lbDescription = [[UILabel alloc] initWithFrame:CGRectMake(95, 55, bgView.frame.size.width-100, 60)];
         lbDescription.backgroundColor = [UIColor clearColor];
-        lbDescription.text = [dict objectForKey:@"description"];
+//        lbDescription.text = [dict objectForKey:@"description"];
+        lbDescription.attributedText = [dict objectForKey:@"description"];
         lbDescription.textColor = [UIColor darkGrayColor];
         lbDescription.font = [UIFont fontWithName:DEFAULT_FONT size:11];
         lbDescription.numberOfLines = 3;
@@ -357,7 +353,7 @@
         //add duration
         UILabel *lbDuration = [[UILabel alloc] initWithFrame:CGRectMake(bgView.frame.size.width-75, 3, 65, 20)];
         lbDuration.backgroundColor = [UIColor clearColor];
-        lbDuration.text = [dict objectForKey:@"durationPrice"];
+        lbDuration.text = [NSString stringWithFormat:@"$%@/pm",[dict objectForKey:@"durationPrice"]];
         lbDuration.textColor = [UIColor whiteColor];
         lbDuration.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
         lbDuration.textAlignment = NSTextAlignmentRight;

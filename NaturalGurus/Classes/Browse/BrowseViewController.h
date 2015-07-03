@@ -35,6 +35,9 @@
     NSMutableArray *sortArray;
 }
 
+@property (assign, readwrite) int currentPage;
+@property (assign, readwrite) int lastPage;
+@property (assign, readwrite) BOOL isLoading;
 @property (strong, nonatomic) IBOutlet TableView_RefreshControl *mainTableView;
 @property (strong, nonatomic) IBOutlet UIView *containerView;
 @property (strong, nonatomic) IBOutlet UIButton *btnCategory;
@@ -44,6 +47,8 @@
 - (IBAction) selectCategories:(id)sender;
 - (IBAction) selectExperts:(id)sender;
 - (IBAction) handleSorting:(id)sender;
+
+- (void) reorganizeExpertArray:(NSArray*)array;
 
 @end
 
