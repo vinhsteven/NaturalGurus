@@ -49,7 +49,14 @@
              NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", user.objectID];
              
              //set current profile image
+             [[ToolClass instance] setLogin:YES];
              [[ToolClass instance] setProfileImageURL:userImageURL];
+             [[ToolClass instance] setUserFirstName:[user objectForKey:@"first_name"]];
+             [[ToolClass instance] setUserLastName:[user objectForKey:@"last_name"]];
+             [[ToolClass instance] setUserRole:isUser];
+             [[ToolClass instance] setUserToken:FBSession.activeSession.accessTokenData.accessToken];
+             [[ToolClass instance] setUserEmail:[user objectForKey:@"email"]];
+             
              
              [self.viewController loginSuccess];
          }
@@ -163,7 +170,8 @@
     }
     
     //init Twitter
-    [Fabric with:@[TwitterKit]];
+//    [Fabric with:@[TwitterKit]];
+    [TwitterKit startWithConsumerKey:TWITTER_CONSUMER_KEY consumerSecret:TWITTER_CONSUMER_SECRET];
     
     [self.window makeKeyAndVisible];
     

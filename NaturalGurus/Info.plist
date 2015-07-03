@@ -54,6 +54,14 @@
 	<string>768347636614673</string>
 	<key>FacebookAppSecret</key>
 	<string>8bf24d818ce2bd063190f3d2a3092e92</string>
+	<key>TwitterConsumerKey</key>
+	<string>6lnnVyl8Oe8VgAfrTxgKLqwNG</string>
+	<key>TwitterConsumerSecret</key>
+	<string>rVl1fgxSgLDDaWJf52mU4DoTmN5GZYkpJdSbt9gimoCxXWSJXQ</string>
+	<key>OpenTokAPIKey</key>
+	<string>45220012</string>
+	<key>OpenTokAPISecret</key>
+	<string>46c56fa76ba28410768eab8b435e84188d4fc933</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>

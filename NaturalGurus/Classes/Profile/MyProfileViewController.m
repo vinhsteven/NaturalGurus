@@ -113,7 +113,7 @@
 - (void) viewWillAppear:(BOOL)animated {
     self.txtFirstName.text  = [[ToolClass instance] getUserFirstName];
     self.txtLastName.text   = [[ToolClass instance] getUserLastName];
-    self.txtEmail.text
+    self.txtEmail.text      = [[ToolClass instance] getUserEmail];
 }
 
 - (void) addNavigationBottomLine {
@@ -149,20 +149,24 @@
         [self.txtLastName becomeFirstResponder];
     }
     else if (textField == self.txtLastName) {
-        [self.txtEmail becomeFirstResponder];
-    }
-    else if (textField == self.txtEmail) {
-        [self.txtCountryCode becomeFirstResponder];
-    }
-    else if (textField == self.txtCountryCode) {
-        [self.txtPhoneNumber becomeFirstResponder];
-    }
-    else if (textField == self.txtPhoneNumber) {
+//        [self.txtEmail becomeFirstResponder];
         [textField resignFirstResponder];
-
+        
         if (screenSize.height == 480)
             self.view.center = CGPointMake(screenSize.width/2, screenSize.height/2);
     }
+//    else if (textField == self.txtEmail) {
+//        [self.txtCountryCode becomeFirstResponder];
+//    }
+//    else if (textField == self.txtCountryCode) {
+//        [self.txtPhoneNumber becomeFirstResponder];
+//    }
+//    else if (textField == self.txtPhoneNumber) {
+//        [textField resignFirstResponder];
+//
+//        if (screenSize.height == 480)
+//            self.view.center = CGPointMake(screenSize.width/2, screenSize.height/2);
+//    }
     return YES;
 }
 
@@ -174,7 +178,7 @@
 - (IBAction) handleEditProfile:(id)sender {
     self.txtFirstName.enabled   = YES;
     self.txtLastName.enabled    = YES;
-    self.txtEmail.enabled       = YES;
+//    self.txtEmail.enabled       = YES;
     self.txtCountryCode.enabled = YES;
     self.txtPhoneNumber.enabled = YES;
     

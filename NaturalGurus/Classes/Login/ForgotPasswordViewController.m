@@ -76,8 +76,15 @@
 }
 
 - (IBAction) handleSubmit:(id)sender {
-    UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Email Sent" message:@"An email has been sent to your email. Please follow the instruction to get your password." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [dialog show];
+    if ([self.txtEmail.text isEqualToString:@""]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please input your email" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    
+    //connect webservice to reset password
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.txtEmail.text,@"email", nil];
+    [[ToolClass instance] requestResetPassword:params withViewController:self];
 }
 
 - (IBAction) closeView:(id)sender {

@@ -33,6 +33,12 @@
 #define FACEBOOK_APP_ID     [[NSBundle mainBundle] objectForInfoDictionaryKey:@"FacebookAppID"]
 #define FACEBOOK_APP_SECRET [[NSBundle mainBundle] objectForInfoDictionaryKey:@"FacebookAppSecret"]
 
+#define TWITTER_CONSUMER_KEY    [[NSBundle mainBundle] objectForInfoDictionaryKey:@"TwitterConsumerKey"]
+#define TWITTER_CONSUMER_SECRET [[NSBundle mainBundle] objectForInfoDictionaryKey:@"TwitterConsumerSecret"]
+
+#define OPEN_TOK_API_KEY    [[NSBundle mainBundle] objectForInfoDictionaryKey:@"OpenTokAPIKey"]
+#define OPEN_TOK_API_SECRET [[NSBundle mainBundle] objectForInfoDictionaryKey:@"OpenTokAPISecret"]
+
 #define CATEGORY_ITEM_WIDTH     140
 #define CATEGORY_ITEM_HEIGHT    140
 

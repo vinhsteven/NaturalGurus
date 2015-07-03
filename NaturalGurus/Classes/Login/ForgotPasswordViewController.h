@@ -11,6 +11,7 @@
 
 @interface ForgotPasswordViewController : UIViewController
 
+@property (assign, readwrite) BOOL isFirstScreen;
 @property (strong, nonatomic) IBOutlet CustomTextField *txtEmail;
 @property (strong, nonatomic) IBOutlet UIButton *btnSubmit;
 @property (strong, nonatomic) IBOutlet UIView *containerView;

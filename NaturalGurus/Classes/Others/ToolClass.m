@@ -439,6 +439,22 @@
     return [userDefaults objectForKey:USER_LASTNAME];
 }
 
+- (void) setUserEmail:(NSString*)email {
+    @try {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:email forKey:USER_EMAIL];
+    }
+    @catch (NSException *exception) {
+        ;
+    }
+}
+
+- (NSString*) getUserEmail {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [userDefaults objectForKey:USER_EMAIL];
+}
+
+
 - (void) setUserRole:(int)roleId {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:[NSNumber numberWithInt:roleId] forKey:USER_ROLE];
@@ -544,6 +560,7 @@
             [[ToolClass instance] setProfileImageURL:[data objectForKey:@"avatar"]];
             [[ToolClass instance] setUserRole:[[data objectForKey:@"role_id"] intValue]];
             [[ToolClass instance] setUserToken:[data objectForKey:@"token"]];
+            [[ToolClass instance] setUserEmail:[data objectForKey:@"email"]];
             
             [viewController loginSuccess];
         }
@@ -559,6 +576,55 @@
             [MBProgressHUD hideHUDForView:((LoginViewController*)viewController).navigationController.view animated:YES];
         else
             [MBProgressHUD hideHUDForView:((LeftSideViewController*)viewController).navigationController.view animated:YES];
+        
+        // 4
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Ok"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
+}
+
+- (void) requestResetPassword:(NSDictionary*)params withViewController:(ForgotPasswordViewController*)viewController {
+    UIView *view;
+    if (viewController.isFirstScreen)
+        view = viewController.navigationController.view;
+    else
+        view = viewController.view;
+    
+    [MBProgressHUD showHUDAddedTo:view animated:YES];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager POST:@"/api/v1/reset_password" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        //hide hud progress
+        [MBProgressHUD hideHUDForView:view animated:YES];
+        
+        // 3
+        NSLog(@"response: %@",(NSDictionary*)responseObject);
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        
+        if (status == 200) {
+            NSDictionary *data = [responseObject objectForKey:@"data"];
+            //save current user logged in informations
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Request sent" message:[data objectForKey:@"status"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+        }
+        else if (status == 401){
+            NSString *message = [responseObject objectForKey:@"message"];
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [MBProgressHUD hideHUDForView:view animated:YES];
         
         // 4
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"

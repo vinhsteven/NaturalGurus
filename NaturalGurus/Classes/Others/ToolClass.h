@@ -10,6 +10,7 @@
 #import "SignUpViewController.h"
 #import "LoginViewController.h"
 #import "LeftSideViewController.h"
+#import "ForgotPasswordViewController.h"
 
 @interface ToolClass : NSObject 
 + (ToolClass *) instance;
@@ -42,6 +43,9 @@
 - (void) setUserLastName:(NSString*)firstName;
 - (NSString*) getUserLastName;
 
+- (void) setUserEmail:(NSString*)email;
+- (NSString*) getUserEmail;
+
 - (void) setUserRole:(int)roleId;
 - (int) getUserRole;
 
@@ -51,5 +55,6 @@
 #pragma mark HANDLE CONNECT TO GET DATA
 - (void) registerAccount:(NSDictionary*)params withViewController:(SignUpViewController*)viewController;
 - (void) signIn:(NSDictionary*)params withViewController:(id)viewController;
+- (void) requestResetPassword:(NSDictionary*)params withViewController:(ForgotPasswordViewController*)viewController;
 
 @end

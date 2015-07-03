@@ -294,7 +294,8 @@
              ^(FBSession *session, FBSessionState state, NSError *error) {
                  
                  // Call the app delegate's sessionStateChanged:state:error method to handle session state changes
-                 [self sessionStateChanged:session state:state error:error];
+                 AppDelegate *delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+                 [delegate sessionStateChanged:session state:state error:error];
              }];
             
             break;
@@ -355,66 +356,6 @@
         [self loginButtonTapped:self.btnSignIn];
     }
     return YES;
-}
-
-#pragma mark Handle Login API
-// Handles session state changes in the app
-- (void)sessionStateChanged:(FBSession *)session state:(FBSessionState) state error:(NSError *)error
-{
-    // If the session was opened successfully
-    if (!error && state == FBSessionStateOpen){
-        NSLog(@"Session opened");
-        // Show the user the logged-in UI
-        [self loginSuccess];
-        return;
-    }
-    if (state == FBSessionStateClosed || state == FBSessionStateClosedLoginFailed){
-        // If the session is closed
-        NSLog(@"Session closed");
-        // Show the user the logged-out UI
-        //        [self userLoggedOut];
-    }
-    
-    // Handle errors
-    if (error){
-        NSString *alertText;
-        NSString *alertTitle;
-        // If the error requires people using an app to make an action outside of the app in order to recover
-        if ([FBErrorUtility shouldNotifyUserForError:error] == YES){
-            alertTitle = @"Something went wrong";
-            alertText = [FBErrorUtility userMessageForError:error];
-            [AppDelegate showMessage:alertText withTitle:alertTitle];
-        }
-        else {
-            
-            // If the user cancelled login, do nothing
-            if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryUserCancelled) {
-                NSLog(@"User cancelled login");
-                
-                // Handle session closures that happen outside of the app
-            } else if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryAuthenticationReopenSession){
-                alertTitle = @"Session Error";
-                alertText = @"Your current session is no longer valid. Please log in again.";
-                [AppDelegate showMessage:alertText withTitle:alertTitle];
-                
-                // Here we will handle all other errors with a generic error message.
-                // We recommend you check our Handling Errors guide for more information
-                // https://developers.facebook.com/docs/ios/errors/
-            } else {
-                //Get more error information from the error
-                NSDictionary *errorInformation = [[[error.userInfo objectForKey:@"com.facebook.sdk:ParsedJSONResponseKey"] objectForKey:@"body"] objectForKey:@"error"];
-                
-                // Show the user an error message
-                alertTitle = @"Something went wrong";
-                alertText = [NSString stringWithFormat:@"Please retry. \n\n If the problem persists contact us and mention this error code: %@", [errorInformation objectForKey:@"message"]];
-                [AppDelegate showMessage:alertText withTitle:alertTitle];
-            }
-        }
-        // Clear this token
-        [FBSession.activeSession closeAndClearTokenInformation];
-        // Show the user the logged-out UI
-        //        [self userLoggedOut];
-    }
 }
 
 @end

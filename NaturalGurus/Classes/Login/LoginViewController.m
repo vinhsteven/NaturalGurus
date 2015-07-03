@@ -286,6 +286,7 @@
 
 - (IBAction) handleForgotPassword:(id)sender {
     ForgotPasswordViewController *controller = [[ForgotPasswordViewController alloc] initWithNibName:@"ForgotPasswordViewController" bundle:nil];
+    controller.isFirstScreen = YES;
     [self.navigationController pushViewController:controller animated:YES];
 }
 

@@ -124,7 +124,7 @@
                                 </mask>
                             </variation>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8m8-zU-MyR">
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8m8-zU-MyR">
                             <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="dsa-nA-qkx"/>
@@ -218,7 +218,7 @@
                                 <outlet property="delegate" destination="-1" id="6Z6-HA-XUi"/>
                             </connections>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="+7" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ul2-0W-V8z">
+                        <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="+7" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ul2-0W-V8z">
                             <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="72" id="5Iy-AS-jDa"/>
@@ -245,7 +245,7 @@
                                 <outlet property="delegate" destination="-1" id="Kyn-Gu-v8m"/>
                             </connections>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="8372 3233" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eT5-d6-N4k">
+                        <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="8372 3233" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eT5-d6-N4k">
                             <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="195" id="FWE-8a-w7e"/>
@@ -292,7 +292,9 @@
                         <constraint firstItem="br6-ql-U6w" firstAttribute="leading" secondItem="kNJ-3n-AAA" secondAttribute="trailing" constant="22" id="fQe-jO-r2w"/>
                         <constraint firstItem="buj-cj-AEd" firstAttribute="top" secondItem="zur-zy-Rmt" secondAttribute="top" constant="8" id="fye-kX-z8C"/>
                         <constraint firstItem="ul2-0W-V8z" firstAttribute="centerY" secondItem="eT5-d6-N4k" secondAttribute="centerY" constant="-1" id="jKt-7d-luP"/>
-                        <constraint firstAttribute="height" constant="130" id="mLY-XI-rkL"/>
+                        <constraint firstAttribute="height" constant="130" id="mLY-XI-rkL">
+                            <variation key="heightClass=regular-widthClass=compact" constant="100"/>
+                        </constraint>
                         <constraint firstItem="wmG-Mu-8HC" firstAttribute="top" secondItem="kNJ-3n-AAA" secondAttribute="bottom" constant="8" id="mUZ-mt-8Vm"/>
                         <constraint firstItem="br6-ql-U6w" firstAttribute="centerY" secondItem="kNJ-3n-AAA" secondAttribute="centerY" constant="0.5" id="rhD-gD-ZoB"/>
                         <constraint firstItem="wmG-Mu-8HC" firstAttribute="leading" secondItem="zur-zy-Rmt" secondAttribute="leading" constant="8" id="zsj-Xs-oTt"/>
