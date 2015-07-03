@@ -159,6 +159,7 @@
 }
 
 - (void) reloadTheLatestExpert {
+    currentList = byTheLatest;
     currentPage = 1;
     [expertArray removeAllObjects];
     [self loadTheLastestExpert];
@@ -167,6 +168,18 @@
 - (void) loadTheLastestExpert {
     isLoading = YES;
     [[ToolClass instance] loadTheLatestExperts:currentPage withViewController:self];
+}
+
+- (void) reloadExpertByCategory:(int)categoryId {
+    currentList = byCategory;
+    currentPage = 1;
+    [expertArray removeAllObjects];
+    [self loadExpertByCategory:categoryId];
+}
+
+- (void) loadExpertByCategory:(int)categoryId {
+    isLoading = YES;
+    [[ToolClass instance] loadExpertByCategory:categoryId pageIndex:currentPage withViewController:self];
 }
 
 - (void) reorganizeExpertArray:(NSArray*)array {
@@ -259,9 +272,14 @@
     // This will load more experts
     if (self.mainTableView.contentOffset.y >= (self.mainTableView.contentSize.height - self.mainTableView.bounds.size.height))
     {
+        //check for loading more the expert list
         if (!isLoading && currentPage < lastPage && !isSelectCategory) {
-            NSLog(@"load more");
-            [self loadTheLastestExpert];
+            if (currentList == byTheLatest)
+                [self loadTheLastestExpert];
+            else if (currentList == byCategory) {
+                if (currentCategoryIndex != 0)
+                    [self loadExpertByCategory:currentCategoryIndex];
+            }
         }
     }
     
@@ -448,6 +466,10 @@
         [self.navigationController pushViewController:controller animated:YES];
     }
     else {
+        NSDictionary *dict = [categoryArray objectAtIndex:indexPath.row];
+        currentCategoryIndex = [[dict objectForKey:@"categoryId"] intValue];
+        
+        [self reloadExpertByCategory:currentCategoryIndex];
         [self selectExperts:nil];
     }
 }

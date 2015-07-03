@@ -21,6 +21,12 @@
 #import <UIKit/UIKit.h>
 #import "TableView+RefreshControl.h"
 
+enum {
+    byTheLatest = 0,
+    byCategory,
+    
+};
+
 @interface BrowseViewController : UIViewController <UISearchControllerDelegate,UITableViewDataSource,UITableViewDelegate> {
     CGSize screenSize;
     NSMutableArray *expertArray;
@@ -30,6 +36,10 @@
     CGPoint originalPointExperts;
     
     BOOL isSelectCategory;
+//    BOOL byTheLatest;   //for checking current expert list by latest
+//    BOOL byCategory;    //for checking current expert list by category
+    int currentList;
+    int currentCategoryIndex;
     
     NSMutableArray *filterArray;
     NSMutableArray *sortArray;
