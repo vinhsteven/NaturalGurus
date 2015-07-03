@@ -165,10 +165,10 @@
     static NSString* cellIdentifier = @"cell";
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
     
-    int totalRecord = [[self.data objectAtIndex:indexPath.section] count];
+    int totalRecord = (int)[[self.data objectAtIndex:indexPath.section] count];
     
     if (totalRecord > 0) {
-        int index = indexPath.row*2;
+        int index = (int)indexPath.row*2;
         
         UIButton *btnButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [btnButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -219,7 +219,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    int totalRecord = [[self.data objectAtIndex:section] count];
+    int totalRecord = (int)[[self.data objectAtIndex:section] count];
     
     int numberRow;
     //recalculate record of tableview by divide totalRecord 2

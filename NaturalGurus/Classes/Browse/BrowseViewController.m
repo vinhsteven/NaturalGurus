@@ -65,7 +65,7 @@
     UIButton *btnRight = [UIButton buttonWithType:UIButtonTypeCustom];
     btnRight.frame = CGRectMake(0, 0, 17, 20);
     [btnRight setImage:[UIImage imageNamed:@"btnFilter.png"] forState:UIControlStateNormal];
-    [btnRight addTarget:self action:@selector(rightButtonPress) forControlEvents:UIControlEventTouchUpInside];
+    [btnRight addTarget:self action:@selector(handleFilter) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *btnItem2 = [[UIBarButtonItem alloc] initWithCustomView:btnRight];
     self.navigationItem.rightBarButtonItem = btnItem2;
     
@@ -133,16 +133,6 @@
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
 }
 
-- (void) rightButtonPress {
-    [MMPickerView showPickerViewInView:self.view
-                           withStrings:filterArray
-                           withOptions:nil
-                            completion:^(NSString *selectedString) {
-                                //selectedString is the return value which you can use as you wish
-                                
-                            }];
-}
-
 - (void) loadCategories {
     [[ToolClass instance] loadCategoriesWithViewController:self];
 }
@@ -180,6 +170,20 @@
 - (void) loadExpertByCategory:(int)categoryId {
     isLoading = YES;
     [[ToolClass instance] loadExpertByCategory:categoryId pageIndex:currentPage withViewController:self];
+}
+
+- (void) reloadExpertByFilter:(int)_index {
+    //use for first load
+    currentList = byFilter;
+    currentPage = 1;
+    [expertArray removeAllObjects];
+    [self loadExpertByFilter:_index];
+}
+
+- (void) loadExpertByFilter:(int)_index {
+    //use for load more
+    isLoading = YES;
+    [[ToolClass instance] loadExpertByFilter:_index pageIndex:currentPage withViewController:self];
 }
 
 - (void) reorganizeExpertArray:(NSArray*)array {
@@ -280,6 +284,9 @@
                 if (currentCategoryIndex != 0)
                     [self loadExpertByCategory:currentCategoryIndex];
             }
+            else if (currentList == byFilter) {
+                [self loadExpertByFilter:currentFilterIndex];
+            }
         }
     }
     
@@ -296,8 +303,13 @@
 {
     if (isSelectCategory)
         return [categoryArray count];
-    else
+    else {
+        int totalRecord = (int)[expertArray count];
+        //if don't have record, add 1 row to show title No Expert is available
+        if (totalRecord == 0)
+            return 1;
         return [expertArray count];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -320,106 +332,118 @@
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     
     if (!isSelectCategory) {
-        NSDictionary *dict = [expertArray objectAtIndex:indexPath.row];
+        int totalRecord = (int)[expertArray count];
         
-        //create background view cell
-        UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, self.mainTableView.rowHeight-6)];
-        bgView.tag = kBGVIEW_TAG;
-        bgView.backgroundColor = [UIColor whiteColor];
-        bgView.layer.cornerRadius = 5;
-        bgView.layer.masksToBounds = YES;
-        bgView.layer.borderWidth = 1;
-        bgView.layer.borderColor = LIGHT_GREY_COLOR.CGColor;
-        
-        // add the expert image
-        
-        UIImageView *addView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, EXPERT_IN_LIST_WIDTH, EXPERT_IN_LIST_HEIGHT)];
-        
-        UIImageView *se = addView;
-        
-        NSString *imgUrl = [dict objectForKey:@"imageUrl"];
-        [addView sd_setImageWithURL:[NSURL URLWithString:imgUrl]
-                   placeholderImage:[UIImage imageNamed:NSLocalizedString(@"image_loading_placeholder", nil)]
-                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType,NSURL *url) {
-                              
-                              se.image = [[ToolClass instance] imageByScalingAndCroppingForSize:CGSizeMake(EXPERT_IN_LIST_WIDTH, EXPERT_IN_LIST_HEIGHT) source:image];
-                              
-                          }];
-        [addView.layer setCornerRadius:EXPERT_IN_LIST_WIDTH/2];
-        [addView.layer setMasksToBounds:YES];
-        [bgView addSubview:addView];
-        
-        //add icon status
-        UIImageView *imgStatus = [[UIImageView alloc] initWithFrame:CGRectMake(30, 66, 58, 33)];
-        [bgView addSubview:imgStatus];
-        BOOL isOnline = [[dict objectForKey:@"status"] boolValue];
-        if (isOnline) {
-            [imgStatus setImage:[UIImage imageNamed:@"iconOnline.png"]];
+        if (totalRecord > 0) {
+            NSDictionary *dict = [expertArray objectAtIndex:indexPath.row];
+            
+            //create background view cell
+            UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, self.mainTableView.rowHeight-6)];
+            bgView.tag = kBGVIEW_TAG;
+            bgView.backgroundColor = [UIColor whiteColor];
+            bgView.layer.cornerRadius = 5;
+            bgView.layer.masksToBounds = YES;
+            bgView.layer.borderWidth = 1;
+            bgView.layer.borderColor = LIGHT_GREY_COLOR.CGColor;
+            
+            // add the expert image
+            
+            UIImageView *addView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, EXPERT_IN_LIST_WIDTH, EXPERT_IN_LIST_HEIGHT)];
+            
+            UIImageView *se = addView;
+            
+            NSString *imgUrl = [dict objectForKey:@"imageUrl"];
+            [addView sd_setImageWithURL:[NSURL URLWithString:imgUrl]
+                       placeholderImage:[UIImage imageNamed:NSLocalizedString(@"image_loading_placeholder", nil)]
+                              completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType,NSURL *url) {
+                                  
+                                  se.image = [[ToolClass instance] imageByScalingAndCroppingForSize:CGSizeMake(EXPERT_IN_LIST_WIDTH, EXPERT_IN_LIST_HEIGHT) source:image];
+                                  
+                              }];
+            [addView.layer setCornerRadius:EXPERT_IN_LIST_WIDTH/2];
+            [addView.layer setMasksToBounds:YES];
+            [bgView addSubview:addView];
+            
+            //add icon status
+            UIImageView *imgStatus = [[UIImageView alloc] initWithFrame:CGRectMake(30, 66, 58, 33)];
+            [bgView addSubview:imgStatus];
+            BOOL isOnline = [[dict objectForKey:@"status"] boolValue];
+            if (isOnline) {
+                [imgStatus setImage:[UIImage imageNamed:@"iconOnline.png"]];
+            }
+            else {
+                [imgStatus setImage:[UIImage imageNamed:@"iconOffline.png"]];
+            }
+            
+            
+            //add expert name
+            UILabel *lbExpertName = [[UILabel alloc] initWithFrame:CGRectMake(95, 10, 200, 30)];
+            lbExpertName.backgroundColor = [UIColor clearColor];
+            lbExpertName.text = [dict objectForKey:@"expertName"];
+            lbExpertName.textColor = GREEN_COLOR;
+            lbExpertName.font = [UIFont fontWithName:MONTSERRAT_BOLD size:15];
+            [bgView addSubview:lbExpertName];
+            
+            //add service name
+            UILabel *lbServiceName = [[UILabel alloc] initWithFrame:CGRectMake(95, 35, 200, 20)];
+            lbServiceName.backgroundColor = [UIColor clearColor];
+            lbServiceName.text = [dict objectForKey:@"serviceName"];
+            lbServiceName.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+            [bgView addSubview:lbServiceName];
+            
+            //add description
+            UILabel *lbDescription = [[UILabel alloc] initWithFrame:CGRectMake(95, 55, bgView.frame.size.width-100, 60)];
+            lbDescription.backgroundColor = [UIColor clearColor];
+            lbDescription.attributedText = [dict objectForKey:@"description"];
+            lbDescription.textColor = [UIColor darkGrayColor];
+            lbDescription.font = [UIFont fontWithName:DEFAULT_FONT size:11];
+            lbDescription.numberOfLines = 3;
+            [lbDescription sizeToFit];
+            [bgView addSubview:lbDescription];
+            
+            UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 107, bgView.frame.size.width, 25)];
+            bottomView.backgroundColor = GREEN_COLOR;
+            UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, bottomView.frame.size.width, bottomView.frame.size.height) byRoundingCorners:(UIRectCornerBottomLeft | UIRectCornerBottomRight) cornerRadii:CGSizeMake(5.0, 5.0)];
+            
+            CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+            maskLayer.path  = maskPath.CGPath;
+            bottomView.layer.mask = maskLayer;
+            
+            //add duration
+            UILabel *lbDuration = [[UILabel alloc] initWithFrame:CGRectMake(bgView.frame.size.width-75, 3, 65, 20)];
+            lbDuration.backgroundColor = [UIColor clearColor];
+            lbDuration.text = [NSString stringWithFormat:@"$%@/pm",[dict objectForKey:@"durationPrice"]];
+            lbDuration.textColor = [UIColor whiteColor];
+            lbDuration.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+            lbDuration.textAlignment = NSTextAlignmentRight;
+            [bottomView addSubview:lbDuration];
+            
+            //add rating star
+            // Custom Number of Stars
+            EDStarRating *customNumberOfStars = [[EDStarRating alloc] initWithFrame:CGRectMake(10, -3, 55, 32)];
+            customNumberOfStars.backgroundImage = nil;
+            customNumberOfStars.starImage = [UIImage imageNamed:@"star.png"];
+            customNumberOfStars.starHighlightedImage = [UIImage imageNamed:@"star_highlighted.png"];
+            customNumberOfStars.maxRating = 5.0;
+            customNumberOfStars.horizontalMargin = 0;
+            customNumberOfStars.editable    = NO;
+            customNumberOfStars.rating      = [[dict objectForKey:@"rating"] floatValue];
+            customNumberOfStars.displayMode = EDStarRatingDisplayAccurate;
+            
+            [bottomView addSubview:customNumberOfStars];
+            
+            [bgView addSubview:bottomView];
+            
+            [cell.contentView addSubview:bgView];
         }
         else {
-            [imgStatus setImage:[UIImage imageNamed:@"iconOffline.png"]];
+            UILabel *lbTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, 40)];
+            lbTitle.backgroundColor = [UIColor colorWithRed:(float)245/255 green:(float)245/255 blue:(float)245/255 alpha:1];
+            lbTitle.font = [UIFont fontWithName:DEFAULT_FONT size:13];
+            lbTitle.text = @"There isn't any records here.";
+            lbTitle.textAlignment = NSTextAlignmentCenter;
+            [cell.contentView addSubview:lbTitle];
         }
-        
-        
-        //add expert name
-        UILabel *lbExpertName = [[UILabel alloc] initWithFrame:CGRectMake(95, 10, 200, 30)];
-        lbExpertName.backgroundColor = [UIColor clearColor];
-        lbExpertName.text = [dict objectForKey:@"expertName"];
-        lbExpertName.textColor = GREEN_COLOR;
-        lbExpertName.font = [UIFont fontWithName:MONTSERRAT_BOLD size:15];
-        [bgView addSubview:lbExpertName];
-        
-        //add service name
-        UILabel *lbServiceName = [[UILabel alloc] initWithFrame:CGRectMake(95, 35, 200, 20)];
-        lbServiceName.backgroundColor = [UIColor clearColor];
-        lbServiceName.text = [dict objectForKey:@"serviceName"];
-        lbServiceName.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
-        [bgView addSubview:lbServiceName];
-        
-        //add description
-        UILabel *lbDescription = [[UILabel alloc] initWithFrame:CGRectMake(95, 55, bgView.frame.size.width-100, 60)];
-        lbDescription.backgroundColor = [UIColor clearColor];
-        lbDescription.attributedText = [dict objectForKey:@"description"];
-        lbDescription.textColor = [UIColor darkGrayColor];
-        lbDescription.font = [UIFont fontWithName:DEFAULT_FONT size:11];
-        lbDescription.numberOfLines = 3;
-        [lbDescription sizeToFit];
-        [bgView addSubview:lbDescription];
-        
-        UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 107, bgView.frame.size.width, 25)];
-        bottomView.backgroundColor = GREEN_COLOR;
-        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, bottomView.frame.size.width, bottomView.frame.size.height) byRoundingCorners:(UIRectCornerBottomLeft | UIRectCornerBottomRight) cornerRadii:CGSizeMake(5.0, 5.0)];
-        
-        CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-        maskLayer.path  = maskPath.CGPath;
-        bottomView.layer.mask = maskLayer;
-        
-        //add duration
-        UILabel *lbDuration = [[UILabel alloc] initWithFrame:CGRectMake(bgView.frame.size.width-75, 3, 65, 20)];
-        lbDuration.backgroundColor = [UIColor clearColor];
-        lbDuration.text = [NSString stringWithFormat:@"$%@/pm",[dict objectForKey:@"durationPrice"]];
-        lbDuration.textColor = [UIColor whiteColor];
-        lbDuration.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
-        lbDuration.textAlignment = NSTextAlignmentRight;
-        [bottomView addSubview:lbDuration];
-        
-        //add rating star
-        // Custom Number of Stars
-        EDStarRating *customNumberOfStars = [[EDStarRating alloc] initWithFrame:CGRectMake(10, -3, 55, 32)];
-        customNumberOfStars.backgroundImage = nil;
-        customNumberOfStars.starImage = [UIImage imageNamed:@"star.png"];
-        customNumberOfStars.starHighlightedImage = [UIImage imageNamed:@"star_highlighted.png"];
-        customNumberOfStars.maxRating = 5.0;
-        customNumberOfStars.horizontalMargin = 0;
-        customNumberOfStars.editable    = NO;
-        customNumberOfStars.rating      = [[dict objectForKey:@"rating"] floatValue];
-        customNumberOfStars.displayMode = EDStarRatingDisplayAccurate;
-        
-        [bottomView addSubview:customNumberOfStars];
-        
-        [bgView addSubview:bottomView];
-        
-        [cell.contentView addSubview:bgView];
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
@@ -533,6 +557,24 @@
     [self.btnCategory setImage:nil forState:UIControlStateNormal];
     
     [self.mainTableView reloadData];
+}
+
+- (void) handleFilter {
+    [MMPickerView showPickerViewInView:self.view
+                           withStrings:filterArray
+                           withOptions:nil
+                            completion:^(NSString *selectedString) {
+                                //selectedString is the return value which you can use as you wish
+                                for (int i=0;i < [filterArray count];i++) {
+                                    NSString *tmpStr = [filterArray objectAtIndex:i];
+                                    if ([tmpStr isEqualToString:selectedString]) {
+                                        currentFilterIndex = i;
+                                        break;
+                                    }
+                                }
+                                
+                                [self reloadExpertByFilter:currentFilterIndex];
+                            }];
 }
 
 - (IBAction) handleSorting:(id)sender {

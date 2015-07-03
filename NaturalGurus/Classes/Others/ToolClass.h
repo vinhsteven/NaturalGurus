@@ -60,6 +60,7 @@
 
 - (void) loadTheLatestExperts:(int)_pageIndex withViewController:(BrowseViewController*)viewController;
 - (void) loadExpertByCategory:(int)_categoryId pageIndex:(int)_pageIndex withViewController:(BrowseViewController*)viewController;
+- (void) loadExpertByFilter:(int)_filterIndex pageIndex:(int)_pageIndex withViewController:(BrowseViewController*)viewController;
 - (void) loadCategoriesWithViewController:(BrowseViewController*)viewController;
 
 @end

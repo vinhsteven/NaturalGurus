@@ -24,7 +24,8 @@
 enum {
     byTheLatest = 0,
     byCategory,
-    
+    byFilter,
+    bySearch
 };
 
 @interface BrowseViewController : UIViewController <UISearchControllerDelegate,UITableViewDataSource,UITableViewDelegate> {
@@ -40,6 +41,7 @@ enum {
 //    BOOL byCategory;    //for checking current expert list by category
     int currentList;
     int currentCategoryIndex;
+    int currentFilterIndex;
     
     NSMutableArray *filterArray;
     NSMutableArray *sortArray;
