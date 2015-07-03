@@ -48,17 +48,58 @@
              NSLog(@"User Name: %@ %@ %@",[user objectForKey:@"first_name"],[user objectForKey:@"middle_name"],[user objectForKey:@"last_name"]);
              NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", user.objectID];
              
-             //set current profile image
-             [[ToolClass instance] setLogin:YES];
-             [[ToolClass instance] setProfileImageURL:userImageURL];
-             [[ToolClass instance] setUserFirstName:[user objectForKey:@"first_name"]];
-             [[ToolClass instance] setUserLastName:[user objectForKey:@"last_name"]];
-             [[ToolClass instance] setUserRole:isUser];
-             [[ToolClass instance] setUserToken:FBSession.activeSession.accessTokenData.accessToken];
-             [[ToolClass instance] setUserEmail:[user objectForKey:@"email"]];
+             //update data to our server
+             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[user objectForKey:@"email"],@"email",FBSession.activeSession.accessTokenData.accessToken,@"token",[user objectForKey:@"first_name"],@"firstname",[user objectForKey:@"last_name"],@"lastname", nil];
              
+             NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
              
-             [self.viewController loginSuccess];
+             AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+             manager.responseSerializer = [AFJSONResponseSerializer serializer];
+             
+             [manager POST:@"/api/v1/sign_in/social" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+                 // 3
+                 NSLog(@"response: %@",(NSDictionary*)responseObject);
+                 //get status of request
+                 int status = [[responseObject objectForKey:@"status"] intValue];
+                 
+                 if (status == 200) {
+                     NSDictionary *data = [responseObject objectForKey:@"data"];
+                     
+                     NSString *defaultUserImg = [data objectForKey:@"avatar"];
+                     //save current user logged in informations
+                     //set current profile image
+                     [[ToolClass instance] setLogin:YES];
+                     
+                     //check if is default image, use social image. If not use image from our server.
+                     if ([defaultUserImg rangeOfString:@"default.png"].location == NSNotFound) {
+                        [[ToolClass instance] setProfileImageURL:defaultUserImg];
+                     }
+                     else {
+                         [[ToolClass instance] setProfileImageURL:userImageURL];
+                     }
+
+                     [[ToolClass instance] setUserFirstName:[data objectForKey:@"firstname"]];
+                     [[ToolClass instance] setUserLastName:[data objectForKey:@"lastname"]];
+                     [[ToolClass instance] setUserRole:isUser];
+                     [[ToolClass instance] setUserToken:FBSession.activeSession.accessTokenData.accessToken];
+                     [[ToolClass instance] setUserEmail:[user objectForKey:@"email"]];
+                     
+                     
+                     [self.viewController loginSuccess];
+                 }
+                 else if (status == 401){
+                     NSString *message = [responseObject objectForKey:@"message"];
+                     UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                     [dialog show];
+                     
+                 }
+                 
+                 [MBProgressHUD hideAllHUDsForView:self.navController.view animated:YES];
+                 
+             } failure:^(NSURLSessionDataTask *task, NSError *error) {
+                 NSLog(@"FB failed: %@",error);
+                 [MBProgressHUD hideAllHUDsForView:self.navController.view animated:YES];
+             }];
          }
      }];
 }
@@ -157,6 +198,7 @@
 
     // Whenever a person opens app, check for a cached session
     if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
+        [MBProgressHUD showHUDAddedTo:self.navController.view animated:YES];
         
         // If there's one, just open the session silently, without showing the user the login UI
         [FBSession openActiveSessionWithReadPermissions:@[@"public_profile",@"email"]
