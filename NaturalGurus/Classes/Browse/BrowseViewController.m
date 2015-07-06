@@ -103,6 +103,7 @@
     //init filter array
     filterArray = [NSMutableArray arrayWithObjects:@"Available now (live)",@"Free sessions", nil];
     sortArray   = [NSMutableArray arrayWithObjects:@"Price (highest to lowest)",@"Experience (highest to lowest)", nil];
+    searchArray = [NSMutableArray arrayWithCapacity:1];
     
     isLoading = NO;
     [self reloadTheLatestExpert];
@@ -186,8 +187,34 @@
     [[ToolClass instance] loadExpertByFilter:_index pageIndex:currentPage withViewController:self];
 }
 
+- (void) reloadExpertBySearchString:(NSString*)searchStr {
+    currentList = bySearch;
+    currentPage = 1;
+    [searchArray removeAllObjects];
+    [self loadExpertBySearchString:searchStr];
+}
+
+- (void) loadExpertBySearchString:(NSString*)searchStr {
+    isLoading = YES;
+    [[ToolClass instance] loadExpertBySearchString:searchStr pageIndex:currentPage withViewController:self];
+}
+
 - (void) reorganizeExpertArray:(NSArray*)array {
-    unsigned long startIndex = [expertArray count]-1;
+    NSMutableArray *tmpArray;
+    unsigned long startIndex;
+    UITableView *tmpTableView;
+    
+    if (!isSearching) {
+        startIndex  = [expertArray count];
+        tmpArray    = expertArray;
+        tmpTableView = self.mainTableView;
+    }
+    else {
+        startIndex  = [searchArray count];
+        tmpArray    = searchArray;
+        tmpTableView = self.searchDisplayController.searchResultsTableView;
+    }
+    
     unsigned long endIndex   = startIndex + [array count];
     
     //reorganize expert array after requesting, and add to current expert array
@@ -209,17 +236,17 @@
 
         
         NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithLong:expertId],@"expertId",avatar,@"imageUrl",name,@"expertName",title,@"serviceName",attrStr,@"description",price,@"durationPrice",[NSNumber numberWithBool:isOnline],@"status",[NSNumber numberWithInt:rating],@"rating",joinedDate,EXPERT_JOINED_DATE, nil];
-        [expertArray addObject:tmpDict];
+        [tmpArray addObject:tmpDict];
     }
     
     //hide hud progress
-    [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+    [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
     
     currentPage++;
     isLoading = NO;
     
-    if ([expertArray count] == [array count]) {
-        [self.mainTableView reloadData];
+    if ([tmpArray count] == [array count]) {
+        [tmpTableView reloadData];
     }
     else {
         //show drop down animation effect
@@ -229,9 +256,9 @@
             [indexPathsToInsert addObject:[NSIndexPath indexPathForRow:i inSection:0]];
         }
         
-        [self.mainTableView beginUpdates];
-        [self.mainTableView insertRowsAtIndexPaths:indexPathsToInsert withRowAnimation:UITableViewRowAnimationTop];
-        [self.mainTableView endUpdates];
+        [tmpTableView beginUpdates];
+        [tmpTableView insertRowsAtIndexPaths:indexPathsToInsert withRowAnimation:UITableViewRowAnimationTop];
+        [tmpTableView endUpdates];
     }
 }
 
@@ -271,10 +298,14 @@
 }
 
 -(void) scrollViewDidScroll:(UIScrollView *)scrollView {
-    
+    UITableView *tmpTableView;
+    if (isSearching)
+        tmpTableView = self.searchDisplayController.searchResultsTableView;
+    else
+        tmpTableView = self.mainTableView;
     // Check if we are at the bottom of the table
     // This will load more experts
-    if (self.mainTableView.contentOffset.y >= (self.mainTableView.contentSize.height - self.mainTableView.bounds.size.height))
+    if (tmpTableView.contentOffset.y >= (tmpTableView.contentSize.height - tmpTableView.bounds.size.height))
     {
         //check for loading more the expert list
         if (!isLoading && currentPage < lastPage && !isSelectCategory) {
@@ -286,6 +317,9 @@
             }
             else if (currentList == byFilter) {
                 [self loadExpertByFilter:currentFilterIndex];
+            }
+            else if (currentList == bySearch) {
+                [self loadExpertBySearchString:self.searchDisplayController.searchBar.text];
             }
         }
     }
@@ -304,11 +338,20 @@
     if (isSelectCategory)
         return [categoryArray count];
     else {
-        int totalRecord = (int)[expertArray count];
-        //if don't have record, add 1 row to show title No Expert is available
-        if (totalRecord == 0)
-            return 1;
-        return [expertArray count];
+        if (tableView != self.searchDisplayController.searchResultsTableView) {
+            int totalRecord = (int)[expertArray count];
+            //if don't have record, add 1 row to show title No Expert is available
+            if (totalRecord == 0)
+                return 1;
+            return [expertArray count];
+        }
+        else {
+            int totalRecord = (int)[searchArray count];
+            //if don't have record, add 1 row to show title No Expert is available
+            if (totalRecord == 0)
+                return 1;
+            return [searchArray count];
+        }
     }
 }
 
@@ -332,10 +375,20 @@
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     
     if (!isSelectCategory) {
-        int totalRecord = (int)[expertArray count];
+        int totalRecord;
+        NSMutableArray *tmpArray;
+        
+        if (tableView != self.searchDisplayController.searchResultsTableView) {
+            totalRecord = (int)[expertArray count];
+            tmpArray = expertArray;
+        }
+        else {
+            totalRecord = (int)[searchArray count];
+            tmpArray = searchArray;
+        }
         
         if (totalRecord > 0) {
-            NSDictionary *dict = [expertArray objectAtIndex:indexPath.row];
+            NSDictionary *dict = [tmpArray objectAtIndex:indexPath.row];
             
             //create background view cell
             UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, self.mainTableView.rowHeight-6)];
@@ -483,7 +536,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (!isSelectCategory) {
-        NSMutableDictionary *dict = [expertArray objectAtIndex:indexPath.row];
+        NSMutableDictionary *dict;
+        if (!isSearching)
+            dict = [expertArray objectAtIndex:indexPath.row];
+        else
+            dict = [searchArray objectAtIndex:indexPath.row];
         
         DetailBrowseViewController *controller = [[DetailBrowseViewController alloc] initWithNibName:@"DetailBrowseViewController" bundle:nil];
         controller.expertDict = dict;
@@ -510,6 +567,44 @@
     UIView *bgView = [cell.contentView viewWithTag:kBGVIEW_TAG];
     bgView.backgroundColor = [UIColor whiteColor];
     return indexPath;
+}
+
+#pragma mark UISearchBarDelegate
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+    
+    //when user tap search button, we start searching
+    [self reloadExpertBySearchString:searchBar.text];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+//    [expertArray removeAllObjects];
+    currentList = bySearch;
+}
+
+- (void) searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+    //detect if user cancel searching, we remove all searchArray and reload the latest list
+    if (!isSearching) {
+        [searchArray removeAllObjects];
+    
+        //return to the latest expert list
+        [self reloadTheLatestExpert];
+    }
+}
+
+- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    if (![text isEqualToString:@""])
+        isSearching = YES;
+    return YES;
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    //if user tap cancel or x button to cancel searching, set isSearching = NO to tell that we will end searching.
+    if ([searchText isEqualToString:@""]) {
+        isSearching = NO;
+        
+    }
 }
 
 - (IBAction) selectCategories:(id)sender {

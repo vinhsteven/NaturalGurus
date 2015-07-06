@@ -28,15 +28,17 @@ enum {
     bySearch
 };
 
-@interface BrowseViewController : UIViewController <UISearchControllerDelegate,UITableViewDataSource,UITableViewDelegate> {
+@interface BrowseViewController : UIViewController <UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate> {
     CGSize screenSize;
     NSMutableArray *expertArray;
     NSMutableArray *categoryArray;
+    NSMutableArray *searchArray;
     
     CGPoint originalPointCategories;
     CGPoint originalPointExperts;
     
     BOOL isSelectCategory;
+    BOOL isSearching;
 //    BOOL byTheLatest;   //for checking current expert list by latest
 //    BOOL byCategory;    //for checking current expert list by category
     int currentList;

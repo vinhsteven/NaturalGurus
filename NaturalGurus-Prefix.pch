@@ -80,7 +80,7 @@ enum {
     isUser
 };
 
-#define NUMBER_RECORD_PER_PAGE  10
+#define NUMBER_RECORD_PER_PAGE  5
 
 #define PROFILE_IMAGE_URL   @"profileImageURL"
 #define USER_FIRSTNAME   @"userFirstName"

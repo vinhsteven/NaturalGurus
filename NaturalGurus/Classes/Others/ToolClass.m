@@ -763,6 +763,47 @@
     }];
 }
 
+- (void) loadExpertBySearchString:(NSString*)_searchStr pageIndex:(int)_pageIndex withViewController:(BrowseViewController*)viewController {
+    [MBProgressHUD showHUDAddedTo:viewController.navigationController.view animated:YES];
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:_searchStr,@"search",[NSNumber numberWithInt:_pageIndex],@"page",[NSNumber numberWithInt:NUMBER_RECORD_PER_PAGE],@"per_page", nil];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager GET:@"/api/v1/experts" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        // 3
+        NSLog(@"response: %@",(NSDictionary*)responseObject);
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        
+        if (status == 200) {
+            viewController.lastPage = [[[responseObject objectForKey:@"data"] objectForKey:@"last_page"] intValue];
+            NSArray *expertArray = [[responseObject objectForKey:@"data"] objectForKey:@"experts"];
+            [viewController reorganizeExpertArray:expertArray];
+        }
+        else if (status == 401){
+            //            NSString *message = [responseObject objectForKey:@"message"];
+            //            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            //            [dialog show];
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [MBProgressHUD hideHUDForView:viewController.navigationController.view animated:YES];
+        
+        // 4
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Ok"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
+}
+
 - (void) loadCategoriesWithViewController:(BrowseViewController*)viewController {
     NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
     
