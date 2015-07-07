@@ -850,7 +850,7 @@
     
     [manager GET:[NSString stringWithFormat:@"/api/v1/experts/%@",[NSString stringWithFormat:@"%ld",expertId]] parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         // 3
-        NSLog(@"response: %@",(NSDictionary*)responseObject);
+//        NSLog(@"response: %@",(NSDictionary*)responseObject);
         //get status of request
         int status = [[responseObject objectForKey:@"status"] intValue];
         

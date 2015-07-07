@@ -64,6 +64,11 @@ enum {
     self.navigationItem.title = [expertDict objectForKey:@"expertName"];
 }
 
+- (void) viewDidLayoutSubviews {
+    //use front view to hide all everything behind
+    self.myFrontView.backgroundColor = TABLE_BACKGROUND_COLOR;
+}
+
 - (void) setupUI {
     self.view.backgroundColor = TABLE_BACKGROUND_COLOR;
     
@@ -182,7 +187,8 @@ enum {
 }
 
 - (void) setupTableViewData {
-    NSLog(@"expertDict = %@",expertDict);
+    self.navigationItem.title = [expertDict objectForKey:@"name"];
+    
     NSArray *sectionArray = @[@"ABOUT",@"QUALIFICATIONS",@"QUICK STATS"];
     
     self.data = [[NSMutableArray alloc] init];
@@ -307,6 +313,8 @@ enum {
     self.imgExpertView.layer.masksToBounds = YES;
     
     [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
+    
+    [self.myFrontView removeFromSuperview];
 }
 
 - (void) reloadExpertReviews {

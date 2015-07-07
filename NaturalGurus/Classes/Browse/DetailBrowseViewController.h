@@ -40,6 +40,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *btnReview;
 @property (strong, nonatomic) IBOutlet UIButton *btnBookLive;
 @property (strong, nonatomic) IBOutlet UIButton *btnSchedule;
+@property (strong, nonatomic) IBOutlet UIView *myFrontView;
 
 //for Review section
 @property (strong, nonatomic) NSMutableArray *reviewData;

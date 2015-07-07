@@ -16,6 +16,7 @@
                 <outlet property="imgStatusView" destination="6FH-05-fPb" id="bx6-Nj-uMq"/>
                 <outlet property="lbDuration" destination="wXp-17-6jh" id="vBF-9y-DS6"/>
                 <outlet property="lbServiceName" destination="epE-uv-Tc7" id="7xT-oo-aAh"/>
+                <outlet property="myFrontView" destination="ooU-Rt-dEE" id="yGl-f7-oBl"/>
                 <outlet property="starRatingView" destination="Pvn-H9-nji" id="7Sx-z2-aYH"/>
                 <outlet property="tableView" destination="j0X-7B-EwF" id="lI0-nS-5js"/>
                 <outlet property="view" destination="iN0-l3-epB" id="tWM-At-2Rb"/>
@@ -343,6 +344,13 @@
                         </mask>
                     </variation>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ooU-Rt-dEE">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="800"/>
+                    </variation>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
@@ -412,6 +420,7 @@
                     <exclude reference="oaJ-Y8-BVU"/>
                     <exclude reference="j0X-7B-EwF"/>
                     <exclude reference="Pvn-H9-nji"/>
+                    <exclude reference="ooU-Rt-dEE"/>
                 </mask>
                 <mask key="constraints">
                     <exclude reference="3Du-Fh-ogV"/>
@@ -465,6 +474,7 @@
                     <include reference="oaJ-Y8-BVU"/>
                     <include reference="j0X-7B-EwF"/>
                     <include reference="Pvn-H9-nji"/>
+                    <include reference="ooU-Rt-dEE"/>
                 </mask>
                 <mask key="constraints">
                     <include reference="3Du-Fh-ogV"/>
