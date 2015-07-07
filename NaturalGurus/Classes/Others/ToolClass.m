@@ -872,4 +872,65 @@
     }];
 }
 
+- (void) loadExpertReviewById:(long)expertId pageIndex:(int)_pageIndex withViewController:(DetailBrowseViewController*)viewController {
+    [MBProgressHUD showHUDAddedTo:viewController.navigationController.view animated:YES];
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:_pageIndex],@"page",[NSNumber numberWithInt:NUMBER_RECORD_PER_PAGE],@"per_page", nil];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager GET:[NSString stringWithFormat:@"/api/v1/experts/%@/reviews",[NSString stringWithFormat:@"%ld",expertId]] parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        // 3
+        NSLog(@"response: %@",(NSDictionary*)responseObject);
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        
+        if (status == 200) {
+            viewController.lastPage = [[[responseObject objectForKey:@"data"] objectForKey:@"last_page"] intValue];
+            NSMutableArray *reviewArray = [[responseObject objectForKey:@"data"] objectForKey:@"data"];
+            [viewController reorganizeReviewArray:reviewArray];
+        }
+        else if (status == 401){
+            NSString *message = [responseObject objectForKey:@"message"];
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        // 4
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok"        otherButtonTitles:nil];
+        [alertView show];
+    }];
+}
+
+- (void) getTotalReviewsByExpertId:(long)expertId pageIndex:(int)_pageIndex withViewController:(DetailBrowseViewController*)viewController {
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:_pageIndex],@"page",[NSNumber numberWithInt:2],@"per_page", nil];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager GET:[NSString stringWithFormat:@"/api/v1/experts/%@/reviews",[NSString stringWithFormat:@"%ld",expertId]] parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        // 3
+        NSLog(@"response: %@",(NSDictionary*)responseObject);
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        
+        if (status == 200) {
+            viewController.totalReview = [[[responseObject objectForKey:@"data"] objectForKey:@"total"] intValue];
+            [viewController setUpStyleForReviewButton];
+        }
+        else if (status == 401){
+            NSLog(@"totalReview error");
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"totalReview error = %@",error);
+    }];
+}
+
 @end

@@ -9,15 +9,6 @@
 #ifndef NaturalGurus_BrowseViewController_h
 #define NaturalGurus_BrowseViewController_h
 
-#define EXPERT_JOINED_DATE      @"joinedDate"
-#define EXPERT_EXPERIENCE       @"experience"
-#define EXPERT_LEVEL            @"level"
-#define EXPERT_SESSION          @"sessions"
-#define EXPERT_MIN_SESSION      @"minimumSessions"
-#define EXPERT_MAX_SESSION      @"maximumSessions"
-#define EXPERT_ASSOCIATION      @"association"
-#define EXPERT_ACCREDITATION    @"acrrecditation"
-
 #import <UIKit/UIKit.h>
 #import "TableView+RefreshControl.h"
 

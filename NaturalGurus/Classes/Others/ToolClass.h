@@ -66,5 +66,7 @@
 - (void) loadCategoriesWithViewController:(BrowseViewController*)viewController;
 
 - (void) loadDetailExpertById:(long)expertId withViewController:(DetailBrowseViewController*)viewController;
+- (void) loadExpertReviewById:(long)expertId pageIndex:(int)_pageIndex withViewController:(DetailBrowseViewController*)viewController;
+- (void) getTotalReviewsByExpertId:(long)expertId pageIndex:(int)_pageIndex withViewController:(DetailBrowseViewController*)viewController;
 
 @end

@@ -19,6 +19,10 @@
     BOOL isSelectDescription;
 }
 
+@property (assign, readwrite) int currentPage;
+@property (assign, readwrite) int lastPage;
+@property (assign, readwrite) BOOL isLoading;
+@property (assign, readwrite) int totalReview;
 @property (weak, nonatomic) NSMutableDictionary *expertDict;
 @property (assign, readwrite) long expertId;
 @property (strong, nonatomic) NSString *expertDescriptionString;    //reuse from previous screen, because it take too long time to creat HTML string
@@ -46,7 +50,9 @@
 - (IBAction) selectDescription:(id)sender;
 - (IBAction) selectReview:(id)sender;
 
+- (void) setUpStyleForReviewButton;
 - (void) setupTableViewData;
+- (void) reorganizeReviewArray:(NSArray*)array;
 
 @end
 

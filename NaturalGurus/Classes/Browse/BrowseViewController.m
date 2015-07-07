@@ -238,7 +238,7 @@
         NSAttributedString * attrStr = [[NSAttributedString alloc] initWithData:[description dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
 
         
-        NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithLong:expertId],@"expertId",avatar,@"imageUrl",name,@"expertName",title,@"serviceName",attrStr,@"description",price,@"durationPrice",[NSNumber numberWithBool:isOnline],@"status",[NSNumber numberWithInt:rating],@"rating",joinedDate,EXPERT_JOINED_DATE, nil];
+        NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithLong:expertId],@"expertId",avatar,@"imageUrl",name,@"expertName",title,@"serviceName",attrStr,@"description",price,@"durationPrice",[NSNumber numberWithBool:isOnline],@"status",[NSNumber numberWithInt:rating],@"rating",joinedDate,@"joinDate", nil];
         [tmpArray addObject:tmpDict];
     }
     

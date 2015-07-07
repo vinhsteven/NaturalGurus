@@ -25,6 +25,9 @@ enum {
 @implementation DetailBrowseViewController
 @synthesize expertDict;
 @synthesize tableView;
+@synthesize currentPage,lastPage;
+@synthesize totalReview;
+@synthesize isLoading;
 
 - (BOOL)shouldAutorotate {
     return NO;
@@ -49,12 +52,12 @@ enum {
     self.tableView.shouldHandleHeadersTap = NO;
     [self.tableView setExclusiveSections:!self.tableView.exclusiveSections];
     
+    self.reviewData     = [NSMutableArray arrayWithCapacity:1];
+    self.reviewHeaders  = [NSMutableArray arrayWithCapacity:1];
+    
     //load detail expert
     [self loadExpertById];
-    
-    //load review data
-//    [self setupTableViewData];
-//    [self setupReviewData];
+    [self performSelectorInBackground:@selector(getTotalExpertReviews) withObject:nil];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -129,7 +132,7 @@ enum {
     
     NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] init];
     [attString appendAttributedString:[[NSAttributedString alloc] initWithString:@"REVIEWS "    attributes:dict1]];
-    [attString appendAttributedString:[[NSAttributedString alloc] initWithString:@"(10)"      attributes:dict2]];
+    [attString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"(%d)",totalReview]      attributes:dict2]];
     [self.btnReview setAttributedTitle:attString forState:UIControlStateNormal];
     
     //create color title
@@ -143,7 +146,7 @@ enum {
                                 GREEN_COLOR};
     NSMutableAttributedString *attString2 = [[NSMutableAttributedString alloc] init];
     [attString2 appendAttributedString:[[NSAttributedString alloc] initWithString:@"REVIEWS "    attributes:dict3]];
-    [attString2 appendAttributedString:[[NSAttributedString alloc] initWithString:@"(10)"      attributes:dict4]];
+    [attString2 appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"(%d)",totalReview]      attributes:dict4]];
     [self.btnReview setAttributedTitle:attString2 forState:UIControlStateSelected];
 }
 
@@ -172,7 +175,14 @@ enum {
     [[ToolClass instance] loadDetailExpertById:self.expertId withViewController:self];
 }
 
+- (void) getTotalExpertReviews {
+    //test
+//    self.expertId = 12;
+    [[ToolClass instance] getTotalReviewsByExpertId:self.expertId pageIndex:1 withViewController:self];
+}
+
 - (void) setupTableViewData {
+    NSLog(@"expertDict = %@",expertDict);
     NSArray *sectionArray = @[@"ABOUT",@"QUALIFICATIONS",@"QUICK STATS"];
     
     self.data = [[NSMutableArray alloc] init];
@@ -181,12 +191,11 @@ enum {
         //init section data
         NSMutableArray* section = [[NSMutableArray alloc] init];
         if (i == kAboutSection) {
-//            NSString *description = [expertDict objectForKey:@"description"];
             NSString *description = self.expertDescriptionString;
             [section addObject:description];
         }
         else if (i == kQualificationsSection){
-            section = [expertDict objectForKey:@"qualifications"];//[expertDict objectForKey:@"qualificationStats"];
+            section = [expertDict objectForKey:@"qualifications"] == nil ? @[] : [expertDict objectForKey:@"qualifications"];
         }
         else if (i == kQuickStatsSection) {
             NSString *quickStatsTitle[] = {
@@ -199,16 +208,6 @@ enum {
                 @"Association",
                 @"Accreditation #"
             };
-//            NSString *quickStatsKeys[] = {
-//                EXPERT_JOINED_DATE,
-//                EXPERT_EXPERIENCE,
-//                EXPERT_LEVEL,
-//                EXPERT_SESSION,
-//                EXPERT_MIN_SESSION,
-//                EXPERT_MAX_SESSION,
-//                EXPERT_ASSOCIATION,
-//                EXPERT_ACCREDITATION
-//            };
             
             //init quickstat data
             NSString *joinDate      = [expertDict objectForKey:@"join_date"] == nil ? @"" : [expertDict objectForKey:@"join_date"];
@@ -310,38 +309,35 @@ enum {
     [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
 }
 
-- (void) setupReviewData {
-    NSString *customerName[] = {
-        @"Steven",
-        @"Roman",
-        @"Beka",
-        @"Matt"
-    };
+- (void) reloadExpertReviews {
+    currentPage = 1;
+    [self.reviewData removeAllObjects];
+    [self.reviewHeaders removeAllObjects];
+    [self loadExpertReviewsById:self.expertId];
+}
+
+- (void) loadExpertReviewsById:(long)_id {
+    isLoading = YES;
+    [[ToolClass instance] loadExpertReviewById:_id pageIndex:currentPage withViewController:self];
+}
+
+- (void) reorganizeReviewArray:(NSArray*)array {
+    [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
     
-    NSString *customeImgUrl[] = {
-        @"http://vignette4.wikia.nocookie.net/tomandjerry/images/a/a6/TomJerry.jpg/revision/latest?cb=20140117171741",
-        @"http://www.educadorafm.com.br/uploads/user/image/66363/tom1.gif",
-        @"http://rajzfilmjatekok.shoprenter.hu/custom/rajzfilmjatekok/image/data/Tom%20%26amp%3B%20Jerry/tom-and-jerry-cartoons-funny-wallpaper.jpg",
-        @"http://4.bp.blogspot.com/-TOaJh5lJavM/UQpNwFsE51I/AAAAAAAAFQ4/kgLhPGU_LYM/s1600/tom-and-jerry-62.png"
-    };
+    unsigned long startIndex = [self.reviewData count];
+    unsigned long endIndex   = startIndex + [array count];
     
-    NSString *rating[] = {
-        @"4.5",
-        @"5",
-        @"4",
-        @"5"
-    };
-    
-    NSString *titleReview[] = {
-        @"Awesome app",
-        @"The best app",
-        @"Good solution",
-        @"All that I need"
-    };
-    
-    self.reviewHeaders = [NSMutableArray arrayWithCapacity:1];
-    
-    for (int i=0;i < sizeof(customerName)/sizeof(customerName[0]);i++) {
+    //reorganize expert array after requesting, and add to current expert array
+    for (int i=0;i < [array count];i++) {
+        NSDictionary *dict = [array objectAtIndex:i];
+        
+        NSString *title     = [dict objectForKey:@"title"];
+        NSString *content   = [dict objectForKey:@"content"];
+        NSString *name      = [dict objectForKey:@"name"];
+        NSString *rate      = [NSString stringWithFormat:@"%f",[[dict objectForKey:@"rate"] floatValue]];
+        
+//        NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:title,@"title",content,@"content",name,@"name",rate,@"rate", nil];
+        
         UIView* header = [[UIView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, 65)];
         [header setBackgroundColor:[UIColor clearColor]];
         
@@ -350,7 +346,7 @@ enum {
         lbSectionTitle.backgroundColor = [UIColor whiteColor];
         lbSectionTitle.textColor = GREEN_COLOR;
         lbSectionTitle.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
-        lbSectionTitle.text = customerName[i];
+        lbSectionTitle.text = name;
         lbSectionTitle.textInsets = UIEdgeInsetsMake(-30, 60, 0, 0);
         
         [header addSubview:lbSectionTitle];
@@ -377,14 +373,17 @@ enum {
         ratingView.horizontalMargin = 0;
         ratingView.editable    = NO;
         ratingView.displayMode = EDStarRatingDisplayAccurate;
-        ratingView.rating = [rating[i] floatValue];
+        ratingView.rating = [rate floatValue];
         [header addSubview:ratingView];
         
         UIImageView *addView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, EXPERT_IN_LIST_WIDTH/2, EXPERT_IN_LIST_HEIGHT/2)];
         
         UIImageView *se = addView;
         
-        NSString *imgUrl = customeImgUrl[i];
+        NSString *avatar = [dict objectForKey:@"avatar"];
+        avatar = [avatar stringByReplacingOccurrencesOfString:@" " withString:@"\%20"];
+        
+        NSString *imgUrl = avatar;
         [addView sd_setImageWithURL:[NSURL URLWithString:imgUrl]
                    placeholderImage:[UIImage imageNamed:NSLocalizedString(@"image_loading_placeholder", nil)]
                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType,NSURL *url) {
@@ -396,43 +395,66 @@ enum {
         [addView.layer setMasksToBounds:YES];
         [header addSubview:addView];
         
-        //add title heade7
+        //add title header`
         UILabel *lbTitle = [[UILabel alloc] initWithFrame:CGRectMake(70, 45, screenSize.width-80, 21)];
         lbTitle.backgroundColor = [UIColor clearColor];
         lbTitle.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:14];
-        lbTitle.text = titleReview[i];
+        lbTitle.text = title;
         [header addSubview:lbTitle];
         
-        //add arrow image
-//        UIImageView *imgArrow = [[UIImageView alloc] initWithFrame:CGRectMake(header.frame.size.width-10, 10, 12, 7)];
-//        imgArrow.tag = kIconArrowTag;
-//        imgArrow.center = CGPointMake(imgArrow.frame.origin.x, lbSectionTitle.center.y);
-//        imgArrow.image = [UIImage imageNamed:@"iconArrowDown.png"];
-//        [header addSubview:imgArrow];
-        
         [self.reviewHeaders addObject:header];
+        
+        [self.reviewData addObject:content];
     }
     
-    //create review data
-    self.reviewData = [NSMutableArray arrayWithCapacity:1];
+    currentPage++;
+    isLoading = NO;
     
-    NSString *reviewDetail[] = {
-        @"ghfhs fhgsh fhdshf fhdgs fdhsg sjhf hfgs fhsgd fhsg fshgf hgsfdh hsgf ghf sh",
-        @"ghfhs fhgsh fhdshf fhdgs fdhsg sjhf hfgs fhsgd fhsg fshgf hgsfdh hsgf ghf sh",
-        @"ghfhs fhgsh fhdshf fhdgs fdhsg sjhf hfgs fhsgd fhsg fshgf hgsfdh hsgf ghf sh",
-        @"ghfhs fhgsh fhdshf fhdgs fdhsg sjhf hfgs fhsgd fhsg ",
-    };
-    for (int i=0;i < sizeof(reviewDetail)/sizeof(reviewDetail[0]);i++) {
-        [self.reviewData addObject:reviewDetail[i]];
+    if ([self.reviewData count] == [array count]) {
+        [self.tableView reloadData];
     }
+    else {
+        //show drop down animation effect
+        NSMutableIndexSet* indexSetsToInsert = [NSMutableIndexSet indexSet];
+        
+        for (unsigned long i=startIndex;i < endIndex;i++) {
+            [indexSetsToInsert addIndexes:[NSIndexSet indexSetWithIndex:i]];
+        }
+        
+        [self.tableView beginUpdates];
+        [self.tableView insertSections:indexSetsToInsert withRowAnimation:UITableViewRowAnimationTop];
+
+        [self.tableView endUpdates];
+    }
+    
+    //open section review
+    for (unsigned long i=startIndex;i < endIndex;i++) {
+        [self.tableView openSection:i animated:NO];
+    }
+}
+
+-(void) scrollViewDidScroll:(UIScrollView *)scrollView {
+    // Check if we are at the bottom of the table
+    // This will load more experts
+    if (self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.bounds.size.height))
+    {
+        //check for loading more the expert list
+        if (!isLoading && currentPage <= lastPage && !isSelectDescription) {
+            [self loadExpertReviewsById:self.expertId];
+        }
+    }
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     if (isSelectDescription)
         return [self.data count];
-    else
+    else {
+        if ([self.reviewHeaders count] == 0)
+            return 1;
         return [self.reviewHeaders count];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -547,34 +569,43 @@ enum {
         [cell.contentView addSubview:bgView];
     }
     else {
-        UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, 40)];
-        bgView.backgroundColor = [UIColor clearColor];
-        
-        NSString *desciptionText = [self.reviewData objectAtIndex:indexPath.row];
-        
-        UITextView *txtView = [[UITextView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-10, 10)];
-        txtView.userInteractionEnabled = NO;
-        txtView.text = desciptionText;
-        CGSize size = [txtView sizeThatFits:CGSizeMake(screenSize.width, CGFLOAT_MAX)];
-        
-        txtView.frame = CGRectMake(0, -5, bgView.frame.size.width, size.height);
-        [bgView addSubview:txtView];
-        
-        //set corner border for textview
-        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, txtView.frame.size.width, txtView.frame.size.height) byRoundingCorners:(UIRectCornerBottomLeft | UIRectCornerBottomRight) cornerRadii:CGSizeMake(5.0, 5.0)];
-        
-        CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-        maskLayer.path  = maskPath.CGPath;
-        txtView.layer.mask = maskLayer;
-        
-        //create bezier path for border line txtview
-        //create border with 3 edges: bottom, left, right
-        
-        CAShapeLayer *strokeLayer = [self addBorderLineWithFrame:txtView.frame top:NO bottom:YES left:YES right:YES];
-        [txtView.layer addSublayer:strokeLayer];
-        
-        [cell.contentView addSubview:bgView];
-
+        if ([self.reviewHeaders count] == 0) {
+            UILabel *lbTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, 40)];
+            lbTitle.backgroundColor = [UIColor colorWithRed:(float)245/255 green:(float)245/255 blue:(float)245/255 alpha:1];
+            lbTitle.font = [UIFont fontWithName:DEFAULT_FONT size:13];
+            lbTitle.text = @"There isn't any reviews for this expert.";
+            lbTitle.textAlignment = NSTextAlignmentCenter;
+            [cell.contentView addSubview:lbTitle];
+        }
+        else {
+            UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, 40)];
+            bgView.backgroundColor = [UIColor clearColor];
+            
+            NSString *desciptionText = [self.reviewData objectAtIndex:indexPath.row+indexPath.section];
+            
+            UITextView *txtView = [[UITextView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-10, 10)];
+            txtView.userInteractionEnabled = NO;
+            txtView.text = desciptionText;
+            CGSize size = [txtView sizeThatFits:CGSizeMake(screenSize.width, CGFLOAT_MAX)];
+            
+            txtView.frame = CGRectMake(0, -5, bgView.frame.size.width, size.height);
+            [bgView addSubview:txtView];
+            
+            //set corner border for textview
+            UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, txtView.frame.size.width, txtView.frame.size.height) byRoundingCorners:(UIRectCornerBottomLeft | UIRectCornerBottomRight) cornerRadii:CGSizeMake(5.0, 5.0)];
+            
+            CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+            maskLayer.path  = maskPath.CGPath;
+            txtView.layer.mask = maskLayer;
+            
+            //create bezier path for border line txtview
+            //create border with 3 edges: bottom, left, right
+            
+            CAShapeLayer *strokeLayer = [self addBorderLineWithFrame:txtView.frame top:NO bottom:YES left:YES right:YES];
+            [txtView.layer addSublayer:strokeLayer];
+            
+            [cell.contentView addSubview:bgView];
+        }
     }
     
     cell.userInteractionEnabled = NO;
@@ -624,11 +655,13 @@ enum {
             [view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)]];
         }
     }
-    else
-        view = [self.reviewHeaders objectAtIndex:section];
-    
-    
-    
+    else {
+        if ([self.reviewHeaders count] != 0)
+            view = [self.reviewHeaders objectAtIndex:section];
+        else
+            return nil;
+    }
+
     return view;
 }
 
@@ -649,12 +682,16 @@ enum {
         }
     }
     else {
-        NSString *reviewText = [self.reviewData objectAtIndex:indexPath.row];
-        
-        UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, screenSize.width, 10)];
-        view.text = reviewText;
-        CGSize size = [view sizeThatFits:CGSizeMake(screenSize.width, CGFLOAT_MAX)];
-        rowHeight = size.height;
+        if ([self.reviewHeaders count] == 0)
+            return rowHeight;
+        else {
+            NSString *reviewText = [self.reviewData objectAtIndex:indexPath.row+indexPath.section];
+            
+            UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, screenSize.width, 10)];
+            view.text = reviewText;
+            CGSize size = [view sizeThatFits:CGSizeMake(screenSize.width, CGFLOAT_MAX)];
+            rowHeight = size.height;
+        }
     }
     
     return rowHeight;
@@ -774,10 +811,9 @@ enum {
     [self.btnDescription setSelected:NO];
     [self.btnDescription setImage:nil forState:UIControlStateNormal];
 
-    [self.tableView reloadData];
-    for (int i=0;i < [self.reviewHeaders count];i++) {
-        [self.tableView openSection:i animated:NO];
-    }
+    //for test
+//    self.expertId = 12;
+    [self reloadExpertReviews];
 }
 
 - (CAShapeLayer*) addBorderLineWithFrame:(CGRect)rect top:(BOOL)isTop bottom:(BOOL)isBottom left:(BOOL)isLeft right:(BOOL)isRight {
