@@ -74,7 +74,7 @@
                     <variation key="heightClass=regular-widthClass=compact">
                         <mask key="constraints">
                             <include reference="8Rw-Lb-lBY"/>
-                            <include reference="cxY-1v-AuZ"/>
+                            <exclude reference="cxY-1v-AuZ"/>
                         </mask>
                     </variation>
                 </label>
@@ -375,6 +375,7 @@
                     <variation key="heightClass=regular-widthClass=compact" constant="20"/>
                 </constraint>
                 <constraint firstItem="Eug-wy-abM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="PTf-Ph-7sw"/>
+                <constraint firstAttribute="trailing" secondItem="epE-uv-Tc7" secondAttribute="trailing" constant="8" id="Q4e-lW-ldF"/>
                 <constraint firstItem="j0X-7B-EwF" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="SH6-VZ-HRy"/>
                 <constraint firstItem="Pvn-H9-nji" firstAttribute="top" secondItem="epE-uv-Tc7" secondAttribute="bottom" constant="1" id="VVa-b4-TK2"/>
                 <constraint firstItem="Eug-wy-abM" firstAttribute="leading" secondItem="7YJ-Kg-nca" secondAttribute="trailing" constant="-190" id="Zum-dw-c7m">
@@ -417,6 +418,7 @@
                     <exclude reference="7m3-aw-xAn"/>
                     <exclude reference="xcg-vk-bqT"/>
                     <exclude reference="14J-oW-moo"/>
+                    <exclude reference="Q4e-lW-ldF"/>
                     <exclude reference="t6f-Gv-9Be"/>
                     <exclude reference="vqO-R8-UdM"/>
                     <exclude reference="zMU-Mk-H9A"/>
@@ -469,6 +471,7 @@
                     <include reference="7m3-aw-xAn"/>
                     <exclude reference="xcg-vk-bqT"/>
                     <exclude reference="14J-oW-moo"/>
+                    <include reference="Q4e-lW-ldF"/>
                     <include reference="t6f-Gv-9Be"/>
                     <exclude reference="vqO-R8-UdM"/>
                     <include reference="zMU-Mk-H9A"/>

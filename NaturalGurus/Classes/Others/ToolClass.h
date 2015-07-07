@@ -12,6 +12,7 @@
 #import "LeftSideViewController.h"
 #import "ForgotPasswordViewController.h"
 #import "BrowseViewController.h"
+#import "DetailBrowseViewController.h"
 
 @interface ToolClass : NSObject 
 + (ToolClass *) instance;
@@ -63,5 +64,7 @@
 - (void) loadExpertByFilter:(int)_filterIndex pageIndex:(int)_pageIndex withViewController:(BrowseViewController*)viewController;
 - (void) loadExpertBySearchString:(NSString*)_searchStr pageIndex:(int)_pageIndex withViewController:(BrowseViewController*)viewController;
 - (void) loadCategoriesWithViewController:(BrowseViewController*)viewController;
+
+- (void) loadDetailExpertById:(long)expertId withViewController:(DetailBrowseViewController*)viewController;
 
 @end

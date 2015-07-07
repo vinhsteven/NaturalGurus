@@ -20,6 +20,8 @@
 }
 
 @property (weak, nonatomic) NSMutableDictionary *expertDict;
+@property (assign, readwrite) long expertId;
+@property (strong, nonatomic) NSString *expertDescriptionString;    //reuse from previous screen, because it take too long time to creat HTML string
 @property (strong, nonatomic) IBOutlet UILabel *lbDuration;
 @property (strong, nonatomic) IBOutlet UIImageView *imgStatusView;
 @property (strong, nonatomic) IBOutlet UIImageView *imgExpertView;
@@ -43,6 +45,8 @@
 - (IBAction) handleScheduleAppointment:(id)sender;
 - (IBAction) selectDescription:(id)sender;
 - (IBAction) selectReview:(id)sender;
+
+- (void) setupTableViewData;
 
 @end
 

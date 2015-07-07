@@ -49,44 +49,12 @@ enum {
     self.tableView.shouldHandleHeadersTap = NO;
     [self.tableView setExclusiveSections:!self.tableView.exclusiveSections];
     
-    //setup description data
-    [self setupTableViewData];
-    [self setupReviewData];
+    //load detail expert
+    [self loadExpertById];
     
-    [self selectDescription:nil];
-    
-    //set rating value
-    self.starRatingView.rating      = [[expertDict objectForKey:@"rating"] floatValue];
-    
-    //set Duration label text
-    self.lbDuration.text = [expertDict objectForKey:@"durationPrice"];
-    
-    //set Online / Offline label text
-    BOOL isOnline = [[expertDict objectForKey:@"status"] intValue];
-    if (isOnline) {
-        [self.imgStatusView setImage:[UIImage imageNamed:@"iconOnline.png"]];
-    }
-    else {
-        [self.imgStatusView setImage:[UIImage imageNamed:@"iconOffline.png"]];
-    }
-    
-    //set Service name label text
-    self.lbServiceName.text = [expertDict objectForKey:@"serviceName"];
-    
-    //get expert image
-    UIImageView *se = self.imgExpertView;
-    
-    NSString *imgUrl = [expertDict objectForKey:@"imageUrl"];
-    [self.imgExpertView sd_setImageWithURL:[NSURL URLWithString:imgUrl]
-            placeholderImage:[UIImage imageNamed:NSLocalizedString(@"image_loading_placeholder", nil)]
-                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
-                       
-                       se.image = [[ToolClass instance] imageByScalingAndCroppingForSize:CGSizeMake(EXPERT_IN_LIST_WIDTH, EXPERT_IN_LIST_HEIGHT) source:image];
-                       
-                   }];
-    self.imgExpertView.layer.cornerRadius  = EXPERT_IMAGE_WIDTH/2;
-    self.imgExpertView.layer.masksToBounds = YES;
-    
+    //load review data
+//    [self setupTableViewData];
+//    [self setupReviewData];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -200,6 +168,10 @@ enum {
     [self presentViewController:controller animated:YES completion:nil];
 }
 
+- (void) loadExpertById {
+    [[ToolClass instance] loadDetailExpertById:self.expertId withViewController:self];
+}
+
 - (void) setupTableViewData {
     NSArray *sectionArray = @[@"ABOUT",@"QUALIFICATIONS",@"QUICK STATS"];
     
@@ -209,11 +181,12 @@ enum {
         //init section data
         NSMutableArray* section = [[NSMutableArray alloc] init];
         if (i == kAboutSection) {
-            NSString *description = [expertDict objectForKey:@"description"];
+//            NSString *description = [expertDict objectForKey:@"description"];
+            NSString *description = self.expertDescriptionString;
             [section addObject:description];
         }
         else if (i == kQualificationsSection){
-            section = [expertDict objectForKey:@"qualificationStats"];
+            section = [expertDict objectForKey:@"qualifications"];//[expertDict objectForKey:@"qualificationStats"];
         }
         else if (i == kQuickStatsSection) {
             NSString *quickStatsTitle[] = {
@@ -226,18 +199,30 @@ enum {
                 @"Association",
                 @"Accreditation #"
             };
-            NSString *quickStatsKeys[] = {
-                EXPERT_JOINED_DATE,
-                EXPERT_EXPERIENCE,
-                EXPERT_LEVEL,
-                EXPERT_SESSION,
-                EXPERT_MIN_SESSION,
-                EXPERT_MAX_SESSION,
-                EXPERT_ASSOCIATION,
-                EXPERT_ACCREDITATION
-            };
+//            NSString *quickStatsKeys[] = {
+//                EXPERT_JOINED_DATE,
+//                EXPERT_EXPERIENCE,
+//                EXPERT_LEVEL,
+//                EXPERT_SESSION,
+//                EXPERT_MIN_SESSION,
+//                EXPERT_MAX_SESSION,
+//                EXPERT_ASSOCIATION,
+//                EXPERT_ACCREDITATION
+//            };
+            
+            //init quickstat data
+            NSString *joinDate      = [expertDict objectForKey:@"join_date"] == nil ? @"" : [expertDict objectForKey:@"join_date"];
+            NSString *experience    = [expertDict objectForKey:@"experience"] == nil ? @"" : [expertDict objectForKey:@"experience"];
+            NSString *level         = [expertDict objectForKey:@"level"] == nil ? @"" : [expertDict objectForKey:@"level"];
+            NSString *numberSession = [expertDict objectForKey:@"sessions"] == nil ? @"0" : [NSString stringWithFormat:@"%d",[[expertDict objectForKey:@"sessions"] intValue]];
+            NSString *minSession    = [expertDict objectForKey:@"min_duration"] == nil ? @"0" : [NSString stringWithFormat:@"%d",[[expertDict objectForKey:@"min_duration"] intValue]];
+            NSString *maxSession    = [expertDict objectForKey:@"max_duration"] == nil ? @"0" : [NSString stringWithFormat:@"%d",[[expertDict objectForKey:@"max_duration"] intValue]];
+            NSString *association   = [expertDict objectForKey:@"association"] == nil ? @"" : [expertDict objectForKey:@"association"];
+            NSString *accreditation = [expertDict objectForKey:@"accreditation_number"] == nil ? @"" : [expertDict objectForKey:@"accreditation_number"];
+            
+            NSArray *quickStatValueArray = [NSArray arrayWithObjects:joinDate,experience,level,numberSession,minSession,maxSession,association,accreditation, nil];
             for (int i=0; i < sizeof(quickStatsTitle)/sizeof(quickStatsTitle[0]);i++) {
-                NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:quickStatsTitle[i],@"title",[expertDict objectForKey:quickStatsKeys[i]],@"value", nil];
+                NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:quickStatsTitle[i],@"title",[quickStatValueArray objectAtIndex:i],@"value", nil];
                 [section addObject:dict];
             }
         }
@@ -284,6 +269,45 @@ enum {
         
         [self.headers addObject:header];
     }
+    
+    [self selectDescription:nil];
+    
+    //set rating value
+    self.starRatingView.rating      = [[expertDict objectForKey:@"rating"] floatValue];
+    
+    //set Duration label text
+    self.lbDuration.text = [NSString stringWithFormat:@"$%@ per minute",[expertDict objectForKey:@"price"]];
+    
+    //set Online / Offline label text
+    BOOL isOnline = [[expertDict objectForKey:@"online"] boolValue];
+    if (isOnline) {
+        [self.imgStatusView setImage:[UIImage imageNamed:@"iconOnline.png"]];
+    }
+    else {
+        [self.imgStatusView setImage:[UIImage imageNamed:@"iconOffline.png"]];
+    }
+    
+    //set Service name label text
+    self.lbServiceName.text = [expertDict objectForKey:@"title"];
+    
+    //get expert image
+    NSString *avatar = [expertDict objectForKey:@"avatar"];
+    avatar = [avatar stringByReplacingOccurrencesOfString:@" " withString:@"\%20"];
+    
+    UIImageView *se = self.imgExpertView;
+    
+    NSString *imgUrl = avatar;
+    [self.imgExpertView sd_setImageWithURL:[NSURL URLWithString:imgUrl]
+                          placeholderImage:[UIImage imageNamed:NSLocalizedString(@"image_loading_placeholder", nil)]
+                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
+                                     
+                                     se.image = [[ToolClass instance] imageByScalingAndCroppingForSize:CGSizeMake(EXPERT_IN_LIST_WIDTH, EXPERT_IN_LIST_HEIGHT) source:image];
+                                     
+                                 }];
+    self.imgExpertView.layer.cornerRadius  = EXPERT_IMAGE_WIDTH/2;
+    self.imgExpertView.layer.masksToBounds = YES;
+    
+    [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
 }
 
 - (void) setupReviewData {
@@ -435,11 +459,11 @@ enum {
         int offsetY = 0;
         
         if (indexPath.section == kAboutSection) {
-            NSString *desciptionText = [[self.data objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+            NSAttributedString *desciptionText = [[self.data objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
             
             UITextView *txtView = [[UITextView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-10, 10)];
             txtView.userInteractionEnabled = NO;
-            txtView.text = desciptionText;
+            txtView.attributedText = desciptionText;
             CGSize size = [txtView sizeThatFits:CGSizeMake(screenSize.width, CGFLOAT_MAX)];
             
             txtView.frame = CGRectMake(0, -5, bgView.frame.size.width, size.height);
@@ -464,13 +488,13 @@ enum {
             
             UILabel *lbQualificationTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, offsetY, 200, 21)];
             lbQualificationTitle.backgroundColor = [UIColor clearColor];
-            lbQualificationTitle.text = [qualificationDict objectForKey:@"qualificationTitle"];
+            lbQualificationTitle.text = [qualificationDict objectForKey:@"name"];
             lbQualificationTitle.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
             [bgView addSubview:lbQualificationTitle];
             
-            UILabel *lbQualificationYear = [[UILabel alloc] initWithFrame:CGRectMake(bgView.frame.size.width-105, offsetY, 100, 21)];
+            UILabel *lbQualificationYear = [[UILabel alloc] initWithFrame:CGRectMake(bgView.frame.size.width-205, offsetY, 200, 21)];
             lbQualificationYear.backgroundColor = [UIColor clearColor];
-            lbQualificationYear.text = [qualificationDict objectForKey:@"qualificationYear"];
+            lbQualificationYear.text = [NSString stringWithFormat:@"%@ - %@",[qualificationDict objectForKey:@"start"],[qualificationDict objectForKey:@"end"]];
             lbQualificationYear.textAlignment = NSTextAlignmentRight;
             lbQualificationYear.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
             [bgView addSubview:lbQualificationYear];
@@ -616,10 +640,10 @@ enum {
     if (isSelectDescription) {
         if (indexPath.section == kAboutSection) {
             //get description text
-            NSString *desciptionText = [[self.data objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+            NSAttributedString *desciptionText = [[self.data objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
             
             UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, screenSize.width, 10)];
-            view.text = desciptionText;
+            view.attributedText = desciptionText;
             CGSize size = [view sizeThatFits:CGSizeMake(screenSize.width, CGFLOAT_MAX)];
             rowHeight = size.height;
         }

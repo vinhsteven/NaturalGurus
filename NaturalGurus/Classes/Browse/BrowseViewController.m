@@ -231,6 +231,9 @@
         NSString *description   = [dict objectForKey:@"description"];
         NSString *joinedDate  = [dict objectForKey:@"join_date"];
         
+        //add %20 if there are some space in link
+        avatar = [avatar stringByReplacingOccurrencesOfString:@" " withString:@"\%20"];
+        
         //process html format string in description
         NSAttributedString * attrStr = [[NSAttributedString alloc] initWithData:[description dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
 
@@ -543,7 +546,8 @@
             dict = [searchArray objectAtIndex:indexPath.row];
         
         DetailBrowseViewController *controller = [[DetailBrowseViewController alloc] initWithNibName:@"DetailBrowseViewController" bundle:nil];
-        controller.expertDict = dict;
+        controller.expertId     = [[dict objectForKey:@"expertId"] longValue];
+        controller.expertDescriptionString = [dict objectForKey:@"description"];
         [self.navigationController pushViewController:controller animated:YES];
     }
     else {
