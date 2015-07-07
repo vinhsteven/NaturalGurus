@@ -22,6 +22,7 @@ enum {
 };
 
 @implementation ScheduleAppointmentViewController
+@synthesize durationArray;
 
 - (BOOL)shouldAutorotate {
     return NO;
@@ -109,30 +110,10 @@ enum {
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
     [self.view addGestureRecognizer:singleTap];
     
-    //init data for duration array
-    NSString *durationValue[] = {
-        @"15",
-        @"30",
-        @"45"
-    };
-    
-    durationArray = [NSMutableArray arrayWithCapacity:1];
-    for (int i=0;i < sizeof(durationValue)/sizeof(durationValue[0]);i++) {
-        NSString *title = [NSString stringWithFormat:@"%@ minutes",durationValue[i]];
-        [durationArray addObject:title];
-    }
-    
     //init data for timezone array
-    NSString *timezoneTitle[] = {
-        @"GMT (-12) Alaska",
-        @"GMT (-11) Seattle",
-        @"GMT (-10) Central America"
-    };
-    
-    timezoneArray = [NSMutableArray arrayWithCapacity:1];
-    for (int i=0;i < sizeof(timezoneTitle)/sizeof(timezoneTitle[0]);i++){
-        [timezoneArray addObject:timezoneTitle[i]];
-    }
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"TimeZone" ofType:@"plist"];
+    timezoneArray = [NSMutableArray arrayWithContentsOfFile:filePath];
+
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -157,15 +138,29 @@ enum {
     
     currentPickerSelected = kCurrentDurationPicker;
     
+//    [MMPickerView showPickerViewInView:self.view
+//                           withStrings:durationArray
+//                           withOptions:nil
+//                            completion:^(NSString *selectedString) {
+//                                //selectedString is the return value which you can use as you wish
+//                                [self.btnDuration setTitle:selectedString forState:UIControlStateNormal];
+//                                self.btnDuration.titleLabel.text = selectedString;
+//                            }];
     [MMPickerView showPickerViewInView:self.view
-                           withStrings:durationArray
+                           withObjects:durationArray
                            withOptions:nil
-                            completion:^(NSString *selectedString) {
-                                //selectedString is the return value which you can use as you wish
-                                [self.btnDuration setTitle:selectedString forState:UIControlStateNormal];
-                                self.btnDuration.titleLabel.text = selectedString;
+                            completion:^(NSInteger selectedIndex) {
+                                //return selected index
+                                currentDurationSelected = (int)selectedIndex;
+                                
+                                NSDictionary *dict = [durationArray objectAtIndex:currentDurationSelected];
+                                [self.btnDuration setTitle:[dict objectForKey:@"title"] forState:UIControlStateNormal];
+                                
+                                float value = [[dict objectForKey:@"value"] floatValue];
+                                float price = [[ToolClass instance] getExpertPrice];
+                                float total = price * value;
+                                self.lbTotal.text = [NSString stringWithFormat:@"$%.2f",total];
                             }];
-    
     
 }
 
@@ -179,12 +174,14 @@ enum {
     currentPickerSelected = kCurrentTimezonePicker;
     
     [MMPickerView showPickerViewInView:self.view
-                           withStrings:timezoneArray
+                           withObjects:timezoneArray
                            withOptions:nil
-                            completion:^(NSString *selectedString) {
-                                //selectedString is the return value which you can use as you wish
-                                [self.btnTimeZone setTitle:selectedString forState:UIControlStateNormal];
-                                self.btnTimeZone.titleLabel.text = selectedString;
+                            completion:^(NSInteger selectedIndex) {
+                                //return selected index
+                                currentTimeZoneSelected = (int)selectedIndex;
+                                
+                                NSDictionary *dict = [timezoneArray objectAtIndex:currentTimeZoneSelected];
+                                [self.btnTimeZone setTitle:[dict objectForKey:@"title"] forState:UIControlStateNormal];
                             }];
 }
 

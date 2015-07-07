@@ -32,6 +32,11 @@ extern NSString * const MMshowsSelectionIndicator;
     objectToStringConverter: (NSString *(^)(id object))converter
        completion: (void(^)(id selectedObject))completion;
 
++(void) showPickerViewInView:(UIView *)view
+                 withObjects:(NSArray *)objects
+                 withOptions:(NSDictionary *)options
+                  completion:(void (^)(NSInteger selectedIndex))completion;
+
 +(void)dismissWithCompletion: (void(^)(NSString *))completion;
 
 @end

@@ -56,6 +56,7 @@
 		B0CD2E4A1B3901F800764216 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0CD2E481B3901F800764216 /* SignUpViewController.xib */; };
 		B0CD2E4E1B39224A00764216 /* ForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CD2E4C1B39224A00764216 /* ForgotPasswordViewController.m */; };
 		B0CD2E4F1B39224A00764216 /* ForgotPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0CD2E4D1B39224A00764216 /* ForgotPasswordViewController.xib */; };
+		B0CD30231B4B910C00FD2688 /* TimeZone.plist in Resources */ = {isa = PBXBuildFile; fileRef = B0CD30221B4B910C00FD2688 /* TimeZone.plist */; };
 		B0D21BFE1B43842900D703B0 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0D21BFD1B43842900D703B0 /* MobileCoreServices.framework */; };
 		B0D21C001B43843000D703B0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0D21BFF1B43843000D703B0 /* SystemConfiguration.framework */; };
 		B0D21C021B43843F00D703B0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0D21C011B43843F00D703B0 /* Security.framework */; };
@@ -218,6 +219,7 @@
 		B0CD2E4B1B39224A00764216 /* ForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPasswordViewController.h; sourceTree = "<group>"; };
 		B0CD2E4C1B39224A00764216 /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; };
 		B0CD2E4D1B39224A00764216 /* ForgotPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ForgotPasswordViewController.xib; sourceTree = "<group>"; };
+		B0CD30221B4B910C00FD2688 /* TimeZone.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TimeZone.plist; sourceTree = "<group>"; };
 		B0D21BFD1B43842900D703B0 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		B0D21BFF1B43843000D703B0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B0D21C011B43843F00D703B0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -557,6 +559,7 @@
 				C2A5E3A11B27F3CF000F7F29 /* Libraries */,
 				C21A94AA1B26E12B00698B01 /* Info.plist */,
 				C21A94AB1B26E12B00698B01 /* main.m */,
+				B0CD30221B4B910C00FD2688 /* TimeZone.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -925,6 +928,7 @@
 				C2BA2F1F1B2C33FB00811E56 /* camera.png in Resources */,
 				C22633D21B32D5E400CB368D /* btnFilter@2x.png in Resources */,
 				B00F66F51B380BF400521850 /* AvailabilityViewController.xib in Resources */,
+				B0CD30231B4B910C00FD2688 /* TimeZone.plist in Resources */,
 				B0CD2E451B3901CF00764216 /* LoginViewController.xib in Resources */,
 				C2ED33A21B30173A0032F885 /* btnCollapse@2x.png in Resources */,
 				C21392071B36B82000A2A1B5 /* iconLock@2x.png in Resources */,

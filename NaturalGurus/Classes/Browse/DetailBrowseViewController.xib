@@ -252,7 +252,7 @@
                                 <constraint firstAttribute="width" constant="127" id="zGN-8w-srV"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" title="Book Live">
+                            <state key="normal" title="Meet Now">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>

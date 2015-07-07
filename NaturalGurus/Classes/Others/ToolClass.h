@@ -14,7 +14,10 @@
 #import "BrowseViewController.h"
 #import "DetailBrowseViewController.h"
 
-@interface ToolClass : NSObject 
+@interface ToolClass : NSObject  {
+    float expertPrice;
+}
+
 + (ToolClass *) instance;
 + (UIImage *) imageFromColor:(UIColor *)color;
 - (UIImage*)imageByScalingAndCroppingForSize:(CGSize)targetSize source:(UIImage*)sourceImages;
@@ -53,6 +56,9 @@
 
 - (void) setUserToken:(NSString*)token;
 - (NSString*) getUserToken;
+
+- (void) setExpertPrice:(float)price;
+- (float) getExpertPrice;
 
 #pragma mark HANDLE CONNECT TO GET DATA
 - (void) registerAccount:(NSDictionary*)params withViewController:(SignUpViewController*)viewController;

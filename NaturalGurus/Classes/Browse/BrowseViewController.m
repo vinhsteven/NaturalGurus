@@ -101,8 +101,28 @@
     categoryArray = [NSMutableArray arrayWithCapacity:1];
     
     //init filter array
-    filterArray = [NSMutableArray arrayWithObjects:@"Available now (live)",@"Free sessions", nil];
-    sortArray   = [NSMutableArray arrayWithObjects:@"Price (highest to lowest)",@"Experience (highest to lowest)", nil];
+    filterArray = [NSMutableArray arrayWithCapacity:1];
+    NSString *filterTitle[] = {
+        @"Available now (live)",
+        @"Free sessions"
+    };
+    
+    for (int i=0;i < sizeof(filterTitle)/sizeof(filterTitle[0]);i++) {
+        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:filterTitle[i],@"title",[NSNumber numberWithInt:i],@"value", nil];
+        [filterArray addObject:dict];
+    }
+    
+    //init sort array
+    sortArray = [NSMutableArray arrayWithCapacity:1];
+    NSString *sortTitle[] = {
+        @"Price (highest to lowest)",
+        @"Experience (highest to lowest)"
+    };
+    for (int i=0;i < sizeof(sortTitle)/sizeof(sortTitle[0]);i++) {
+        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:sortTitle[i],@"title",[NSNumber numberWithInt:i],@"value", nil];
+        [sortArray addObject:dict];
+    }
+    
     searchArray = [NSMutableArray arrayWithCapacity:1];
     
     isLoading = NO;
@@ -660,18 +680,11 @@
 
 - (void) handleFilter {
     [MMPickerView showPickerViewInView:self.view
-                           withStrings:filterArray
+                           withObjects:filterArray
                            withOptions:nil
-                            completion:^(NSString *selectedString) {
-                                //selectedString is the return value which you can use as you wish
-                                for (int i=0;i < [filterArray count];i++) {
-                                    NSString *tmpStr = [filterArray objectAtIndex:i];
-                                    if ([tmpStr isEqualToString:selectedString]) {
-                                        currentFilterIndex = i;
-                                        break;
-                                    }
-                                }
-                                
+                            completion:^(NSInteger selectedIndex) {
+                                //return selected index
+                                currentFilterIndex = (int)selectedIndex;
                                 [self reloadExpertByFilter:currentFilterIndex];
                             }];
 }

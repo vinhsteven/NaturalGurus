@@ -14,10 +14,11 @@
     
     CGSize screenSize;
     
-    NSMutableArray *durationArray;
     NSMutableArray *timezoneArray;
     
     int currentPickerSelected;
+    int currentTimeZoneSelected;
+    int currentDurationSelected;
 }
 
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
@@ -34,6 +35,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *btnTimeZone;
 @property (strong, nonatomic) IBOutlet UILabel *lbTotal;
 @property (strong, nonatomic) IBOutlet UIButton *btnViewAvailability;
+
+@property (strong, nonatomic) NSMutableArray *durationArray;
 
 - (IBAction) hanldeChangeDuration:(id)sender;
 - (IBAction) handleChangeTimezone:(id)sender;

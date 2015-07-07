@@ -61,7 +61,7 @@ enum {
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-    self.navigationItem.title = [expertDict objectForKey:@"expertName"];
+    self.navigationItem.title = [expertDict objectForKey:@"name"];
 }
 
 - (void) viewDidLayoutSubviews {
@@ -282,6 +282,7 @@ enum {
     
     //set Duration label text
     self.lbDuration.text = [NSString stringWithFormat:@"$%@ per minute",[expertDict objectForKey:@"price"]];
+    [[ToolClass instance] setExpertPrice:[[expertDict objectForKey:@"price"] floatValue]];
     
     //set Online / Offline label text
     BOOL isOnline = [[expertDict objectForKey:@"online"] boolValue];
@@ -289,6 +290,8 @@ enum {
         [self.imgStatusView setImage:[UIImage imageNamed:@"iconOnline.png"]];
     }
     else {
+        self.btnBookLive.userInteractionEnabled = NO;
+        self.btnBookLive.alpha = 0.7;
         [self.imgStatusView setImage:[UIImage imageNamed:@"iconOffline.png"]];
     }
     
@@ -778,8 +781,21 @@ enum {
 }
 
 - (IBAction) handleScheduleAppointment:(id)sender {
+    //init duration array for this expert
+    NSDictionary *durationDict = [expertDict objectForKey:@"durations"];
+    NSMutableArray *durationArray = [NSMutableArray arrayWithCapacity:1];
+    
+    for (int i=0;i < [[durationDict allKeys] count];i++) {
+        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[[durationDict allValues] objectAtIndex:i],@"title",[[durationDict allKeys] objectAtIndex:i],@"value", nil];
+        [durationArray addObject:dict];
+    }
+    
+    NSSortDescriptor *value = [[NSSortDescriptor alloc] initWithKey:@"value" ascending:YES];
+    [durationArray sortUsingDescriptors:[NSArray arrayWithObjects:value, nil]];
+    
     self.navigationItem.title = @"";
     ScheduleAppointmentViewController *controller = [[ScheduleAppointmentViewController alloc] initWithNibName:@"ScheduleAppointmentViewController" bundle:nil];
+    controller.durationArray = durationArray;
     [self.navigationController pushViewController:controller animated:YES];
 }
 

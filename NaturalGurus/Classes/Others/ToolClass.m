@@ -480,6 +480,14 @@
     return [userDefaults objectForKey:USER_TOKEN];
 }
 
+- (void) setExpertPrice:(float)price {
+    expertPrice = price;
+}
+
+- (float) getExpertPrice {
+    return expertPrice;
+}
+
 #pragma mark HANDLE CONNECT TO GET DATA
 - (void) registerAccount:(NSDictionary*)params withViewController:(SignUpViewController*)viewController {
     UIView *view;

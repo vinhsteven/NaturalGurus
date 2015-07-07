@@ -23,7 +23,7 @@
 @property (assign, readwrite) int lastPage;
 @property (assign, readwrite) BOOL isLoading;
 @property (assign, readwrite) int totalReview;
-@property (weak, nonatomic) NSMutableDictionary *expertDict;
+@property (strong, nonatomic) NSMutableDictionary *expertDict;
 @property (assign, readwrite) long expertId;
 @property (strong, nonatomic) NSString *expertDescriptionString;    //reuse from previous screen, because it take too long time to creat HTML string
 @property (strong, nonatomic) IBOutlet UILabel *lbDuration;
