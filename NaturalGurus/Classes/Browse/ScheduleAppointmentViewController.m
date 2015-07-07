@@ -137,15 +137,7 @@ enum {
     [self.txtMessage resignFirstResponder];
     
     currentPickerSelected = kCurrentDurationPicker;
-    
-//    [MMPickerView showPickerViewInView:self.view
-//                           withStrings:durationArray
-//                           withOptions:nil
-//                            completion:^(NSString *selectedString) {
-//                                //selectedString is the return value which you can use as you wish
-//                                [self.btnDuration setTitle:selectedString forState:UIControlStateNormal];
-//                                self.btnDuration.titleLabel.text = selectedString;
-//                            }];
+
     [MMPickerView showPickerViewInView:self.view
                            withObjects:durationArray
                            withOptions:nil
@@ -187,6 +179,12 @@ enum {
 
 - (IBAction) handleViewAvailability:(id)sender {
     self.navigationItem.title = @"";
+    
+    if ([self.btnTimeZone.titleLabel.text isEqualToString:@"Select timezone"]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select your timezone before proceeding the availabilities" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
     
     AvailabilityViewController *controller = [[AvailabilityViewController alloc] initWithNibName:@"AvailabilityViewController" bundle:nil];
     [self.navigationController pushViewController:controller animated:YES];

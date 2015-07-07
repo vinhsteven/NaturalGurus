@@ -15,6 +15,7 @@
 #import "DetailBrowseViewController.h"
 
 @interface ToolClass : NSObject  {
+    unsigned long expertId;
     float expertPrice;
 }
 
@@ -57,6 +58,9 @@
 - (void) setUserToken:(NSString*)token;
 - (NSString*) getUserToken;
 
+- (void) setExpertId:(float)_id;
+- (float) getExpertId;
+
 - (void) setExpertPrice:(float)price;
 - (float) getExpertPrice;
 
@@ -68,11 +72,12 @@
 - (void) loadTheLatestExperts:(int)_pageIndex withViewController:(BrowseViewController*)viewController;
 - (void) loadExpertByCategory:(int)_categoryId pageIndex:(int)_pageIndex withViewController:(BrowseViewController*)viewController;
 - (void) loadExpertByFilter:(int)_filterIndex pageIndex:(int)_pageIndex withViewController:(BrowseViewController*)viewController;
+- (void) loadExpertBySorting:(int)_sortIndex pageIndex:(int)_pageIndex withViewController:(BrowseViewController*)viewController;
 - (void) loadExpertBySearchString:(NSString*)_searchStr pageIndex:(int)_pageIndex withViewController:(BrowseViewController*)viewController;
 - (void) loadCategoriesWithViewController:(BrowseViewController*)viewController;
 
-- (void) loadDetailExpertById:(long)expertId withViewController:(DetailBrowseViewController*)viewController;
-- (void) loadExpertReviewById:(long)expertId pageIndex:(int)_pageIndex withViewController:(DetailBrowseViewController*)viewController;
-- (void) getTotalReviewsByExpertId:(long)expertId pageIndex:(int)_pageIndex withViewController:(DetailBrowseViewController*)viewController;
+- (void) loadDetailExpertById:(long)_expertId withViewController:(DetailBrowseViewController*)viewController;
+- (void) loadExpertReviewById:(long)_expertId pageIndex:(int)_pageIndex withViewController:(DetailBrowseViewController*)viewController;
+- (void) getTotalReviewsByExpertId:(long)_expertId pageIndex:(int)_pageIndex withViewController:(DetailBrowseViewController*)viewController;
 
 @end

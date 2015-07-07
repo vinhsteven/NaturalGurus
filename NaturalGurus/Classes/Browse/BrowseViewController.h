@@ -16,7 +16,8 @@ enum {
     byTheLatest = 0,
     byCategory,
     byFilter,
-    bySearch
+    bySearch,
+    bySorting
 };
 
 @interface BrowseViewController : UIViewController <UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate> {
@@ -35,6 +36,7 @@ enum {
     int currentList;
     int currentCategoryIndex;
     int currentFilterIndex;
+    int currentSortingIndex;
     
     NSMutableArray *filterArray;
     NSMutableArray *sortArray;

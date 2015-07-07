@@ -150,8 +150,9 @@
                         <constraint firstAttribute="width" constant="80" id="n8f-zu-0r9"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <inset key="imageEdgeInsets" minX="40" minY="0.0" maxX="0.0" maxY="-50"/>
-                    <state key="normal" title="Recent" backgroundImage="btnSorting.png">
+                    <state key="normal" title="Order By" backgroundImage="btnSorting.png">
                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>

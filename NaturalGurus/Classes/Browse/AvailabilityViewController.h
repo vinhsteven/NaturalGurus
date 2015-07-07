@@ -16,7 +16,8 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *lbInstructionTitle;
 @property (strong, nonatomic) IBOutlet  STCollapseTableView *mainTableView;
-@property (nonatomic, strong) NSMutableArray* data;
-@property (nonatomic, strong) NSMutableArray* headers;
+@property (strong, nonatomic) NSMutableArray* data;
+@property (strong, nonatomic) NSMutableArray* headers;
+@property (strong, nonatomic) NSString *timezoneValueString;
 
 @end

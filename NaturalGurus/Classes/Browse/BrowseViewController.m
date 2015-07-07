@@ -207,6 +207,20 @@
     [[ToolClass instance] loadExpertByFilter:_index pageIndex:currentPage withViewController:self];
 }
 
+- (void) reloadExpertBySorting:(int)_index {
+    //use for first load
+    currentList = bySorting;
+    currentPage = 1;
+    [expertArray removeAllObjects];
+    [self loadExpertBySorting:_index];
+}
+
+- (void) loadExpertBySorting:(int)_index {
+    //use for load more
+    isLoading = YES;
+    [[ToolClass instance] loadExpertBySorting:_index pageIndex:currentPage withViewController:self];
+}
+
 - (void) reloadExpertBySearchString:(NSString*)searchStr {
     currentList = bySearch;
     currentPage = 1;
@@ -340,6 +354,9 @@
             }
             else if (currentList == byFilter) {
                 [self loadExpertByFilter:currentFilterIndex];
+            }
+            else if (currentList == bySorting) {
+                [self loadExpertBySorting:currentSortingIndex];
             }
             else if (currentList == bySearch) {
                 [self loadExpertBySearchString:self.searchDisplayController.searchBar.text];
@@ -513,12 +530,14 @@
             [cell.contentView addSubview:bgView];
         }
         else {
-            UILabel *lbTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, 40)];
-            lbTitle.backgroundColor = [UIColor colorWithRed:(float)245/255 green:(float)245/255 blue:(float)245/255 alpha:1];
-            lbTitle.font = [UIFont fontWithName:DEFAULT_FONT size:13];
-            lbTitle.text = @"There isn't any records here.";
-            lbTitle.textAlignment = NSTextAlignmentCenter;
-            [cell.contentView addSubview:lbTitle];
+            if (!isLoading) {
+                UILabel *lbTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, 40)];
+                lbTitle.backgroundColor = [UIColor colorWithRed:(float)245/255 green:(float)245/255 blue:(float)245/255 alpha:1];
+                lbTitle.font = [UIFont fontWithName:DEFAULT_FONT size:13];
+                lbTitle.text = @"There isn't any records here.";
+                lbTitle.textAlignment = NSTextAlignmentCenter;
+                [cell.contentView addSubview:lbTitle];
+            }
         }
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -568,6 +587,7 @@
         DetailBrowseViewController *controller = [[DetailBrowseViewController alloc] initWithNibName:@"DetailBrowseViewController" bundle:nil];
         controller.expertId     = [[dict objectForKey:@"expertId"] longValue];
         controller.expertDescriptionString = [dict objectForKey:@"description"];
+        [[ToolClass instance] setExpertId:controller.expertId];
         [self.navigationController pushViewController:controller animated:YES];
     }
     else {
@@ -691,11 +711,12 @@
 
 - (IBAction) handleSorting:(id)sender {
     [MMPickerView showPickerViewInView:self.view
-                           withStrings:sortArray
+                           withObjects:sortArray
                            withOptions:nil
-                            completion:^(NSString *selectedString) {
-                                //selectedString is the return value which you can use as you wish
-                                
+                            completion:^(NSInteger selectedIndex) {
+                                //return selected index
+                                currentSortingIndex = (int)selectedIndex;
+                                [self reloadExpertBySorting:currentSortingIndex];
                             }];
 }
 

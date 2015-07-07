@@ -63,6 +63,10 @@
 //    //
 }
 
+- (void) loadAvailability {
+    
+}
+
 - (void) setupTableViewData {
     NSMutableArray *sectionArray = [NSMutableArray arrayWithCapacity:1];
     
@@ -127,7 +131,7 @@
         [header setBackgroundColor:[UIColor clearColor]];
         
         UILabel *lbSectionTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, screenSize.width/2-20, 30)];
-//        lbSectionTitle.tag = kLabelHeaderTag;
+
         lbSectionTitle.backgroundColor = [UIColor colorWithRed:(float)245/255 green:(float)245/255 blue:(float)245/255 alpha:1.0];
         lbSectionTitle.textColor = [UIColor blackColor];
         lbSectionTitle.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];

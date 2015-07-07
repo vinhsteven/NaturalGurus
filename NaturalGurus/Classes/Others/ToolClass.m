@@ -480,6 +480,14 @@
     return [userDefaults objectForKey:USER_TOKEN];
 }
 
+- (void) setExpertId:(float)_id {
+    expertId = _id;
+}
+
+- (float) getExpertId {
+    return expertId;
+}
+
 - (void) setExpertPrice:(float)price {
     expertPrice = price;
 }
@@ -771,6 +779,51 @@
     }];
 }
 
+- (void) loadExpertBySorting:(int)_sortIndex pageIndex:(int)_pageIndex withViewController:(BrowseViewController*)viewController {
+    [MBProgressHUD showHUDAddedTo:viewController.navigationController.view animated:YES];
+    
+    NSString *sortType;
+    if (_sortIndex)
+        sortType = @"experience";
+    else
+        sortType = @"price";
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:sortType,@"order_by",[NSNumber numberWithInt:_pageIndex],@"page",[NSNumber numberWithInt:NUMBER_RECORD_PER_PAGE],@"per_page",@"DESC",@"order_direction", nil];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager GET:@"/api/v1/experts" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        
+        if (status == 200) {
+            viewController.lastPage = [[[responseObject objectForKey:@"data"] objectForKey:@"last_page"] intValue];
+            NSArray *expertArray = [[responseObject objectForKey:@"data"] objectForKey:@"experts"];
+            [viewController reorganizeExpertArray:expertArray];
+        }
+        else if (status == 401){
+            //            NSString *message = [responseObject objectForKey:@"message"];
+            //            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            //            [dialog show];
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [MBProgressHUD hideHUDForView:viewController.navigationController.view animated:YES];
+        
+        // 4
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Ok"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
+}
+
 - (void) loadExpertBySearchString:(NSString*)_searchStr pageIndex:(int)_pageIndex withViewController:(BrowseViewController*)viewController {
     [MBProgressHUD showHUDAddedTo:viewController.navigationController.view animated:YES];
     
@@ -848,7 +901,7 @@
     }];
 }
 
-- (void) loadDetailExpertById:(long)expertId withViewController:(DetailBrowseViewController*)viewController {
+- (void) loadDetailExpertById:(long)_expertId withViewController:(DetailBrowseViewController*)viewController {
     [MBProgressHUD showHUDAddedTo:viewController.navigationController.view animated:YES];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
@@ -856,7 +909,7 @@
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
-    [manager GET:[NSString stringWithFormat:@"/api/v1/experts/%@",[NSString stringWithFormat:@"%ld",expertId]] parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    [manager GET:[NSString stringWithFormat:@"/api/v1/experts/%@",[NSString stringWithFormat:@"%ld",_expertId]] parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         // 3
 //        NSLog(@"response: %@",(NSDictionary*)responseObject);
         //get status of request
@@ -880,7 +933,7 @@
     }];
 }
 
-- (void) loadExpertReviewById:(long)expertId pageIndex:(int)_pageIndex withViewController:(DetailBrowseViewController*)viewController {
+- (void) loadExpertReviewById:(long)_expertId pageIndex:(int)_pageIndex withViewController:(DetailBrowseViewController*)viewController {
     [MBProgressHUD showHUDAddedTo:viewController.navigationController.view animated:YES];
     
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:_pageIndex],@"page",[NSNumber numberWithInt:NUMBER_RECORD_PER_PAGE],@"per_page", nil];
@@ -890,7 +943,7 @@
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
-    [manager GET:[NSString stringWithFormat:@"/api/v1/experts/%@/reviews",[NSString stringWithFormat:@"%ld",expertId]] parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+    [manager GET:[NSString stringWithFormat:@"/api/v1/experts/%@/reviews",[NSString stringWithFormat:@"%ld",_expertId]] parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         // 3
         NSLog(@"response: %@",(NSDictionary*)responseObject);
         //get status of request
@@ -914,7 +967,7 @@
     }];
 }
 
-- (void) getTotalReviewsByExpertId:(long)expertId pageIndex:(int)_pageIndex withViewController:(DetailBrowseViewController*)viewController {
+- (void) getTotalReviewsByExpertId:(long)_expertId pageIndex:(int)_pageIndex withViewController:(DetailBrowseViewController*)viewController {
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:_pageIndex],@"page",[NSNumber numberWithInt:2],@"per_page", nil];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
@@ -922,7 +975,7 @@
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
-    [manager GET:[NSString stringWithFormat:@"/api/v1/experts/%@/reviews",[NSString stringWithFormat:@"%ld",expertId]] parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+    [manager GET:[NSString stringWithFormat:@"/api/v1/experts/%@/reviews",[NSString stringWithFormat:@"%ld",_expertId]] parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         // 3
         NSLog(@"response: %@",(NSDictionary*)responseObject);
         //get status of request
