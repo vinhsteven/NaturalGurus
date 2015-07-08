@@ -41,6 +41,9 @@
     self.mainTableView.backgroundColor = [UIColor whiteColor];
     [self.mainTableView setExclusiveSections:!self.mainTableView.exclusiveSections];
     
+    self.data = [NSMutableArray arrayWithCapacity:1];
+    self.headers = [NSMutableArray arrayWithCapacity:1];
+    
     [self setupTableViewData];
     [self.mainTableView reloadData];
     
@@ -63,8 +66,9 @@
 //    //
 }
 
-- (void) loadAvailability {
-    
+- (void) reloadAvailability {
+    //get today
+    currentDate = [NSDate date];
 }
 
 - (void) setupTableViewData {
@@ -89,7 +93,6 @@
     [sectionArray addObject:tomorrowStr];
     [sectionArray addObject:next2DatesStr];
     
-    self.data = [[NSMutableArray alloc] init];
     
     for (int i=0;i < [sectionArray count];i++) {
         //init section data
@@ -124,7 +127,6 @@
         [self.data addObject:section];
     }
     
-    self.headers = [[NSMutableArray alloc] init];
     for (int i = 0 ; i < [sectionArray count] ; i++)
     {
         UIView* header = [[UIView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width, 40)];

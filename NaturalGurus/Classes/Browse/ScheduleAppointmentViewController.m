@@ -8,6 +8,7 @@
 
 #import "ScheduleAppointmentViewController.h"
 #import "AvailabilityViewController.h"
+#import "PaymentViewController.h"
 
 enum {
     kMessageSection,
@@ -107,6 +108,10 @@ enum {
     [self.btnViewAvailability setTitle:@"View Availability" forState:UIControlStateNormal];
     [self.btnViewAvailability setBackgroundImage:[ToolClass imageFromColor:GREEN_COLOR] forState:UIControlStateNormal];
     
+    //add next button to transfer to payment screen
+    UIBarButtonItem *btnNext = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleDone target:self action:@selector(transferPaymentForm)];
+    self.navigationItem.rightBarButtonItem = btnNext;
+    
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
     [self.view addGestureRecognizer:singleTap];
     
@@ -180,8 +185,13 @@ enum {
 - (IBAction) handleViewAvailability:(id)sender {
     self.navigationItem.title = @"";
     
-    if ([self.btnTimeZone.titleLabel.text isEqualToString:@"Select timezone"]) {
-        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select your timezone before proceeding the availabilities" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    if ([self.btnTimeZone.titleLabel.text isEqualToString:@"Select time zone"]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select your time zone before proceeding the availabilities" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    if ([self.btnDuration.titleLabel.text isEqualToString:@"Select duration"]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select your the duration before proceeding the availabilities" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [dialog show];
         return;
     }
@@ -195,6 +205,22 @@ enum {
     [self.txtFirstName resignFirstResponder];
     [self.txtLastName resignFirstResponder];
     [self.txtEmail resignFirstResponder];
+}
+
+- (void) transferPaymentForm {
+//    if ([self.btnTimeZone.titleLabel.text isEqualToString:@"Select time zone"]) {
+//        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select your time zone before proceeding the availabilities" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//        [dialog show];
+//        return;
+//    }
+//    if ([self.btnDuration.titleLabel.text isEqualToString:@"Select duration"]) {
+//        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select your the duration before proceeding the availabilities" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//        [dialog show];
+//        return;
+//    }
+    self.navigationItem.title = @"";
+    PaymentViewController *controller = [[PaymentViewController alloc] initWithNibName:@"PaymentViewController" bundle:nil];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 #pragma mark UITextFieldDelegate

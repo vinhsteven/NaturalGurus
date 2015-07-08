@@ -12,6 +12,8 @@
 @interface AvailabilityViewController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
     CGSize screenSize;
     NSMutableArray *mainArray;
+    
+    NSDate *currentDate;
 }
 
 @property (strong, nonatomic) IBOutlet UILabel *lbInstructionTitle;
@@ -19,5 +21,8 @@
 @property (strong, nonatomic) NSMutableArray* data;
 @property (strong, nonatomic) NSMutableArray* headers;
 @property (strong, nonatomic) NSString *timezoneValueString;
+@property (assign, readwrite) int currentPage;
+@property (assign, readwrite) int lastPage;
+@property (assign, readwrite) BOOL isLoading;
 
 @end
