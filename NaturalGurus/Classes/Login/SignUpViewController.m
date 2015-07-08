@@ -7,6 +7,8 @@
 //
 
 #import "SignUpViewController.h"
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#import <CoreTelephony/CTCarrier.h>
 
 @implementation CustomTextField
 
@@ -56,6 +58,8 @@
     
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
     [self.mainScrollView addGestureRecognizer:singleTap];
+    
+    countryCodeArray = [NSMutableArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"CountryCode" ofType:@"plist"]];
 }
 
 - (void) viewDidLayoutSubviews {
@@ -128,6 +132,20 @@
     self.txtEmail.rightIconWidth  = iconEmail.frame.size.width;
     self.txtEmail.rightIconHeight = iconEmail.frame.size.height;
     
+    //set style for Email text field
+    self.txtCountryCode.backgroundColor = [UIColor whiteColor];
+    self.txtCountryCode.layer.cornerRadius = 5;
+    self.txtCountryCode.layer.masksToBounds = YES;
+    self.txtCountryCode.layer.borderColor = LIGHT_GREY_COLOR.CGColor;
+    self.txtCountryCode.layer.borderWidth = 1;
+    
+    //set style for Email text field
+    self.txtPhone.backgroundColor = [UIColor whiteColor];
+    self.txtPhone.layer.cornerRadius = 5;
+    self.txtPhone.layer.masksToBounds = YES;
+    self.txtPhone.layer.borderColor = LIGHT_GREY_COLOR.CGColor;
+    self.txtPhone.layer.borderWidth = 1;
+    
     //set style for Container Password & Confirm Password
     self.containerView.backgroundColor = [UIColor whiteColor];
     self.containerView.layer.cornerRadius = 5;
@@ -156,7 +174,6 @@
     [self.btnCreateAccount setBackgroundImage:[ToolClass imageFromColor:GREEN_COLOR] forState:UIControlStateNormal];
     [self.btnCreateAccount setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 
-    
 }
 
 - (IBAction) handleConfirmCreateAccount:(id)sender {

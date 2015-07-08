@@ -17,6 +17,7 @@
 
 @interface SignUpViewController : UIViewController <UITextFieldDelegate,UIScrollViewDelegate,UIAlertViewDelegate> {
     CGSize screenSize;
+    NSMutableArray *countryCodeArray;
 }
 
 @property (assign, readwrite) BOOL isFirstScreen;
@@ -26,6 +27,8 @@
 @property (strong, nonatomic) IBOutlet CustomTextField *txtEmail;
 @property (strong, nonatomic) IBOutlet CustomTextField *txtPassword;
 @property (strong, nonatomic) IBOutlet CustomTextField *txtConfirmPassword;
+@property (strong, nonatomic) IBOutlet CustomTextField *txtCountryCode;
+@property (strong, nonatomic) IBOutlet CustomTextField *txtPhone;
 @property (strong, nonatomic) IBOutlet UIButton *btnCreateAccount;
 @property (strong, nonatomic) IBOutlet UIView *containerView;
 @property (strong, nonatomic) IBOutlet UIView *topView;

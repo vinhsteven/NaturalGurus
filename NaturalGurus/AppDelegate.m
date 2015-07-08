@@ -169,6 +169,36 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    //test
+//    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"CountryCode" ofType:@"txt"];
+//    NSString *countryCode = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+//    NSLog(@"countryCode = %@",countryCode);
+//    NSArray *array1 = [countryCode componentsSeparatedByString:@","];
+//    NSEnumerator *nse = [array1 objectEnumerator];
+//    
+//    NSMutableArray *countryArray = [NSMutableArray arrayWithCapacity:1];
+//    for (int i=0;i < [array1 count];i++) {
+//        NSString *str1 = [array1 objectAtIndex:i];
+//
+//        NSArray *array2 = [str1 componentsSeparatedByString:@"=>"];
+//        NSString *c1 = [array2 objectAtIndex:0];
+//        c1 = [c1 stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+//        c1 = [c1 stringByReplacingOccurrencesOfString:@" " withString:@""];
+//        c1 = [c1 stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+//        
+//        NSString *c2 = [array2 objectAtIndex:1];
+//        c2 = [c2 stringByReplacingOccurrencesOfString:@"\'" withString:@""];
+//        
+//        NSLog(@"c1 = %@ c2= %@",c1,c2);
+//        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:c1,@"value",c2,@"title", nil];
+//        [countryArray addObject:dict];
+//    }
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *documentsDirectory = [paths objectAtIndex:0];
+//    NSString *filePath2 = [NSString stringWithFormat:@"%@/%@", documentsDirectory, [NSString stringWithFormat:@"CountryCode.plist"]];
+//    [countryArray writeToFile:filePath2 atomically:YES];
+    //end
+    
     NSDictionary *navigationTitleAttribute = [NSDictionary dictionaryWithObjectsAndKeys:GREEN_COLOR,
      NSForegroundColorAttributeName,
      GREEN_COLOR,
