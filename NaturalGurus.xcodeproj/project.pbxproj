@@ -39,6 +39,9 @@
 		B0C3F4B61B4530D1001F44B9 /* TwitterKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B0C3F48E1B452C04001F44B9 /* TwitterKitResources.bundle */; };
 		B0C5E21B1B4CB442002810EE /* PaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0C5E2191B4CB442002810EE /* PaymentViewController.m */; };
 		B0C5E21C1B4CB442002810EE /* PaymentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0C5E21A1B4CB442002810EE /* PaymentViewController.xib */; };
+		B0C5E2201B4CD7B2002810EE /* ConfirmedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0C5E21E1B4CD7B2002810EE /* ConfirmedViewController.m */; };
+		B0C5E2211B4CD7B2002810EE /* ConfirmedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0C5E21F1B4CD7B2002810EE /* ConfirmedViewController.xib */; };
+		B0C5E2231B4CDC7E002810EE /* iconPaymentSuccessful@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C5E2221B4CDC7E002810EE /* iconPaymentSuccessful@2x.png */; };
 		B0C9A4A31B422ECF00F74FCD /* btnClose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C9A4A21B422ECF00F74FCD /* btnClose@2x.png */; };
 		B0C9A4B91B42802200F74FCD /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C9A4B11B42802200F74FCD /* FacebookSDK.framework */; };
 		B0C9A4BA1B42802200F74FCD /* FacebookSDKStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B0C9A4B21B42802200F74FCD /* FacebookSDKStrings.bundle */; };
@@ -203,6 +206,10 @@
 		B0C5E2181B4CB442002810EE /* PaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentViewController.h; sourceTree = "<group>"; };
 		B0C5E2191B4CB442002810EE /* PaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentViewController.m; sourceTree = "<group>"; };
 		B0C5E21A1B4CB442002810EE /* PaymentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaymentViewController.xib; sourceTree = "<group>"; };
+		B0C5E21D1B4CD7B2002810EE /* ConfirmedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmedViewController.h; sourceTree = "<group>"; };
+		B0C5E21E1B4CD7B2002810EE /* ConfirmedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfirmedViewController.m; sourceTree = "<group>"; };
+		B0C5E21F1B4CD7B2002810EE /* ConfirmedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmedViewController.xib; sourceTree = "<group>"; };
+		B0C5E2221B4CDC7E002810EE /* iconPaymentSuccessful@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconPaymentSuccessful@2x.png"; sourceTree = "<group>"; };
 		B0C9A4A21B422ECF00F74FCD /* btnClose@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btnClose@2x.png"; sourceTree = "<group>"; };
 		B0C9A4B11B42802200F74FCD /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		B0C9A4B21B42802200F74FCD /* FacebookSDKStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FacebookSDKStrings.bundle; sourceTree = "<group>"; };
@@ -620,6 +627,7 @@
 		C2A5E3C01B27FACB000F7F29 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B0C5E2221B4CDC7E002810EE /* iconPaymentSuccessful@2x.png */,
 				B0C3F46D1B45288B001F44B9 /* btnEndCall@2x.png */,
 				B0C9A4A21B422ECF00F74FCD /* btnClose@2x.png */,
 				B00F66ED1B380BA400521850 /* bgAvailability_1@2x.png */,
@@ -810,6 +818,9 @@
 				B0C5E2181B4CB442002810EE /* PaymentViewController.h */,
 				B0C5E2191B4CB442002810EE /* PaymentViewController.m */,
 				B0C5E21A1B4CB442002810EE /* PaymentViewController.xib */,
+				B0C5E21D1B4CD7B2002810EE /* ConfirmedViewController.h */,
+				B0C5E21E1B4CD7B2002810EE /* ConfirmedViewController.m */,
+				B0C5E21F1B4CD7B2002810EE /* ConfirmedViewController.xib */,
 			);
 			path = Browse;
 			sourceTree = "<group>";
@@ -927,12 +938,14 @@
 				B00F66F01B380BA400521850 /* bgAvailability_0@2x.png in Resources */,
 				C2BA2F171B2C291200811E56 /* star@2x.png in Resources */,
 				C21392051B36B82000A2A1B5 /* iconBrowse@2x.png in Resources */,
+				B0C5E2231B4CDC7E002810EE /* iconPaymentSuccessful@2x.png in Resources */,
 				C24638951B317213002A4820 /* btnFacebook@2x.png in Resources */,
 				C21A94B71B26E12B00698B01 /* Images.xcassets in Resources */,
 				B00F66EC1B37FF6C00521850 /* iconCancel@2x.png in Resources */,
 				C2BA2F201B2C33FB00811E56 /* camera@2x.png in Resources */,
 				C2BA2F151B2C291200811E56 /* star_highlighted@2x.png in Resources */,
 				B0C5E21C1B4CB442002810EE /* PaymentViewController.xib in Resources */,
+				B0C5E2211B4CD7B2002810EE /* ConfirmedViewController.xib in Resources */,
 				C21392061B36B82000A2A1B5 /* iconDashboard@2x.png in Resources */,
 				C2BA2F1F1B2C33FB00811E56 /* camera.png in Resources */,
 				C22633D21B32D5E400CB368D /* btnFilter@2x.png in Resources */,
@@ -1013,6 +1026,7 @@
 				C2F740CF1B2A748C00C8635F /* LeftSideViewController.m in Sources */,
 				C2ED339E1B2FD0240032F885 /* DetailAppointmentViewController.m in Sources */,
 				C2F740B21B2A71D300C8635F /* SDWebImageCompat.m in Sources */,
+				B0C5E2201B4CD7B2002810EE /* ConfirmedViewController.m in Sources */,
 				B0C3F46C1B45287E001F44B9 /* MBProgressHUD.m in Sources */,
 				B0D21C171B43849300D703B0 /* AFHTTPRequestOperation.m in Sources */,
 				C2F462A81B283233005C5418 /* MMDrawerController.m in Sources */,
