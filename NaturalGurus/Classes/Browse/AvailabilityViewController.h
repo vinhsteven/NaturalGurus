@@ -13,16 +13,22 @@
     CGSize screenSize;
     NSMutableArray *mainArray;
     
-    NSDate *currentDate;
+    NSDate *fromDate;
+    NSDate *toDate;
+
+    BOOL isFirstLoading;
 }
 
+@property (unsafe_unretained) id parent;
 @property (strong, nonatomic) IBOutlet UILabel *lbInstructionTitle;
 @property (strong, nonatomic) IBOutlet  STCollapseTableView *mainTableView;
 @property (strong, nonatomic) NSMutableArray* data;
 @property (strong, nonatomic) NSMutableArray* headers;
 @property (strong, nonatomic) NSString *timezoneValueString;
-@property (assign, readwrite) int currentPage;
-@property (assign, readwrite) int lastPage;
+@property (assign, readwrite) int duration;
+@property (assign, readwrite) BOOL isFree;
 @property (assign, readwrite) BOOL isLoading;
+
+- (void) reorganizeAvailabilities:(NSDictionary*)dataDict;
 
 @end

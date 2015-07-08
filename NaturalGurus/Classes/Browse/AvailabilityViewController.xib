@@ -52,6 +52,7 @@
                     <variation key="heightClass=regular-widthClass=compact" constant="10"/>
                 </constraint>
                 <constraint firstAttribute="centerY" secondItem="KjW-vO-ukT" secondAttribute="centerY" id="A6x-Rb-0DZ"/>
+                <constraint firstItem="cZG-ws-AtY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="65" id="IUn-94-d0s"/>
                 <constraint firstAttribute="centerX" secondItem="KjW-vO-ukT" secondAttribute="centerX" id="M91-Cs-WVe"/>
                 <constraint firstAttribute="trailing" secondItem="cZG-ws-AtY" secondAttribute="trailing" id="PtV-rJ-9mW"/>
                 <constraint firstItem="cZG-ws-AtY" firstAttribute="top" secondItem="KjW-vO-ukT" secondAttribute="bottom" id="boP-fV-lbZ"/>
@@ -72,15 +73,16 @@
                     <exclude reference="KjW-vO-ukT"/>
                 </mask>
                 <mask key="constraints">
+                    <exclude reference="IUn-94-d0s"/>
+                    <exclude reference="PtV-rJ-9mW"/>
+                    <exclude reference="boP-fV-lbZ"/>
+                    <exclude reference="uBr-EL-GC3"/>
+                    <exclude reference="xsO-pc-b1P"/>
                     <exclude reference="6GS-Kw-wpn"/>
                     <exclude reference="A6x-Rb-0DZ"/>
                     <exclude reference="M91-Cs-WVe"/>
                     <exclude reference="iIN-o9-dtN"/>
                     <exclude reference="oEM-pu-1Mx"/>
-                    <exclude reference="PtV-rJ-9mW"/>
-                    <exclude reference="boP-fV-lbZ"/>
-                    <exclude reference="uBr-EL-GC3"/>
-                    <exclude reference="xsO-pc-b1P"/>
                 </mask>
             </variation>
             <variation key="heightClass=regular-widthClass=compact">
@@ -89,15 +91,16 @@
                     <include reference="KjW-vO-ukT"/>
                 </mask>
                 <mask key="constraints">
-                    <include reference="6GS-Kw-wpn"/>
-                    <exclude reference="A6x-Rb-0DZ"/>
-                    <include reference="M91-Cs-WVe"/>
-                    <include reference="iIN-o9-dtN"/>
-                    <include reference="oEM-pu-1Mx"/>
+                    <include reference="IUn-94-d0s"/>
                     <include reference="PtV-rJ-9mW"/>
-                    <include reference="boP-fV-lbZ"/>
+                    <exclude reference="boP-fV-lbZ"/>
                     <include reference="uBr-EL-GC3"/>
                     <include reference="xsO-pc-b1P"/>
+                    <include reference="6GS-Kw-wpn"/>
+                    <exclude reference="A6x-Rb-0DZ"/>
+                    <exclude reference="M91-Cs-WVe"/>
+                    <include reference="iIN-o9-dtN"/>
+                    <include reference="oEM-pu-1Mx"/>
                 </mask>
             </variation>
         </view>

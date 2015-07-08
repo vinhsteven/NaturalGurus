@@ -7,12 +7,25 @@
 //
 
 #import "AvailabilityViewController.h"
+#import "ScheduleAppointmentViewController.h"
+
+@interface AvailabilityButton : UIButton
+
+@property (strong,nonatomic) NSDictionary *dataDict;
+
+@end
+
+@implementation AvailabilityButton
+
+
+@end
 
 @interface AvailabilityViewController ()
 
 @end
 
 @implementation AvailabilityViewController
+@synthesize isLoading;
 
 - (BOOL)shouldAutorotate {
     return NO;
@@ -44,12 +57,14 @@
     self.data = [NSMutableArray arrayWithCapacity:1];
     self.headers = [NSMutableArray arrayWithCapacity:1];
     
-    [self setupTableViewData];
-    [self.mainTableView reloadData];
+    [self reloadAvailabilities];
     
-    for (int i=0;i < [self.headers count];i++) {
-        [self.mainTableView openSection:i animated:YES];
-    }
+//    [self setupTableViewData];
+//    [self.mainTableView reloadData];
+//
+//    for (int i=0;i < [self.headers count];i++) {
+//        [self.mainTableView openSection:i animated:YES];
+//    }
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -66,9 +81,169 @@
 //    //
 }
 
-- (void) reloadAvailability {
+- (void) reloadAvailabilities {
+    [self.headers removeAllObjects];
+    [self.data removeAllObjects];
+    isFirstLoading = YES;
+    
     //get today
-    currentDate = [NSDate date];
+    fromDate = [NSDate date];
+    
+    //init date
+    NSDateComponents *dayComponent = [[NSDateComponents alloc] init];
+    dayComponent.day = 2;
+    
+    NSCalendar *theCalendar = [NSCalendar currentCalendar];
+    
+    toDate    = [theCalendar dateByAddingComponents:dayComponent toDate:fromDate options:0];
+    
+    NSString *fromDateStr   = [ToolClass dateByFormat:@"yyyy-MM-dd" date:fromDate];
+    NSString *toDateStr     = [ToolClass dateByFormat:@"yyyy-MM-dd" date:toDate];
+    
+    [self loadAvailabilitiesByFromDate:fromDateStr toDate:toDateStr];
+}
+
+- (void) loadAvailabilitiesByFromDate:(NSString*)_fromDate toDate:(NSString*)_toDate {
+    isLoading = YES;
+    
+    long expertId = [[ToolClass instance] getExpertId];
+    
+//    //test
+//    expertId = 12;
+//    self.timezoneValueString = @"Asia/Jakarta";
+//    self.isFree = 0;
+//    self.duration = 45;
+//    //end test
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.timezoneValueString,@"timezone",[NSNumber numberWithBool:self.isFree],@"free",[NSNumber numberWithInt:self.duration],@"duration",_fromDate,@"from_date",_toDate,@"to_date", nil];
+    [[ToolClass instance] loadAvailabilitiesByExpertId:expertId params:params withViewController:self];
+}
+
+- (void) reorganizeAvailabilities:(NSDictionary*)dataDict {
+    unsigned long startIndex = [self.headers count];
+    
+    //get all dates for response data
+    NSMutableArray *sectionArray = [NSMutableArray arrayWithCapacity:1];
+    
+    for (int i=0;i < [[dataDict allKeys] count];i++) {
+        NSString *dateStr = [[dataDict allKeys] objectAtIndex:i];
+        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:dateStr,@"date", nil];
+        [sectionArray addObject:dict];
+    }
+    
+    //arrage the date by from date - to date
+    NSSortDescriptor *value = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:YES];
+    [sectionArray sortUsingDescriptors:[NSArray arrayWithObjects:value, nil]];
+    
+    for (int i=0;i < [sectionArray count];i++) {
+        UIView* header = [[UIView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width, 40)];
+        [header setBackgroundColor:[UIColor clearColor]];
+        
+        UILabel *lbSectionTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, screenSize.width/2-20, 30)];
+        
+        lbSectionTitle.backgroundColor = [UIColor colorWithRed:(float)245/255 green:(float)245/255 blue:(float)245/255 alpha:1.0];
+        lbSectionTitle.textColor = [UIColor blackColor];
+        lbSectionTitle.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+        lbSectionTitle.text = [[sectionArray objectAtIndex:i] objectForKey:@"date"];
+        lbSectionTitle.textAlignment = NSTextAlignmentCenter;
+        [header addSubview:lbSectionTitle];
+        
+        
+        //create round edge for left and right side
+        lbSectionTitle.layer.cornerRadius  = lbSectionTitle.frame.size.height/2;
+        lbSectionTitle.layer.masksToBounds = YES;
+        
+        [self.headers addObject:header];
+        
+        //set position for title label
+        lbSectionTitle.center = CGPointMake(screenSize.width/2, lbSectionTitle.center.y);
+        
+        //set border color for title label in header section. Here is Mon, Jun 25
+        lbSectionTitle.layer.borderColor = LIGHT_GREY_COLOR.CGColor;
+        lbSectionTitle.layer.borderWidth = 1;
+    }
+    
+    //loop all date and get time for it
+    for (int i=0;i < [sectionArray count];i++) {
+        NSString *dateStr = [[sectionArray objectAtIndex:i] objectForKey:@"date"];
+        //get all time array from this date
+        NSArray *timeArray = [dataDict objectForKey:dateStr];
+        NSMutableArray* section = [NSMutableArray arrayWithCapacity:1];
+        
+        if ([timeArray count] > 0) {
+            for (int j=0;j < [timeArray count];j++) {
+                NSDictionary *timeDict = [timeArray objectAtIndex:j];
+                
+                NSString *title = [NSString stringWithFormat:@"%@ - %@",[timeDict objectForKey:@"from_time2"],[timeDict objectForKey:@"to_time2"]];
+                NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:[timeDict objectForKey:@"id"],@"id",[timeDict objectForKey:@"from_time"],@"from_time",[timeDict objectForKey:@"to_time"],@"to_time",[timeDict objectForKey:@"timezone"],@"timezone",[timeDict objectForKey:@"free"],@"free",[timeDict objectForKey:@"date_from"],@"date_from",[timeDict objectForKey:@"date_to"],@"date_to",title,@"title", nil];
+                [section addObject:tmpDict];
+            }
+        }
+        [self.data addObject:section];
+    }
+    
+//    [self.mainTableView reloadData];
+    
+//    for (int i=0;i < [self.headers count];i++) {
+//        [self.mainTableView openSection:i animated:NO];
+//    }
+    
+    unsigned long endIndex   = startIndex + [sectionArray count];
+    
+    if (isFirstLoading) {
+        [self.mainTableView reloadData];
+    }
+    else {
+        //show drop down animation effect
+        NSMutableIndexSet* indexSetsToInsert = [NSMutableIndexSet indexSet];
+        
+        for (unsigned long i=startIndex;i < endIndex;i++) {
+            [indexSetsToInsert addIndexes:[NSIndexSet indexSetWithIndex:i]];
+        }
+        
+        [self.mainTableView beginUpdates];
+        [self.mainTableView insertSections:indexSetsToInsert withRowAnimation:UITableViewRowAnimationTop];
+        
+        [self.mainTableView endUpdates];
+    }
+    
+    //open section review
+    for (unsigned long i=startIndex;i < endIndex;i++) {
+        [self.mainTableView openSection:i animated:YES];
+    }
+    
+    isLoading = NO;
+    [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
+}
+
+-(void) scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (!isLoading) {
+        if (self.mainTableView.contentOffset.y > (self.mainTableView.contentSize.height - self.mainTableView.bounds.size.height))
+        {
+            
+            isFirstLoading = NO;
+            
+            NSDateComponents *dayComponent = [[NSDateComponents alloc] init];
+            dayComponent.day = 1;
+            
+            NSCalendar *theCalendar = [NSCalendar currentCalendar];
+            
+            NSDate *newFromDate    = [theCalendar dateByAddingComponents:dayComponent toDate:toDate options:0];
+            
+            //add 2 next days
+            dayComponent.day = 2;
+            
+            NSDate *newToDate = [theCalendar dateByAddingComponents:dayComponent toDate:newFromDate options:0];
+            
+            //assign toDate
+            toDate = newToDate;
+            
+            NSString *fromDateStr   = [ToolClass dateByFormat:@"yyyy-MM-dd" date:newFromDate];
+            NSString *toDateStr     = [ToolClass dateByFormat:@"yyyy-MM-dd" date:newToDate];
+            
+            [self loadAvailabilitiesByFromDate:fromDateStr toDate:toDateStr];
+        }
+    }
 }
 
 - (void) setupTableViewData {
@@ -159,7 +334,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [self.data count];
+    return [self.headers count];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -176,13 +351,14 @@
     if (totalRecord > 0) {
         int index = (int)indexPath.row*2;
         
-        UIButton *btnButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        AvailabilityButton *btnButton = [AvailabilityButton buttonWithType:UIButtonTypeCustom];
         [btnButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         btnButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
         
         NSDictionary *dict = [[self.data objectAtIndex:indexPath.section] objectAtIndex:index];
         NSString *title = [dict objectForKey:@"title"];
         
+        btnButton.dataDict = dict;
         btnButton.frame = CGRectMake(10, 0, 145, 40);
         [btnButton setBackgroundImage:[UIImage imageNamed:@"bgAvailability_0.png"] forState:UIControlStateNormal];
         [btnButton setTitle:title forState:UIControlStateNormal];
@@ -198,7 +374,8 @@
             
             NSString *title2 = [dict2 objectForKey:@"title"];
             //add button
-            UIButton *btnButton2 = [UIButton buttonWithType:UIButtonTypeCustom];
+            AvailabilityButton *btnButton2 = [AvailabilityButton buttonWithType:UIButtonTypeCustom];
+            btnButton2.dataDict = dict2;
             [btnButton2 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             btnButton2.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
             btnButton2.frame = CGRectMake(screenSize.width-155, 0, 145, 40);
@@ -251,7 +428,8 @@
 }
 
 #pragma mark HANDLE EVENT
-- (void) handleSelectAvailability:(UIButton*)sender {
+- (void) handleSelectAvailability:(AvailabilityButton*)sender {
+    ((ScheduleAppointmentViewController*)self.parent).timeDict = sender.dataDict;
     [self.navigationController popViewControllerAnimated:YES];
 }
 

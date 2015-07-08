@@ -196,7 +196,14 @@ enum {
         return;
     }
     
+    NSDictionary *timezoneDict = [timezoneArray objectAtIndex:currentTimeZoneSelected];
+    NSDictionary *durationDict = [durationArray objectAtIndex:currentDurationSelected];
+    
     AvailabilityViewController *controller = [[AvailabilityViewController alloc] initWithNibName:@"AvailabilityViewController" bundle:nil];
+    controller.parent = self;
+    controller.isFree = 0;
+    controller.duration = [[durationDict objectForKey:@"value"] intValue];
+    controller.timezoneValueString = [timezoneDict objectForKey:@"value"];
     [self.navigationController pushViewController:controller animated:YES];
 }
 
@@ -208,16 +215,42 @@ enum {
 }
 
 - (void) transferPaymentForm {
-//    if ([self.btnTimeZone.titleLabel.text isEqualToString:@"Select time zone"]) {
-//        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select your time zone before proceeding the availabilities" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//        [dialog show];
-//        return;
-//    }
-//    if ([self.btnDuration.titleLabel.text isEqualToString:@"Select duration"]) {
-//        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select your the duration before proceeding the availabilities" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//        [dialog show];
-//        return;
-//    }
+    if ([self.txtMessage.text isEqualToString:@""]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please input your message" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    if ([self.txtFirstName.text isEqualToString:@""]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please input your first name" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    if ([self.txtLastName.text isEqualToString:@""]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please input your last name" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    if ([self.txtEmail.text isEqualToString:@""]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please input your email" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    if ([self.btnTimeZone.titleLabel.text isEqualToString:@"Select time zone"]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select your time zone before proceeding the payment" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    if ([self.btnDuration.titleLabel.text isEqualToString:@"Select duration"]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select your the duration before proceeding the payment" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    if (self.timeDict == nil) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select available time before proceeding the payment" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    
     self.navigationItem.title = @"";
     PaymentViewController *controller = [[PaymentViewController alloc] initWithNibName:@"PaymentViewController" bundle:nil];
     [self.navigationController pushViewController:controller animated:YES];

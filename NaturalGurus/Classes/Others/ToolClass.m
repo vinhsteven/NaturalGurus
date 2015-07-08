@@ -373,6 +373,21 @@
     return dateStr;
 }
 
++ (NSString*) dateByFormat:(NSString*)format dateString:(NSString*)dateString {
+    NSString *dateStr = @"";
+    
+    //convert string to date
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSDate *date = [dateFormatter dateFromString:dateString];
+    
+    [dateFormatter setDateFormat:format];
+    //convert date to string again
+    dateStr = [dateFormatter stringFromDate:date];
+    
+    return dateStr;
+}
+
 #pragma mark HANDLE STORE DATA
 - (void) setLogin:(BOOL)isLogin {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -984,6 +999,32 @@
         if (status == 200) {
             viewController.totalReview = [[[responseObject objectForKey:@"data"] objectForKey:@"total"] intValue];
             [viewController setUpStyleForReviewButton];
+        }
+        else if (status == 401){
+            NSLog(@"totalReview error");
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"totalReview error = %@",error);
+    }];
+}
+
+- (void) loadAvailabilitiesByExpertId:(long)_expertId params:(NSDictionary*)params withViewController:(AvailabilityViewController*)viewController {
+    [MBProgressHUD showHUDAddedTo:viewController.navigationController.view animated:YES];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager GET:[NSString stringWithFormat:@"/api/v1/experts/%@/availabilities",[NSString stringWithFormat:@"%ld",_expertId]] parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        // 3
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        
+        if (status == 200) {
+            NSDictionary *data = [responseObject objectForKey:@"data"];
+            [viewController reorganizeAvailabilities:data];
         }
         else if (status == 401){
             NSLog(@"totalReview error");

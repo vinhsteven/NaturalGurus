@@ -35,6 +35,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *btnTimeZone;
 @property (strong, nonatomic) IBOutlet UILabel *lbTotal;
 @property (strong, nonatomic) IBOutlet UIButton *btnViewAvailability;
+@property (strong, nonatomic) NSDictionary *timeDict;
 
 @property (strong, nonatomic) NSMutableArray *durationArray;
 

@@ -13,6 +13,7 @@
 #import "ForgotPasswordViewController.h"
 #import "BrowseViewController.h"
 #import "DetailBrowseViewController.h"
+#import "AvailabilityViewController.h"
 
 @interface ToolClass : NSObject  {
     unsigned long expertId;
@@ -32,6 +33,7 @@
 
 //Handle Date format
 + (NSString*) dateByFormat:(NSString*)format date:(NSDate*)date;
++ (NSString*) dateByFormat:(NSString*)format dateString:(NSString*)dateString;
 
 #pragma mark HANDLE STORE DATA 
 - (void) setLogin:(BOOL)isLogin;
@@ -79,5 +81,5 @@
 - (void) loadDetailExpertById:(long)_expertId withViewController:(DetailBrowseViewController*)viewController;
 - (void) loadExpertReviewById:(long)_expertId pageIndex:(int)_pageIndex withViewController:(DetailBrowseViewController*)viewController;
 - (void) getTotalReviewsByExpertId:(long)_expertId pageIndex:(int)_pageIndex withViewController:(DetailBrowseViewController*)viewController;
-
+- (void) loadAvailabilitiesByExpertId:(long)_expertId params:(NSDictionary*)params withViewController:(AvailabilityViewController*)viewController;
 @end
