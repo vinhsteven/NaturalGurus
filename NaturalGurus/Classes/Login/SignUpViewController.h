@@ -18,6 +18,7 @@
 @interface SignUpViewController : UIViewController <UITextFieldDelegate,UIScrollViewDelegate,UIAlertViewDelegate> {
     CGSize screenSize;
     NSMutableArray *countryCodeArray;
+    int currentCountrySelected;
 }
 
 @property (assign, readwrite) BOOL isFirstScreen;

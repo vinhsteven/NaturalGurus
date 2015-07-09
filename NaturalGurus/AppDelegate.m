@@ -83,7 +83,8 @@
                      [[ToolClass instance] setUserRole:isUser];
                      [[ToolClass instance] setUserToken:FBSession.activeSession.accessTokenData.accessToken];
                      [[ToolClass instance] setUserEmail:[user objectForKey:@"email"]];
-                     
+                     [[ToolClass instance] setUserCountryCode:[data objectForKey:@"phone_code"]];
+                     [[ToolClass instance] setUserPhone:[data objectForKey:@"phone"]];
                      
                      [self.viewController loginSuccess];
                  }

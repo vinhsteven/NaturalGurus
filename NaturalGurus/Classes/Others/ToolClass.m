@@ -362,6 +362,28 @@
     return coloredImg;
 }
 
+#pragma mark REGEX
+// Validate the input string with the given pattern and
+// return the result as a boolean
+- (BOOL)validateString:(NSString *)string withPattern:(NSString *)pattern
+{
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
+    
+    NSAssert(regex, @"Unable to create regular expression");
+    
+    NSRange textRange = NSMakeRange(0, string.length);
+    NSRange matchRange = [regex rangeOfFirstMatchInString:string options:NSMatchingReportProgress range:textRange];
+    
+    BOOL didValidate = NO;
+    
+    // Did we find a matching range
+    if (matchRange.location != NSNotFound)
+        didValidate = YES;
+    
+    return didValidate;
+}
+
 #pragma mark DATE FORMATTER
 + (NSString*) dateByFormat:(NSString*)format date:(NSDate*)date {
     NSString *dateStr = @"";
@@ -495,6 +517,36 @@
     return [userDefaults objectForKey:USER_TOKEN];
 }
 
+- (void) setUserCountryCode:(NSString*)string {
+    @try {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:string forKey:USER_COUNTRY_CODE];
+    }
+    @catch (NSException *exception) {
+        ;
+    }
+}
+
+- (NSString*) getUserCountryCode {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [userDefaults objectForKey:USER_COUNTRY_CODE];
+}
+
+- (void) setUserPhone:(NSString*)string {
+    @try {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:string forKey:USER_PHONE];
+    }
+    @catch (NSException *exception) {
+        ;
+    }
+}
+
+- (NSString*) getUserPhone {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [userDefaults objectForKey:USER_PHONE];
+}
+
 - (void) setExpertId:(float)_id {
     expertId = _id;
 }
@@ -592,6 +644,8 @@
             [[ToolClass instance] setUserRole:[[data objectForKey:@"role_id"] intValue]];
             [[ToolClass instance] setUserToken:[data objectForKey:@"token"]];
             [[ToolClass instance] setUserEmail:[data objectForKey:@"email"]];
+            [[ToolClass instance] setUserCountryCode:[data objectForKey:@"phone_code"]];
+            [[ToolClass instance] setUserPhone:[data objectForKey:@"phone"]];
             
             [viewController loginSuccess];
         }

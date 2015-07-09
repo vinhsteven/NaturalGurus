@@ -64,10 +64,10 @@
 
 - (void) viewDidLayoutSubviews {
     if (screenSize.height == 480) {
-        self.mainScrollView.contentSize = CGSizeMake(self.mainScrollView.frame.size.width, screenSize.height+100);
+        self.mainScrollView.contentSize = CGSizeMake(self.mainScrollView.frame.size.width, screenSize.height+160);
     }
     else {
-        self.mainScrollView.contentSize = CGSizeMake(self.mainScrollView.frame.size.width, screenSize.height+20);
+        self.mainScrollView.contentSize = CGSizeMake(self.mainScrollView.frame.size.width, screenSize.height+60);
     }
     
     //check if this view is opened from Login Screen.
@@ -176,7 +176,18 @@
 
 }
 
+- (void) hideKeyboard {
+    [self.txtFirstname resignFirstResponder];
+    [self.txtLastname resignFirstResponder];
+    [self.txtEmail resignFirstResponder];
+    [self.txtPassword resignFirstResponder];
+    [self.txtConfirmPassword resignFirstResponder];
+    [self.txtPhone resignFirstResponder];
+    [self.txtCountryCode resignFirstResponder];
+}
+
 - (IBAction) handleConfirmCreateAccount:(id)sender {
+    [self hideKeyboard];
     if ([self.txtFirstname.text isEqualToString:@""]) {
         UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please input your first name" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [dialog show];
@@ -207,17 +218,27 @@
         return;
     }
     
+    if ([self.txtCountryCode.text isEqualToString:@""]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select your country code" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    
+    if ([self.txtPhone.text isEqualToString:@""]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please input your phone number" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    
     //connect server to call webservice for registering
-    NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:self.txtFirstname.text,@"firstname",self.txtLastname.text,@"lastname",self.txtEmail.text,@"email",self.txtPassword.text,@"password", nil];
+    NSString *countryCode = [[countryCodeArray objectAtIndex:currentCountrySelected] objectForKey:@"value"];
+    
+    NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:self.txtFirstname.text,@"firstname",self.txtLastname.text,@"lastname",self.txtEmail.text,@"email",self.txtPassword.text,@"password",countryCode,@"phone_code",self.txtPhone.text,@"phone", nil];
     [[ToolClass instance] registerAccount:parameters withViewController:self];
 }
 
 - (void) handleSingleTap:(UITapGestureRecognizer*)recognizer {
-    [self.txtFirstname resignFirstResponder];
-    [self.txtLastname resignFirstResponder];
-    [self.txtEmail resignFirstResponder];
-    [self.txtPassword resignFirstResponder];
-    [self.txtConfirmPassword resignFirstResponder];
+    [self hideKeyboard];
     
     self.mainScrollView.contentSize = CGSizeMake(self.mainScrollView.frame.size.width, screenSize.height);
 }
@@ -241,6 +262,36 @@
     rect.size.height = 400;
     
     [self.mainScrollView scrollRectToVisible:rect animated:YES];
+    
+    //check if select country code text field
+    if (textField == self.txtCountryCode) {
+        [self hideKeyboard];
+        
+        [MMPickerView showPickerViewInView:self.view
+                               withObjects:countryCodeArray
+                               withOptions:nil
+                                completion:^(NSInteger selectedIndex) {
+                                    //return selected index
+                                    currentCountrySelected = (int)selectedIndex;
+                                    
+                                    NSDictionary *dict = [countryCodeArray objectAtIndex:currentCountrySelected];
+                                    self.txtCountryCode.text = [NSString stringWithFormat:@"+%@",[dict objectForKey:@"value"]];
+                                    [self.txtCountryCode resignFirstResponder];
+                                }];
+    }
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    if (textField == self.txtEmail) {
+        if ([[ToolClass instance] validateEmail:self.txtEmail.text])
+            [self.txtPassword becomeFirstResponder];
+        else {
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Wrong email format. Please input the correct format for email. For example: johndoe@gmail.com" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+            return NO;
+        }
+    }
+    return YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -252,12 +303,21 @@
         
     }
     else if (textField == self.txtEmail) {
-        [self.txtPassword becomeFirstResponder];
+        if ([[ToolClass instance] validateEmail:self.txtEmail.text])
+            [self.txtPassword becomeFirstResponder];
+        else {
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Wrong email format. Please input the correct format for email. For example: johndoe@gmail.com" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+        }
     }
     else if (textField == self.txtPassword) {
         [self.txtConfirmPassword becomeFirstResponder];
     }
     else if (textField == self.txtConfirmPassword) {
+//        [self.txtCountryCode becomeFirstResponder];
+        [self textFieldDidBeginEditing:self.txtCountryCode];
+    }
+    else if (textField == self.txtPhone) {
         [textField resignFirstResponder];
         if (screenSize.height == 480)
             self.mainScrollView.contentSize = CGSizeMake(self.mainScrollView.frame.size.width, screenSize.height+100);
@@ -267,6 +327,18 @@
         
         //handle register account
         [self handleConfirmCreateAccount:nil];
+    }
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if (textField == self.txtPhone)  {
+        //check regular expression for this field, only accept number
+        NSString *pattern = @"^[0-9]";
+        if ([string isEqualToString:@""])
+            return YES;
+        if (![[ToolClass instance] validateString:string withPattern:pattern])
+            return NO;
     }
     return YES;
 }

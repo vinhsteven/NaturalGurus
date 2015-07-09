@@ -87,3 +87,5 @@ enum {
 #define USER_ROLE        @"userRole"
 #define USER_TOKEN       @"userToken"
 #define USER_EMAIL       @"userEmail"
+#define USER_COUNTRY_CODE   @"userCountryCode"
+#define USER_PHONE      @"userPhone"

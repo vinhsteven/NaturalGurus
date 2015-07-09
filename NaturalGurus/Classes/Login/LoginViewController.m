@@ -86,10 +86,18 @@
         [self.mainScrollView setContentSize:CGSizeMake(screenSize.width, 648)];
         [self.mainScrollView setContentOffset:CGPointMake(self.mainScrollView.frame.origin.x, 40)];
     }
+    
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+    [self.mainScrollView addGestureRecognizer:singleTap];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     self.navigationController.navigationBarHidden = YES;
+}
+
+- (void) handleSingleTap:(UITapGestureRecognizer*)recognizer {
+    [self.txtEmail resignFirstResponder];
+    [self.txtPassword resignFirstResponder];
 }
 
 //skip this step

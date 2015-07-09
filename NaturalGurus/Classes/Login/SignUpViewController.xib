@@ -185,7 +185,7 @@
                                         <constraint firstAttribute="height" constant="40" id="213-NW-MWH"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                    <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
+                                    <textInputTraits key="textInputTraits" returnKeyType="next" secureTextEntry="YES"/>
                                     <variation key="default">
                                         <mask key="constraints">
                                             <exclude reference="213-NW-MWH"/>
@@ -382,7 +382,7 @@
                                 <constraint firstAttribute="height" constant="44" id="Svu-SO-s6c"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
                             <variation key="default">
                                 <mask key="constraints">
                                     <exclude reference="Svu-SO-s6c"/>
@@ -475,41 +475,41 @@
                             <exclude reference="FzX-gD-3cb"/>
                         </mask>
                         <mask key="constraints">
-                            <exclude reference="9Cf-9g-jrO"/>
-                            <exclude reference="lXp-Q5-vjg"/>
+                            <exclude reference="9dI-b0-IaR"/>
+                            <exclude reference="gCJ-1y-bbe"/>
+                            <exclude reference="i7K-mB-adC"/>
+                            <exclude reference="Rfy-IY-aQg"/>
+                            <exclude reference="vbe-O3-gK9"/>
+                            <exclude reference="aNi-Ot-8TW"/>
+                            <exclude reference="fd6-63-MyX"/>
+                            <exclude reference="TXE-Fk-gV2"/>
+                            <exclude reference="qBu-Qc-Ehj"/>
+                            <exclude reference="sBC-E8-yIG"/>
+                            <exclude reference="6SM-8p-NGO"/>
+                            <exclude reference="MPV-Hj-L6d"/>
                             <exclude reference="13g-EI-RbV"/>
                             <exclude reference="9ce-xj-I2S"/>
                             <exclude reference="a1G-Ee-FSo"/>
                             <exclude reference="fih-zF-Afa"/>
-                            <exclude reference="Rfy-IY-aQg"/>
-                            <exclude reference="vbe-O3-gK9"/>
-                            <exclude reference="9dI-b0-IaR"/>
-                            <exclude reference="gCJ-1y-bbe"/>
-                            <exclude reference="i7K-mB-adC"/>
-                            <exclude reference="6SM-8p-NGO"/>
-                            <exclude reference="MPV-Hj-L6d"/>
+                            <exclude reference="Gv5-x7-Kks"/>
+                            <exclude reference="Re3-Vd-Uof"/>
+                            <exclude reference="jO1-5Z-lfo"/>
+                            <exclude reference="rKz-8u-smH"/>
+                            <exclude reference="9Cf-9g-jrO"/>
+                            <exclude reference="lXp-Q5-vjg"/>
                             <exclude reference="Mli-5l-54u"/>
                             <exclude reference="sTV-Sv-oDM"/>
                             <exclude reference="wov-zl-zpc"/>
-                            <exclude reference="Gv5-x7-Kks"/>
-                            <exclude reference="Re3-Vd-Uof"/>
-                            <exclude reference="LbQ-PU-F3Z"/>
-                            <exclude reference="kJf-Ib-LA3"/>
-                            <exclude reference="oCj-YA-4fN"/>
-                            <exclude reference="aNi-Ot-8TW"/>
-                            <exclude reference="fd6-63-MyX"/>
                             <exclude reference="kbg-Pt-sMU"/>
                             <exclude reference="p0e-1Y-W28"/>
-                            <exclude reference="TXE-Fk-gV2"/>
-                            <exclude reference="qBu-Qc-Ehj"/>
-                            <exclude reference="sBC-E8-yIG"/>
-                            <exclude reference="jO1-5Z-lfo"/>
-                            <exclude reference="rKz-8u-smH"/>
                             <exclude reference="Aj9-zd-ika"/>
                             <exclude reference="ECz-br-U15"/>
                             <exclude reference="FWv-yR-d84"/>
                             <exclude reference="Fnh-i1-Bax"/>
                             <exclude reference="FtP-3E-W5T"/>
+                            <exclude reference="LbQ-PU-F3Z"/>
+                            <exclude reference="kJf-Ib-LA3"/>
+                            <exclude reference="oCj-YA-4fN"/>
                         </mask>
                     </variation>
                     <variation key="heightClass=regular-widthClass=compact" ambiguous="YES">
@@ -530,41 +530,41 @@
                             <include reference="FzX-gD-3cb"/>
                         </mask>
                         <mask key="constraints">
-                            <include reference="9Cf-9g-jrO"/>
-                            <include reference="lXp-Q5-vjg"/>
+                            <include reference="9dI-b0-IaR"/>
+                            <include reference="gCJ-1y-bbe"/>
+                            <include reference="i7K-mB-adC"/>
+                            <include reference="Rfy-IY-aQg"/>
+                            <include reference="vbe-O3-gK9"/>
+                            <include reference="aNi-Ot-8TW"/>
+                            <include reference="fd6-63-MyX"/>
+                            <include reference="TXE-Fk-gV2"/>
+                            <include reference="qBu-Qc-Ehj"/>
+                            <include reference="sBC-E8-yIG"/>
+                            <include reference="6SM-8p-NGO"/>
+                            <include reference="MPV-Hj-L6d"/>
                             <include reference="13g-EI-RbV"/>
                             <include reference="9ce-xj-I2S"/>
                             <include reference="a1G-Ee-FSo"/>
                             <include reference="fih-zF-Afa"/>
-                            <include reference="Rfy-IY-aQg"/>
-                            <include reference="vbe-O3-gK9"/>
-                            <include reference="9dI-b0-IaR"/>
-                            <include reference="gCJ-1y-bbe"/>
-                            <include reference="i7K-mB-adC"/>
-                            <include reference="6SM-8p-NGO"/>
-                            <include reference="MPV-Hj-L6d"/>
+                            <include reference="Gv5-x7-Kks"/>
+                            <include reference="Re3-Vd-Uof"/>
+                            <include reference="jO1-5Z-lfo"/>
+                            <include reference="rKz-8u-smH"/>
+                            <include reference="9Cf-9g-jrO"/>
+                            <include reference="lXp-Q5-vjg"/>
                             <include reference="Mli-5l-54u"/>
                             <include reference="sTV-Sv-oDM"/>
                             <include reference="wov-zl-zpc"/>
-                            <include reference="Gv5-x7-Kks"/>
-                            <include reference="Re3-Vd-Uof"/>
-                            <include reference="LbQ-PU-F3Z"/>
-                            <include reference="kJf-Ib-LA3"/>
-                            <include reference="oCj-YA-4fN"/>
-                            <include reference="aNi-Ot-8TW"/>
-                            <include reference="fd6-63-MyX"/>
                             <include reference="kbg-Pt-sMU"/>
                             <include reference="p0e-1Y-W28"/>
-                            <include reference="TXE-Fk-gV2"/>
-                            <include reference="qBu-Qc-Ehj"/>
-                            <include reference="sBC-E8-yIG"/>
-                            <include reference="jO1-5Z-lfo"/>
-                            <include reference="rKz-8u-smH"/>
                             <include reference="Aj9-zd-ika"/>
                             <exclude reference="ECz-br-U15"/>
                             <include reference="FWv-yR-d84"/>
                             <include reference="Fnh-i1-Bax"/>
                             <include reference="FtP-3E-W5T"/>
+                            <include reference="LbQ-PU-F3Z"/>
+                            <include reference="kJf-Ib-LA3"/>
+                            <include reference="oCj-YA-4fN"/>
                         </mask>
                     </variation>
                     <connections>
@@ -606,7 +606,7 @@
                                 <constraint firstAttribute="height" constant="21" id="tJg-WJ-93B"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <variation key="default">
                                 <mask key="constraints">
@@ -686,9 +686,6 @@
                     <exclude reference="DAa-xG-eYI"/>
                 </mask>
                 <mask key="constraints">
-                    <exclude reference="KSd-wv-ehW"/>
-                    <exclude reference="YfH-pM-RI5"/>
-                    <exclude reference="yzh-RA-Xbw"/>
                     <exclude reference="8LS-NB-ucl"/>
                     <exclude reference="QKk-II-7Wy"/>
                     <exclude reference="Rhb-Fv-tRU"/>
@@ -698,6 +695,9 @@
                     <exclude reference="jAv-NN-FKe"/>
                     <exclude reference="kf4-De-1wQ"/>
                     <exclude reference="wGz-un-T8B"/>
+                    <exclude reference="KSd-wv-ehW"/>
+                    <exclude reference="YfH-pM-RI5"/>
+                    <exclude reference="yzh-RA-Xbw"/>
                 </mask>
             </variation>
             <variation key="heightClass=regular-widthClass=compact">
@@ -706,9 +706,6 @@
                     <include reference="DAa-xG-eYI"/>
                 </mask>
                 <mask key="constraints">
-                    <include reference="KSd-wv-ehW"/>
-                    <include reference="YfH-pM-RI5"/>
-                    <include reference="yzh-RA-Xbw"/>
                     <include reference="8LS-NB-ucl"/>
                     <exclude reference="QKk-II-7Wy"/>
                     <include reference="Rhb-Fv-tRU"/>
@@ -718,6 +715,9 @@
                     <include reference="jAv-NN-FKe"/>
                     <include reference="kf4-De-1wQ"/>
                     <exclude reference="wGz-un-T8B"/>
+                    <include reference="KSd-wv-ehW"/>
+                    <include reference="YfH-pM-RI5"/>
+                    <include reference="yzh-RA-Xbw"/>
                 </mask>
             </variation>
         </view>

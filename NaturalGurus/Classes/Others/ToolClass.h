@@ -31,6 +31,9 @@
 - (NSDictionary *) indexKeyedDictionaryFromArray:(NSMutableArray *)array;
 - (UIImage *)changeImageColor:(NSString *)name withColor:(UIColor *)color;
 
+#pragma mark REGEX
+- (BOOL)validateString:(NSString *)string withPattern:(NSString *)pattern;
+
 //Handle Date format
 + (NSString*) dateByFormat:(NSString*)format date:(NSDate*)date;
 + (NSString*) dateByFormat:(NSString*)format dateString:(NSString*)dateString;
@@ -59,6 +62,12 @@
 
 - (void) setUserToken:(NSString*)token;
 - (NSString*) getUserToken;
+
+- (void) setUserCountryCode:(NSString*)string;
+- (NSString*) getUserCountryCode;
+
+- (void) setUserPhone:(NSString*)string;
+- (NSString*) getUserPhone;
 
 - (void) setExpertId:(float)_id;
 - (float) getExpertId;
