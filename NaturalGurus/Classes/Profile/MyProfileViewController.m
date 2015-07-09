@@ -105,6 +105,9 @@
     UITapGestureRecognizer *profileImageTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditProfileImage)];
     [self.imgExpertView addGestureRecognizer:profileImageTap];
     
+    self.switchSMS.on = [[ToolClass instance] getUserSMS];
+    self.switchPushNotification.on = [[ToolClass instance] getUserPush];
+    
     //load country code array
     countryCodeArray = [NSMutableArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"CountryCode" ofType:@"plist"]];
 }

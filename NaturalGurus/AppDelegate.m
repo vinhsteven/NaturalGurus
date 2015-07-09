@@ -85,6 +85,8 @@
                      [[ToolClass instance] setUserEmail:[user objectForKey:@"email"]];
                      [[ToolClass instance] setUserCountryCode:[data objectForKey:@"phone_code"]];
                      [[ToolClass instance] setUserPhone:[data objectForKey:@"phone"]];
+                     [[ToolClass instance] setUserSMS:[data objectForKey:@"receive_sms"]];
+                     [[ToolClass instance] setUserPush:[data objectForKey:@"receive_push"]];
                      
                      [self.viewController loginSuccess];
                  }

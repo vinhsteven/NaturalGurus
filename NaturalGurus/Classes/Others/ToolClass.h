@@ -72,6 +72,12 @@
 - (void) setUserPhone:(NSString*)string;
 - (NSString*) getUserPhone;
 
+- (void) setUserSMS:(BOOL)boolean;
+- (BOOL) getUserSMS;
+
+- (void) setUserPush:(BOOL)boolean;
+- (BOOL) getUserPush;
+
 - (void) setExpertId:(float)_id;
 - (float) getExpertId;
 

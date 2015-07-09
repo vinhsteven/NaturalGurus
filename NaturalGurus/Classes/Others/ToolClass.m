@@ -559,6 +559,37 @@
     return [userDefaults objectForKey:USER_PHONE];
 }
 
+- (void) setUserSMS:(BOOL)boolean {
+    @try {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:[NSNumber numberWithBool:boolean] forKey:USER_SMS];
+    }
+    @catch (NSException *exception) {
+        ;
+    }
+}
+
+- (BOOL) getUserSMS {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [[userDefaults objectForKey:USER_SMS] boolValue];
+}
+
+- (void) setUserPush:(BOOL)boolean {
+    @try {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:[NSNumber numberWithBool:boolean] forKey:USER_PUSH];
+    }
+    @catch (NSException *exception) {
+        ;
+    }
+}
+
+- (BOOL) getUserPush {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [[userDefaults objectForKey:USER_PUSH] boolValue];
+}
+
+
 - (void) setExpertId:(float)_id {
     expertId = _id;
 }
@@ -658,6 +689,8 @@
             [[ToolClass instance] setUserEmail:[data objectForKey:@"email"]];
             [[ToolClass instance] setUserCountryCode:[data objectForKey:@"phone_code"]];
             [[ToolClass instance] setUserPhone:[data objectForKey:@"phone"]];
+            [[ToolClass instance] setUserSMS:[data objectForKey:@"receive_sms"]];
+            [[ToolClass instance] setUserPush:[data objectForKey:@"receive_push"]];
             
             [viewController loginSuccess];
         }
