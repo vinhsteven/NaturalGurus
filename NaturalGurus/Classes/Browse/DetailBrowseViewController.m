@@ -324,6 +324,9 @@ enum {
     currentPage = 1;
     [self.reviewData removeAllObjects];
     [self.reviewHeaders removeAllObjects];
+    
+    //test
+//    self.expertId = 12;
     [self loadExpertReviewsById:self.expertId];
 }
 

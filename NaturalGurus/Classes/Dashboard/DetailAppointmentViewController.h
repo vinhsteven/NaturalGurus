@@ -15,7 +15,8 @@
     
 }
 
-@property (weak, nonatomic) NSDictionary *appointmentDict;
+@property (strong, nonatomic) NSDictionary *appointmentDict;
+@property (strong, nonatomic) NSDictionary *expertDict;
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
 @property (strong, nonatomic) IBOutlet UIImageView *imgExpertView;
 @property (strong, nonatomic) IBOutlet UILabel *lbServiceName;
@@ -34,9 +35,13 @@
 @property (strong, nonatomic) IBOutlet UILabel *lbDuration;
 @property (strong, nonatomic) IBOutlet UILabel *lbDate;
 @property (strong, nonatomic) IBOutlet UILabel *lbTime;
+@property (strong, nonatomic) IBOutlet UILabel *lbTimezone;
+@property (strong, nonatomic) IBOutlet UIView *myFrontView;
 
 - (IBAction) handleCollapseExpandView:(id)sender;
 - (IBAction) handleEnterRoom:(id)sender;
 - (IBAction) handleCancelAppointment:(id)sender;
+
+- (void) reorganizeData;
 
 @end

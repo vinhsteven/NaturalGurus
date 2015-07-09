@@ -14,6 +14,8 @@
 #import "BrowseViewController.h"
 #import "DetailBrowseViewController.h"
 #import "AvailabilityViewController.h"
+#import "DashboardViewController.h"
+#import "DetailAppointmentViewController.h"
 
 @interface ToolClass : NSObject  {
     unsigned long expertId;
@@ -35,6 +37,7 @@
 - (BOOL)validateString:(NSString *)string withPattern:(NSString *)pattern;
 
 //Handle Date format
++ (NSString*) convertHourToAM_PM:(NSString*)rawHour;
 + (NSString*) dateByFormat:(NSString*)format date:(NSDate*)date;
 + (NSString*) dateByFormat:(NSString*)format dateString:(NSString*)dateString;
 
@@ -87,8 +90,9 @@
 - (void) loadExpertBySearchString:(NSString*)_searchStr pageIndex:(int)_pageIndex withViewController:(BrowseViewController*)viewController;
 - (void) loadCategoriesWithViewController:(BrowseViewController*)viewController;
 
-- (void) loadDetailExpertById:(long)_expertId withViewController:(DetailBrowseViewController*)viewController;
+- (void) loadDetailExpertById:(long)_expertId withViewController:(id)viewController;
 - (void) loadExpertReviewById:(long)_expertId pageIndex:(int)_pageIndex withViewController:(DetailBrowseViewController*)viewController;
 - (void) getTotalReviewsByExpertId:(long)_expertId pageIndex:(int)_pageIndex withViewController:(DetailBrowseViewController*)viewController;
 - (void) loadAvailabilitiesByExpertId:(long)_expertId params:(NSDictionary*)params withViewController:(AvailabilityViewController*)viewController;
+- (void) loadUserAppointments:(NSDictionary*)params withViewController:(DashboardViewController*)viewController;
 @end

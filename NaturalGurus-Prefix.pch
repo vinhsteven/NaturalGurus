@@ -79,6 +79,13 @@ enum {
     isUser
 };
 
+enum {
+    isPending = 0,
+    isApproved = 1,
+    isDeclined = -1,
+    isExpired  = -2,
+};
+
 #define NUMBER_RECORD_PER_PAGE  5
 
 #define PROFILE_IMAGE_URL   @"profileImageURL"

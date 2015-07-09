@@ -16,5 +16,10 @@
 
 @property (strong, nonatomic) IBOutlet TableView_RefreshControl *mainTableView;
 @property (strong, nonatomic) IBOutlet UILabel *lbMyAppointments;
+@property (assign, readwrite) int currentPage;
+@property (assign, readwrite) int lastPage;
+@property (assign, readwrite) BOOL isLoading;
+
+- (void) reorganizeAppointments:(NSArray*)array;
 
 @end

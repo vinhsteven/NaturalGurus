@@ -140,5 +140,24 @@
     [self.navigationController pushViewController:controller animated:YES];
 }
 
+#pragma mark UITextFieldDelegate 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if (textField == self.txtCardNumber || textField == self.txtCVV)  {
+        //check regular expression for this field, only accept number
+        NSString *pattern = @"^[0-9]";
+        if ([string isEqualToString:@""])
+            return YES;
+        if (![[ToolClass instance] validateString:string withPattern:pattern])
+            return NO;
+        
+        //check length for each card type
+        //master and visa have 16 characters
+        //AMEX has 15 characters
+        if (textField == self.txtCardNumber) {
+            
+        }
+    }
+    return YES;
+}
 
 @end

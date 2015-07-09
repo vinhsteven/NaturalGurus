@@ -241,6 +241,9 @@
                                           [self sessionStateChanged:session state:state error:error];
                                       }];
     }
+    else if ([[ToolClass instance] getUserToken]) {
+        [self performSelector:@selector(automaticalLogin) withObject:nil afterDelay:0.5];
+    }
     
     //init Twitter
 //    [Fabric with:@[TwitterKit]];
@@ -249,6 +252,10 @@
     [self.window makeKeyAndVisible];
     
     return YES;
+}
+
+- (void) automaticalLogin {
+    [self.viewController loginSuccess];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

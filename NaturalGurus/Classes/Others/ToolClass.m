@@ -410,6 +410,18 @@
     return dateStr;
 }
 
++ (NSString*) convertHourToAM_PM:(NSString*)rawHour {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"HH:mm:ss"];
+    
+    NSDate *date = [dateFormatter dateFromString:rawHour];
+    
+    [dateFormatter setDateFormat:@"HH:mm a"];
+    
+    NSString *formattedDate = [dateFormatter stringFromDate:date];
+    return formattedDate;
+}
+
 #pragma mark HANDLE STORE DATA
 - (void) setLogin:(BOOL)isLogin {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -733,13 +745,13 @@
     
     [manager GET:@"/api/v1/experts" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         // 3
-        NSLog(@"response: %@",(NSDictionary*)responseObject);
+//        NSLog(@"response: %@",(NSDictionary*)responseObject);
         //get status of request
         int status = [[responseObject objectForKey:@"status"] intValue];
         
         if (status == 200) {
             viewController.lastPage = [[[responseObject objectForKey:@"data"] objectForKey:@"last_page"] intValue];
-            NSArray *expertArray = [[responseObject objectForKey:@"data"] objectForKey:@"experts"];
+            NSArray *expertArray = [[responseObject objectForKey:@"data"] objectForKey:@"items"];
             [viewController reorganizeExpertArray:expertArray];
         }
         else if (status == 401){
@@ -780,7 +792,7 @@
         
         if (status == 200) {
             viewController.lastPage = [[[responseObject objectForKey:@"data"] objectForKey:@"last_page"] intValue];
-            NSArray *expertArray = [[responseObject objectForKey:@"data"] objectForKey:@"experts"];
+            NSArray *expertArray = [[responseObject objectForKey:@"data"] objectForKey:@"items"];
             [viewController reorganizeExpertArray:expertArray];
         }
         else if (status == 401){
@@ -825,7 +837,7 @@
         
         if (status == 200) {
             viewController.lastPage = [[[responseObject objectForKey:@"data"] objectForKey:@"last_page"] intValue];
-            NSArray *expertArray = [[responseObject objectForKey:@"data"] objectForKey:@"experts"];
+            NSArray *expertArray = [[responseObject objectForKey:@"data"] objectForKey:@"items"];
             [viewController reorganizeExpertArray:expertArray];
         }
         else if (status == 401){
@@ -870,7 +882,7 @@
         
         if (status == 200) {
             viewController.lastPage = [[[responseObject objectForKey:@"data"] objectForKey:@"last_page"] intValue];
-            NSArray *expertArray = [[responseObject objectForKey:@"data"] objectForKey:@"experts"];
+            NSArray *expertArray = [[responseObject objectForKey:@"data"] objectForKey:@"items"];
             [viewController reorganizeExpertArray:expertArray];
         }
         else if (status == 401){
@@ -911,7 +923,7 @@
         
         if (status == 200) {
             viewController.lastPage = [[[responseObject objectForKey:@"data"] objectForKey:@"last_page"] intValue];
-            NSArray *expertArray = [[responseObject objectForKey:@"data"] objectForKey:@"experts"];
+            NSArray *expertArray = [[responseObject objectForKey:@"data"] objectForKey:@"items"];
             [viewController reorganizeExpertArray:expertArray];
         }
         else if (status == 401){
@@ -970,8 +982,11 @@
     }];
 }
 
-- (void) loadDetailExpertById:(long)_expertId withViewController:(DetailBrowseViewController*)viewController {
-    [MBProgressHUD showHUDAddedTo:viewController.navigationController.view animated:YES];
+- (void) loadDetailExpertById:(long)_expertId withViewController:(id)viewController {
+    if ([viewController isKindOfClass:[DetailBrowseViewController class]])
+        [MBProgressHUD showHUDAddedTo:((DetailBrowseViewController*)viewController).navigationController.view animated:YES];
+    else
+        [MBProgressHUD showHUDAddedTo:((DetailAppointmentViewController*)viewController).navigationController.view animated:YES];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
     
@@ -979,15 +994,25 @@
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
     [manager GET:[NSString stringWithFormat:@"/api/v1/experts/%@",[NSString stringWithFormat:@"%ld",_expertId]] parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        // 3
-//        NSLog(@"response: %@",(NSDictionary*)responseObject);
+        
+        if ([viewController isKindOfClass:[DetailBrowseViewController class]])
+            [MBProgressHUD hideAllHUDsForView:((DetailBrowseViewController*)viewController).navigationController.view animated:YES];
+        else
+            [MBProgressHUD hideAllHUDsForView:((DetailAppointmentViewController*)viewController).navigationController.view animated:YES];
+
         //get status of request
         int status = [[responseObject objectForKey:@"status"] intValue];
         
         if (status == 200) {
             NSMutableDictionary *expertDict = [responseObject objectForKey:@"data"];
             [viewController setExpertDict:expertDict];
-            [viewController setupTableViewData];
+            
+            if ([viewController isKindOfClass:[DetailBrowseViewController class]])
+                [viewController setupTableViewData];
+            else {
+                [((DetailAppointmentViewController*)viewController).myFrontView removeFromSuperview];
+                [(DetailAppointmentViewController*)viewController reorganizeData];
+            }
         }
         else if (status == 401){
             NSString *message = [responseObject objectForKey:@"message"];
@@ -1020,7 +1045,8 @@
         
         if (status == 200) {
             viewController.lastPage = [[[responseObject objectForKey:@"data"] objectForKey:@"last_page"] intValue];
-            NSMutableArray *reviewArray = [[responseObject objectForKey:@"data"] objectForKey:@"data"];
+//            NSMutableArray *reviewArray = [[responseObject objectForKey:@"data"] objectForKey:@"data"];
+            NSMutableArray *reviewArray = [[responseObject objectForKey:@"data"] objectForKey:@"items"];
             [viewController reorganizeReviewArray:reviewArray];
         }
         else if (status == 401){
@@ -1086,6 +1112,33 @@
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"totalReview error = %@",error);
+    }];
+}
+
+- (void) loadUserAppointments:(NSDictionary*)params withViewController:(DashboardViewController*)viewController {
+    [MBProgressHUD showHUDAddedTo:viewController.navigationController.view animated:YES];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager GET:@"/api/v1/client/appointments" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        // 3
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        
+        if (status == 200) {
+            NSArray *data = [[responseObject objectForKey:@"data"] objectForKey:@"items"];
+            viewController.lastPage = [[[responseObject objectForKey:@"data"] objectForKey:@"last_page"] intValue];
+            [viewController reorganizeAppointments:data];
+        }
+        else if (status == 401){
+            NSLog(@"dashboard error");
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"dashboard error = %@",error);
     }];
 }
 

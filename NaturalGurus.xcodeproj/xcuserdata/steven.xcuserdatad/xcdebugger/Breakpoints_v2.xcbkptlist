@@ -10,27 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NaturalGurus/Classes/Others/ToolClass.m"
-            timestampString = "458105662.842196"
+            timestampString = "458111326.632873"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "736"
-            endingLineNumber = "736"
-            landmarkName = "-loadTheLatestExperts:withViewController:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "NaturalGurus/Classes/Others/ToolClass.m"
-            timestampString = "458105662.842196"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "753"
-            endingLineNumber = "753"
+            startingLineNumber = "765"
+            endingLineNumber = "765"
             landmarkName = "-loadTheLatestExperts:withViewController:"
             landmarkType = "5">
          </BreakpointContent>

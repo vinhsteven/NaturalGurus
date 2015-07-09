@@ -263,18 +263,19 @@
                 || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
                 
                 [[ToolClass instance] setLogin:NO];
-                
+                [[ToolClass instance] setUserToken:nil];
                 // Close the session and remove the access token from the cache
                 // The session state handler (in the app delegate) will be called automatically
                 [FBSession.activeSession closeAndClearTokenInformation];
                 
                 [((LoginViewController*)parent).drawerController.navigationController popViewControllerAnimated:YES];
             }
-
+            
             break;
         case LOGIN_EMAIL:
-                [[ToolClass instance] setLogin:NO];
-                [((LoginViewController*)parent).drawerController.navigationController popViewControllerAnimated:YES];
+            [[ToolClass instance] setLogin:NO];
+            [[ToolClass instance] setUserToken:nil];
+            [((LoginViewController*)parent).drawerController.navigationController popViewControllerAnimated:YES];
             break;
         default:
             break;

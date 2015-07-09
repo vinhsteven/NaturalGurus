@@ -45,6 +45,7 @@ enum {
     
     [self setupUI];
     
+    [self loadDetailExpert];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -56,9 +57,11 @@ enum {
 }
 
 - (void) setupUI {
-    self.navigationItem.title = @"Alan Smith";
+    self.navigationItem.title = @"";
     
     self.view.backgroundColor = TABLE_BACKGROUND_COLOR;
+    
+    self.myFrontView.backgroundColor = TABLE_BACKGROUND_COLOR;
     
     self.detailContainerView.layer.cornerRadius  = 5;
     self.detailContainerView.layer.masksToBounds = YES;
@@ -84,42 +87,101 @@ enum {
     //get appointment data
     self.lbStatus.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
     
-    NSString *status = [appointmentDict objectForKey:@"status"];
-    lbStatus.text = status;
-    if ([status isEqualToString:@"Confirmed"])
-        lbStatus.textColor = GREEN_COLOR;
-    else if ([status isEqualToString:@"Pending"])
-        lbStatus.textColor = [UIColor colorWithRed:(float)215/255 green:(float)186/255 blue:(float)53/255 alpha:1.0];
-    else
-        lbStatus.textColor = [UIColor colorWithRed:(float)215/255 green:(float)53/255 blue:(float)53/255 alpha:1.0];
-    
     //set Service name label text
-    self.lbServiceName.text = [appointmentDict objectForKey:@"serviceName"];
-    
-    //get expert image
-    UIImageView *se = self.imgExpertView;
-    
-    NSString *imgUrl = [appointmentDict objectForKey:@"imageUrl"];
-    [self.imgExpertView sd_setImageWithURL:[NSURL URLWithString:imgUrl]
-                       placeholderImage:[UIImage imageNamed:NSLocalizedString(@"image_loading_placeholder", nil)]
-                              completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType,NSURL *url) {
-                                  
-                                  se.image = [[ToolClass instance] imageByScalingAndCroppingForSize:CGSizeMake(EXPERT_IN_LIST_WIDTH, EXPERT_IN_LIST_HEIGHT) source:image];
-                                  
-                              }];
-    self.imgExpertView.layer.cornerRadius  = EXPERT_IMAGE_WIDTH/2;
-    self.imgExpertView.layer.masksToBounds = YES;
+//    self.lbServiceName.text = [appointmentDict objectForKey:@"serviceName"];
     
     //get number of star
-    //set number of rating
     self.starRatingView.backgroundImage = nil;
     self.starRatingView.starImage = [UIImage imageNamed:@"star_highlighted.png"];
     self.starRatingView.starHighlightedImage = [UIImage imageNamed:@"star.png"];
     self.starRatingView.maxRating = 5.0;
     self.starRatingView.horizontalMargin = 0;
     self.starRatingView.editable    = NO;
-    self.starRatingView.rating = 3.5;
     self.starRatingView.displayMode = EDStarRatingDisplayAccurate;
+}
+
+- (void) loadDetailExpert {
+    unsigned long expertId = [[appointmentDict objectForKey:@"expertId"] longValue];
+    [[ToolClass instance] loadDetailExpertById:expertId withViewController:self];
+}
+
+- (void) reorganizeData {
+    
+    
+    self.navigationItem.title = [self.expertDict objectForKey:@"name"];
+    
+    //get expert image
+    UIImageView *se = self.imgExpertView;
+    
+    NSString *avatar = [self.expertDict objectForKey:@"avatar"];
+    //add %20 if there are some space in link
+    avatar = [avatar stringByReplacingOccurrencesOfString:@" " withString:@"\%20"];
+    
+    NSString *imgUrl = avatar;
+    [self.imgExpertView sd_setImageWithURL:[NSURL URLWithString:imgUrl]
+                          placeholderImage:[UIImage imageNamed:NSLocalizedString(@"image_loading_placeholder", nil)]
+                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType,NSURL *url) {
+                                     
+                                     se.image = [[ToolClass instance] imageByScalingAndCroppingForSize:CGSizeMake(EXPERT_IN_LIST_WIDTH, EXPERT_IN_LIST_HEIGHT) source:image];
+                                     
+                                 }];
+    self.imgExpertView.layer.cornerRadius  = EXPERT_IMAGE_WIDTH/2;
+    self.imgExpertView.layer.masksToBounds = YES;
+    
+    //rating
+    float rating = [[self.expertDict objectForKey:@"rating"] floatValue];
+    self.starRatingView.rating = rating;
+    
+    //title
+    self.lbServiceName.text = [self.expertDict objectForKey:@"title"];
+    
+    //price
+    self.lbPrice.text = [NSString stringWithFormat:@"%.2f per minute",[[self.expertDict objectForKey:@"price"] floatValue]];
+    
+    //status
+    int status = [[appointmentDict objectForKey:@"status"] intValue];
+    NSString *statusString;
+    UIColor *statusColor;
+    switch (status) {
+        case isPending:
+            statusString = @"Pending";
+            statusColor = [UIColor colorWithRed:(float)215/255 green:(float)186/255 blue:(float)53/255 alpha:1.0];
+            self.btnEnter.userInteractionEnabled = NO;
+            self.btnEnter.alpha = 0.7;
+            break;
+        case isApproved:
+            statusString = @"Approved";
+            statusColor  = GREEN_COLOR;
+            break;
+        case isDeclined:
+            statusString = @"Declined";
+            statusColor  = [UIColor colorWithRed:(float)215/255 green:(float)53/255 blue:(float)53/255 alpha:1.0];
+            self.btnEnter.hidden = YES;
+            break;
+        case isExpired:
+            statusString = @"Expired";
+            statusColor  = [UIColor colorWithRed:(float)215/255 green:(float)53/255 blue:(float)53/255 alpha:1.0];
+            self.btnEnter.hidden = YES;
+            break;
+        default:
+            break;
+    }
+    self.lbStatus.text = statusString;
+    self.lbStatus.textColor = statusColor;
+    
+    //set appointment value
+    self.lbDuration.text = [NSString stringWithFormat:@"%d mins",[[appointmentDict objectForKey:@"duration"] intValue]];
+    self.lbTotalPrice.text = [NSString stringWithFormat:@"$%.2f",[[appointmentDict objectForKey:@"total"] floatValue]];
+    
+    NSString *date = [appointmentDict objectForKey:@"date"];
+    date = [ToolClass dateByFormat:@"EEE, MMM dd yyyy" dateString:date];
+    self.lbDate.text = date;
+    
+    NSString *fromTime  = [ToolClass convertHourToAM_PM:[appointmentDict objectForKey:@"from_time"]];
+    NSString *toTime    = [ToolClass convertHourToAM_PM:[appointmentDict objectForKey:@"to_time"]];
+    self.lbTime.text    = [NSString stringWithFormat:@"%@ - %@",fromTime,toTime];
+
+    self.lbTimezone.text = [appointmentDict objectForKey:@"timezone"];
 }
 
 - (IBAction) handleCollapseExpandView:(id)sender {
