@@ -119,7 +119,7 @@ enum {
     
     NSString *imgUrl = avatar;
     [self.imgExpertView sd_setImageWithURL:[NSURL URLWithString:imgUrl]
-                          placeholderImage:[UIImage imageNamed:NSLocalizedString(@"image_loading_placeholder", nil)]
+                          placeholderImage:[UIImage imageNamed:@"avatarDefault.png"]
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType,NSURL *url) {
                                      
                                      se.image = [[ToolClass instance] imageByScalingAndCroppingForSize:CGSizeMake(EXPERT_IN_LIST_WIDTH, EXPERT_IN_LIST_HEIGHT) source:image];

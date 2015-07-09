@@ -43,6 +43,12 @@
 		B0C5E2211B4CD7B2002810EE /* ConfirmedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0C5E21F1B4CD7B2002810EE /* ConfirmedViewController.xib */; };
 		B0C5E2231B4CDC7E002810EE /* iconPaymentSuccessful@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C5E2221B4CDC7E002810EE /* iconPaymentSuccessful@2x.png */; };
 		B0C5E2311B4D3CC2002810EE /* CountryCode.plist in Resources */ = {isa = PBXBuildFile; fileRef = B0C5E2301B4D3CC2002810EE /* CountryCode.plist */; };
+		B0C68D051B4E5753003A7A1F /* bgFreeSession@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C68D041B4E5753003A7A1F /* bgFreeSession@2x.png */; };
+		B0C68D081B4E6EA8003A7A1F /* bgFreeAvailability_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C68D061B4E6EA8003A7A1F /* bgFreeAvailability_0@2x.png */; };
+		B0C68D091B4E6EA8003A7A1F /* bgFreeAvailability_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C68D071B4E6EA8003A7A1F /* bgFreeAvailability_1@2x.png */; };
+		B0C68D0C1B4E7908003A7A1F /* btnEditSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C68D0A1B4E7908003A7A1F /* btnEditSelected.png */; };
+		B0C68D0D1B4E7908003A7A1F /* btnEditSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C68D0B1B4E7908003A7A1F /* btnEditSelected@2x.png */; };
+		B0C68D0F1B4E8025003A7A1F /* avatarDefault@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C68D0E1B4E8025003A7A1F /* avatarDefault@2x.png */; };
 		B0C9A4A31B422ECF00F74FCD /* btnClose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C9A4A21B422ECF00F74FCD /* btnClose@2x.png */; };
 		B0C9A4B91B42802200F74FCD /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C9A4B11B42802200F74FCD /* FacebookSDK.framework */; };
 		B0C9A4BA1B42802200F74FCD /* FacebookSDKStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B0C9A4B21B42802200F74FCD /* FacebookSDKStrings.bundle */; };
@@ -212,6 +218,12 @@
 		B0C5E21F1B4CD7B2002810EE /* ConfirmedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmedViewController.xib; sourceTree = "<group>"; };
 		B0C5E2221B4CDC7E002810EE /* iconPaymentSuccessful@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconPaymentSuccessful@2x.png"; sourceTree = "<group>"; };
 		B0C5E2301B4D3CC2002810EE /* CountryCode.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CountryCode.plist; sourceTree = "<group>"; };
+		B0C68D041B4E5753003A7A1F /* bgFreeSession@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgFreeSession@2x.png"; sourceTree = "<group>"; };
+		B0C68D061B4E6EA8003A7A1F /* bgFreeAvailability_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgFreeAvailability_0@2x.png"; sourceTree = "<group>"; };
+		B0C68D071B4E6EA8003A7A1F /* bgFreeAvailability_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgFreeAvailability_1@2x.png"; sourceTree = "<group>"; };
+		B0C68D0A1B4E7908003A7A1F /* btnEditSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btnEditSelected.png; sourceTree = "<group>"; };
+		B0C68D0B1B4E7908003A7A1F /* btnEditSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btnEditSelected@2x.png"; sourceTree = "<group>"; };
+		B0C68D0E1B4E8025003A7A1F /* avatarDefault@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatarDefault@2x.png"; sourceTree = "<group>"; };
 		B0C9A4A21B422ECF00F74FCD /* btnClose@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btnClose@2x.png"; sourceTree = "<group>"; };
 		B0C9A4B11B42802200F74FCD /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		B0C9A4B21B42802200F74FCD /* FacebookSDKStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FacebookSDKStrings.bundle; sourceTree = "<group>"; };
@@ -630,9 +642,13 @@
 		C2A5E3C01B27FACB000F7F29 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B0C68D0E1B4E8025003A7A1F /* avatarDefault@2x.png */,
+				B0C68D041B4E5753003A7A1F /* bgFreeSession@2x.png */,
 				B0C5E2221B4CDC7E002810EE /* iconPaymentSuccessful@2x.png */,
 				B0C3F46D1B45288B001F44B9 /* btnEndCall@2x.png */,
 				B0C9A4A21B422ECF00F74FCD /* btnClose@2x.png */,
+				B0C68D061B4E6EA8003A7A1F /* bgFreeAvailability_0@2x.png */,
+				B0C68D071B4E6EA8003A7A1F /* bgFreeAvailability_1@2x.png */,
 				B00F66ED1B380BA400521850 /* bgAvailability_1@2x.png */,
 				B00F66EE1B380BA400521850 /* bgAvailability_0@2x.png */,
 				B00F66EB1B37FF6C00521850 /* iconCancel@2x.png */,
@@ -659,6 +675,8 @@
 				C24638941B317213002A4820 /* logo@2x.png */,
 				C2ED33AE1B302FE30032F885 /* btnEdit.png */,
 				C2ED33AF1B302FE30032F885 /* btnEdit@2x.png */,
+				B0C68D0A1B4E7908003A7A1F /* btnEditSelected.png */,
+				B0C68D0B1B4E7908003A7A1F /* btnEditSelected@2x.png */,
 				C2ED33A41B3017AD0032F885 /* btnCollapse.png */,
 				C2ED33A51B3017AD0032F885 /* btnExpand.png */,
 				C2ED33A01B30173A0032F885 /* btnCollapse@2x.png */,
@@ -909,6 +927,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0C68D081B4E6EA8003A7A1F /* bgFreeAvailability_0@2x.png in Resources */,
 				C21AFF831B35672A002DCACC /* iconArrowDown@2x.png in Resources */,
 				B0C9A4A31B422ECF00F74FCD /* btnClose@2x.png in Resources */,
 				C246389D1B3177BA002A4820 /* bgLoginContainer@2x.png in Resources */,
@@ -920,6 +939,7 @@
 				C2ED33B11B302FE30032F885 /* btnEdit@2x.png in Resources */,
 				C2ED33B01B302FE30032F885 /* btnEdit.png in Resources */,
 				C24638971B317213002A4820 /* iconEmail@2x.png in Resources */,
+				B0C68D0D1B4E7908003A7A1F /* btnEditSelected@2x.png in Resources */,
 				C22633CD1B32B1C900CB368D /* iconOnline@2x.png in Resources */,
 				C2F740CE1B2A748C00C8635F /* BrowseViewController.xib in Resources */,
 				C24638991B317213002A4820 /* iconSkip@2x.png in Resources */,
@@ -936,6 +956,7 @@
 				C22633D31B32D5E400CB368D /* iconCategoryArrowDown@2x.png in Resources */,
 				C2BA2F141B2C291200811E56 /* star_highlighted.png in Resources */,
 				C22633CC1B32B1C900CB368D /* iconOffline@2x.png in Resources */,
+				B0C68D0C1B4E7908003A7A1F /* btnEditSelected.png in Resources */,
 				C2A5E3C41B27FACB000F7F29 /* reveal-icon@2x.png in Resources */,
 				C2FD421B1B33D3E4002F2D2C /* btnShare@2x.png in Resources */,
 				B00F66F01B380BA400521850 /* bgAvailability_0@2x.png in Resources */,
@@ -951,10 +972,13 @@
 				B0C5E2311B4D3CC2002810EE /* CountryCode.plist in Resources */,
 				B0C5E2211B4CD7B2002810EE /* ConfirmedViewController.xib in Resources */,
 				C21392061B36B82000A2A1B5 /* iconDashboard@2x.png in Resources */,
+				B0C68D051B4E5753003A7A1F /* bgFreeSession@2x.png in Resources */,
 				C2BA2F1F1B2C33FB00811E56 /* camera.png in Resources */,
 				C22633D21B32D5E400CB368D /* btnFilter@2x.png in Resources */,
+				B0C68D091B4E6EA8003A7A1F /* bgFreeAvailability_1@2x.png in Resources */,
 				B00F66F51B380BF400521850 /* AvailabilityViewController.xib in Resources */,
 				B0CD30231B4B910C00FD2688 /* TimeZone.plist in Resources */,
+				B0C68D0F1B4E8025003A7A1F /* avatarDefault@2x.png in Resources */,
 				B0CD2E451B3901CF00764216 /* LoginViewController.xib in Resources */,
 				C2ED33A21B30173A0032F885 /* btnCollapse@2x.png in Resources */,
 				C21392071B36B82000A2A1B5 /* iconLock@2x.png in Resources */,

@@ -25,6 +25,7 @@
 @property (assign, readwrite) int totalReview;
 @property (strong, nonatomic) NSMutableDictionary *expertDict;
 @property (assign, readwrite) long expertId;
+@property (assign, readwrite) int freeSession;
 @property (strong, nonatomic) NSString *expertDescriptionString;    //reuse from previous screen, because it take too long time to creat HTML string
 @property (strong, nonatomic) IBOutlet UILabel *lbDuration;
 @property (strong, nonatomic) IBOutlet UIImageView *imgStatusView;
@@ -40,7 +41,10 @@
 @property (strong, nonatomic) IBOutlet UIButton *btnReview;
 @property (strong, nonatomic) IBOutlet UIButton *btnBookLive;
 @property (strong, nonatomic) IBOutlet UIButton *btnSchedule;
+@property (strong, nonatomic) IBOutlet UIButton *lbFreeSession;
+@property (strong, nonatomic) IBOutlet UIButton *btnGetFreeSession;
 @property (strong, nonatomic) IBOutlet UIView *myFrontView;
+@property (strong, nonatomic) IBOutlet UIView *bottomView;
 
 //for Review section
 @property (strong, nonatomic) NSMutableArray *reviewData;

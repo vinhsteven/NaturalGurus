@@ -262,17 +262,19 @@
         NSString *price     = [dict objectForKey:@"price"];
         NSString *title     = [dict objectForKey:@"title"];
         NSString *name      = [dict objectForKey:@"name"];
-        NSString *description   = [dict objectForKey:@"description"];
+
+        NSString *intro     = [dict objectForKey:@"intro"];
         NSString *joinedDate  = [dict objectForKey:@"join_date"];
         
         //add %20 if there are some space in link
         avatar = [avatar stringByReplacingOccurrencesOfString:@" " withString:@"\%20"];
         
         //process html format string in description
-        NSAttributedString * attrStr = [[NSAttributedString alloc] initWithData:[description dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+//        NSString *description   = [dict objectForKey:@"description"];
+//        NSAttributedString * attrStr = [[NSAttributedString alloc] initWithData:[description dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
 
         
-        NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithLong:expertId],@"expertId",avatar,@"imageUrl",name,@"expertName",title,@"serviceName",attrStr,@"description",price,@"durationPrice",[NSNumber numberWithBool:isOnline],@"status",[NSNumber numberWithInt:rating],@"rating",joinedDate,@"joinDate", nil];
+        NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithLong:expertId],@"expertId",avatar,@"imageUrl",name,@"expertName",title,@"serviceName",intro,@"description",price,@"durationPrice",[NSNumber numberWithBool:isOnline],@"status",[NSNumber numberWithInt:rating],@"rating",joinedDate,@"joinDate",[dict objectForKey:@"free_session"],@"free_session", nil];
         [tmpArray addObject:tmpDict];
     }
     
@@ -319,7 +321,7 @@
         UIImageView *se = addView;
         
         [addView sd_setImageWithURL:[NSURL URLWithString:thumbnail]
-                   placeholderImage:[UIImage imageNamed:NSLocalizedString(@"image_loading_placeholder", nil)]
+                   placeholderImage:[UIImage imageNamed:@"avatarDefault.png"]
                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType,NSURL *url) {
                               
                               se.image = [[ToolClass instance] imageByScalingAndCroppingForSize:CGSizeMake(screenSize.width, CATEGORY_IMAGE_HEIGHT) source:image];
@@ -447,7 +449,7 @@
             
             NSString *imgUrl = [dict objectForKey:@"imageUrl"];
             [addView sd_setImageWithURL:[NSURL URLWithString:imgUrl]
-                       placeholderImage:[UIImage imageNamed:NSLocalizedString(@"image_loading_placeholder", nil)]
+                       placeholderImage:[UIImage imageNamed:@"avatarDefault.png"]
                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType,NSURL *url) {
                                   
                                   se.image = [[ToolClass instance] imageByScalingAndCroppingForSize:CGSizeMake(EXPERT_IN_LIST_WIDTH, EXPERT_IN_LIST_HEIGHT) source:image];
@@ -487,7 +489,8 @@
             //add description
             UILabel *lbDescription = [[UILabel alloc] initWithFrame:CGRectMake(95, 55, bgView.frame.size.width-100, 60)];
             lbDescription.backgroundColor = [UIColor clearColor];
-            lbDescription.attributedText = [dict objectForKey:@"description"];
+//            lbDescription.attributedText = [dict objectForKey:@"description"];
+            lbDescription.text = [dict objectForKey:@"description"];
             lbDescription.textColor = [UIColor darkGrayColor];
             lbDescription.font = [UIFont fontWithName:DEFAULT_FONT size:11];
             lbDescription.numberOfLines = 3;
@@ -524,6 +527,18 @@
             customNumberOfStars.displayMode = EDStarRatingDisplayAccurate;
             
             [bottomView addSubview:customNumberOfStars];
+            
+            int freeSession = [[dict objectForKey:@"free_session"] intValue];
+            if (freeSession > 0) {
+                UIButton *lbFreeSession = [UIButton buttonWithType:UIButtonTypeCustom];
+                lbFreeSession.frame = CGRectMake(85, 5, 85, 15);
+                [lbFreeSession setBackgroundImage:[UIImage imageNamed:@"bgFreeSession.png"] forState:UIControlStateNormal];
+                [lbFreeSession setTitle:[NSString stringWithFormat:@"Free %d mins call",freeSession] forState:UIControlStateNormal];
+                [lbFreeSession setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                lbFreeSession.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:10];
+                lbFreeSession.userInteractionEnabled = NO;
+                [bottomView addSubview:lbFreeSession];
+            }
             
             [bgView addSubview:bottomView];
             
@@ -586,7 +601,8 @@
         
         DetailBrowseViewController *controller = [[DetailBrowseViewController alloc] initWithNibName:@"DetailBrowseViewController" bundle:nil];
         controller.expertId     = [[dict objectForKey:@"expertId"] longValue];
-        controller.expertDescriptionString = [dict objectForKey:@"description"];
+//        controller.expertDescriptionString = [dict objectForKey:@"description"];
+        controller.freeSession = [[dict objectForKey:@"free_session"] intValue];
         [[ToolClass instance] setExpertId:controller.expertId];
         [self.navigationController pushViewController:controller animated:YES];
     }

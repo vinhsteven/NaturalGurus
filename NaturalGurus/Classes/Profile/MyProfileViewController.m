@@ -86,7 +86,7 @@
     
     NSString *imgUrl = [[ToolClass instance] getProfileImageURL];
     [self.imgExpertView sd_setImageWithURL:[NSURL URLWithString:imgUrl]
-                       placeholderImage:[UIImage imageNamed:NSLocalizedString(@"image_loading_placeholder", nil)]
+                       placeholderImage:[UIImage imageNamed:@"avatarDefault.png"]
                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                                   
                                   se.image = [[ToolClass instance] imageByScalingAndCroppingForSize:CGSizeMake(EXPERT_IMAGE_WIDTH, EXPERT_IMAGE_HEIGHT) source:image];
@@ -104,6 +104,9 @@
     //handle tap profile picture
     UITapGestureRecognizer *profileImageTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditProfileImage)];
     [self.imgExpertView addGestureRecognizer:profileImageTap];
+    
+    //load country code array
+    countryCodeArray = [NSMutableArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"CountryCode" ofType:@"plist"]];
 }
 
 - (void) viewDidLayoutSubviews {
@@ -149,7 +152,10 @@
         [self.txtLastName becomeFirstResponder];
     }
     else if (textField == self.txtLastName) {
-//        [self.txtEmail becomeFirstResponder];
+//        [textField resignFirstResponder];
+        [self textFieldDidBeginEditing:self.txtCountryCode];
+    }
+    else if (textField == self.txtPhoneNumber) {
         [textField resignFirstResponder];
         
         if (screenSize.height == 480)
@@ -173,16 +179,67 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     if (screenSize.height == 480)
         self.view.center = CGPointMake(screenSize.width/2, screenSize.height/2-120);
+    //check if select country code text field
+    if (textField == self.txtCountryCode) {
+        [self hideKeyboard];
+        
+        [MMPickerView showPickerViewInView:self.view
+                               withObjects:countryCodeArray
+                               withOptions:nil
+                                completion:^(NSInteger selectedIndex) {
+                                    //return selected index
+                                    currentCountrySelected = (int)selectedIndex;
+                                    
+                                    NSDictionary *dict = [countryCodeArray objectAtIndex:currentCountrySelected];
+                                    self.txtCountryCode.text = [NSString stringWithFormat:@"+%@",[dict objectForKey:@"value"]];
+                                    [self.txtCountryCode resignFirstResponder];
+                                    
+                                    [self.txtPhoneNumber becomeFirstResponder];
+                                }];
+    }
 }
 
-- (IBAction) handleEditProfile:(id)sender {
-    self.txtFirstName.enabled   = YES;
-    self.txtLastName.enabled    = YES;
-//    self.txtEmail.enabled       = YES;
-    self.txtCountryCode.enabled = YES;
-    self.txtPhoneNumber.enabled = YES;
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if (textField == self.txtPhoneNumber)  {
+        //check regular expression for this field, only accept number
+        NSString *pattern = @"^[0-9]";
+        if ([string isEqualToString:@""])
+            return YES;
+        if (![[ToolClass instance] validateString:string withPattern:pattern])
+            return NO;
+    }
+    return YES;
+}
+
+- (void) hideKeyboard {
+    [self.txtFirstName resignFirstResponder];
+    [self.txtLastName resignFirstResponder];
+    [self.txtEmail resignFirstResponder];
+    [self.txtCountryCode resignFirstResponder];
+    [self.txtPhoneNumber resignFirstResponder];
+}
+
+- (IBAction) handleEditProfile:(UIButton*)sender {
+    sender.selected = !sender.selected;
     
-    [self.txtFirstName becomeFirstResponder];
+    if (sender.selected) {
+        self.txtFirstName.enabled   = YES;
+        self.txtLastName.enabled    = YES;
+        //    self.txtEmail.enabled       = YES;
+        self.txtCountryCode.enabled = YES;
+        self.txtPhoneNumber.enabled = YES;
+        
+        [self.txtFirstName becomeFirstResponder];
+    }
+    else {
+        [self hideKeyboard];
+        
+        self.txtFirstName.enabled   = NO;
+        self.txtLastName.enabled    = NO;
+        //    self.txtEmail.enabled       = YES;
+        self.txtCountryCode.enabled = NO;
+        self.txtPhoneNumber.enabled = NO;
+    }
 }
 
 - (void) handleEditProfileImage {

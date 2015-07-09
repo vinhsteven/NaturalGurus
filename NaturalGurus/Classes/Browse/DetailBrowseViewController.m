@@ -28,6 +28,7 @@ enum {
 @synthesize currentPage,lastPage;
 @synthesize totalReview;
 @synthesize isLoading;
+@synthesize freeSession;
 
 - (BOOL)shouldAutorotate {
     return NO;
@@ -91,13 +92,38 @@ enum {
     [self.btnReview setTitleColor:GREEN_COLOR forState:UIControlStateSelected];
     
     //set style for Book Live and Schedule button
+    self.btnBookLive = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.btnBookLive.backgroundColor = [UIColor lightGrayColor];
+    [self.btnBookLive setTitle:@"Meet Now" forState:UIControlStateNormal];
+    self.btnBookLive.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+    [self.btnBookLive setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.btnBookLive addTarget:self action:@selector(handleBookLive:) forControlEvents:UIControlEventTouchUpInside];
     [self.btnBookLive setBackgroundImage:[ToolClass imageFromColor:GREEN_COLOR] forState:UIControlStateNormal];
     self.btnBookLive.layer.cornerRadius  = 5;
     self.btnBookLive.layer.masksToBounds = YES;
+    [self.bottomView addSubview:self.btnBookLive];
     
+    self.btnSchedule = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.btnSchedule.backgroundColor = [UIColor lightGrayColor];
+    [self.btnSchedule setTitle:@"Schedule" forState:UIControlStateNormal];
+    self.btnSchedule.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+    [self.btnSchedule setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.btnSchedule addTarget:self action:@selector(handleScheduleAppointment:) forControlEvents:UIControlEventTouchUpInside];
     [self.btnSchedule setBackgroundImage:[ToolClass imageFromColor:GREEN_COLOR] forState:UIControlStateNormal];
     self.btnSchedule.layer.cornerRadius  = 5;
     self.btnSchedule.layer.masksToBounds = YES;
+    [self.bottomView addSubview:self.btnSchedule];
+    
+    self.btnGetFreeSession = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.btnGetFreeSession.backgroundColor = [UIColor lightGrayColor];
+    [self.btnGetFreeSession setTitle:@"Get Free Mins" forState:UIControlStateNormal];
+    self.btnGetFreeSession.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+    [self.btnGetFreeSession setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.btnGetFreeSession addTarget:self action:@selector(handleScheduleAppointment:) forControlEvents:UIControlEventTouchUpInside];
+    [self.btnGetFreeSession setBackgroundImage:[ToolClass imageFromColor:ORANGE_COLOR] forState:UIControlStateNormal];
+    self.btnGetFreeSession.layer.cornerRadius  = 5;
+    self.btnGetFreeSession.layer.masksToBounds = YES;
+    [self.bottomView addSubview:self.btnGetFreeSession];
     
     //set style for table view
     self.tableView.separatorColor = [UIColor clearColor];
@@ -197,8 +223,12 @@ enum {
         //init section data
         NSMutableArray* section = [[NSMutableArray alloc] init];
         if (i == kAboutSection) {
-            NSString *description = self.expertDescriptionString;
-            [section addObject:description];
+//            NSString *description = self.expertDescriptionString;
+            NSString *description = [expertDict objectForKey:@"description"];
+            
+            NSAttributedString * attrStr = [[NSAttributedString alloc] initWithData:[description dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+            
+            [section addObject:attrStr];
         }
         else if (i == kQualificationsSection){
             section = [expertDict objectForKey:@"qualifications"] == nil ? @[] : [expertDict objectForKey:@"qualifications"];
@@ -306,7 +336,7 @@ enum {
     
     NSString *imgUrl = avatar;
     [self.imgExpertView sd_setImageWithURL:[NSURL URLWithString:imgUrl]
-                          placeholderImage:[UIImage imageNamed:NSLocalizedString(@"image_loading_placeholder", nil)]
+                          placeholderImage:[UIImage imageNamed:@"avatarDefault.png"]
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                                      
                                      se.image = [[ToolClass instance] imageByScalingAndCroppingForSize:CGSizeMake(EXPERT_IN_LIST_WIDTH, EXPERT_IN_LIST_HEIGHT) source:image];
@@ -314,6 +344,31 @@ enum {
                                  }];
     self.imgExpertView.layer.cornerRadius  = EXPERT_IMAGE_WIDTH/2;
     self.imgExpertView.layer.masksToBounds = YES;
+    
+    //check free session
+//    int freeSession = [[expertDict objectForKey:@"free_session"] intValue];
+    int padding = 10;
+    int height  = 40;
+    
+    //relocate 3 bottom buttons and their frames also
+    
+    if (freeSession > 0) {
+        [self.lbFreeSession setTitle:[NSString stringWithFormat:@"Free %d mins call",freeSession] forState:UIControlStateNormal];
+        
+        self.btnBookLive.frame = CGRectMake(padding, self.btnBookLive.frame.origin.y, (screenSize.width-4*padding)/3, height);
+        self.btnSchedule.frame = CGRectMake(2*padding+self.btnBookLive.frame.size.width, self.btnBookLive.frame.origin.y, self.btnBookLive.frame.size.width, height);
+        self.btnGetFreeSession.frame = CGRectMake(3*padding+2*self.btnBookLive.frame.size.width, self.btnBookLive.frame.origin.y, self.btnBookLive.frame.size.width, height);
+        
+        self.lbFreeSession.hidden = NO;
+        self.btnGetFreeSession.hidden = NO;
+    }
+    else {
+        self.btnBookLive.frame = CGRectMake(padding, self.btnBookLive.frame.origin.y, (screenSize.width-3*padding)/2, height);
+        self.btnSchedule.frame = CGRectMake(2*padding+self.btnBookLive.frame.size.width, self.btnBookLive.frame.origin.y, self.btnBookLive.frame.size.width, height);
+        
+        self.lbFreeSession.hidden = YES;
+        self.btnGetFreeSession.hidden = YES;
+    }
     
     [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
     
@@ -399,7 +454,7 @@ enum {
         
         NSString *imgUrl = avatar;
         [addView sd_setImageWithURL:[NSURL URLWithString:imgUrl]
-                   placeholderImage:[UIImage imageNamed:NSLocalizedString(@"image_loading_placeholder", nil)]
+                   placeholderImage:[UIImage imageNamed:@"avatarDefault.png"]
                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType,NSURL *url) {
                               
                               se.image = [[ToolClass instance] imageByScalingAndCroppingForSize:CGSizeMake(EXPERT_IN_LIST_WIDTH/2, EXPERT_IN_LIST_HEIGHT/2) source:image];
@@ -502,7 +557,7 @@ enum {
             txtView.attributedText = desciptionText;
             CGSize size = [txtView sizeThatFits:CGSizeMake(screenSize.width, CGFLOAT_MAX)];
             
-            txtView.frame = CGRectMake(0, -5, bgView.frame.size.width, size.height);
+            txtView.frame = CGRectMake(0, -5, bgView.frame.size.width, size.height+10);
             txtView.textContainerInset = UIEdgeInsetsMake(5.0, 5.0, 0.0, 0.0);
             [bgView addSubview:txtView];
             
@@ -525,14 +580,14 @@ enum {
             UILabel *lbQualificationTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, offsetY, 200, 21)];
             lbQualificationTitle.backgroundColor = [UIColor clearColor];
             lbQualificationTitle.text = [qualificationDict objectForKey:@"name"];
-            lbQualificationTitle.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+            lbQualificationTitle.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:12];
             [bgView addSubview:lbQualificationTitle];
             
             UILabel *lbQualificationYear = [[UILabel alloc] initWithFrame:CGRectMake(bgView.frame.size.width-205, offsetY, 200, 21)];
             lbQualificationYear.backgroundColor = [UIColor clearColor];
             lbQualificationYear.text = [NSString stringWithFormat:@"%@ - %@",[qualificationDict objectForKey:@"start"],[qualificationDict objectForKey:@"end"]];
             lbQualificationYear.textAlignment = NSTextAlignmentRight;
-            lbQualificationYear.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+            lbQualificationYear.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:12];
             [bgView addSubview:lbQualificationYear];
             
             //make corner radius for last row
@@ -799,6 +854,14 @@ enum {
     self.navigationItem.title = @"";
     ScheduleAppointmentViewController *controller = [[ScheduleAppointmentViewController alloc] initWithNibName:@"ScheduleAppointmentViewController" bundle:nil];
     controller.durationArray = durationArray;
+    
+    if (sender == self.btnSchedule) {
+        controller.isFreeSession = NO;
+    }
+    else {
+        controller.isFreeSession = YES;
+    }
+    
     [self.navigationController pushViewController:controller animated:YES];
 }
 

@@ -382,7 +382,7 @@
                                 <constraint firstAttribute="height" constant="44" id="Svu-SO-s6c"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" returnKeyType="done"/>
                             <variation key="default">
                                 <mask key="constraints">
                                     <exclude reference="Svu-SO-s6c"/>

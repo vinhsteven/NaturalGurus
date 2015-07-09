@@ -360,7 +360,10 @@
         
         btnButton.dataDict = dict;
         btnButton.frame = CGRectMake(10, 0, 145, 40);
-        [btnButton setBackgroundImage:[UIImage imageNamed:@"bgAvailability_0.png"] forState:UIControlStateNormal];
+        if (self.isFree)
+            [btnButton setBackgroundImage:[UIImage imageNamed:@"bgFreeAvailability_0.png"] forState:UIControlStateNormal];
+        else
+            [btnButton setBackgroundImage:[UIImage imageNamed:@"bgAvailability_0.png"] forState:UIControlStateNormal];
         [btnButton setTitle:title forState:UIControlStateNormal];
         [btnButton addTarget:self action:@selector(handleSelectAvailability:) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:btnButton];
@@ -379,7 +382,10 @@
             [btnButton2 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             btnButton2.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
             btnButton2.frame = CGRectMake(screenSize.width-155, 0, 145, 40);
-            [btnButton2 setBackgroundImage:[UIImage imageNamed:@"bgAvailability_1.png"] forState:UIControlStateNormal];
+            if (self.isFree)
+                [btnButton2 setBackgroundImage:[UIImage imageNamed:@"bgFreeAvailability_1.png"] forState:UIControlStateNormal];
+            else
+                [btnButton2 setBackgroundImage:[UIImage imageNamed:@"bgAvailability_1.png"] forState:UIControlStateNormal];
             [btnButton2 setTitle:title2 forState:UIControlStateNormal];
             [btnButton2 addTarget:self action:@selector(handleSelectAvailability:) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:btnButton2];

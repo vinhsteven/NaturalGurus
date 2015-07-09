@@ -14,6 +14,7 @@
                 <outlet property="lbLengthOfSession" destination="Vbi-H4-EgY" id="KGT-TE-ZYh"/>
                 <outlet property="lbMessageTo" destination="gvC-zA-vCq" id="Onc-nB-zAo"/>
                 <outlet property="lbTotal" destination="fVE-1X-y2d" id="22c-Sd-9Zv"/>
+                <outlet property="lbTotalTitle" destination="yUm-Yd-2y4" id="ncj-Mz-IfP"/>
                 <outlet property="lbYourDetails" destination="Hbv-wg-H6x" id="Kym-GC-ezK"/>
                 <outlet property="lbYourTimezone" destination="kDd-nr-vxu" id="x0D-kn-Pd9"/>
                 <outlet property="mainScrollView" destination="r9R-gn-pJV" id="GNq-JN-xev"/>

@@ -118,7 +118,12 @@ enum {
     //init data for timezone array
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"TimeZone" ofType:@"plist"];
     timezoneArray = [NSMutableArray arrayWithContentsOfFile:filePath];
-
+    
+    //check if free session, dont show select duration and total
+    if (self.isFreeSession) {
+        self.lbLengthOfSession.hidden = self.btnDuration.hidden = self.lbTotalTitle.hidden = self.lbTotal.hidden = YES;
+        [self.btnViewAvailability setBackgroundImage:[ToolClass imageFromColor:ORANGE_COLOR] forState:UIControlStateNormal];
+    }
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -190,10 +195,12 @@ enum {
         [dialog show];
         return;
     }
-    if ([self.btnDuration.titleLabel.text isEqualToString:@"Select duration"]) {
-        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select your the duration before proceeding the availabilities" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [dialog show];
-        return;
+    if (!self.isFreeSession) {
+        if ([self.btnDuration.titleLabel.text isEqualToString:@"Select duration"]) {
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select your the duration before proceeding the availabilities" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+            return;
+        }
     }
     
     NSDictionary *timezoneDict = [timezoneArray objectAtIndex:currentTimeZoneSelected];
@@ -201,7 +208,7 @@ enum {
     
     AvailabilityViewController *controller = [[AvailabilityViewController alloc] initWithNibName:@"AvailabilityViewController" bundle:nil];
     controller.parent = self;
-    controller.isFree = 0;
+    controller.isFree = self.isFreeSession;
     controller.duration = [[durationDict objectForKey:@"value"] intValue];
     controller.timezoneValueString = [timezoneDict objectForKey:@"value"];
     [self.navigationController pushViewController:controller animated:YES];

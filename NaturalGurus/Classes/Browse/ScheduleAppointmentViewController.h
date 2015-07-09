@@ -21,6 +21,7 @@
     int currentDurationSelected;
 }
 
+@property (assign, readwrite) BOOL isFreeSession;
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
 @property (strong, nonatomic) IBOutlet UILabel *lbMessageTo;
 @property (strong, nonatomic) IBOutlet UILabel *lbYourDetails;
@@ -33,6 +34,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *txtEmail;
 @property (strong, nonatomic) IBOutlet UIButton *btnDuration;
 @property (strong, nonatomic) IBOutlet UIButton *btnTimeZone;
+@property (strong, nonatomic) IBOutlet UILabel *lbTotalTitle;
 @property (strong, nonatomic) IBOutlet UILabel *lbTotal;
 @property (strong, nonatomic) IBOutlet UIButton *btnViewAvailability;
 @property (strong, nonatomic) NSDictionary *timeDict;

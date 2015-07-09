@@ -13,6 +13,9 @@
     
     CGSize screenSize;
     CGPoint originalPoint;
+    
+    NSMutableArray *countryCodeArray;
+    int currentCountrySelected;
 }
 
 @property (strong, nonatomic) IBOutlet UIImageView *imgExpertView;
@@ -25,6 +28,6 @@
 @property (strong, nonatomic) IBOutlet UISwitch *switchSMS;
 @property (strong, nonatomic) IBOutlet UIView *containerView;
 
-- (IBAction) handleEditProfile:(id)sender;
+- (IBAction) handleEditProfile:(UIButton*)sender;
 
 @end

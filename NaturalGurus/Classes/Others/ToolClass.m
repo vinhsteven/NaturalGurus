@@ -745,7 +745,7 @@
     
     [manager GET:@"/api/v1/experts" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         // 3
-//        NSLog(@"response: %@",(NSDictionary*)responseObject);
+        NSLog(@"response: %@",(NSDictionary*)responseObject);
         //get status of request
         int status = [[responseObject objectForKey:@"status"] intValue];
         
@@ -955,8 +955,6 @@
     
     
     [manager GET:@"/api/v1/categories" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        // 3
-        NSLog(@"response: %@",(NSDictionary*)responseObject);
         //get status of request
         int status = [[responseObject objectForKey:@"status"] intValue];
         
