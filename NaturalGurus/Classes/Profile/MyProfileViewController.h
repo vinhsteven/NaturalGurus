@@ -16,6 +16,8 @@
     
     NSMutableArray *countryCodeArray;
     int currentCountrySelected;
+    
+    BOOL isChangeAvatar;
 }
 
 @property (strong, nonatomic) IBOutlet UIImageView *imgExpertView;

@@ -18,6 +18,7 @@ enum {
 @interface LeftSideViewController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
     CGSize screenSize;
     NSMutableArray *mainArray;
+    int userRole;
 }
 
 @property (unsafe_unretained) id parent;

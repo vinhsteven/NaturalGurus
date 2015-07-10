@@ -65,7 +65,10 @@
                  if (status == 200) {
                      NSDictionary *data = [responseObject objectForKey:@"data"];
                      
+                     NSLog(@"token = %@",[[data objectForKey:@"token"] substringToIndex:100]);
+                     
                      NSString *defaultUserImg = [data objectForKey:@"avatar"];
+                     defaultUserImg = [defaultUserImg stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
                      //save current user logged in informations
                      //set current profile image
                      [[ToolClass instance] setLogin:YES];
@@ -85,8 +88,8 @@
                      [[ToolClass instance] setUserEmail:[user objectForKey:@"email"]];
                      [[ToolClass instance] setUserCountryCode:[data objectForKey:@"phone_code"]];
                      [[ToolClass instance] setUserPhone:[data objectForKey:@"phone"]];
-                     [[ToolClass instance] setUserSMS:[data objectForKey:@"receive_sms"]];
-                     [[ToolClass instance] setUserPush:[data objectForKey:@"receive_push"]];
+                     [[ToolClass instance] setUserSMS:[[data objectForKey:@"receive_sms"] boolValue]];
+                     [[ToolClass instance] setUserPush:[[data objectForKey:@"receive_push"] boolValue]];
                      
                      [self.viewController loginSuccess];
                  }

@@ -54,8 +54,15 @@
         @"PROFILE",
     };
     
-    for (int i=0;i < sizeof(imageTitle)/sizeof(imageTitle[0]);i++) {
-        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:i],@"index",titleStr[i],@"title",imageTitle[i],@"image", nil];
+    userRole = [[ToolClass instance] getUserRole];
+    if (userRole == isUser) {
+        for (int i=0;i < sizeof(imageTitle)/sizeof(imageTitle[0]);i++) {
+            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:i],@"index",titleStr[i],@"title",imageTitle[i],@"image", nil];
+            [mainArray addObject:dict];
+        }
+    }
+    else {
+        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0],@"index",titleStr[0],@"title",imageTitle[0],@"image", nil];
         [mainArray addObject:dict];
     }
     
@@ -210,7 +217,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *dict = [mainArray objectAtIndex:indexPath.row];
     int index = [[dict objectForKey:@"index"] intValue];
-    NSLog(@"controller = %@",((LoginViewController*)parent).centerViewController);
 
     switch (index) {
         case kDashboardTag:
@@ -277,6 +283,21 @@
             [[ToolClass instance] setUserToken:nil];
             [((LoginViewController*)parent).drawerController.navigationController popViewControllerAnimated:YES];
             break;
+        case LOGIN_TWITTER:
+        {
+            [[ToolClass instance] setLogin:NO];
+            [[ToolClass instance] setUserToken:nil];
+            [[Twitter sharedInstance] logOut];
+            
+            NSURL *url = [NSURL URLWithString:@"https://api.twitter.com"];
+            NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:url];
+            for (NSHTTPCookie *cookie in cookies)
+            {
+                [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+            }
+            
+            [((LoginViewController*)parent).drawerController.navigationController popViewControllerAnimated:YES];
+        }
         default:
             break;
     }
@@ -302,7 +323,62 @@
             break;
         }
         case kTwitterButton:
+        {
+            [[Twitter sharedInstance] logInWithCompletion:^(TWTRSession *session, NSError *error) {
+                if (session) {
+                    NSLog(@"signed in as %@", [session userName]);
+                    
+                    //login twitter success
+                    [[ToolClass instance] setLoginType:LOGIN_TWITTER];
+                    
+                    
+                    if ([[Twitter sharedInstance] session]) {
+                        TWTRShareEmailViewController* shareEmailViewController = [[TWTRShareEmailViewController alloc] initWithCompletion:^(NSString* email, NSError* error) {
+                            NSLog(@"Email %@, Error: %@", email, error);
+                            if (error.code == 2) {
+                                //user denies sharing email
+                                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Something Wrong" message:@"You must agree to share your email with us to access NaturalGurus" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                                [dialog show];
+                            }
+                            else if (error.code == -1003) {
+                                //cannot find the server
+                                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Server not found" message:@"A server with the specified hostname could not be found. Please check whether your network blocks Twitter or not." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                                [dialog show];
+                            }
+                            else if (error.code == 37) {
+                                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"API Calling Error" message:@"Your application may not have access to email addresses or the user may not have an email address. To request access, please visit https://support.twitter.com/forms/platform." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                                [dialog show];
+                            }
+                        }];
+                        
+                        [self presentViewController:shareEmailViewController animated:YES completion:nil];
+                    }
+                    else {
+                        // TODO: Handle user not signed in (e.g. attempt to log in or show an alert)
+                    }
+                    
+                    /* Get user info */
+                    [[[Twitter sharedInstance] APIClient] loadUserWithID:[session userID]
+                                                              completion:^(TWTRUser *user,
+                                                                           NSError *error)
+                     {
+                         // handle the response or error
+                         if (![error isEqual:nil]) {
+                             NSString *profileImageURL = user.profileImageURL;
+                             [[ToolClass instance] setProfileImageURL:profileImageURL];
+                         } else {
+                             NSLog(@"Twitter error getting profile : %@", [error localizedDescription]);
+                         }
+                     }];
+                    
+                    
+                } else {
+                    NSLog(@"error: %@", [error localizedDescription]);
+                }
+            }];
+            
             break;
+        }
         case kNaturalButton:
         {
             if ([self.txtEmail.text isEqualToString:@""]) {

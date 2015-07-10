@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NaturalGurus/Classes/Others/ToolClass.m"
-            timestampString = "458132638.690103"
+            timestampString = "458190809.786879"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "798"
-            endingLineNumber = "798"
+            startingLineNumber = "800"
+            endingLineNumber = "800"
             landmarkName = "-loadTheLatestExperts:withViewController:"
             landmarkType = "5">
          </BreakpointContent>

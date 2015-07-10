@@ -102,6 +102,17 @@
 
 //skip this step
 - (IBAction) skipStep:(id)sender {
+    //test
+//    [[Twitter sharedInstance] logOut];
+//    
+//    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+//    for (NSHTTPCookie *each in cookieStorage.cookies) {
+//        // put a check here to clear cookie url which starts with twitter and then delete it
+//        [cookieStorage deleteCookie:each];
+//    }
+
+    //end
+    
     [[ToolClass instance] setLogin:NO];
     
     LeftSideViewController *leftViewController = [[LeftSideViewController alloc] init];
@@ -249,7 +260,12 @@
 - (void) loginSuccess {    
     LeftSideViewController *leftViewController = [[LeftSideViewController alloc] initWithNibName:@"LeftSideViewController" bundle:nil];
     
-    centerViewController = [[BrowseViewController alloc] initWithNibName:@"BrowseViewController" bundle:nil];
+    int userRole = [[ToolClass instance] getUserRole];
+    
+    if (userRole == isUser)
+        centerViewController = [[BrowseViewController alloc] initWithNibName:@"BrowseViewController" bundle:nil];
+    else
+        centerViewController = [[DashboardViewController alloc] initWithNibName:@"DashboardViewController" bundle:nil];
     
     UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:centerViewController];
     navigationController.navigationBar.barStyle = UIBarStyleBlack;

@@ -16,6 +16,7 @@
 #import "AvailabilityViewController.h"
 #import "DashboardViewController.h"
 #import "DetailAppointmentViewController.h"
+#import "MyProfileViewController.h"
 
 @interface ToolClass : NSObject  {
     unsigned long expertId;
@@ -85,10 +86,12 @@
 - (float) getExpertPrice;
 
 #pragma mark HANDLE CONNECT TO GET DATA
+/***************LOGIN*******************/
 - (void) registerAccount:(NSDictionary*)params withViewController:(SignUpViewController*)viewController;
 - (void) signIn:(NSDictionary*)params withViewController:(id)viewController;
 - (void) requestResetPassword:(NSDictionary*)params withViewController:(ForgotPasswordViewController*)viewController;
 
+/***************BROWSE*******************/
 - (void) loadTheLatestExperts:(int)_pageIndex withViewController:(BrowseViewController*)viewController;
 - (void) loadExpertByCategory:(int)_categoryId pageIndex:(int)_pageIndex withViewController:(BrowseViewController*)viewController;
 - (void) loadExpertByFilter:(int)_filterIndex pageIndex:(int)_pageIndex withViewController:(BrowseViewController*)viewController;
@@ -101,4 +104,10 @@
 - (void) getTotalReviewsByExpertId:(long)_expertId pageIndex:(int)_pageIndex withViewController:(DetailBrowseViewController*)viewController;
 - (void) loadAvailabilitiesByExpertId:(long)_expertId params:(NSDictionary*)params withViewController:(AvailabilityViewController*)viewController;
 - (void) loadUserAppointments:(NSDictionary*)params withViewController:(DashboardViewController*)viewController;
+
+/*MY PROFILE*/
+- (void) updateUserProfile:(NSDictionary*)params withViewController:(MyProfileViewController*)viewController;
+
+/*EXPERT DASHBOARD */
+- (void) loadExpertAppointments:(NSDictionary*)params withViewController:(DashboardViewController*)viewController;
 @end

@@ -12,6 +12,7 @@
 @interface DashboardViewController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
     CGSize screenSize;
     NSMutableArray *mainArray;
+    int userRole;
 }
 
 @property (strong, nonatomic) IBOutlet TableView_RefreshControl *mainTableView;

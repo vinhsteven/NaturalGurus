@@ -44,7 +44,12 @@
     //allocate upcoming appointments array
     mainArray = [NSMutableArray arrayWithCapacity:1];
     
-    [self reloadAppointment];
+    userRole = [[ToolClass instance] getUserRole];
+    
+    if (userRole == isUser)
+        [self reloadAppointment];
+    else
+        [self reloadExpertAppointments];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -104,17 +109,32 @@
     [[ToolClass instance] loadUserAppointments:params withViewController:self];
 }
 
+- (void) reloadExpertAppointments {
+    currentPage = 1;
+    [mainArray removeAllObjects];
+    [self loadExpertAppointments];
+}
+
+- (void) loadExpertAppointments {
+    isLoading = YES;
+    
+    NSString *userToken = [[ToolClass instance] getUserToken];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:userToken,@"token",[NSNumber numberWithInt:NUMBER_RECORD_PER_PAGE],@"per_page",[NSNumber numberWithInt:currentPage],@"page", nil];
+    
+    [[ToolClass instance] loadExpertAppointments:params withViewController:self];
+}
+
 - (void) reorganizeAppointments:(NSArray*)array {
     unsigned long startIndex = [mainArray count];
     unsigned long endIndex   = startIndex + [array count];
     
     for (int i=0;i < [array count];i++) {
         NSDictionary *dict = [array objectAtIndex:i];
-        NSString *expertName = [dict objectForKey:@"expert"];
+        NSString *name = userRole == isUser ? [dict objectForKey:@"expert"] : [dict objectForKey:@"name"];
         NSString *date       = [dict objectForKey:@"date"];
         NSString *timezone   = [dict objectForKey:@"client_timezone"];
         
-        NSDictionary *newDict = [NSDictionary dictionaryWithObjectsAndKeys:expertName,@"expertName",[dict objectForKey:@"duration"],@"duration",date,@"date",timezone,@"timezone",[dict objectForKey:@"state"],@"status",[dict objectForKey:@"id"],@"appointmentId",[dict objectForKey:@"expert_id"],@"expertId",[dict objectForKey:@"from_time"],@"from_time",[dict objectForKey:@"to_time"],@"to_time",[dict objectForKey:@"total"],@"total",[dict objectForKey:@"video_session"],@"video_session",[dict objectForKey:@"video_password"],@"video_password",nil];
+        NSDictionary *newDict = [NSDictionary dictionaryWithObjectsAndKeys:name,@"name",[dict objectForKey:@"duration"],@"duration",date,@"date",timezone,@"timezone",[dict objectForKey:@"state"],@"status",[dict objectForKey:@"id"],@"appointmentId",[dict objectForKey:@"expert_id"],@"expertId",[dict objectForKey:@"from_time"],@"from_time",[dict objectForKey:@"to_time"],@"to_time",[dict objectForKey:@"total"],@"total",[dict objectForKey:@"video_session"],@"video_session",[dict objectForKey:@"video_password"],@"video_password",[dict objectForKey:@"about"],@"about",nil];
         [mainArray addObject:newDict];
     }
     
@@ -176,7 +196,7 @@
     lbExpertName.font = [UIFont fontWithName:MONTSERRAT_BOLD size:14];
     lbExpertName.textColor = GREEN_COLOR;
     lbExpertName.backgroundColor = [UIColor clearColor];
-    lbExpertName.text = [dict objectForKey:@"expertName"];
+    lbExpertName.text = [dict objectForKey:@"name"];
     [bgView addSubview:lbExpertName];
     
     

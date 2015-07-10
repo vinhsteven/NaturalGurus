@@ -45,7 +45,9 @@ enum {
     
     [self setupUI];
     
-    [self loadDetailExpert];
+    userRole = [[ToolClass instance] getUserRole];
+    if (userRole == isUser)
+        [self loadDetailExpert];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -69,9 +71,18 @@ enum {
     self.detailContainerView.layer.borderColor = LIGHT_GREY_COLOR.CGColor;
     self.detailContainerView.layer.borderWidth = 1;
     
+    self.secondContainerView.layer.cornerRadius  = 5;
+    self.secondContainerView.layer.masksToBounds = YES;
+    self.secondContainerView.backgroundColor = [UIColor whiteColor];
+    self.secondContainerView.layer.borderColor = LIGHT_GREY_COLOR.CGColor;
+    self.secondContainerView.layer.borderWidth = 1;
+    
     //style for detail label
     self.lbDetailTitle.font = [UIFont fontWithName:MONTSERRAT_BOLD size:14];
     self.lbDetailTitle.textColor = GREEN_COLOR;
+    
+    self.lbMessageTitle.font = [UIFont fontWithName:MONTSERRAT_BOLD size:14];
+    self.lbMessageTitle.textColor = GREEN_COLOR;
     
     //style for enter room button
     self.btnEnter.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];

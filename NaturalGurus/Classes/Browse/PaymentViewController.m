@@ -9,6 +9,14 @@
 #import "PaymentViewController.h"
 #import "ConfirmedViewController.h"
 
+typedef enum {
+    CREDIT_CARD_VISA,
+    CREDIT_CARD_MASTER,
+    CREDIT_CARD_AMERICAN_EXPRESS,
+    CREDIT_CARD_DISCOVER,
+    CREDIT_CARD_UNKNOWN
+} CREDIT_CARD_TYPE;
+
 @interface PaymentViewController ()
 
 @end
@@ -33,6 +41,9 @@
         NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i],@"title",[NSString stringWithFormat:@"%d",i],@"value", nil];
         [yearArray addObject:dict];
     }
+    
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+    [self.scrollView addGestureRecognizer:singleTap];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -46,6 +57,12 @@
     else if (screenSize.height == 480) {
         [self.scrollView setContentSize:CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height+200)];
     }
+}
+
+- (void) handleSingleTap:(UITapGestureRecognizer*)recognizer {
+    [self.txtNameOnCard resignFirstResponder];
+    [self.txtCardNumber resignFirstResponder];
+    [self.txtCVV resignFirstResponder];
 }
 
 - (void) setupUI {
@@ -136,11 +153,58 @@
 }
 
 - (IBAction) confirmAppointment:(id)sender {
-    ConfirmedViewController *controller = [[ConfirmedViewController alloc] initWithNibName:@"ConfirmedViewController" bundle:nil];
-    [self.navigationController pushViewController:controller animated:YES];
+    if ([self.txtNameOnCard.text isEqualToString:@""]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please input your name on card" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    
+    //check regex for card number
+    // ^(?:4[0-9]{12}(?:[0-9]{3})? - VISA
+    // 5[1-5][0-9]{14}             - MASTER
+    // 3[47][0-9]{13}              - AMEX
+    // 6(?:011|5[0-9]{2})[0-9]{12} - DISCOVER
+    // (?:2131|1800|35\d{3})\d{11} - JCB
+    
+    NSString *tmpCardNumber = [self.txtCardNumber.text stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    
+    NSString *regex[] = {
+        @"^4[0-9]{12}(?:[0-9]{3})?$",
+        @"^5[1-5][0-9]{14}$",
+        @"^3[47][0-9]{13}$",
+        @"^6(?:011|5[0-9]{2})[0-9]{12}$",
+    };
+    BOOL isValid = NO;
+    for (int i=0;i < sizeof(regex)/sizeof(regex[0]);i++) {
+        if ([[ToolClass instance] validateString:tmpCardNumber withPattern:regex[i]]) {
+            isValid = YES;
+            break;
+        }
+    }
+    if (!isValid) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Invalid card number. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    
+    //check input CVV
+    if ([self.txtCVV.text isEqualToString:@""]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please input CVV." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    
+    
+//    ConfirmedViewController *controller = [[ConfirmedViewController alloc] initWithNibName:@"ConfirmedViewController" bundle:nil];
+//    [self.navigationController pushViewController:controller animated:YES];
 }
 
-#pragma mark UITextFieldDelegate 
+#pragma mark UITextFieldDelegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (textField == self.txtCardNumber)
+        self.txtCVV.text = @"";
+}
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if (textField == self.txtCardNumber || textField == self.txtCVV)  {
         //check regular expression for this field, only accept number
@@ -150,14 +214,145 @@
         if (![[ToolClass instance] validateString:string withPattern:pattern])
             return NO;
         
-        //check length for each card type
-        //master and visa have 16 characters
-        //AMEX has 15 characters
+        int cardType = [self getCreditCardTypeWithCardNumber:self.txtCardNumber.text];
+        
         if (textField == self.txtCardNumber) {
+            //check length for each card type
+            //master and visa have 16 characters
+            //AMEX has 15 characters
+            NSString *seperatorLine = @"-";
+            int numberSeperator;
             
+            if (textField == self.txtCardNumber) {
+                //check length of card number
+                int cardLength;
+                
+                switch (cardType) {
+                    case CREDIT_CARD_VISA:
+                    case CREDIT_CARD_MASTER:
+                    case CREDIT_CARD_DISCOVER:
+                        cardLength = 16;
+                        numberSeperator = 3;
+                        if (textField.text.length == 4 || textField.text.length == 9 || textField.text.length == 14)
+                            self.txtCardNumber.text = [textField.text stringByAppendingString:seperatorLine];
+                        
+                        break;
+                    case CREDIT_CARD_AMERICAN_EXPRESS:
+                        cardLength = 15;
+                        numberSeperator = 2;
+                        
+                        if (textField.text.length == 4 || textField.text.length == 11)
+                            self.txtCardNumber.text = [textField.text stringByAppendingString:seperatorLine];
+                        
+                        break;
+                    default: {
+                        if(self.txtCardNumber.text.length > 1) {
+                            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Invalid card number" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                            [dialog show];
+                            return NO;
+                        }
+                    }
+                }
+                if (textField.text.length >= cardLength + numberSeperator)
+                    return NO;
+            }
+        }
+        else {
+            int numberDigit;
+            switch (cardType) {
+                case CREDIT_CARD_VISA:
+                case CREDIT_CARD_MASTER:
+                case CREDIT_CARD_DISCOVER:
+                    numberDigit = 3;
+                    break;
+                case CREDIT_CARD_AMERICAN_EXPRESS:
+                    numberDigit = 4;
+                    break;
+                default:
+                    break;
+            }
+            if (textField.text.length >= numberDigit)
+                return NO;
         }
     }
     return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if (textField == self.txtNameOnCard) {
+        [self.txtCardNumber becomeFirstResponder];
+    }
+    else if (textField == self.txtCardNumber) {
+        [self selectMonth:nil];
+    }
+    else if (textField == self.txtCVV) {
+        [textField resignFirstResponder];
+        [self confirmAppointment:nil];
+    }
+    return YES;
+}
+
+//- (CREDIT_CARD_TYPE) getCreditCardTypeWithCardNumber:(NSString*)cardNumber
+//{
+//    CREDIT_CARD_TYPE creditCardType = CREDIT_CARD_UNKNOWN;
+//    
+//    if ([cardNumber hasPrefix:@"4"]) {
+//        creditCardType = CREDIT_CARD_VISA;
+//    }
+//    else if([cardNumber hasPrefix:@"50"] ||
+//            [cardNumber hasPrefix:@"51"] ||
+//            [cardNumber hasPrefix:@"52"] ||
+//            [cardNumber hasPrefix:@"53"] ||
+//            [cardNumber hasPrefix:@"54"] ||
+//            [cardNumber hasPrefix:@"55"]){
+//        creditCardType = CREDIT_CARD_MASTER;
+//    }
+//    else if([cardNumber hasPrefix:@"34"] ||
+//            [cardNumber hasPrefix:@"37"]){
+//        creditCardType = CREDIT_CARD_AMERICAN_EXPRESS;
+//    }
+//    else if([cardNumber hasPrefix:@"6011"] ||
+//            [cardNumber hasPrefix:@"65"]){
+//        creditCardType = CREDIT_CARD_DISCOVER;
+//    }
+//    else{
+//        if (cardNumber.length >=3) {
+//            NSString* prefix = [cardNumber substringWithRange: NSMakeRange(0, 3)];
+//            int prefixNumber = [prefix intValue];
+//            if (prefixNumber >= 644 && prefixNumber <= 649) {
+//                creditCardType = CREDIT_CARD_DISCOVER;
+//            }
+//        }
+//        if (cardNumber.length >=6){
+//            NSString* prefix = [cardNumber substringWithRange: NSMakeRange(0, 6)];
+//            int prefixNumber = [prefix intValue];
+//            if (prefixNumber >= 622126 && prefixNumber <= 622925) {
+//                creditCardType = CREDIT_CARD_DISCOVER;
+//            }
+//        }
+//    }
+//    
+//    return creditCardType;
+//}
+
+- (CREDIT_CARD_TYPE) getCreditCardTypeWithCardNumber:(NSString*)cardNumber
+{
+    CREDIT_CARD_TYPE creditCardType = CREDIT_CARD_UNKNOWN;
+    
+    if ([cardNumber hasPrefix:@"4"]) {
+        creditCardType = CREDIT_CARD_VISA;
+    }
+    else if([cardNumber hasPrefix:@"5"]){
+        creditCardType = CREDIT_CARD_MASTER;
+    }
+    else if([cardNumber hasPrefix:@"3"]){
+        creditCardType = CREDIT_CARD_AMERICAN_EXPRESS;
+    }
+    else if([cardNumber hasPrefix:@"6"]){
+        creditCardType = CREDIT_CARD_DISCOVER;
+    }
+    
+    return creditCardType;
 }
 
 @end

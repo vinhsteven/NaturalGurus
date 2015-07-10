@@ -16,7 +16,7 @@
 }
 
 @property (nonatomic,strong) MMDrawerController * drawerController;
-@property (strong,nonatomic) BrowseViewController *centerViewController;
+@property (strong,nonatomic) id centerViewController;
 @property (strong,nonatomic) IBOutlet UITextField *txtEmail;
 @property (strong,nonatomic) IBOutlet UITextField *txtPassword;
 @property (strong,nonatomic) IBOutlet UIButton *btnCreateAccount;

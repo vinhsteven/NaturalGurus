@@ -12,7 +12,7 @@
 
 @interface DetailAppointmentViewController : UIViewController <UIAlertViewDelegate> {
     CGSize screenSize;
-    
+    int userRole;
 }
 
 @property (strong, nonatomic) NSDictionary *appointmentDict;
@@ -37,6 +37,10 @@
 @property (strong, nonatomic) IBOutlet UILabel *lbTime;
 @property (strong, nonatomic) IBOutlet UILabel *lbTimezone;
 @property (strong, nonatomic) IBOutlet UIView *myFrontView;
+
+@property (strong, nonatomic) IBOutlet UILabel *lbMessageTitle;
+@property (strong, nonatomic) IBOutlet UIView *secondContainerView;
+@property (strong, nonatomic) IBOutlet UITextView *txtMessage;
 
 - (IBAction) handleCollapseExpandView:(id)sender;
 - (IBAction) handleEnterRoom:(id)sender;

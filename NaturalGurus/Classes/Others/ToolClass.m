@@ -678,19 +678,21 @@
         
         if (status == 200) {
             NSDictionary *data = [responseObject objectForKey:@"data"];
+            NSString *avatar = [data objectForKey:@"avatar"];
+            avatar = [avatar stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
             //save current user logged in informations
             [[ToolClass instance] setLogin:YES];
             [[ToolClass instance] setLoginType:LOGIN_EMAIL];
             [[ToolClass instance] setUserFirstName:[data objectForKey:@"firstname"]];
             [[ToolClass instance] setUserLastName:[data objectForKey:@"lastname"]];
-            [[ToolClass instance] setProfileImageURL:[data objectForKey:@"avatar"]];
+            [[ToolClass instance] setProfileImageURL:avatar];
             [[ToolClass instance] setUserRole:[[data objectForKey:@"role_id"] intValue]];
             [[ToolClass instance] setUserToken:[data objectForKey:@"token"]];
             [[ToolClass instance] setUserEmail:[data objectForKey:@"email"]];
             [[ToolClass instance] setUserCountryCode:[data objectForKey:@"phone_code"]];
             [[ToolClass instance] setUserPhone:[data objectForKey:@"phone"]];
-            [[ToolClass instance] setUserSMS:[data objectForKey:@"receive_sms"]];
-            [[ToolClass instance] setUserPush:[data objectForKey:@"receive_push"]];
+            [[ToolClass instance] setUserSMS:[[data objectForKey:@"receive_sms"] boolValue]];
+            [[ToolClass instance] setUserPush:[[data objectForKey:@"receive_push"] boolValue]];
             
             [viewController loginSuccess];
         }
@@ -711,7 +713,7 @@
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                             message:[error localizedDescription]
                                                            delegate:nil
-                                                  cancelButtonTitle:@"Ok"
+                                                  cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
         [alertView show];
     }];
@@ -778,7 +780,7 @@
     
     [manager GET:@"/api/v1/experts" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         // 3
-        NSLog(@"response: %@",(NSDictionary*)responseObject);
+//        NSLog(@"response: %@",(NSDictionary*)responseObject);
         //get status of request
         int status = [[responseObject objectForKey:@"status"] intValue];
         
@@ -1164,10 +1166,115 @@
             viewController.lastPage = [[[responseObject objectForKey:@"data"] objectForKey:@"last_page"] intValue];
             [viewController reorganizeAppointments:data];
         }
-        else if (status == 401){
+        else if (status == 401 || status == 500){
+            [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Something Wrong" message:@"There isn't any records for your account" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
             NSLog(@"dashboard error");
         }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"dashboard error = %@",error);
+    }];
+}
+
+/************* MY PROFILE ***************/
+- (void) updateUserProfile:(NSDictionary*)params withViewController:(MyProfileViewController*)viewController {
+    [MBProgressHUD showHUDAddedTo:viewController.navigationController.view animated:YES];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer.timeoutInterval = 60;
+    
+    [manager POST:@"/api/v1/users/profile" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         
+        [MBProgressHUD hideHUDForView:viewController.navigationController.view animated:YES];
+        // 3
+        NSLog(@"response: %@",(NSDictionary*)responseObject);
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        
+        if (status == 200) {
+            NSDictionary *dict = [responseObject objectForKey:@"data"];
+            
+            [[ToolClass instance] setUserFirstName:[dict objectForKey:@"firstname"]];
+            [[ToolClass instance] setUserLastName:[dict objectForKey:@"lastname"]];
+            [[ToolClass instance] setUserEmail:[dict objectForKey:@"email"]];
+            [[ToolClass instance] setUserPhone:[dict objectForKey:@"phone"]];
+            [[ToolClass instance] setUserCountryCode:[dict objectForKey:@"phone_code"]];
+            [[ToolClass instance] setUserSMS:[[dict objectForKey:@"receive_sms"] boolValue]];
+            [[ToolClass instance] setUserPush:[[dict objectForKey:@"receive_push"] boolValue]];
+            [[ToolClass instance] setProfileImageURL:[dict objectForKey:@"avatar"]];
+            
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Update Profile" message:@"Your profile has updated" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+        }
+        else if (status == 401){
+            NSString *message = [responseObject objectForKey:@"message"];
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [MBProgressHUD hideHUDForView:viewController.navigationController.view animated:YES];
+        
+        // 4
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
+     
+    
+//    NSData *imageData = UIImageJPEGRepresentation(viewController.imgExpertView.image, 1.0);
+//    
+//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    
+//    NSString *imagePostUrl = [NSString stringWithFormat:@"%@/api/v1/users/profile", BASE_URL];
+//    
+//    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:imagePostUrl parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+//        [formData appendPartWithFileData:imageData name:@"image" fileName:[NSString stringWithFormat:@"%@_%@",[params objectForKey:@"firstname"],[params objectForKey:@"lastname"]] mimeType:@"image/jpeg"];
+//    }];
+//    
+//    AFHTTPRequestOperation *op = [manager HTTPRequestOperationWithRequest:request success: ^(AFHTTPRequestOperation *operation, id responseObject) {
+//        NSLog(@"response: %@", responseObject);
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        NSLog(@"Error: %@", error);
+//    }];
+//    op.responseSerializer = [AFJSONResponseSerializer serializer];
+//    [[NSOperationQueue mainQueue] addOperation:op];
+}
+
+/********************** EXPERT DASHBOARD ************************/
+- (void) loadExpertAppointments:(NSDictionary*)params withViewController:(DashboardViewController*)viewController {
+    [MBProgressHUD showHUDAddedTo:viewController.navigationController.view animated:YES];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager GET:@"/api/v1/expert/appointments" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        // 3
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        
+        if (status == 200) {
+            NSArray *data = [[responseObject objectForKey:@"data"] objectForKey:@"items"];
+            viewController.lastPage = [[[responseObject objectForKey:@"data"] objectForKey:@"last_page"] intValue];
+            [viewController reorganizeAppointments:data];
+        }
+        else if (status == 401 || status == 500){
+            [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Something Wrong" message:@"There isn't any records for your account" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+            NSLog(@"dashboard error");
+        }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"dashboard error = %@",error);
     }];
