@@ -117,7 +117,7 @@ enum {
     view.text = messageText;
     CGSize size = [view sizeThatFits:CGSizeMake(screenSize.width, CGFLOAT_MAX)];
     
-    UIView *aboutView = [[UIView alloc] initWithFrame:CGRectMake(10, self.detailContainerView.frame.origin.y+self.detailContainerView.frame.size.height+14, screenSize.width-20, size.height + 30)];
+    UIView *aboutView = [[UIView alloc] initWithFrame:CGRectMake(10, self.detailContainerView.frame.origin.y+self.detailContainerView.frame.size.height+14, screenSize.width-20, size.height + 40)];
     
     aboutView.layer.cornerRadius  = 5;
     aboutView.layer.masksToBounds = YES;
@@ -258,24 +258,24 @@ enum {
     self.lbPrice.text = [NSString stringWithFormat:@"%.2f per minute",[[self.expertDict objectForKey:@"price"] floatValue]];
 }
 
-- (IBAction) handleCollapseExpandView:(id)sender {
-    if (!detailContainerView.hidden) {
-        [btnCollapseExpand setBackgroundImage:[UIImage imageNamed:@"btnExpand.png"] forState:UIControlStateNormal];
-        
-        //restore
-        [self.mainScrollView setContentSize:CGSizeMake(mainScrollView.frame.size.width, screenSize.height-44)];
-    }
-    else {
-        [btnCollapseExpand setBackgroundImage:[UIImage imageNamed:@"btnCollapse.png"] forState:UIControlStateNormal];
-        
-        //check for iphone 4,4s
-        if (screenSize.height == 480)
-            [self.mainScrollView setContentSize:CGSizeMake(mainScrollView.frame.size.width, screenSize.height+200)];
-        else
-            [self.mainScrollView setContentSize:CGSizeMake(mainScrollView.frame.size.width, screenSize.height-44)];
-    }
-    detailContainerView.hidden = !detailContainerView.hidden;
-}
+//- (IBAction) handleCollapseExpandView:(id)sender {
+//    if (!detailContainerView.hidden) {
+//        [btnCollapseExpand setBackgroundImage:[UIImage imageNamed:@"btnExpand.png"] forState:UIControlStateNormal];
+//        
+//        //restore
+//        [self.mainScrollView setContentSize:CGSizeMake(mainScrollView.frame.size.width, screenSize.height-44)];
+//    }
+//    else {
+//        [btnCollapseExpand setBackgroundImage:[UIImage imageNamed:@"btnCollapse.png"] forState:UIControlStateNormal];
+//        
+//        //check for iphone 4,4s
+//        if (screenSize.height == 480)
+//            [self.mainScrollView setContentSize:CGSizeMake(mainScrollView.frame.size.width, screenSize.height+200)];
+//        else
+//            [self.mainScrollView setContentSize:CGSizeMake(mainScrollView.frame.size.width, screenSize.height-44)];
+//    }
+//    detailContainerView.hidden = !detailContainerView.hidden;
+//}
 
 - (IBAction) handleEnterRoom:(id)sender {
     UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Enter Appointment" message:@"You are about to enter the meeting room." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",@"Cancel", nil];

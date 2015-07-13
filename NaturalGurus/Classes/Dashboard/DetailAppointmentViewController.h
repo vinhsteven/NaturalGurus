@@ -40,7 +40,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *lbTimezone;
 @property (strong, nonatomic) IBOutlet UIView *myFrontView;
 
-- (IBAction) handleCollapseExpandView:(id)sender;
+//- (IBAction) handleCollapseExpandView:(id)sender;
 - (IBAction) handleEnterRoom:(id)sender;
 - (IBAction) handleCancelAppointment:(id)sender;
 

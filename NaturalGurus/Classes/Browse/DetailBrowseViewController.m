@@ -182,8 +182,18 @@ enum {
 }
 
 - (void) handleShareAction {
-    NSString *textToShare = @"Welcome";
-    NSURL *urlToShare = [NSURL URLWithString:@"http://naturalgurus.com"];
+//    NSString *firstname = [[ToolClass instance] getUserFirstName];
+//    NSString *lastname  = [[ToolClass instance] getUserLastName];
+//    
+//    firstname = [firstname stringByReplacingOccurrencesOfString:@" " withString:@"-"];
+//    lastname  = [lastname stringByReplacingOccurrencesOfString:@" " withString:@"-"];
+    NSString *name = [self.expertDict objectForKey:@"name"];
+    name = [name stringByReplacingOccurrencesOfString:@" " withString:@"-"];
+    name = [name lowercaseString];
+    
+    NSURL *urlToShare = [NSURL URLWithString:[NSString stringWithFormat:@"https://naturalgurus.com/profile/%@/%ld",name,self.expertId]];
+    
+    NSString *textToShare = [NSString stringWithFormat:@"Please check out this expert: %@",[NSString stringWithFormat:@"https://naturalgurus.com/profile/%@/%ld",name,self.expertId]];
     
     NSArray *objectsToShare = @[textToShare,urlToShare];
 //    NSArray *applicationArray = @[UIActivityTypePostToFacebook,UIActivityTypePostToTwitter,UIActivityTypeMail];
