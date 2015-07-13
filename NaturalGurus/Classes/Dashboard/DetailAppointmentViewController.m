@@ -48,19 +48,116 @@ enum {
     userRole = [[ToolClass instance] getUserRole];
     if (userRole == isUser)
         [self loadDetailExpert];
+    else
+        [self loadDetailUser];
+    
+    self.navigationItem.title = [appointmentDict objectForKey:@"name"];
+    //status
+    int status = [[appointmentDict objectForKey:@"status"] intValue];
+    NSString *statusString;
+    UIColor *statusColor;
+    switch (status) {
+        case isPending:
+            statusString = @"Pending";
+            statusColor = [UIColor colorWithRed:(float)215/255 green:(float)186/255 blue:(float)53/255 alpha:1.0];
+            self.btnEnter.userInteractionEnabled = NO;
+            self.btnEnter.alpha = 0.7;
+            break;
+        case isApproved:
+            statusString = @"Approved";
+            statusColor  = GREEN_COLOR;
+            break;
+        case isDeclined:
+            statusString = @"Declined";
+            statusColor  = [UIColor colorWithRed:(float)215/255 green:(float)53/255 blue:(float)53/255 alpha:1.0];
+            self.btnEnter.hidden = YES;
+            break;
+        case isExpired:
+            statusString = @"Expired";
+            statusColor  = [UIColor colorWithRed:(float)215/255 green:(float)53/255 blue:(float)53/255 alpha:1.0];
+            self.btnEnter.hidden = YES;
+            break;
+        default:
+            break;
+    }
+    
+    //check if this appointment is finished, don't show Enter Room button
+    int video_state = [[appointmentDict objectForKey:@"video_state"] intValue];
+    if (video_state == 1){
+        statusString = @"Finished";
+        statusColor  = ORANGE_COLOR;
+        self.btnEnter.hidden = YES;
+    }
+    
+    self.lbStatus.text = statusString;
+    self.lbStatus.textColor = statusColor;
+    
+    //set appointment value
+    self.lbDuration.text = [NSString stringWithFormat:@"%d mins",[[appointmentDict objectForKey:@"duration"] intValue]];
+    self.lbTotalPrice.text = [NSString stringWithFormat:@"$%.2f",[[appointmentDict objectForKey:@"total"] floatValue]];
+    
+    NSString *date = [appointmentDict objectForKey:@"date"];
+    date = [ToolClass dateByFormat:@"EEE, MMM dd yyyy" dateString:date];
+    self.lbDate.text = date;
+    
+    NSString *fromTime  = [ToolClass convertHourToAM_PM:[appointmentDict objectForKey:@"from_time"]];
+    NSString *toTime    = [ToolClass convertHourToAM_PM:[appointmentDict objectForKey:@"to_time"]];
+    self.lbTime.text    = [NSString stringWithFormat:@"%@ - %@",fromTime,toTime];
+    
+    self.lbTimezone.text = [appointmentDict objectForKey:@"timezone"];
+    
+    [self performSelector:@selector(delayForLayout) withObject:nil afterDelay:0.5];
+    [self performSelectorInBackground:@selector(loadVideoToken) withObject:nil];
 }
 
-- (void) viewWillAppear:(BOOL)animated {
+- (void) delayForLayout {
+    NSString *messageText = [appointmentDict objectForKey:@"about"];
+    
+    UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, screenSize.width, 10)];
+    view.text = messageText;
+    CGSize size = [view sizeThatFits:CGSizeMake(screenSize.width, CGFLOAT_MAX)];
+    
+    UIView *aboutView = [[UIView alloc] initWithFrame:CGRectMake(10, self.detailContainerView.frame.origin.y+self.detailContainerView.frame.size.height+14, screenSize.width-20, size.height + 30)];
+    
+    aboutView.layer.cornerRadius  = 5;
+    aboutView.layer.masksToBounds = YES;
+    aboutView.backgroundColor = [UIColor whiteColor];
+    aboutView.layer.borderColor = LIGHT_GREY_COLOR.CGColor;
+    aboutView.layer.borderWidth = 1;
+    [self.mainScrollView addSubview:aboutView];
+    
+    UILabel *lbMessage = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, 97, 21)];
+    lbMessage.text = @"Message";
+    lbMessage.font = [UIFont fontWithName:MONTSERRAT_BOLD size:14];
+    lbMessage.textColor = GREEN_COLOR;
+    [aboutView addSubview:lbMessage];
+    
+    UITextView *txtView = [[UITextView alloc] initWithFrame:CGRectMake(10, lbMessage.frame.origin.y + lbMessage.frame.size.height + 10, screenSize.width-10, 10)];
+    txtView.userInteractionEnabled = NO;
+    txtView.text = messageText;
+    
+    txtView.frame = CGRectMake(0, lbMessage.frame.origin.y + lbMessage.frame.size.height, aboutView.frame.size.width, size.height+10);
+    txtView.textContainerInset = UIEdgeInsetsMake(5.0, 5.0, 0.0, 0.0);
+    [aboutView addSubview:txtView];
+    
     //check for iphone 4,4s
-    if (screenSize.height == 480)
-        [self.mainScrollView setContentSize:CGSizeMake(mainScrollView.frame.size.width, screenSize.height+200)];
+    [self.mainScrollView setContentSize:CGSizeMake(mainScrollView.frame.size.width, aboutView.frame.origin.y + aboutView.frame.size.height)];
+}
+
+- (void) loadVideoToken {
+    long appointmentId = [[appointmentDict objectForKey:@"appointmentId"] longValue];
+    
+    NSString *token = [[ToolClass instance] getUserToken];
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:token,@"token", nil];
+    
+    if (userRole == isUser)
+        [[ToolClass instance] loadUserVideoToken:appointmentId params:params withViewController:self];
     else
-        [self.mainScrollView setContentSize:CGSizeMake(mainScrollView.frame.size.width, screenSize.height-44)];
+        [[ToolClass instance] loadExpertVideoToken:appointmentId params:params withViewController:self];
 }
 
 - (void) setupUI {
-    self.navigationItem.title = @"";
-    
     self.view.backgroundColor = TABLE_BACKGROUND_COLOR;
     
     self.myFrontView.backgroundColor = TABLE_BACKGROUND_COLOR;
@@ -71,18 +168,9 @@ enum {
     self.detailContainerView.layer.borderColor = LIGHT_GREY_COLOR.CGColor;
     self.detailContainerView.layer.borderWidth = 1;
     
-    self.secondContainerView.layer.cornerRadius  = 5;
-    self.secondContainerView.layer.masksToBounds = YES;
-    self.secondContainerView.backgroundColor = [UIColor whiteColor];
-    self.secondContainerView.layer.borderColor = LIGHT_GREY_COLOR.CGColor;
-    self.secondContainerView.layer.borderWidth = 1;
-    
     //style for detail label
     self.lbDetailTitle.font = [UIFont fontWithName:MONTSERRAT_BOLD size:14];
     self.lbDetailTitle.textColor = GREEN_COLOR;
-    
-    self.lbMessageTitle.font = [UIFont fontWithName:MONTSERRAT_BOLD size:14];
-    self.lbMessageTitle.textColor = GREEN_COLOR;
     
     //style for enter room button
     self.btnEnter.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
@@ -116,9 +204,29 @@ enum {
     [[ToolClass instance] loadDetailExpertById:expertId withViewController:self];
 }
 
+- (void) loadDetailUser {
+    self.lbServiceName.hidden = self.starRatingView.hidden = self.lbPrice.hidden = YES;
+    
+    //get expert image
+    UIImageView *se = self.imgExpertView;
+    
+    NSString *avatar = [appointmentDict objectForKey:@"client_avatar"];
+    //add %20 if there are some space in link
+    avatar = [avatar stringByReplacingOccurrencesOfString:@" " withString:@"\%20"];
+    
+    NSString *imgUrl = avatar;
+    [self.imgExpertView sd_setImageWithURL:[NSURL URLWithString:imgUrl]
+                          placeholderImage:[UIImage imageNamed:@"avatarDefault.png"]
+                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType,NSURL *url) {
+                                     
+                                     se.image = [[ToolClass instance] imageByScalingAndCroppingForSize:CGSizeMake(EXPERT_IN_LIST_WIDTH, EXPERT_IN_LIST_HEIGHT) source:image];
+                                     
+                                 }];
+    self.imgExpertView.layer.cornerRadius  = EXPERT_IMAGE_WIDTH/2;
+    self.imgExpertView.layer.masksToBounds = YES;
+}
+
 - (void) reorganizeData {
-    
-    
     self.navigationItem.title = [self.expertDict objectForKey:@"name"];
     
     //get expert image
@@ -148,51 +256,6 @@ enum {
     
     //price
     self.lbPrice.text = [NSString stringWithFormat:@"%.2f per minute",[[self.expertDict objectForKey:@"price"] floatValue]];
-    
-    //status
-    int status = [[appointmentDict objectForKey:@"status"] intValue];
-    NSString *statusString;
-    UIColor *statusColor;
-    switch (status) {
-        case isPending:
-            statusString = @"Pending";
-            statusColor = [UIColor colorWithRed:(float)215/255 green:(float)186/255 blue:(float)53/255 alpha:1.0];
-            self.btnEnter.userInteractionEnabled = NO;
-            self.btnEnter.alpha = 0.7;
-            break;
-        case isApproved:
-            statusString = @"Approved";
-            statusColor  = GREEN_COLOR;
-            break;
-        case isDeclined:
-            statusString = @"Declined";
-            statusColor  = [UIColor colorWithRed:(float)215/255 green:(float)53/255 blue:(float)53/255 alpha:1.0];
-            self.btnEnter.hidden = YES;
-            break;
-        case isExpired:
-            statusString = @"Expired";
-            statusColor  = [UIColor colorWithRed:(float)215/255 green:(float)53/255 blue:(float)53/255 alpha:1.0];
-            self.btnEnter.hidden = YES;
-            break;
-        default:
-            break;
-    }
-    self.lbStatus.text = statusString;
-    self.lbStatus.textColor = statusColor;
-    
-    //set appointment value
-    self.lbDuration.text = [NSString stringWithFormat:@"%d mins",[[appointmentDict objectForKey:@"duration"] intValue]];
-    self.lbTotalPrice.text = [NSString stringWithFormat:@"$%.2f",[[appointmentDict objectForKey:@"total"] floatValue]];
-    
-    NSString *date = [appointmentDict objectForKey:@"date"];
-    date = [ToolClass dateByFormat:@"EEE, MMM dd yyyy" dateString:date];
-    self.lbDate.text = date;
-    
-    NSString *fromTime  = [ToolClass convertHourToAM_PM:[appointmentDict objectForKey:@"from_time"]];
-    NSString *toTime    = [ToolClass convertHourToAM_PM:[appointmentDict objectForKey:@"to_time"]];
-    self.lbTime.text    = [NSString stringWithFormat:@"%@ - %@",fromTime,toTime];
-
-    self.lbTimezone.text = [appointmentDict objectForKey:@"timezone"];
 }
 
 - (IBAction) handleCollapseExpandView:(id)sender {
@@ -232,6 +295,9 @@ enum {
         if (buttonIndex == 0) {
             //ok enter meeting room
             StreamingVideoViewController *controller = [[StreamingVideoViewController alloc] init];
+            controller.kApiKey = [self.videoDict objectForKey:@"apiKey"];
+            controller.kSessionId = [self.appointmentDict objectForKey:@"video_session"];
+            controller.kToken   = [self.videoDict objectForKey:@"token"];
             [self presentViewController:controller animated:YES completion:nil];
         }
     }

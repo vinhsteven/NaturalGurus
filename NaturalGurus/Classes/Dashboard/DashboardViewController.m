@@ -134,7 +134,7 @@
         NSString *date       = [dict objectForKey:@"date"];
         NSString *timezone   = [dict objectForKey:@"client_timezone"];
         
-        NSDictionary *newDict = [NSDictionary dictionaryWithObjectsAndKeys:name,@"name",[dict objectForKey:@"duration"],@"duration",date,@"date",timezone,@"timezone",[dict objectForKey:@"state"],@"status",[dict objectForKey:@"id"],@"appointmentId",[dict objectForKey:@"expert_id"],@"expertId",[dict objectForKey:@"from_time"],@"from_time",[dict objectForKey:@"to_time"],@"to_time",[dict objectForKey:@"total"],@"total",[dict objectForKey:@"video_session"],@"video_session",[dict objectForKey:@"video_password"],@"video_password",[dict objectForKey:@"about"],@"about",nil];
+        NSDictionary *newDict = [NSDictionary dictionaryWithObjectsAndKeys:name,@"name",[dict objectForKey:@"duration"],@"duration",date,@"date",timezone,@"timezone",[dict objectForKey:@"state"],@"status",[dict objectForKey:@"id"],@"appointmentId",[dict objectForKey:@"expert_id"],@"expertId",[dict objectForKey:@"from_time"],@"from_time",[dict objectForKey:@"to_time"],@"to_time",[dict objectForKey:@"total"],@"total",[dict objectForKey:@"video_session"],@"video_session",[dict objectForKey:@"video_password"],@"video_password",[dict objectForKey:@"about"],@"about",[dict objectForKey:@"avatar"],@"avatar",[dict objectForKey:@"client_avatar"],@"client_avatar",[dict objectForKey:@"video_state"],@"video_state",nil];
         [mainArray addObject:newDict];
     }
     
@@ -222,6 +222,13 @@
             break;
         default:
             break;
+    }
+    
+    //check if this appointment is finished
+    int video_state = [[dict objectForKey:@"video_state"] intValue];
+    if (video_state == 1){
+        statusString = @"Finished";
+        statusColor  = ORANGE_COLOR;
     }
     
     UILabel *lbStatus = [[UILabel alloc] initWithFrame:CGRectMake(screenSize.width-125, 5, 100, 21)];

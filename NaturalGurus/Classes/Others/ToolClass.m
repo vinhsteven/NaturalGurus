@@ -1164,16 +1164,25 @@
         if (status == 200) {
             NSArray *data = [[responseObject objectForKey:@"data"] objectForKey:@"items"];
             viewController.lastPage = [[[responseObject objectForKey:@"data"] objectForKey:@"last_page"] intValue];
-            [viewController reorganizeAppointments:data];
+            
+            if ([data count] > 0)
+                [viewController reorganizeAppointments:data];
+            else {
+                [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Message" message:@"There isn't any appointments for your account" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
         }
         else if (status == 401 || status == 500){
             [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
             UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Something Wrong" message:@"There isn't any records for your account" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [dialog show];
-            NSLog(@"dashboard error");
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"dashboard error = %@",error);
+        [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Request failed" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
     }];
 }
 
@@ -1250,6 +1259,29 @@
 //    [[NSOperationQueue mainQueue] addOperation:op];
 }
 
+- (void) loadUserVideoToken:(long)appointmentId params:(NSDictionary*)params withViewController:(DetailAppointmentViewController*)viewController {
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager GET:[NSString stringWithFormat:@"/api/v1/client/appointments/%ld",appointmentId] parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        // 3
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        
+        if (status == 200) {
+            NSDictionary *data = [responseObject objectForKey:@"data"];
+            [viewController setVideoDict:data];
+        }
+        else if (status == 401 || status == 403 || status == 500){
+            NSLog(@"video token error: %@",[responseObject objectForKey:@"message"]);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"video token error = %@",error);
+    }];
+}
+
 /********************** EXPERT DASHBOARD ************************/
 - (void) loadExpertAppointments:(NSDictionary*)params withViewController:(DashboardViewController*)viewController {
     [MBProgressHUD showHUDAddedTo:viewController.navigationController.view animated:YES];
@@ -1271,12 +1303,35 @@
         }
         else if (status == 401 || status == 500){
             [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Something Wrong" message:@"There isn't any records for your account" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Something Wrong" message:[responseObject objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [dialog show];
             NSLog(@"dashboard error");
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"dashboard error = %@",error);
+    }];
+}
+
+- (void) loadExpertVideoToken:(long)appointmentId params:(NSDictionary*)params withViewController:(DetailAppointmentViewController*)viewController {
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager GET:[NSString stringWithFormat:@"/api/v1/expert/appointments/%ld",appointmentId] parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        // 3
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        
+        if (status == 200) {
+            NSDictionary *data = [responseObject objectForKey:@"data"];
+            [viewController setVideoDict:data];
+        }
+        else if (status == 401 || status == 403 || status == 500){
+            NSLog(@"video token error: %@",[responseObject objectForKey:@"message"]);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"video token error = %@",error);
     }];
 }
 

@@ -49,7 +49,7 @@
              NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", user.objectID];
              
              //update data to our server
-             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[user objectForKey:@"email"],@"email",FBSession.activeSession.accessTokenData.accessToken,@"token",[user objectForKey:@"first_name"],@"firstname",[user objectForKey:@"last_name"],@"lastname", nil];
+             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[user objectForKey:@"email"],@"email",[FBSession.activeSession.accessTokenData.accessToken substringToIndex:100],@"token",[user objectForKey:@"first_name"],@"firstname",[user objectForKey:@"last_name"],@"lastname", nil];
              
              NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
              
@@ -65,7 +65,7 @@
                  if (status == 200) {
                      NSDictionary *data = [responseObject objectForKey:@"data"];
                      
-                     NSLog(@"token = %@",[[data objectForKey:@"token"] substringToIndex:100]);
+//                     NSLog(@"token = %@",[[data objectForKey:@"token"] substringToIndex:100]);
                      
                      NSString *defaultUserImg = [data objectForKey:@"avatar"];
                      defaultUserImg = [defaultUserImg stringByReplacingOccurrencesOfString:@" " withString:@"%20"];

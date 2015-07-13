@@ -154,7 +154,7 @@
     //send params to server, use the same parameters when get profile
     
     NSString *token = [[ToolClass instance] getUserToken];
-    token = [token substringToIndex:100]; //our server just store 100 characters
+    token = [token substringToIndex:token.length]; //our server just store 100 characters
 
     NSString *image64String = @"";
     if (isChangeAvatar) {

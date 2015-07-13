@@ -15,4 +15,8 @@
     UIButton *btnEndCall;
 }
 
+@property (assign, readwrite) NSString *kApiKey;
+@property (assign, readwrite) NSString *kSessionId;
+@property (assign, readwrite) NSString *kToken;
+
 @end

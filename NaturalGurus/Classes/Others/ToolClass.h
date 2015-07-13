@@ -104,10 +104,12 @@
 - (void) getTotalReviewsByExpertId:(long)_expertId pageIndex:(int)_pageIndex withViewController:(DetailBrowseViewController*)viewController;
 - (void) loadAvailabilitiesByExpertId:(long)_expertId params:(NSDictionary*)params withViewController:(AvailabilityViewController*)viewController;
 - (void) loadUserAppointments:(NSDictionary*)params withViewController:(DashboardViewController*)viewController;
+- (void) loadUserVideoToken:(long)appointmentId params:(NSDictionary*)params withViewController:(DetailAppointmentViewController*)viewController;
 
 /*MY PROFILE*/
 - (void) updateUserProfile:(NSDictionary*)params withViewController:(MyProfileViewController*)viewController;
 
 /*EXPERT DASHBOARD */
 - (void) loadExpertAppointments:(NSDictionary*)params withViewController:(DashboardViewController*)viewController;
+- (void) loadExpertVideoToken:(long)appointmentId params:(NSDictionary*)params withViewController:(DetailAppointmentViewController*)viewController;
 @end
