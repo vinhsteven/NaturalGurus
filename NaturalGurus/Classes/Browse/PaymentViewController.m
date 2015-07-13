@@ -44,6 +44,23 @@ typedef enum {
     
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
     [self.scrollView addGestureRecognizer:singleTap];
+    
+    //fill data on label
+    self.lbExpertName.text = [self.scheduleDict objectForKey:@"expertName"];
+    self.lbTotalPrice.text = [NSString stringWithFormat:@"$%.2f",[[self.scheduleDict objectForKey:@"total"] floatValue]];
+    self.lbDuration.text   = [NSString stringWithFormat:@"%d mins",[[self.scheduleDict objectForKey:@"duration"] intValue]];
+    
+    NSString *date = [[self.scheduleDict objectForKey:@"timeDict"] objectForKey:@"date_from"];
+    date = [ToolClass dateByFormat:@"EEE, yyyy-MM-dd" dateString:date];
+    self.lbDate.text = date;
+    
+    NSString *timeFrom  = [[self.scheduleDict objectForKey:@"timeDict"] objectForKey:@"from_time"];
+    NSString *timeTo    = [[self.scheduleDict objectForKey:@"timeDict"] objectForKey:@"to_time"];
+    
+    timeFrom    = [ToolClass convertHourToAM_PM:[NSString stringWithFormat:@"%@:00",timeFrom]];
+    timeTo      = [ToolClass convertHourToAM_PM:[NSString stringWithFormat:@"%@:00",timeTo]];
+    
+    self.lbTime.text = [NSString stringWithFormat:@"%@ - %@",timeFrom,timeTo];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -153,6 +170,8 @@ typedef enum {
 }
 
 - (IBAction) confirmAppointment:(id)sender {
+    NSLog(@"scheduleDict = %@",self.scheduleDict);
+    
     if ([self.txtNameOnCard.text isEqualToString:@""]) {
         UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please input your name on card" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [dialog show];
@@ -166,26 +185,26 @@ typedef enum {
     // 6(?:011|5[0-9]{2})[0-9]{12} - DISCOVER
     // (?:2131|1800|35\d{3})\d{11} - JCB
     
-    NSString *tmpCardNumber = [self.txtCardNumber.text stringByReplacingOccurrencesOfString:@"-" withString:@""];
-    
-    NSString *regex[] = {
-        @"^4[0-9]{12}(?:[0-9]{3})?$",
-        @"^5[1-5][0-9]{14}$",
-        @"^3[47][0-9]{13}$",
-        @"^6(?:011|5[0-9]{2})[0-9]{12}$",
-    };
-    BOOL isValid = NO;
-    for (int i=0;i < sizeof(regex)/sizeof(regex[0]);i++) {
-        if ([[ToolClass instance] validateString:tmpCardNumber withPattern:regex[i]]) {
-            isValid = YES;
-            break;
-        }
-    }
-    if (!isValid) {
-        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Invalid card number. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [dialog show];
-        return;
-    }
+//    NSString *tmpCardNumber = [self.txtCardNumber.text stringByReplacingOccurrencesOfString:@"-" withString:@""];
+//    
+//    NSString *regex[] = {
+//        @"^4[0-9]{12}(?:[0-9]{3})?$",
+//        @"^5[1-5][0-9]{14}$",
+//        @"^3[47][0-9]{13}$",
+//        @"^6(?:011|5[0-9]{2})[0-9]{12}$",
+//    };
+//    BOOL isValid = NO;
+//    for (int i=0;i < sizeof(regex)/sizeof(regex[0]);i++) {
+//        if ([[ToolClass instance] validateString:tmpCardNumber withPattern:regex[i]]) {
+//            isValid = YES;
+//            break;
+//        }
+//    }
+//    if (!isValid) {
+//        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Invalid card number. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//        [dialog show];
+//        return;
+//    }
     
     //check input CVV
     if ([self.txtCVV.text isEqualToString:@""]) {
@@ -194,9 +213,60 @@ typedef enum {
         return;
     }
     
+    self.stripeCard = [[STPCard alloc] init];
+    self.stripeCard.name = self.txtNameOnCard.text;
+    self.stripeCard.number = self.txtCardNumber.text;
+    self.stripeCard.cvc = self.txtCVV.text;
+    self.stripeCard.expMonth = [self.btnExpiredMonth.titleLabel.text integerValue];
+    self.stripeCard.expYear = [self.btnExpiredYear.titleLabel.text integerValue];
     
+    //check valid card info
+    if ([self validateCustomerInfo]) {
+        [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        [self performStripeOperation];
+    }
 //    ConfirmedViewController *controller = [[ConfirmedViewController alloc] initWithNibName:@"ConfirmedViewController" bundle:nil];
 //    [self.navigationController pushViewController:controller animated:YES];
+}
+
+- (BOOL)validateCustomerInfo {
+    //1. Validate card number, CVC, expMonth, expYear
+    NSError* error = nil;
+    [self.stripeCard validateCardReturningError:&error];
+    
+    //2
+    if (error) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (void)performStripeOperation {
+    [Stripe setDefaultPublishableKey:STRIPE_PUBLISH_KEY];
+    
+    [[STPAPIClient sharedClient] createTokenWithCard:self.stripeCard completion:^(STPToken * __stp_nullable token, NSError * __stp_nullable error) {
+        if (!error) {
+            NSLog(@"token = %@",token.tokenId);
+            //connect server to process payment
+            NSDictionary *timeDict = [self.scheduleDict objectForKey:@"timeDict"];
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[self.scheduleDict objectForKey:@"message"],@"about",[self.scheduleDict objectForKey:@"expertId"],@"expert_id",[self.scheduleDict objectForKey:@"duration"],@"duration",[self.scheduleDict objectForKey:@"timezone"],@"client_timezone",[self.scheduleDict objectForKey:@"total"],@"total",[timeDict objectForKey:@"date_from"],@"date",[timeDict objectForKey:@"from_time"],@"from_time",[timeDict objectForKey:@"to_time"],@"to_time",@"iOS",@"booked_from",[[ToolClass instance] getUserToken],@"token",[NSNumber numberWithInt:0],@"free",token.tokenId,@"stripe_token", nil];
+            NSLog(@"param = %@",params);
+            [[ToolClass instance] bookSchedule:params withViewController:self];
+        }
+        else {
+            [MBProgressHUD hideAllHUDsForView:self.navigationController.view animated:YES];
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:nil message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+        }
+    }];
+}
+
+- (void) bookingSuccess {
+    ConfirmedViewController *controller = [[ConfirmedViewController alloc] initWithNibName:@"ConfirmedViewController" bundle:nil];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 #pragma mark UITextFieldDelegate

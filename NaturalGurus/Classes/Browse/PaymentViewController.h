@@ -31,6 +31,10 @@
 @property (strong, nonatomic) IBOutlet UIView *containerView;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 
+@property (strong, nonatomic) NSMutableDictionary *scheduleDict;
+
+@property (strong, nonatomic) STPCard* stripeCard;
+
 - (IBAction) selectMonth:(id)sender;
 - (IBAction) selectYear:(id)sender;
 - (IBAction) confirmAppointment:(id)sender;

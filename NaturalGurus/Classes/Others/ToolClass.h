@@ -21,6 +21,7 @@
 @interface ToolClass : NSObject  {
     unsigned long expertId;
     float expertPrice;
+    NSDictionary *expertDict;
 }
 
 + (ToolClass *) instance;
@@ -41,6 +42,8 @@
 + (NSString*) convertHourToAM_PM:(NSString*)rawHour;
 + (NSString*) dateByFormat:(NSString*)format date:(NSDate*)date;
 + (NSString*) dateByFormat:(NSString*)format dateString:(NSString*)dateString;
++ (NSString*) dateByTimezone:(NSString*)timezone andDate:(NSString*)dateTimeString;
++ (NSString*) timeByTimezone:(NSString*)timezone andDateAndTime:(NSString*)dateTimeString;
 
 #pragma mark HANDLE STORE DATA 
 - (void) setLogin:(BOOL)isLogin;
@@ -51,6 +54,9 @@
 
 - (NSString*) getProfileImageURL;
 - (void) setProfileImageURL:(NSString*)url;
+
+- (void) setUserId:(long)_userId;
+- (long) getUserId;
 
 - (void) setUserFirstName:(NSString*)firstName;
 - (NSString*) getUserFirstName;
@@ -85,6 +91,9 @@
 - (void) setExpertPrice:(float)price;
 - (float) getExpertPrice;
 
+- (void) setExpertDict:(NSDictionary*)_expertDict;
+- (NSDictionary*) getExpertDict;
+
 #pragma mark HANDLE CONNECT TO GET DATA
 /***************LOGIN*******************/
 - (void) registerAccount:(NSDictionary*)params withViewController:(SignUpViewController*)viewController;
@@ -112,4 +121,7 @@
 /*EXPERT DASHBOARD */
 - (void) loadExpertAppointments:(NSDictionary*)params withViewController:(DashboardViewController*)viewController;
 - (void) loadExpertVideoToken:(long)appointmentId params:(NSDictionary*)params withViewController:(DetailAppointmentViewController*)viewController;
+
+/* BOOKING */
+- (void) bookSchedule:(NSDictionary*)params withViewController:(id)viewController;
 @end

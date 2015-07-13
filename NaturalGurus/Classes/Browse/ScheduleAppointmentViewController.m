@@ -9,6 +9,7 @@
 #import "ScheduleAppointmentViewController.h"
 #import "AvailabilityViewController.h"
 #import "PaymentViewController.h"
+#import "ConfirmedViewController.h"
 
 enum {
     kMessageSection,
@@ -119,11 +120,18 @@ enum {
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"TimeZone" ofType:@"plist"];
     timezoneArray = [NSMutableArray arrayWithContentsOfFile:filePath];
     
+    //alloc schedule dict to save temporary data for booking
+    self.scheduleDict = [[NSMutableDictionary alloc] init];
+    
     //check if free session, dont show select duration and total
     if (self.isFreeSession) {
         self.lbLengthOfSession.hidden = self.btnDuration.hidden = self.lbTotalTitle.hidden = self.lbTotal.hidden = YES;
         [self.btnViewAvailability setBackgroundImage:[ToolClass imageFromColor:ORANGE_COLOR] forState:UIControlStateNormal];
     }
+    
+    self.txtFirstName.text = [[ToolClass instance] getUserFirstName];
+    self.txtLastName.text  = [[ToolClass instance] getUserLastName];
+    self.txtEmail.text     = [[ToolClass instance] getUserEmail];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -162,6 +170,9 @@ enum {
                                 float price = [[ToolClass instance] getExpertPrice];
                                 float total = price * value;
                                 self.lbTotal.text = [NSString stringWithFormat:@"$%.2f",total];
+                                
+                                [self.scheduleDict setObject:[NSNumber numberWithFloat:value] forKey:@"duration"];
+                                [self.scheduleDict setObject:[NSNumber numberWithFloat:total] forKey:@"total"];
                             }];
     
 }
@@ -184,6 +195,9 @@ enum {
                                 
                                 NSDictionary *dict = [timezoneArray objectAtIndex:currentTimeZoneSelected];
                                 [self.btnTimeZone setTitle:[dict objectForKey:@"title"] forState:UIControlStateNormal];
+                                
+                                NSString *value = [dict objectForKey:@"value"];
+                                [self.scheduleDict setObject:value forKey:@"timezone"];
                             }];
 }
 
@@ -209,7 +223,12 @@ enum {
     AvailabilityViewController *controller = [[AvailabilityViewController alloc] initWithNibName:@"AvailabilityViewController" bundle:nil];
     controller.parent = self;
     controller.isFree = self.isFreeSession;
-    controller.duration = [[durationDict objectForKey:@"value"] intValue];
+    
+    if (!self.isFreeSession)
+        controller.duration = [[durationDict objectForKey:@"value"] intValue];
+    else {
+        controller.duration = self.freeSessionDuration;
+    }
     controller.timezoneValueString = [timezoneDict objectForKey:@"value"];
     [self.navigationController pushViewController:controller animated:YES];
 }
@@ -247,10 +266,12 @@ enum {
         [dialog show];
         return;
     }
-    if ([self.btnDuration.titleLabel.text isEqualToString:@"Select duration"]) {
-        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select your the duration before proceeding the payment" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [dialog show];
-        return;
+    if (!self.isFreeSession) {
+        if ([self.btnDuration.titleLabel.text isEqualToString:@"Select duration"]) {
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select your the duration before proceeding the payment" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+            return;
+        }
     }
     if (self.timeDict == nil) {
         UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select available time before proceeding the payment" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -258,8 +279,35 @@ enum {
         return;
     }
     
+    [self.scheduleDict setObject:self.txtMessage.text forKey:@"message"];
+    [self.scheduleDict setObject:self.txtEmail.text forKey:@"email"];
+    [self.scheduleDict setObject:self.txtFirstName.text forKey:@"firstname"];
+    [self.scheduleDict setObject:self.txtLastName.text forKey:@"lastname"];
+    
+    NSDictionary *expertDict = [[ToolClass instance] getExpertDict];
+    [self.scheduleDict setObject:[expertDict objectForKey:@"name"] forKey:@"expertName"];
+    [self.scheduleDict setObject:[expertDict objectForKey:@"id"] forKey:@"expertId"];
+    [self.scheduleDict setObject:self.timeDict forKey:@"timeDict"];
+    
     self.navigationItem.title = @"";
-    PaymentViewController *controller = [[PaymentViewController alloc] initWithNibName:@"PaymentViewController" bundle:nil];
+    
+    if (!self.isFreeSession) {
+        PaymentViewController *controller = [[PaymentViewController alloc] initWithNibName:@"PaymentViewController" bundle:nil];
+        controller.scheduleDict = self.scheduleDict;
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+    else {
+        //book appointment without payment
+        [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[self.scheduleDict objectForKey:@"message"],@"about",[self.scheduleDict objectForKey:@"expertId"],@"expert_id",[NSNumber numberWithInt:self.freeSessionDuration],@"duration",[self.timeDict objectForKey:@"timezone"],@"client_timezone",[NSNumber numberWithFloat:0],@"total",[self.timeDict objectForKey:@"date_from"],@"date",[self.timeDict objectForKey:@"from_time"],@"from_time",[self.timeDict objectForKey:@"to_time"],@"to_time",@"iOS",@"booked_from",[[ToolClass instance] getUserToken],@"token",[NSNumber numberWithInt:self.isFreeSession],@"free",@"",@"stripe_token", nil];
+        
+        [[ToolClass instance] bookSchedule:params withViewController:self];
+    }
+}
+
+- (void) bookingSuccess {
+    ConfirmedViewController *controller = [[ConfirmedViewController alloc] initWithNibName:@"ConfirmedViewController" bundle:nil];
     [self.navigationController pushViewController:controller animated:YES];
 }
 

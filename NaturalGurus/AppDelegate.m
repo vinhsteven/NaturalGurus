@@ -84,7 +84,7 @@
                      [[ToolClass instance] setUserFirstName:[data objectForKey:@"firstname"]];
                      [[ToolClass instance] setUserLastName:[data objectForKey:@"lastname"]];
                      [[ToolClass instance] setUserRole:isUser];
-                     [[ToolClass instance] setUserToken:FBSession.activeSession.accessTokenData.accessToken];
+                     [[ToolClass instance] setUserToken:[data objectForKey:@"token"]];
                      [[ToolClass instance] setUserEmail:[user objectForKey:@"email"]];
                      [[ToolClass instance] setUserCountryCode:[data objectForKey:@"phone_code"]];
                      [[ToolClass instance] setUserPhone:[data objectForKey:@"phone"]];

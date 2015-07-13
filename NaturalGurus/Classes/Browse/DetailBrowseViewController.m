@@ -182,11 +182,6 @@ enum {
 }
 
 - (void) handleShareAction {
-//    NSString *firstname = [[ToolClass instance] getUserFirstName];
-//    NSString *lastname  = [[ToolClass instance] getUserLastName];
-//    
-//    firstname = [firstname stringByReplacingOccurrencesOfString:@" " withString:@"-"];
-//    lastname  = [lastname stringByReplacingOccurrencesOfString:@" " withString:@"-"];
     NSString *name = [self.expertDict objectForKey:@"name"];
     name = [name stringByReplacingOccurrencesOfString:@" " withString:@"-"];
     name = [name lowercaseString];
@@ -864,6 +859,7 @@ enum {
     self.navigationItem.title = @"";
     ScheduleAppointmentViewController *controller = [[ScheduleAppointmentViewController alloc] initWithNibName:@"ScheduleAppointmentViewController" bundle:nil];
     controller.durationArray = durationArray;
+    controller.freeSessionDuration = self.freeSession;
     
     if (sender == self.btnSchedule) {
         controller.isFreeSession = NO;

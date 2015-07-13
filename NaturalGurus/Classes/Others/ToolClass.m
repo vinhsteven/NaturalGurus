@@ -8,6 +8,9 @@
 
 #import "ToolClass.h"
 
+#import "ScheduleAppointmentViewController.h"
+#import "PaymentViewController.h"
+
 @implementation ToolClass
 
 + (ToolClass *) instance {
@@ -416,10 +419,36 @@
     
     NSDate *date = [dateFormatter dateFromString:rawHour];
     
-    [dateFormatter setDateFormat:@"HH:mm a"];
+    [dateFormatter setDateFormat:@"hh:mm a"];
     
     NSString *formattedDate = [dateFormatter stringFromDate:date];
     return formattedDate;
+}
+
++ (NSString*) dateByTimezone:(NSString*)timezone andDate:(NSString*)dateTimeString {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+    NSDate *date = [dateFormatter dateFromString:dateTimeString];
+    
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:timezone]];
+    
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    
+    return [dateFormatter stringFromDate:date];
+}
+
++ (NSString*) timeByTimezone:(NSString*)timezone andDateAndTime:(NSString*)dateTimeString {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+    NSDate *date = [dateFormatter dateFromString:dateTimeString];
+    
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:timezone]];
+    
+    [dateFormatter setDateFormat:@"HH:mm:ss"];
+    
+    return [dateFormatter stringFromDate:date];
 }
 
 #pragma mark HANDLE STORE DATA
@@ -456,6 +485,16 @@
     @catch (NSException *exception) {
         NSLog(@"image null");
     }
+}
+
+- (void) setUserId:(long)_userId {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:[NSNumber numberWithFloat:_userId] forKey:USER_ID];
+}
+
+- (long) getUserId {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [[userDefaults objectForKey:USER_ID] longValue];
 }
 
 - (void) setUserFirstName:(NSString*)firstName {
@@ -604,6 +643,19 @@
 
 - (float) getExpertPrice {
     return expertPrice;
+}
+
+- (void) setExpertDict:(NSDictionary*)_expertDict {
+    @try {
+        expertDict = _expertDict;
+    }
+    @catch (NSException *exception) {
+        
+    }
+}
+
+- (NSDictionary*) getExpertDict {
+    return expertDict;
 }
 
 #pragma mark HANDLE CONNECT TO GET DATA
@@ -1037,8 +1089,10 @@
         int status = [[responseObject objectForKey:@"status"] intValue];
         
         if (status == 200) {
-            NSMutableDictionary *expertDict = [responseObject objectForKey:@"data"];
-            [viewController setExpertDict:expertDict];
+            NSMutableDictionary *_expertDict = [responseObject objectForKey:@"data"];
+            [viewController setExpertDict:_expertDict];
+            //save to use global
+            [[ToolClass instance] setExpertDict:_expertDict];
             
             if ([viewController isKindOfClass:[DetailBrowseViewController class]])
                 [viewController setupTableViewData];
@@ -1082,7 +1136,7 @@
             NSMutableArray *reviewArray = [[responseObject objectForKey:@"data"] objectForKey:@"items"];
             [viewController reorganizeReviewArray:reviewArray];
         }
-        else if (status == 401){
+        else {
             NSString *message = [responseObject objectForKey:@"message"];
             UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [dialog show];
@@ -1113,7 +1167,7 @@
             viewController.totalReview = [[[responseObject objectForKey:@"data"] objectForKey:@"total"] intValue];
             [viewController setUpStyleForReviewButton];
         }
-        else if (status == 401){
+        else {
             NSLog(@"totalReview error");
         }
         
@@ -1139,12 +1193,12 @@
             NSDictionary *data = [responseObject objectForKey:@"data"];
             [viewController reorganizeAvailabilities:data];
         }
-        else if (status == 401){
-            NSLog(@"totalReview error");
+        else {
+            NSLog(@"availibilities error = %@",[responseObject objectForKey:@"message"]);
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"totalReview error = %@",error);
+        NSLog(@"availibilities error = %@",error);
     }];
 }
 
@@ -1173,9 +1227,9 @@
                 [dialog show];
             }
         }
-        else if (status == 401 || status == 500){
+        else {
             [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Something Wrong" message:@"There isn't any records for your account" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Something Wrong" message:[responseObject objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [dialog show];
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -1220,7 +1274,7 @@
             UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Update Profile" message:@"Your profile has updated" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [dialog show];
         }
-        else if (status == 401){
+        else {
             NSString *message = [responseObject objectForKey:@"message"];
             UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [dialog show];
@@ -1274,7 +1328,7 @@
             NSDictionary *data = [responseObject objectForKey:@"data"];
             [viewController setVideoDict:data];
         }
-        else if (status == 401 || status == 403 || status == 500){
+        else {
             NSLog(@"video token error: %@",[responseObject objectForKey:@"message"]);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -1301,7 +1355,7 @@
             viewController.lastPage = [[[responseObject objectForKey:@"data"] objectForKey:@"last_page"] intValue];
             [viewController reorganizeAppointments:data];
         }
-        else if (status == 401 || status == 500){
+        else {
             [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
             UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Something Wrong" message:[responseObject objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [dialog show];
@@ -1327,11 +1381,56 @@
             NSDictionary *data = [responseObject objectForKey:@"data"];
             [viewController setVideoDict:data];
         }
-        else if (status == 401 || status == 403 || status == 500){
+        else {
             NSLog(@"video token error: %@",[responseObject objectForKey:@"message"]);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"video token error = %@",error);
+    }];
+}
+
+/********** BOOKING ***********/
+- (void) bookSchedule:(NSDictionary*)params withViewController:(id)viewController {
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer.timeoutInterval = 60;
+    
+    [manager POST:@"/api/v1/order/book" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        if ([viewController isKindOfClass:[ScheduleAppointmentViewController class]])
+            [MBProgressHUD hideHUDForView:((ScheduleAppointmentViewController*)viewController).navigationController.view animated:YES];
+        else if ([viewController isKindOfClass:[PaymentViewController class]])
+            [MBProgressHUD hideHUDForView:((PaymentViewController*)viewController).navigationController.view animated:YES];
+        // 3
+        NSLog(@"response: %@",(NSDictionary*)responseObject);
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        
+        if (status == 200) {
+            [viewController bookingSuccess];
+        }
+        else {
+            NSString *message = [responseObject objectForKey:@"message"];
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        if ([viewController isKindOfClass:[ScheduleAppointmentViewController class]])
+            [MBProgressHUD hideHUDForView:((ScheduleAppointmentViewController*)viewController).navigationController.view animated:YES];
+        else if ([viewController isKindOfClass:[PaymentViewController class]])
+            [MBProgressHUD hideHUDForView:((PaymentViewController*)viewController).navigationController.view animated:YES];
+        // 4
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
     }];
 }
 

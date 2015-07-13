@@ -21,6 +21,7 @@
     #import "AppDelegate.h"
     #import "MBProgressHUD.h"
     #import "AFNetworking.h"
+    #import "Stripe.h"
 #endif
 
 #define HIDE_STATUS_BAR NO
@@ -38,6 +39,9 @@
 
 #define OPEN_TOK_API_KEY    [[NSBundle mainBundle] objectForInfoDictionaryKey:@"OpenTokAPIKey"]
 #define OPEN_TOK_API_SECRET [[NSBundle mainBundle] objectForInfoDictionaryKey:@"OpenTokAPISecret"]
+
+#define STRIPE_SECRET_KEY   @"sk_live_T2Hajwpsx1A9swzijJ9AIODf"//@"sk_test_hiM3xUkui4TTRnfp6mivnweg"
+#define STRIPE_PUBLISH_KEY  @"pk_live_JXkAETLhm01croZTJ9uA8nbS"//@"pk_test_Is4R16VBJA6VjWHpFajPCEhs"
 
 #define CATEGORY_ITEM_WIDTH     140
 #define CATEGORY_ITEM_HEIGHT    140
@@ -90,6 +94,7 @@ enum {
 #define NUMBER_RECORD_PER_PAGE  5
 
 #define PROFILE_IMAGE_URL   @"profileImageURL"
+#define USER_ID          @"userId"
 #define USER_FIRSTNAME   @"userFirstName"
 #define USER_LASTNAME    @"userLastName"
 #define USER_ROLE        @"userRole"

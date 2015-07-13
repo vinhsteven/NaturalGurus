@@ -22,6 +22,7 @@
 }
 
 @property (assign, readwrite) BOOL isFreeSession;
+@property (assign, readwrite) int freeSessionDuration;
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
 @property (strong, nonatomic) IBOutlet UILabel *lbMessageTo;
 @property (strong, nonatomic) IBOutlet UILabel *lbYourDetails;
@@ -40,9 +41,12 @@
 @property (strong, nonatomic) NSDictionary *timeDict;
 
 @property (strong, nonatomic) NSMutableArray *durationArray;
+@property (strong, nonatomic) NSMutableDictionary *scheduleDict;
 
 - (IBAction) hanldeChangeDuration:(id)sender;
 - (IBAction) handleChangeTimezone:(id)sender;
 - (IBAction) handleViewAvailability:(id)sender;
+
+- (void) bookingSuccess;
 
 @end

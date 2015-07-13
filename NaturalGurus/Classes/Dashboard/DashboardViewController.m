@@ -132,9 +132,19 @@
         NSDictionary *dict = [array objectAtIndex:i];
         NSString *name = userRole == isUser ? [dict objectForKey:@"expert"] : [dict objectForKey:@"name"];
         NSString *date       = [dict objectForKey:@"date"];
+        
+        NSString *fromTime   = [dict objectForKey:@"from_time"];
+        NSString *toTime     = [dict objectForKey:@"to_time"];
         NSString *timezone   = [dict objectForKey:@"client_timezone"];
         
-        NSDictionary *newDict = [NSDictionary dictionaryWithObjectsAndKeys:name,@"name",[dict objectForKey:@"duration"],@"duration",date,@"date",timezone,@"timezone",[dict objectForKey:@"state"],@"status",[dict objectForKey:@"id"],@"appointmentId",[dict objectForKey:@"expert_id"],@"expertId",[dict objectForKey:@"from_time"],@"from_time",[dict objectForKey:@"to_time"],@"to_time",[dict objectForKey:@"total"],@"total",[dict objectForKey:@"video_session"],@"video_session",[dict objectForKey:@"video_password"],@"video_password",[dict objectForKey:@"about"],@"about",[dict objectForKey:@"avatar"],@"avatar",[dict objectForKey:@"client_avatar"],@"client_avatar",[dict objectForKey:@"video_state"],@"video_state",nil];
+        NSString *fromDateTime = [NSString stringWithFormat:@"%@ %@",date,fromTime];
+        NSString *toDateTime = [NSString stringWithFormat:@"%@ %@",date,toTime];
+        
+        date = [ToolClass dateByTimezone:timezone andDate:fromDateTime];
+        fromTime = [ToolClass timeByTimezone:timezone andDateAndTime:fromDateTime];
+        toTime   = [ToolClass timeByTimezone:timezone andDateAndTime:toDateTime];
+        
+        NSDictionary *newDict = [NSDictionary dictionaryWithObjectsAndKeys:name,@"name",[dict objectForKey:@"duration"],@"duration",date,@"date",timezone,@"timezone",[dict objectForKey:@"state"],@"status",[dict objectForKey:@"id"],@"appointmentId",[dict objectForKey:@"expert_id"],@"expertId",fromTime,@"from_time",toTime,@"to_time",[dict objectForKey:@"total"],@"total",[dict objectForKey:@"video_session"],@"video_session",[dict objectForKey:@"video_password"],@"video_password",[dict objectForKey:@"about"],@"about",[dict objectForKey:@"avatar"],@"avatar",[dict objectForKey:@"client_avatar"],@"client_avatar",[dict objectForKey:@"video_state"],@"video_state",nil];
         [mainArray addObject:newDict];
     }
     
