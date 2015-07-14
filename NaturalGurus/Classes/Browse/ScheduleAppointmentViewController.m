@@ -281,7 +281,7 @@ enum {
     
     float total = [[self.scheduleDict objectForKey:@"total"] floatValue];
     //Stripe just accept a transaction with greater than $0.5
-    if (total < 0.5) {
+    if (total < 0.5 && !self.isFreeSession) {
         UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"We can't process payment with less than $0.5. Please choose more." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [dialog show];
         return;

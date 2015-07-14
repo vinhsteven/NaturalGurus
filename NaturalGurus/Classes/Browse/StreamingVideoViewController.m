@@ -37,6 +37,8 @@ static bool subscribeToSelf = NO;
 @synthesize kSessionId;
 @synthesize kToken;
 
+@synthesize parent;
+@synthesize duration;
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -44,6 +46,8 @@ static bool subscribeToSelf = NO;
     [super viewDidLoad];
     
     screenSize = [UIScreen mainScreen].bounds.size;
+    
+    self.view.backgroundColor = TABLE_BACKGROUND_COLOR;
     
     btnEndCall = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnEndCall setImage:[UIImage imageNamed:@"btnEndCall.png"] forState:UIControlStateNormal];
@@ -53,6 +57,28 @@ static bool subscribeToSelf = NO;
     
     btnEndCall.hidden = YES;
     
+    lbTimer = [[UILabel alloc] initWithFrame:CGRectMake(10, screenSize.height-50, 100, 21)];
+    lbTimer.backgroundColor = [UIColor whiteColor];
+    lbTimer.textColor = [UIColor blackColor];
+    lbTimer.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:16];
+    lbTimer.textAlignment = NSTextAlignmentCenter;
+    
+    int hour = duration / 3600;
+    int min  = duration / 60;
+    int sec  = duration % 60;
+    
+    lbTimer.text = [NSString stringWithFormat:@"%02d:%02d:%02d",hour,min,sec];
+//    [self.view insertSubview:lbTimer atIndex:INT_MAX];
+    
+    btnClose = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnClose.frame = CGRectMake(screenSize.width - 30, 30, 24, 24);
+    [btnClose setImage:[UIImage imageNamed:@"btnClose.png"] forState:UIControlStateNormal];
+    [btnClose addTarget:self action:@selector(closeView) forControlEvents:UIControlEventTouchUpInside];
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    self.actualDuration = 0;
+    
     // Step 1: As the view comes into the foreground, initialize a new instance
     // of OTSession and begin the connection process.
     _session = [[OTSession alloc] initWithApiKey:kApiKey
@@ -61,8 +87,38 @@ static bool subscribeToSelf = NO;
     [self doConnect];
 }
 
-- (void) handleEndCalling {
+- (void) closeView {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void) updateTimer {
+    self.actualDuration++;
+    duration--;
+    
+    int hour = duration / 3600;
+    int min  = duration / 60;
+    int sec  = duration % 60;
+    
+    lbTimer.text = [NSString stringWithFormat:@"%02d:%02d:%02d",hour,min,sec];
+}
+
+- (void) handleEndCalling {
+    if (timer != nil) {
+        [timer invalidate];
+        timer = nil;
+    }
+    
+    //just client update data and just when they do it intentionlly, not by connection interrupt
+    int userRole = [[ToolClass instance] getUserRole];
+    if (userRole == isUser) {
+        NSString *token = [[ToolClass instance] getUserToken];
+        //update data to server
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithLong:self.appointmentId],@"order_id",[NSNumber numberWithInt:self.actualDuration],@"duration",token,@"token", nil];
+        [[ToolClass instance] finishAppointment:params withViewController:self];
+    }
+    else {
+        [self finishAppointment];
+    }
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -119,6 +175,8 @@ static bool subscribeToSelf = NO;
     
     [self.view addSubview:_publisher.view];
     [_publisher.view setFrame:CGRectMake(0, 0, screenSize.width, screenSize.height)];
+    
+    [self.view insertSubview:btnClose atIndex:INT_MAX];
 }
 
 /**
@@ -170,6 +228,8 @@ static bool subscribeToSelf = NO;
 {
     NSLog(@"sessionDidConnect (%@)", session.sessionId);
     
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    
     // Step 2: We have successfully connected, now instantiate a publisher and
     // begin pushing A/V streams into OpenTok.
     [self doPublish];
@@ -205,6 +265,8 @@ streamDestroyed:(OTStream *)stream
     if ([_subscriber.stream.streamId isEqualToString:stream.streamId])
     {
         [self cleanupSubscriber];
+        
+        [self handleEndCalling];
     }
 }
 
@@ -222,6 +284,8 @@ connectionDestroyed:(OTConnection *)connection
          isEqualToString:connection.connectionId])
     {
         [self cleanupSubscriber];
+        
+        [self handleEndCalling];
     }
 }
 
@@ -249,8 +313,12 @@ didFailWithError:(OTError*)error
     _publisher.view.frame = CGRectMake(0, 0, widgetWidth, widgetHeight);
     
     //show end call button
-    [self.view insertSubview:btnEndCall atIndex:INT_MAX];
+    [self.view insertSubview:btnEndCall atIndex:INT_MAX-1];
     btnEndCall.hidden = NO;
+    
+    //start count down
+    [self.view insertSubview:lbTimer atIndex:INT_MAX];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateTimer) userInfo:nil repeats:YES];
 }
 
 - (void)subscriber:(OTSubscriberKit*)subscriber
@@ -285,6 +353,9 @@ didFailWithError:(OTError*)error
     }
     
     [self cleanupPublisher];
+    
+    //process update data to server when expert finish it
+    [self handleEndCalling];
 }
 
 - (void)publisher:(OTPublisherKit*)publisher
@@ -305,6 +376,15 @@ didFailWithError:(OTError*)error
                                                otherButtonTitles:nil] ;
         [alert show];
     });
+}
+
+- (void) finishAppointment {
+    ((DetailAppointmentViewController*)parent).isFinishMeeting = YES;
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void) dealloc {
+    NSLog(@"StreamingVideo dealloc");
 }
 
 @end

@@ -1383,6 +1383,8 @@
         }
         else {
             NSLog(@"video token error: %@",[responseObject objectForKey:@"message"]);
+            NSString *message = [responseObject objectForKey:@"message"];
+            [viewController handleGetVideoTokenFailedWithMessage:message];
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"video token error = %@",error);
@@ -1424,6 +1426,44 @@
             [MBProgressHUD hideHUDForView:((ScheduleAppointmentViewController*)viewController).navigationController.view animated:YES];
         else if ([viewController isKindOfClass:[PaymentViewController class]])
             [MBProgressHUD hideHUDForView:((PaymentViewController*)viewController).navigationController.view animated:YES];
+        // 4
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
+}
+
+- (void) finishAppointment:(NSDictionary*)params withViewController:(StreamingVideoViewController*)viewController {
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer.timeoutInterval = 120;
+    
+    [manager POST:@"/api/v1/order/finish" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        [MBProgressHUD hideHUDForView:viewController.view animated:YES];
+        // 3
+        NSLog(@"response: %@",(NSDictionary*)responseObject);
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        
+        if (status == 200) {
+            [viewController finishAppointment];
+        }
+        else {
+            NSString *message = [responseObject objectForKey:@"message"];
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [MBProgressHUD hideHUDForView:viewController.view animated:YES];
         // 4
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                             message:[error localizedDescription]

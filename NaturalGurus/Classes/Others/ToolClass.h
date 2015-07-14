@@ -17,6 +17,7 @@
 #import "DashboardViewController.h"
 #import "DetailAppointmentViewController.h"
 #import "MyProfileViewController.h"
+#import "StreamingVideoViewController.h"
 
 @interface ToolClass : NSObject  {
     unsigned long expertId;
@@ -124,4 +125,6 @@
 
 /* BOOKING */
 - (void) bookSchedule:(NSDictionary*)params withViewController:(id)viewController;
+- (void) finishAppointment:(NSDictionary*)params withViewController:(StreamingVideoViewController*)viewController;
+
 @end

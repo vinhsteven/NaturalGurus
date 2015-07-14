@@ -13,6 +13,7 @@
     CGSize screenSize;
     NSMutableArray *mainArray;
     int userRole;
+    int currentSelectedIndex;
 }
 
 @property (strong, nonatomic) IBOutlet TableView_RefreshControl *mainTableView;

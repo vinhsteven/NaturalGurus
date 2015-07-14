@@ -107,7 +107,21 @@ enum {
     self.lbTimezone.text = [appointmentDict objectForKey:@"timezone"];
     
     [self performSelector:@selector(delayForLayout) withObject:nil afterDelay:0.5];
+    
+}
+
+- (void) viewWillAppear:(BOOL)animated {
     [self performSelectorInBackground:@selector(loadVideoToken) withObject:nil];
+    
+    //check for expert flow if user update data successfully
+    if (self.isFinishMeeting) {
+        //has used
+        self.lbStatus.text = @"Finished";
+        self.lbStatus.textColor = ORANGE_COLOR;
+        self.btnEnter.hidden = YES;
+        
+        [appointmentDict setObject:[NSNumber numberWithInt:1] forKey:@"video_state"];
+    }
 }
 
 - (void) delayForLayout {
@@ -155,6 +169,20 @@ enum {
         [[ToolClass instance] loadUserVideoToken:appointmentId params:params withViewController:self];
     else
         [[ToolClass instance] loadExpertVideoToken:appointmentId params:params withViewController:self];
+}
+
+- (void) handleGetVideoTokenFailedWithMessage:(NSString*)message {
+    if ([message rangeOfString:@"used or expired"].location == NSNotFound) {
+        //dont used
+    }
+    else {
+        [appointmentDict setObject:[NSNumber numberWithInt:1] forKey:@"video_state"];
+        //has used
+        self.lbStatus.text = @"Finished";
+        self.lbStatus.textColor = ORANGE_COLOR;
+        self.btnEnter.hidden = YES;
+        [appointmentDict setObject:[NSNumber numberWithInt:1] forKey:@"video_state"];
+    }
 }
 
 - (void) setupUI {
@@ -298,6 +326,10 @@ enum {
             controller.kApiKey = [self.videoDict objectForKey:@"apiKey"];
             controller.kSessionId = [self.appointmentDict objectForKey:@"video_session"];
             controller.kToken   = [self.videoDict objectForKey:@"token"];
+            
+            controller.parent = self;
+            controller.appointmentId = [[self.appointmentDict objectForKey:@"appointmentId"] longValue];
+            controller.duration = [[self.videoDict objectForKey:@"sessionLength"] intValue];
             [self presentViewController:controller animated:YES completion:nil];
         }
     }

@@ -13,10 +13,21 @@
 @interface StreamingVideoViewController : UIViewController {
     CGSize screenSize;
     UIButton *btnEndCall;
+    UIButton *btnClose;
+    
+    UILabel *lbTimer;
+    NSTimer *timer;
 }
 
 @property (assign, readwrite) NSString *kApiKey;
 @property (assign, readwrite) NSString *kSessionId;
 @property (assign, readwrite) NSString *kToken;
+
+@property (unsafe_unretained) id parent;
+@property (assign,readwrite) int duration;
+@property (assign,readwrite) int actualDuration;
+@property (assign,readwrite) long appointmentId;
+
+- (void) finishAppointment;
 
 @end

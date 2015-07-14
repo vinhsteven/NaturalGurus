@@ -54,6 +54,11 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     self.navigationItem.title = @"Dashboard";
+    
+    //reload current selected row to check local data, use after updating schedule
+    NSArray *array = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:currentSelectedIndex inSection:0], nil];
+    [self.mainTableView reloadRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationAutomatic];
+    
 }
 
 - (void) setupUI {
@@ -109,7 +114,7 @@
     isLoading = YES;
     
     NSString *userToken = [[ToolClass instance] getUserToken];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:userToken,@"token",[NSNumber numberWithInt:NUMBER_RECORD_PER_PAGE],@"per_page",[NSNumber numberWithInt:currentPage],@"page", nil];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:userToken,@"token",[NSNumber numberWithInt:10],@"per_page",[NSNumber numberWithInt:currentPage],@"page", nil];
     
     [[ToolClass instance] loadUserAppointments:params withViewController:self];
 }
@@ -124,7 +129,7 @@
     isLoading = YES;
     
     NSString *userToken = [[ToolClass instance] getUserToken];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:userToken,@"token",[NSNumber numberWithInt:NUMBER_RECORD_PER_PAGE],@"per_page",[NSNumber numberWithInt:currentPage],@"page", nil];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:userToken,@"token",[NSNumber numberWithInt:10],@"per_page",[NSNumber numberWithInt:currentPage],@"page", nil];
     
     [[ToolClass instance] loadExpertAppointments:params withViewController:self];
 }
@@ -153,7 +158,7 @@
         fromTime = [ToolClass timeByTimezone:timezone andDateAndTime:fromDateTime];
         toTime   = [ToolClass timeByTimezone:timezone andDateAndTime:toDateTime];
         
-        NSDictionary *newDict = [NSDictionary dictionaryWithObjectsAndKeys:name,@"name",[dict objectForKey:@"duration"],@"duration",date,@"date",timezone,@"timezone",[dict objectForKey:@"state"],@"status",[dict objectForKey:@"id"],@"appointmentId",[dict objectForKey:@"expert_id"],@"expertId",fromTime,@"from_time",toTime,@"to_time",[dict objectForKey:@"total"],@"total",[dict objectForKey:@"video_session"],@"video_session",[dict objectForKey:@"video_password"],@"video_password",[dict objectForKey:@"about"],@"about",[dict objectForKey:@"avatar"],@"avatar",[dict objectForKey:@"client_avatar"],@"client_avatar",[dict objectForKey:@"video_state"],@"video_state",nil];
+        NSMutableDictionary *newDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:name,@"name",[dict objectForKey:@"duration"],@"duration",date,@"date",timezone,@"timezone",[dict objectForKey:@"state"],@"status",[dict objectForKey:@"id"],@"appointmentId",[dict objectForKey:@"expert_id"],@"expertId",fromTime,@"from_time",toTime,@"to_time",[dict objectForKey:@"total"],@"total",[dict objectForKey:@"video_session"],@"video_session",[dict objectForKey:@"video_password"],@"video_password",[dict objectForKey:@"about"],@"about",[dict objectForKey:@"avatar"],@"avatar",[dict objectForKey:@"client_avatar"],@"client_avatar",[dict objectForKey:@"video_state"],@"video_state",nil];
         [mainArray addObject:newDict];
     }
     
@@ -221,7 +226,7 @@
     bgView.layer.cornerRadius = 5;
     bgView.layer.masksToBounds = YES;
     
-    NSDictionary *dict = [mainArray objectAtIndex:indexPath.row];
+    NSMutableDictionary *dict = [mainArray objectAtIndex:indexPath.row];
     
     UILabel *lbExpertName = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 190, 21)];
     lbExpertName.font = [UIFont fontWithName:MONTSERRAT_BOLD size:14];
@@ -293,6 +298,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.navigationItem.title = @"";
     
+    currentSelectedIndex = (int)indexPath.row;
     NSMutableDictionary *dict = [mainArray objectAtIndex:indexPath.row];
     
     DetailAppointmentViewController *controller = [[DetailAppointmentViewController alloc] initWithNibName:@"DetailAppointmentViewController" bundle:nil];

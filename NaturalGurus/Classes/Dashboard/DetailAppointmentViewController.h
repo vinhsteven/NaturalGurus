@@ -16,7 +16,7 @@
     BOOL isLayout;
 }
 
-@property (strong, nonatomic) NSDictionary *appointmentDict;
+@property (strong, nonatomic) NSMutableDictionary *appointmentDict;
 @property (strong, nonatomic) NSDictionary *expertDict;
 @property (strong, nonatomic) NSDictionary *videoDict;
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
@@ -40,10 +40,13 @@
 @property (strong, nonatomic) IBOutlet UILabel *lbTimezone;
 @property (strong, nonatomic) IBOutlet UIView *myFrontView;
 
+@property (assign, readwrite) BOOL isFinishMeeting;
+
 //- (IBAction) handleCollapseExpandView:(id)sender;
 - (IBAction) handleEnterRoom:(id)sender;
 - (IBAction) handleCancelAppointment:(id)sender;
 
 - (void) reorganizeData;
+- (void) handleGetVideoTokenFailedWithMessage:(NSString*)message;
 
 @end
