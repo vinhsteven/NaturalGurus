@@ -1219,13 +1219,13 @@
             NSArray *data = [[responseObject objectForKey:@"data"] objectForKey:@"items"];
             viewController.lastPage = [[[responseObject objectForKey:@"data"] objectForKey:@"last_page"] intValue];
             
-            if ([data count] > 0)
+//            if ([data count] > 0)
                 [viewController reorganizeAppointments:data];
-            else {
-                [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
-                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Message" message:@"There isn't any appointments for your account" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [dialog show];
-            }
+//            else {
+//                [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
+//                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Message" message:@"There isn't any appointments for your account" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//                [dialog show];
+//            }
         }
         else {
             [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
@@ -1396,7 +1396,7 @@
     
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    manager.requestSerializer.timeoutInterval = 60;
+    manager.requestSerializer.timeoutInterval = 120;
     
     [manager POST:@"/api/v1/order/book" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         

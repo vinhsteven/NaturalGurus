@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "AFNetworkActivityLogger.h"
 
 @implementation UINavigationController (Rotation_For_iOS6)
 
@@ -175,6 +176,8 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+//    [[AFNetworkActivityLogger sharedLogger] startLogging];
+//    [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
     //test
 //    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"CountryCode" ofType:@"txt"];
 //    NSString *countryCode = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];

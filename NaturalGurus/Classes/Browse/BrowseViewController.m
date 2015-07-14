@@ -347,7 +347,7 @@
     if (tmpTableView.contentOffset.y >= (tmpTableView.contentSize.height - tmpTableView.bounds.size.height))
     {
         //check for loading more the expert list
-        if (!isLoading && currentPage < lastPage && !isSelectCategory) {
+        if (!isLoading && currentPage <= lastPage && !isSelectCategory) {
             if (currentList == byTheLatest)
                 [self loadTheLastestExpert];
             else if (currentList == byCategory) {

@@ -92,6 +92,11 @@
 - (void) handleRefresh {
     NSLog(@"Refresh Table");
     [self.mainTableView.refreshControl endRefreshing];
+    if (userRole == isUser)
+        [self reloadAppointment];
+    else
+        [self reloadExpertAppointments];
+    [self.mainTableView reloadData];
 }
 
 - (void) reloadAppointment {
@@ -127,6 +132,10 @@
 - (void) reorganizeAppointments:(NSArray*)array {
     unsigned long startIndex = [mainArray count];
     unsigned long endIndex   = startIndex + [array count];
+    
+    //sort array by date asc
+    NSSortDescriptor *value = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:YES];
+    array = [array sortedArrayUsingDescriptors:[NSArray arrayWithObjects:value, nil]];
     
     for (int i=0;i < [array count];i++) {
         NSDictionary *dict = [array objectAtIndex:i];
@@ -168,6 +177,18 @@
         [self.mainTableView beginUpdates];
         [self.mainTableView insertRowsAtIndexPaths:indexPathsToInsert withRowAnimation:UITableViewRowAnimationTop];
         [self.mainTableView endUpdates];
+    }
+}
+
+-(void) scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (!isLoading && currentPage <= lastPage) {
+        if (self.mainTableView.contentOffset.y >= (self.mainTableView.contentSize.height - self.mainTableView.bounds.size.height))
+        {
+            if (userRole == isUser)
+                [self loadAppointments];
+            else
+                [self loadExpertAppointments];
+        }
     }
 }
 

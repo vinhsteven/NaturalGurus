@@ -279,6 +279,14 @@ enum {
         return;
     }
     
+    float total = [[self.scheduleDict objectForKey:@"total"] floatValue];
+    //Stripe just accept a transaction with greater than $0.5
+    if (total < 0.5) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"We can't process payment with less than $0.5. Please choose more." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    
     [self.scheduleDict setObject:self.txtMessage.text forKey:@"message"];
     [self.scheduleDict setObject:self.txtEmail.text forKey:@"email"];
     [self.scheduleDict setObject:self.txtFirstName.text forKey:@"firstname"];

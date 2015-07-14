@@ -98,6 +98,7 @@
 		B0C9A4C51B42807500F74FCD /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C9A4C41B42807500F74FCD /* CoreMotion.framework */; };
 		B0C9A4C71B4280AF00F74FCD /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C9A4C61B4280AF00F74FCD /* AdSupport.framework */; };
 		B0C9A4C81B42819A00F74FCD /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C9A4B11B42802200F74FCD /* FacebookSDK.framework */; };
+		B0CC0E721B54AED5000A5798 /* AFNetworkActivityLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CC0E711B54AED5000A5798 /* AFNetworkActivityLogger.m */; };
 		B0CD2E441B3901CF00764216 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CD2E421B3901CF00764216 /* LoginViewController.m */; };
 		B0CD2E451B3901CF00764216 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0CD2E431B3901CF00764216 /* LoginViewController.xib */; };
 		B0CD2E491B3901F800764216 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CD2E471B3901F800764216 /* SignUpViewController.m */; };
@@ -328,6 +329,8 @@
 		B0C9A4C21B42805A00F74FCD /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		B0C9A4C41B42807500F74FCD /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		B0C9A4C61B4280AF00F74FCD /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		B0CC0E701B54AED5000A5798 /* AFNetworkActivityLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityLogger.h; sourceTree = "<group>"; };
+		B0CC0E711B54AED5000A5798 /* AFNetworkActivityLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkActivityLogger.m; sourceTree = "<group>"; };
 		B0CD2E411B3901CF00764216 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		B0CD2E421B3901CF00764216 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		B0CD2E431B3901CF00764216 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -689,6 +692,8 @@
 		B0D21C031B43849300D703B0 /* AFNetworking */ = {
 			isa = PBXGroup;
 			children = (
+				B0CC0E701B54AED5000A5798 /* AFNetworkActivityLogger.h */,
+				B0CC0E711B54AED5000A5798 /* AFNetworkActivityLogger.m */,
 				B0D21C041B43849300D703B0 /* AFHTTPRequestOperation.h */,
 				B0D21C051B43849300D703B0 /* AFHTTPRequestOperation.m */,
 				B0D21C061B43849300D703B0 /* AFHTTPRequestOperationManager.h */,
@@ -1318,6 +1323,7 @@
 				B0C52F961B53ADE300309DA0 /* STPCheckoutInternalUIWebViewController.m in Sources */,
 				B0C52FA21B53ADE300309DA0 /* STPFormEncoder.m in Sources */,
 				B0D21C181B43849300D703B0 /* AFHTTPRequestOperationManager.m in Sources */,
+				B0CC0E721B54AED5000A5798 /* AFNetworkActivityLogger.m in Sources */,
 				C2F740B11B2A71D300C8635F /* SDImageCache.m in Sources */,
 				C2ED33AC1B302D2E0032F885 /* MyProfileViewController.m in Sources */,
 				C2F740B81B2A71D300C8635F /* UIButton+WebCache.m in Sources */,
