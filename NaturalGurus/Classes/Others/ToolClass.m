@@ -1229,8 +1229,17 @@
         }
         else {
             [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Something Wrong" message:[responseObject objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [dialog show];
+            
+            NSString *message = [responseObject objectForKey:@"message"];
+            message = [message lowercaseString];
+            if ([message rangeOfString:@"token invalid"].location == NSNotFound) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Something wrong" message:[responseObject objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+            else {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone has logged in your account from another device. Please login again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"dashboard error = %@",error);
@@ -1357,9 +1366,17 @@
         }
         else {
             [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Something Wrong" message:[responseObject objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [dialog show];
-            NSLog(@"dashboard error");
+            
+            NSString *message = [responseObject objectForKey:@"message"];
+            message = [message lowercaseString];
+            if ([message rangeOfString:@"token invalid"].location == NSNotFound) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Something wrong" message:[responseObject objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+            else {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone has logged in your account from another device. Please login again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"dashboard error = %@",error);
@@ -1472,6 +1489,60 @@
                                                   otherButtonTitles:nil];
         [alertView show];
     }];
+}
+
+- (void) handleUpdateAppointmentState:(int)type appointmentId:(long)appointmentId params:(NSDictionary*)params withViewController:(DetailAppointmentViewController*)viewController {
+    
+    [MBProgressHUD showHUDAddedTo:viewController.navigationController.view animated:YES];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    NSString *requestStr;
+    
+    if (type) {
+        //approve
+        requestStr = [NSString stringWithFormat:@"/api/v1/expert/appointments/%ld/approve",appointmentId];
+    }
+    else {
+        //decline
+        requestStr = [NSString stringWithFormat:@"/api/v1/expert/appointments/%ld/decline",appointmentId];
+    }
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer.timeoutInterval = 120;
+    
+    [manager POST:requestStr parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        [MBProgressHUD hideHUDForView:viewController.navigationController.view animated:YES];
+        // 3
+        NSLog(@"response: %@",(NSDictionary*)responseObject);
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        
+        if (status == 200) {
+            [viewController handleAfterUpdateAppointmentSuccess:type];
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Message" message:[responseObject objectForKey:@"data"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+        }
+        else {
+            NSString *message = [responseObject objectForKey:@"message"];
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [MBProgressHUD hideHUDForView:viewController.view animated:YES];
+        // 4
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
+    
 }
 
 @end

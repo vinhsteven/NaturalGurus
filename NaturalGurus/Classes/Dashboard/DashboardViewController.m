@@ -158,7 +158,7 @@
         fromTime = [ToolClass timeByTimezone:timezone andDateAndTime:fromDateTime];
         toTime   = [ToolClass timeByTimezone:timezone andDateAndTime:toDateTime];
         
-        NSMutableDictionary *newDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:name,@"name",[dict objectForKey:@"duration"],@"duration",date,@"date",timezone,@"timezone",[dict objectForKey:@"state"],@"status",[dict objectForKey:@"id"],@"appointmentId",[dict objectForKey:@"expert_id"],@"expertId",fromTime,@"from_time",toTime,@"to_time",[dict objectForKey:@"total"],@"total",[dict objectForKey:@"video_session"],@"video_session",[dict objectForKey:@"video_password"],@"video_password",[dict objectForKey:@"about"],@"about",[dict objectForKey:@"avatar"],@"avatar",[dict objectForKey:@"client_avatar"],@"client_avatar",[dict objectForKey:@"video_state"],@"video_state",nil];
+        NSMutableDictionary *newDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:name,@"name",[dict objectForKey:@"duration"],@"duration",date,@"date",timezone,@"timezone",[dict objectForKey:@"state"],@"status",[dict objectForKey:@"id"],@"appointmentId",[dict objectForKey:@"expert_id"],@"expertId",fromTime,@"from_time",toTime,@"to_time",[dict objectForKey:@"total"],@"total",[dict objectForKey:@"video_session"],@"video_session",[dict objectForKey:@"video_password"],@"video_password",[dict objectForKey:@"about"],@"about",[dict objectForKey:@"avatar"],@"avatar",[dict objectForKey:@"client_avatar"],@"client_avatar",[dict objectForKey:@"video_state"],@"video_state",[dict objectForKey:@"email"],@"email",nil];
         [mainArray addObject:newDict];
     }
     
@@ -250,11 +250,11 @@
             break;
         case isDeclined:
             statusString = @"Declined";
-            statusColor  = [UIColor colorWithRed:(float)215/255 green:(float)53/255 blue:(float)53/255 alpha:1.0];
+            statusColor  = RED_COLOR;
             break;
         case isExpired:
             statusString = @"Expired";
-            statusColor  = [UIColor colorWithRed:(float)215/255 green:(float)53/255 blue:(float)53/255 alpha:1.0];
+            statusColor  = RED_COLOR;
             break;
         default:
             break;

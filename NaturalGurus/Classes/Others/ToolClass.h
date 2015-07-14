@@ -126,5 +126,6 @@
 /* BOOKING */
 - (void) bookSchedule:(NSDictionary*)params withViewController:(id)viewController;
 - (void) finishAppointment:(NSDictionary*)params withViewController:(StreamingVideoViewController*)viewController;
+- (void) handleUpdateAppointmentState:(int)type appointmentId:(long)appointmentId params:(NSDictionary*)params withViewController:(DetailAppointmentViewController*)viewController;
 
 @end

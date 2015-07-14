@@ -14,6 +14,9 @@
     CGSize screenSize;
     int userRole;
     BOOL isLayout;
+    
+    UIButton *btnAccept;
+    UIButton *btnDecline;
 }
 
 @property (strong, nonatomic) NSMutableDictionary *appointmentDict;
@@ -48,5 +51,6 @@
 
 - (void) reorganizeData;
 - (void) handleGetVideoTokenFailedWithMessage:(NSString*)message;
+- (void) handleAfterUpdateAppointmentSuccess:(int)type;
 
 @end

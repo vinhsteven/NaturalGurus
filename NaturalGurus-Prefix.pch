@@ -63,6 +63,7 @@
 #define TEXT_COLOR [UIColor colorWithRed:(float)248/255 green:(float)167/255 blue:(float)50/255 alpha:1.0]
 #define GREEN_COLOR [UIColor colorWithRed:(float)92/255 green:(float)176/255 blue:(float)0/255 alpha:1.0]
 #define ORANGE_COLOR [UIColor colorWithRed:(float)247/255 green:(float)143/255 blue:(float)0/255 alpha:1.0]
+#define RED_COLOR [UIColor colorWithRed:(float)215/255 green:(float)53/255 blue:(float)53/255 alpha:1.0]
 #define BOLD_GREEN_COLOR [UIColor colorWithRed:(float)82/255 green:(float)106/255 blue:(float)57/255 alpha:1.0]
 #define NAVIGATION_BACKGROUND_COLOR [UIColor colorWithRed:(float)245/255 green:(float)245/255 blue:(float)245/255 alpha:1.0]
 #define TABLE_BACKGROUND_COLOR [UIColor colorWithRed:(float)240/255 green:(float)240/255 blue:(float)240/255 alpha:1.0]

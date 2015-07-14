@@ -654,7 +654,7 @@
 }
 
 - (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    if (![text isEqualToString:@""])
+    if (![text isEqualToString:@""] && searchBar.text.length > 1)
         isSearching = YES;
     return YES;
 }

@@ -92,6 +92,46 @@ enum {
     self.lbStatus.text = statusString;
     self.lbStatus.textColor = statusColor;
     
+    if (userRole != isUser && status == isPending) {
+        //check display or not 2 button Accept or Decline
+        //hide enter meeting room
+        self.btnEnter.hidden = YES;
+        
+        //alloc Accept button
+        btnAccept = [UIButton buttonWithType:UIButtonTypeCustom];
+        btnAccept.tag = 1;
+        btnAccept.backgroundColor = [UIColor lightGrayColor];
+        [btnAccept setTitle:@"Accept" forState:UIControlStateNormal];
+        btnAccept.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+        [btnAccept setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [btnAccept addTarget:self action:@selector(handleUpdateAppointmentState:) forControlEvents:UIControlEventTouchUpInside];
+        [btnAccept setBackgroundImage:[ToolClass imageFromColor:GREEN_COLOR] forState:UIControlStateNormal];
+        btnAccept.layer.cornerRadius  = 5;
+        btnAccept.layer.masksToBounds = YES;
+        
+        //alloc Decline button
+        btnDecline = [UIButton buttonWithType:UIButtonTypeCustom];
+        btnDecline.backgroundColor = [UIColor lightGrayColor];
+        [btnDecline setTitle:@"Decline" forState:UIControlStateNormal];
+        btnDecline.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+        [btnDecline setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [btnDecline addTarget:self action:@selector(handleUpdateAppointmentState:) forControlEvents:UIControlEventTouchUpInside];
+        [btnDecline setBackgroundImage:[ToolClass imageFromColor:RED_COLOR] forState:UIControlStateNormal];
+        btnDecline.layer.cornerRadius  = 5;
+        btnDecline.layer.masksToBounds = YES;
+        
+        int bottomPadding = 10;
+        int leftPadding = 10;
+        int height = 45;
+        
+        btnAccept.frame = CGRectMake(leftPadding, screenSize.height - bottomPadding - height, (screenSize.width-3*leftPadding)/2, height);
+        
+        btnDecline.frame = CGRectMake(2*leftPadding + btnAccept.frame.size.width, btnAccept.frame.origin.y, btnAccept.frame.size.width, btnAccept.frame.size.height);
+        
+        [self.view addSubview:btnAccept];
+        [self.view addSubview:btnDecline];
+    }
+    
     //set appointment value
     self.lbDuration.text = [NSString stringWithFormat:@"%d mins",[[appointmentDict objectForKey:@"duration"] intValue]];
     self.lbTotalPrice.text = [NSString stringWithFormat:@"$%.2f",[[appointmentDict objectForKey:@"total"] floatValue]];
@@ -233,7 +273,9 @@ enum {
 }
 
 - (void) loadDetailUser {
-    self.lbServiceName.hidden = self.starRatingView.hidden = self.lbPrice.hidden = YES;
+    self.starRatingView.hidden = self.lbPrice.hidden = YES;
+    
+    self.lbServiceName.text = [appointmentDict objectForKey:@"email"];
     
     //get expert image
     UIImageView *se = self.imgExpertView;
@@ -315,6 +357,41 @@ enum {
     UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Important" message:@"Cancellation will incur a 10% penalty fee." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",@"Cancel", nil];
     dialog.tag = kCancelAppointmentDialog;
     [dialog show];
+}
+
+- (void) handleUpdateAppointmentState:(UIButton*)sender {
+    int type = (int)sender.tag;
+    
+    long appointmentId = [[appointmentDict objectForKey:@"appointmentId"] longValue];
+    
+    NSString *token = [[ToolClass instance] getUserToken];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:token,@"token", nil];
+    
+    [[ToolClass instance] handleUpdateAppointmentState:type appointmentId:appointmentId params:params withViewController:self];
+}
+
+- (void) handleAfterUpdateAppointmentSuccess:(int)type {
+    if (type) {
+        //approve
+        [appointmentDict setObject:[NSNumber numberWithInt:isApproved] forKey:@"status"];
+        
+        btnAccept.hidden = btnDecline.hidden = YES;
+        self.btnEnter.hidden = NO;
+        self.btnEnter.alpha = 1.0;
+        self.btnEnter.userInteractionEnabled = YES;
+        
+        self.lbStatus.text = @"Approved";
+        self.lbStatus.textColor = GREEN_COLOR;
+    }
+    else {
+        //decline
+        [appointmentDict setObject:[NSNumber numberWithInt:isDeclined] forKey:@"status"];
+        
+        btnAccept.hidden = btnDecline.hidden = YES;
+        
+        self.lbStatus.text = @"Declined";
+        self.lbStatus.textColor = RED_COLOR;
+    }
 }
 
 #pragma mark UIAlertViewDelegate
