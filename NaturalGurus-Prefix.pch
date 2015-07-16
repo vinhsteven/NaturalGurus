@@ -105,3 +105,4 @@ enum {
 #define USER_PHONE      @"userPhone"
 #define USER_SMS        @"userReceiveSMS"
 #define USER_PUSH       @"userReceivePush"
+#define USER_DEVICE_TOKEN   @"userDeviceToken"

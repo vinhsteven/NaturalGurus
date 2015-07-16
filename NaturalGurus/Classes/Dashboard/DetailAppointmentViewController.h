@@ -45,9 +45,13 @@
 
 @property (assign, readwrite) BOOL isFinishMeeting;
 
+@property (strong, nonatomic) IBOutlet UIView *topView;
+@property (strong, nonatomic) IBOutlet UILabel *lbTitle;
+
 //- (IBAction) handleCollapseExpandView:(id)sender;
 - (IBAction) handleEnterRoom:(id)sender;
 - (IBAction) handleCancelAppointment:(id)sender;
+- (IBAction) closeView:(id)sender;
 
 - (void) reorganizeData;
 - (void) handleGetVideoTokenFailedWithMessage:(NSString*)message;

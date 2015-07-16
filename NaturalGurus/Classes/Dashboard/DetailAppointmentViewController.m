@@ -230,6 +230,15 @@ enum {
     
     self.myFrontView.backgroundColor = TABLE_BACKGROUND_COLOR;
     
+    self.topView.backgroundColor = [UIColor colorWithRed:(float)245/255 green:(float)245/255 blue:(float)245/255 alpha:1.0];
+    
+    //add bottom line of top view
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 44, screenSize.width, 1)];
+    view.backgroundColor = LIGHT_GREY_COLOR;
+    [self.topView addSubview:view];
+    
+    self.lbTime.textColor = GREEN_COLOR;
+    
     self.detailContainerView.layer.cornerRadius  = 5;
     self.detailContainerView.layer.masksToBounds = YES;
     self.detailContainerView.backgroundColor = [UIColor whiteColor];
@@ -392,6 +401,10 @@ enum {
         self.lbStatus.text = @"Declined";
         self.lbStatus.textColor = RED_COLOR;
     }
+}
+
+- (IBAction) closeView:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark UIAlertViewDelegate

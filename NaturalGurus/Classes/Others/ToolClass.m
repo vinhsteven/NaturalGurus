@@ -438,6 +438,15 @@
     return [dateFormatter stringFromDate:date];
 }
 
++ (NSDate*) dateTimeByTimezone:(NSString*)timezone andDate:(NSString*)dateTimeString {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:timezone]];
+    NSDate *date = [dateFormatter dateFromString:dateTimeString];
+    
+    return date;
+}
+
 + (NSString*) timeByTimezone:(NSString*)timezone andDateAndTime:(NSString*)dateTimeString {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
@@ -628,6 +637,21 @@
     return [[userDefaults objectForKey:USER_PUSH] boolValue];
 }
 
+//for Push notification
+- (void) setUserDeviceToken:(NSString*)deviceToken {
+    @try {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:deviceToken forKey:USER_DEVICE_TOKEN];
+    }
+    @catch (NSException *exception) {
+        ;
+    }
+}
+
+- (NSString*) getUserDeviceToken {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [userDefaults objectForKey:USER_DEVICE_TOKEN];
+}
 
 - (void) setExpertId:(float)_id {
     expertId = _id;
@@ -1071,7 +1095,7 @@
     if ([viewController isKindOfClass:[DetailBrowseViewController class]])
         [MBProgressHUD showHUDAddedTo:((DetailBrowseViewController*)viewController).navigationController.view animated:YES];
     else
-        [MBProgressHUD showHUDAddedTo:((DetailAppointmentViewController*)viewController).navigationController.view animated:YES];
+        [MBProgressHUD showHUDAddedTo:((DetailAppointmentViewController*)viewController).view animated:YES];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
     
@@ -1083,7 +1107,7 @@
         if ([viewController isKindOfClass:[DetailBrowseViewController class]])
             [MBProgressHUD hideAllHUDsForView:((DetailBrowseViewController*)viewController).navigationController.view animated:YES];
         else
-            [MBProgressHUD hideAllHUDsForView:((DetailAppointmentViewController*)viewController).navigationController.view animated:YES];
+            [MBProgressHUD hideAllHUDsForView:((DetailAppointmentViewController*)viewController).view animated:YES];
 
         //get status of request
         int status = [[responseObject objectForKey:@"status"] intValue];
@@ -1430,6 +1454,68 @@
         
         if (status == 200) {
             [viewController bookingSuccess];
+            
+            /* server will use push notification to send message for this
+            //we will create 3 local notification for an appointment:
+            //Upcoming appointment: this notification will be fired prior 24 hours of this appointment
+            //Appointment today: this notification will be fired at 00:00 of this appointment's date
+            //Appointment in 10 minutes: this notification will be fired prior 10 mins of this appointment's datetime
+            
+            NSString *date = [params objectForKey:@"date"];
+            NSString *fromTime = [NSString stringWithFormat:@"%@:00",[params objectForKey:@"from_time"]];
+            NSString *timezone = [params objectForKey:@"client_timezone"];
+            
+            NSDate *appointmentDate = [ToolClass dateTimeByTimezone:timezone andDate:[NSString stringWithFormat:@"%@ %@",date,fromTime]];
+            NSLog(@"date = %@ fromtime = %@",date,fromTime);
+            NSLog(@"appointmentDate = %@",appointmentDate);
+            
+            //Upcoming appointment
+            NSDateComponents *dayComponent = [[NSDateComponents alloc] init];
+            dayComponent.day = -1;
+            
+            NSCalendar *theCalendar = [NSCalendar currentCalendar];
+            
+            NSDate *priorDate = [theCalendar dateByAddingComponents:dayComponent toDate:appointmentDate options:0];
+            
+            UILocalNotification* upComingNotification = [[UILocalNotification alloc] init];
+            upComingNotification.fireDate = priorDate;
+            upComingNotification.alertTitle = @"Upcoming Appointment";
+            upComingNotification.alertBody = [NSString stringWithFormat:@"You have an appointment tomorrow at %@ (%@)",[ToolClass convertHourToAM_PM:fromTime],timezone];
+            upComingNotification.alertAction = @"OK";
+            upComingNotification.timeZone = [NSTimeZone timeZoneWithName:timezone];
+            upComingNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
+            
+            [[UIApplication sharedApplication] scheduleLocalNotification:upComingNotification];
+            
+            //Appointment today
+            NSDate *earlyAppointmentDate = [ToolClass dateTimeByTimezone:timezone andDate:[NSString stringWithFormat:@"%@ 00:00:00",date]];
+            
+            UILocalNotification* todayNotification = [[UILocalNotification alloc] init];
+            todayNotification.fireDate = earlyAppointmentDate;
+            todayNotification.alertTitle = @"Appointment Today";
+            todayNotification.alertBody = [NSString stringWithFormat:@"You have an appointment today at %@ (%@)",[ToolClass convertHourToAM_PM:fromTime],timezone];
+            todayNotification.alertAction = @"OK";
+            todayNotification.timeZone = [NSTimeZone timeZoneWithName:timezone];
+            todayNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
+            
+            [[UIApplication sharedApplication] scheduleLocalNotification:todayNotification];
+            
+            //Appointment in 10 minutes
+            dayComponent.day = 0;
+            dayComponent.minute = -10;
+            
+            NSDate *priorTenMinutesDate = [theCalendar dateByAddingComponents:dayComponent toDate:appointmentDate options:0];
+            
+            UILocalNotification* priorTenMinsNotification = [[UILocalNotification alloc] init];
+            priorTenMinsNotification.fireDate = priorTenMinutesDate;
+            priorTenMinsNotification.alertTitle = @"Appointment in 10 minutes";
+            priorTenMinsNotification.alertBody = @"You have an appointment in 10 minutes";
+            priorTenMinsNotification.alertAction = @"OK";
+            priorTenMinsNotification.timeZone = [NSTimeZone timeZoneWithName:timezone];
+            priorTenMinsNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
+            
+            [[UIApplication sharedApplication] scheduleLocalNotification:priorTenMinsNotification];
+             */
         }
         else {
             NSString *message = [responseObject objectForKey:@"message"];

@@ -50,7 +50,8 @@
              NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", user.objectID];
              
              //update data to our server
-             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[user objectForKey:@"email"],@"email",[FBSession.activeSession.accessTokenData.accessToken substringToIndex:100],@"token",[user objectForKey:@"first_name"],@"firstname",[user objectForKey:@"last_name"],@"lastname", nil];
+             NSString *deviceToken = [[ToolClass instance] getUserDeviceToken];
+             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[user objectForKey:@"email"],@"email",[FBSession.activeSession.accessTokenData.accessToken substringToIndex:100],@"token",[user objectForKey:@"first_name"],@"firstname",[user objectForKey:@"last_name"],@"lastname",deviceToken,@"device_token", nil];
              
              NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
              
@@ -258,8 +259,21 @@
     [TwitterKit startWithConsumerKey:TWITTER_CONSUMER_KEY consumerSecret:TWITTER_CONSUMER_SECRET];
     
     // Let the device know we want to receive push notifications
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+#ifdef __IPHONE_8_0
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIRemoteNotificationTypeBadge
+                                                                                             |UIRemoteNotificationTypeSound
+                                                                                             |UIRemoteNotificationTypeAlert) categories:nil];
+        [application registerUserNotificationSettings:settings];
+        [application registerForRemoteNotifications];
+#endif
+    } else {
+        UIRemoteNotificationType myTypes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound;
+        [application registerForRemoteNotificationTypes:myTypes];
+    }
+    
+    // Handle launching from a notification
+    application.applicationIconBadgeNumber = 0;
     
     [self.window makeKeyAndVisible];
     
@@ -299,11 +313,33 @@
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
     NSLog(@"My token is: %@", deviceToken);
+    NSString* newToken = [[[NSString stringWithFormat:@"%@",deviceToken]
+                           stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]] stringByReplacingOccurrencesOfString:@" " withString:@""];
+    
+    [[ToolClass instance] setUserDeviceToken:newToken];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
     NSLog(@"Failed to get token, error: %@", error);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    NSLog(@"userInfo = %@",userInfo);
+    NSString *message = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
+    
+    UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Message" message:message delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",@"Cancel",nil];
+    [dialog show];
+}
+
+#pragma mark UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        DetailAppointmentViewController *controller = [[DetailAppointmentViewController alloc] initWithNibName:@"DetailAppointmentViewController" bundle:nil];
+//        //    controller.appointmentDict = dict;
+//        [self.window.rootViewController presentViewController:controller animated:YES completion:nil];
+        [self.navController pushViewController:controller animated:YES];
+    }
 }
 
 @end

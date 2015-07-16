@@ -44,6 +44,7 @@
 + (NSString*) dateByFormat:(NSString*)format date:(NSDate*)date;
 + (NSString*) dateByFormat:(NSString*)format dateString:(NSString*)dateString;
 + (NSString*) dateByTimezone:(NSString*)timezone andDate:(NSString*)dateTimeString;
++ (NSDate*) dateTimeByTimezone:(NSString*)timezone andDate:(NSString*)dateTimeString;
 + (NSString*) timeByTimezone:(NSString*)timezone andDateAndTime:(NSString*)dateTimeString;
 
 #pragma mark HANDLE STORE DATA 
@@ -85,6 +86,10 @@
 
 - (void) setUserPush:(BOOL)boolean;
 - (BOOL) getUserPush;
+
+//for Push notification
+- (void) setUserDeviceToken:(NSString*)deviceToken;
+- (NSString*) getUserDeviceToken;
 
 - (void) setExpertId:(float)_id;
 - (float) getExpertId;
