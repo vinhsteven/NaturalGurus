@@ -331,46 +331,10 @@
                     //login twitter success
                     [[ToolClass instance] setLoginType:LOGIN_TWITTER];
                     
-                    
-                    if ([[Twitter sharedInstance] session]) {
-                        TWTRShareEmailViewController* shareEmailViewController = [[TWTRShareEmailViewController alloc] initWithCompletion:^(NSString* email, NSError* error) {
-                            NSLog(@"Email %@, Error: %@", email, error);
-                            if (error.code == 2) {
-                                //user denies sharing email
-                                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Something Wrong" message:@"You must agree to share your email with us to access NaturalGurus" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                                [dialog show];
-                            }
-                            else if (error.code == -1003) {
-                                //cannot find the server
-                                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Server not found" message:@"A server with the specified hostname could not be found. Please check whether your network blocks Twitter or not." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                                [dialog show];
-                            }
-                            else if (error.code == 37) {
-                                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"API Calling Error" message:@"Your application may not have access to email addresses or the user may not have an email address. To request access, please visit https://support.twitter.com/forms/platform." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                                [dialog show];
-                            }
-                        }];
-                        
-                        [self presentViewController:shareEmailViewController animated:YES completion:nil];
-                    }
-                    else {
-                        // TODO: Handle user not signed in (e.g. attempt to log in or show an alert)
-                    }
-                    
-                    /* Get user info */
-                    [[[Twitter sharedInstance] APIClient] loadUserWithID:[session userID]
-                                                              completion:^(TWTRUser *user,
-                                                                           NSError *error)
-                     {
-                         // handle the response or error
-                         if (![error isEqual:nil]) {
-                             NSString *profileImageURL = user.profileImageURL;
-                             [[ToolClass instance] setProfileImageURL:profileImageURL];
-                         } else {
-                             NSLog(@"Twitter error getting profile : %@", [error localizedDescription]);
-                         }
-                     }];
-                    
+                    // Retrieve the app delegate
+                    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+                    // Call the app delegate's sessionStateChanged:state:error method to handle session state changes
+                    [appDelegate twitterStateChanged:session];
                     
                 } else {
                     NSLog(@"error: %@", [error localizedDescription]);

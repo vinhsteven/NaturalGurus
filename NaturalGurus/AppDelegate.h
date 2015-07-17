@@ -22,6 +22,7 @@
 @property (strong, nonatomic) UINavigationController *navController;
 
 + (void) showMessage:(NSString*)message withTitle:(NSString*)title;
+- (void) twitterStateChanged:(TWTRSession*) session;
 - (void)sessionStateChanged:(FBSession *)session state:(FBSessionState) state error:(NSError *)error;
 
 @end

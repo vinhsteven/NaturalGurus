@@ -116,6 +116,98 @@
     return [FBSession.activeSession handleOpenURL:url];
 }
 
+- (void) twitterStateChanged:(TWTRSession*) session {
+    if ([[Twitter sharedInstance] session]) {
+        TWTRShareEmailViewController* shareEmailViewController = [[TWTRShareEmailViewController alloc] initWithCompletion:^(NSString* email, NSError* error) {
+            NSLog(@"Email %@, Error: %@", email, error);
+            if (!error) {
+                //update data to our server
+                NSString *deviceToken = [[ToolClass instance] getUserDeviceToken];
+                NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:email,@"email",session.authToken,@"token",session.userName,@"firstname",session.userName,@"lastname",deviceToken,@"device_token",@"", nil];
+                
+                NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+                
+                AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+                manager.responseSerializer = [AFJSONResponseSerializer serializer];
+                
+                [manager POST:@"/api/v1/sign_in/social" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+                    // 3
+                    NSLog(@"response: %@",(NSDictionary*)responseObject);
+                    //get status of request
+                    int status = [[responseObject objectForKey:@"status"] intValue];
+                    
+                    if (status == 200) {
+                        NSDictionary *data = [responseObject objectForKey:@"data"];
+                        
+                        //                     NSLog(@"token = %@",[[data objectForKey:@"token"] substringToIndex:100]);
+                        
+                        NSString *defaultUserImg = [data objectForKey:@"avatar"];
+                        defaultUserImg = [defaultUserImg stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+                        //save current user logged in informations
+                        //set current profile image
+                        [[ToolClass instance] setLogin:YES];
+                        
+                        //check if is default image, use social image. If not use image from our server.
+                        //                                        if ([defaultUserImg rangeOfString:@"default.png"].location == NSNotFound) {
+                        //                                            [[ToolClass instance] setProfileImageURL:defaultUserImg];
+                        //                                        }
+                        //                                        else {
+                        //                                            [[ToolClass instance] setProfileImageURL:userImageURL];
+                        //                                        }
+                        
+                        [[ToolClass instance] setUserFirstName:[data objectForKey:@"firstname"]];
+                        [[ToolClass instance] setUserLastName:[data objectForKey:@"lastname"]];
+                        [[ToolClass instance] setUserRole:isUser];
+                        [[ToolClass instance] setUserToken:[data objectForKey:@"token"]];
+                        [[ToolClass instance] setUserEmail:email];
+                        [[ToolClass instance] setUserCountryCode:[data objectForKey:@"phone_code"]];
+                        [[ToolClass instance] setUserPhone:[data objectForKey:@"phone"]];
+                        [[ToolClass instance] setUserSMS:[[data objectForKey:@"receive_sms"] boolValue]];
+                        [[ToolClass instance] setUserPush:[[data objectForKey:@"receive_push"] boolValue]];
+                        
+                        [self.viewController loginSuccess];
+                    }
+                    else if (status == 401){
+                        NSString *message = [responseObject objectForKey:@"message"];
+                        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                        [dialog show];
+                        
+                    }
+                    
+                    [MBProgressHUD hideAllHUDsForView:self.navController.view animated:YES];
+                    
+                } failure:^(NSURLSessionDataTask *task, NSError *error) {
+                    NSLog(@"FB failed: %@",error);
+                    [MBProgressHUD hideAllHUDsForView:self.navController.view animated:YES];
+                }];
+            }
+            else {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+        }];
+        
+        [self.viewController presentViewController:shareEmailViewController animated:YES completion:nil];
+    }
+    else {
+        // TODO: Handle user not signed in (e.g. attempt to log in or show an alert)
+    }
+    
+    /* Get user info */
+    [[[Twitter sharedInstance] APIClient] loadUserWithID:[session userID]
+                                              completion:^(TWTRUser *user,
+                                                           NSError *error)
+     {
+         // handle the response or error
+         if (![error isEqual:nil]) {
+             NSString *profileImageURL = user.profileImageURL;
+             [[ToolClass instance] setProfileImageURL:profileImageURL];
+         } else {
+             NSLog(@"Twitter error getting profile : %@", [error localizedDescription]);
+         }
+     }];
+}
+
 // Handles session state changes in the app
 - (void)sessionStateChanged:(FBSession *)session state:(FBSessionState) state error:(NSError *)error
 {
@@ -177,38 +269,6 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-//    [[AFNetworkActivityLogger sharedLogger] startLogging];
-//    [[AFNetworkActivityLogger sharedLogger] setLevel:AFLoggerLevelDebug];
-    //test
-//    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"CountryCode" ofType:@"txt"];
-//    NSString *countryCode = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
-//    NSLog(@"countryCode = %@",countryCode);
-//    NSArray *array1 = [countryCode componentsSeparatedByString:@","];
-//    NSEnumerator *nse = [array1 objectEnumerator];
-//    
-//    NSMutableArray *countryArray = [NSMutableArray arrayWithCapacity:1];
-//    for (int i=0;i < [array1 count];i++) {
-//        NSString *str1 = [array1 objectAtIndex:i];
-//
-//        NSArray *array2 = [str1 componentsSeparatedByString:@"=>"];
-//        NSString *c1 = [array2 objectAtIndex:0];
-//        c1 = [c1 stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-//        c1 = [c1 stringByReplacingOccurrencesOfString:@" " withString:@""];
-//        c1 = [c1 stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-//        
-//        NSString *c2 = [array2 objectAtIndex:1];
-//        c2 = [c2 stringByReplacingOccurrencesOfString:@"\'" withString:@""];
-//        
-//        NSLog(@"c1 = %@ c2= %@",c1,c2);
-//        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:c1,@"value",c2,@"title", nil];
-//        [countryArray addObject:dict];
-//    }
-//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//    NSString *documentsDirectory = [paths objectAtIndex:0];
-//    NSString *filePath2 = [NSString stringWithFormat:@"%@/%@", documentsDirectory, [NSString stringWithFormat:@"CountryCode.plist"]];
-//    [countryArray writeToFile:filePath2 atomically:YES];
-    //end
-    
     NSDictionary *navigationTitleAttribute = [NSDictionary dictionaryWithObjectsAndKeys:GREEN_COLOR,
      NSForegroundColorAttributeName,
      GREEN_COLOR,
@@ -251,6 +311,9 @@
                                       }];
     }
     else if ([[ToolClass instance] getUserToken]) {
+        [self performSelector:@selector(automaticalLogin) withObject:nil afterDelay:0.5];
+    }
+    else if ([[Twitter sharedInstance] session]) {
         [self performSelector:@selector(automaticalLogin) withObject:nil afterDelay:0.5];
     }
     
