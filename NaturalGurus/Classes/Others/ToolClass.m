@@ -1670,7 +1670,7 @@
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [MBProgressHUD hideHUDForView:viewController.view animated:YES];
+        [MBProgressHUD hideHUDForView:viewController.navigationController.view animated:YES];
         // 4
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                             message:[error localizedDescription]

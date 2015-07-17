@@ -416,7 +416,7 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     NSLog(@"userInfo = %@",userInfo);
     NSString *message = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
-    int orderId = [[[userInfo objectForKey:@"aps"] objectForKey:@"order_id"] intValue];
+    int orderId = [[userInfo objectForKey:@"order_id"] intValue];
     UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Message" message:message delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",@"Cancel",nil];
     dialog.tag = orderId;
     [dialog show];

@@ -400,6 +400,11 @@ enum {
         
         self.lbStatus.text = @"Approved";
         self.lbStatus.textColor = GREEN_COLOR;
+        
+        //call to reload appointment to get video session and video token
+        NSString *token = [[ToolClass instance] getUserToken];
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:token,@"token", nil];
+        [[ToolClass instance] loadDetailAppointmentById:self.appointmentId params:params withViewController:self];
     }
     else {
         //decline
@@ -511,8 +516,10 @@ enum {
         
         btnDecline.frame = CGRectMake(2*leftPadding + btnAccept.frame.size.width, btnAccept.frame.origin.y, btnAccept.frame.size.width, btnAccept.frame.size.height);
         
-        [self.view addSubview:btnAccept];
-        [self.view addSubview:btnDecline];
+        if (btnAccept == nil)
+            [self.view addSubview:btnAccept];
+        if (btnDecline == nil)
+            [self.view addSubview:btnDecline];
     }
     
     //set appointment value

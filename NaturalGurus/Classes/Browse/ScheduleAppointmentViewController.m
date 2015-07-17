@@ -305,7 +305,6 @@ enum {
         NSTimeZone *timezone = [NSTimeZone systemTimeZone];
         
         NSString *currentDateStr = [ToolClass dateTimeByTimezone:timezone.name andDate2:currentDate];
-        NSLog(@"currentDate = %@",currentDateStr);
         
         int duration = [[self.scheduleDict objectForKey:@"duration"] intValue];
         
@@ -317,7 +316,6 @@ enum {
         
         NSDate *fromDate = [theCalendar dateByAddingComponents:dayComponent toDate:currentDate options:0];
         NSString *fromDateStr = [ToolClass dateTimeByTimezone:timezone.name andDate2:fromDate];
-        NSLog(@"fromDate = %@",fromDateStr);
         
         dayComponent.minute = duration;
         NSDate *toDate = [theCalendar dateByAddingComponents:dayComponent toDate:fromDate options:0];

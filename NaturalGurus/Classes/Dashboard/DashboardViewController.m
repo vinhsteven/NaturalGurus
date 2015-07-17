@@ -302,6 +302,7 @@
     NSMutableDictionary *dict = [mainArray objectAtIndex:indexPath.row];
     
     DetailAppointmentViewController *controller = [[DetailAppointmentViewController alloc] initWithNibName:@"DetailAppointmentViewController" bundle:nil];
+    controller.appointmentId   = [[dict objectForKey:@"appointmentId"] longValue];
     controller.appointmentDict = dict;
     [self.navigationController pushViewController:controller animated:YES];
 }
