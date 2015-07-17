@@ -1121,7 +1121,6 @@
             if ([viewController isKindOfClass:[DetailBrowseViewController class]])
                 [viewController setupTableViewData];
             else {
-                [((DetailAppointmentViewController*)viewController).myFrontView removeFromSuperview];
                 [(DetailAppointmentViewController*)viewController reorganizeData];
             }
         }
@@ -1629,6 +1628,48 @@
         [alertView show];
     }];
     
+}
+
+- (void) loadDetailAppointmentById:(long)orderId params:(NSDictionary*)params withViewController:(DetailAppointmentViewController*)viewController {
+    [MBProgressHUD showHUDAddedTo:viewController.navigationController.view animated:YES];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer.timeoutInterval = 120;
+    
+    [manager GET:[NSString stringWithFormat:@"/api/v1/orders/%ld",orderId] parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        [MBProgressHUD hideHUDForView:viewController.navigationController.view animated:YES];
+        // 3
+        NSLog(@"response: %@",(NSDictionary*)responseObject);
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        
+        if (status == 200) {
+            [viewController.myFrontView removeFromSuperview];
+            
+            NSDictionary *dict = [responseObject objectForKey:@"data"];
+            [viewController getDetailAppointmentSuccess:dict];
+        }
+        else {
+            NSString *message = [responseObject objectForKey:@"message"];
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [MBProgressHUD hideHUDForView:viewController.view animated:YES];
+        // 4
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
 }
 
 @end

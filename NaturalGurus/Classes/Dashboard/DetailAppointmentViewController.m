@@ -46,108 +46,115 @@ enum {
     [self setupUI];
     
     userRole = [[ToolClass instance] getUserRole];
-    if (userRole == isUser)
-        [self loadDetailExpert];
-    else
-        [self loadDetailUser];
-    
-    self.navigationItem.title = [appointmentDict objectForKey:@"name"];
-    //status
-    int status = [[appointmentDict objectForKey:@"status"] intValue];
-    NSString *statusString;
-    UIColor *statusColor;
-    switch (status) {
-        case isPending:
-            statusString = @"Pending";
-            statusColor = [UIColor colorWithRed:(float)215/255 green:(float)186/255 blue:(float)53/255 alpha:1.0];
-            self.btnEnter.userInteractionEnabled = NO;
-            self.btnEnter.alpha = 0.7;
-            break;
-        case isApproved:
-            statusString = @"Approved";
-            statusColor  = GREEN_COLOR;
-            break;
-        case isDeclined:
-            statusString = @"Declined";
-            statusColor  = [UIColor colorWithRed:(float)215/255 green:(float)53/255 blue:(float)53/255 alpha:1.0];
+    //check if open this view from notification center
+    if (!_isPushNotification) {
+        if (userRole == isUser)
+            [self loadDetailExpert];
+        else
+            [self loadDetailUser];
+        
+        self.navigationItem.title = [appointmentDict objectForKey:@"name"];
+        //status
+        int status = [[appointmentDict objectForKey:@"status"] intValue];
+        NSString *statusString;
+        UIColor *statusColor;
+        switch (status) {
+            case isPending:
+                statusString = @"Pending";
+                statusColor = [UIColor colorWithRed:(float)215/255 green:(float)186/255 blue:(float)53/255 alpha:1.0];
+                self.btnEnter.userInteractionEnabled = NO;
+                self.btnEnter.alpha = 0.7;
+                break;
+            case isApproved:
+                statusString = @"Approved";
+                statusColor  = GREEN_COLOR;
+                break;
+            case isDeclined:
+                statusString = @"Declined";
+                statusColor  = [UIColor colorWithRed:(float)215/255 green:(float)53/255 blue:(float)53/255 alpha:1.0];
+                self.btnEnter.hidden = YES;
+                break;
+            case isExpired:
+                statusString = @"Expired";
+                statusColor  = [UIColor colorWithRed:(float)215/255 green:(float)53/255 blue:(float)53/255 alpha:1.0];
+                self.btnEnter.hidden = YES;
+                break;
+            default:
+                break;
+        }
+        
+        //check if this appointment is finished, don't show Enter Room button
+        int video_state = [[appointmentDict objectForKey:@"video_state"] intValue];
+        if (video_state == 1){
+            statusString = @"Finished";
+            statusColor  = ORANGE_COLOR;
             self.btnEnter.hidden = YES;
-            break;
-        case isExpired:
-            statusString = @"Expired";
-            statusColor  = [UIColor colorWithRed:(float)215/255 green:(float)53/255 blue:(float)53/255 alpha:1.0];
+        }
+        
+        self.lbStatus.text = statusString;
+        self.lbStatus.textColor = statusColor;
+        
+        if (userRole != isUser && status == isPending) {
+            //check display or not 2 button Accept or Decline
+            //hide enter meeting room
             self.btnEnter.hidden = YES;
-            break;
-        default:
-            break;
+            
+            //alloc Accept button
+            btnAccept = [UIButton buttonWithType:UIButtonTypeCustom];
+            btnAccept.tag = 1;
+            btnAccept.backgroundColor = [UIColor lightGrayColor];
+            [btnAccept setTitle:@"Accept" forState:UIControlStateNormal];
+            btnAccept.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+            [btnAccept setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [btnAccept addTarget:self action:@selector(handleUpdateAppointmentState:) forControlEvents:UIControlEventTouchUpInside];
+            [btnAccept setBackgroundImage:[ToolClass imageFromColor:GREEN_COLOR] forState:UIControlStateNormal];
+            btnAccept.layer.cornerRadius  = 5;
+            btnAccept.layer.masksToBounds = YES;
+            
+            //alloc Decline button
+            btnDecline = [UIButton buttonWithType:UIButtonTypeCustom];
+            btnDecline.backgroundColor = [UIColor lightGrayColor];
+            [btnDecline setTitle:@"Decline" forState:UIControlStateNormal];
+            btnDecline.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+            [btnDecline setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [btnDecline addTarget:self action:@selector(handleUpdateAppointmentState:) forControlEvents:UIControlEventTouchUpInside];
+            [btnDecline setBackgroundImage:[ToolClass imageFromColor:RED_COLOR] forState:UIControlStateNormal];
+            btnDecline.layer.cornerRadius  = 5;
+            btnDecline.layer.masksToBounds = YES;
+            
+            int bottomPadding = 10;
+            int leftPadding = 10;
+            int height = 45;
+            
+            btnAccept.frame = CGRectMake(leftPadding, screenSize.height - bottomPadding - height, (screenSize.width-3*leftPadding)/2, height);
+            
+            btnDecline.frame = CGRectMake(2*leftPadding + btnAccept.frame.size.width, btnAccept.frame.origin.y, btnAccept.frame.size.width, btnAccept.frame.size.height);
+            
+            [self.view addSubview:btnAccept];
+            [self.view addSubview:btnDecline];
+        }
+        
+        //set appointment value
+        self.lbDuration.text = [NSString stringWithFormat:@"%d mins",[[appointmentDict objectForKey:@"duration"] intValue]];
+        self.lbTotalPrice.text = [NSString stringWithFormat:@"$%.2f",[[appointmentDict objectForKey:@"total"] floatValue]];
+        
+        NSString *date = [appointmentDict objectForKey:@"date"];
+        date = [ToolClass dateByFormat:@"EEE, MMM dd yyyy" dateString:date];
+        self.lbDate.text = date;
+        
+        NSString *fromTime  = [ToolClass convertHourToAM_PM:[appointmentDict objectForKey:@"from_time"]];
+        NSString *toTime    = [ToolClass convertHourToAM_PM:[appointmentDict objectForKey:@"to_time"]];
+        self.lbTime.text    = [NSString stringWithFormat:@"%@ - %@",fromTime,toTime];
+        
+        self.lbTimezone.text = [appointmentDict objectForKey:@"timezone"];
+        
+        [self performSelector:@selector(delayForLayout) withObject:nil afterDelay:0.5];
     }
-    
-    //check if this appointment is finished, don't show Enter Room button
-    int video_state = [[appointmentDict objectForKey:@"video_state"] intValue];
-    if (video_state == 1){
-        statusString = @"Finished";
-        statusColor  = ORANGE_COLOR;
-        self.btnEnter.hidden = YES;
+    else {
+        NSString *token = [[ToolClass instance] getUserToken];
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:token,@"token", nil];
+        [[ToolClass instance] loadDetailAppointmentById:self.appointmentId params:params withViewController:self];
     }
-    
-    self.lbStatus.text = statusString;
-    self.lbStatus.textColor = statusColor;
-    
-    if (userRole != isUser && status == isPending) {
-        //check display or not 2 button Accept or Decline
-        //hide enter meeting room
-        self.btnEnter.hidden = YES;
-        
-        //alloc Accept button
-        btnAccept = [UIButton buttonWithType:UIButtonTypeCustom];
-        btnAccept.tag = 1;
-        btnAccept.backgroundColor = [UIColor lightGrayColor];
-        [btnAccept setTitle:@"Accept" forState:UIControlStateNormal];
-        btnAccept.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
-        [btnAccept setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [btnAccept addTarget:self action:@selector(handleUpdateAppointmentState:) forControlEvents:UIControlEventTouchUpInside];
-        [btnAccept setBackgroundImage:[ToolClass imageFromColor:GREEN_COLOR] forState:UIControlStateNormal];
-        btnAccept.layer.cornerRadius  = 5;
-        btnAccept.layer.masksToBounds = YES;
-        
-        //alloc Decline button
-        btnDecline = [UIButton buttonWithType:UIButtonTypeCustom];
-        btnDecline.backgroundColor = [UIColor lightGrayColor];
-        [btnDecline setTitle:@"Decline" forState:UIControlStateNormal];
-        btnDecline.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
-        [btnDecline setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [btnDecline addTarget:self action:@selector(handleUpdateAppointmentState:) forControlEvents:UIControlEventTouchUpInside];
-        [btnDecline setBackgroundImage:[ToolClass imageFromColor:RED_COLOR] forState:UIControlStateNormal];
-        btnDecline.layer.cornerRadius  = 5;
-        btnDecline.layer.masksToBounds = YES;
-        
-        int bottomPadding = 10;
-        int leftPadding = 10;
-        int height = 45;
-        
-        btnAccept.frame = CGRectMake(leftPadding, screenSize.height - bottomPadding - height, (screenSize.width-3*leftPadding)/2, height);
-        
-        btnDecline.frame = CGRectMake(2*leftPadding + btnAccept.frame.size.width, btnAccept.frame.origin.y, btnAccept.frame.size.width, btnAccept.frame.size.height);
-        
-        [self.view addSubview:btnAccept];
-        [self.view addSubview:btnDecline];
-    }
-    
-    //set appointment value
-    self.lbDuration.text = [NSString stringWithFormat:@"%d mins",[[appointmentDict objectForKey:@"duration"] intValue]];
-    self.lbTotalPrice.text = [NSString stringWithFormat:@"$%.2f",[[appointmentDict objectForKey:@"total"] floatValue]];
-    
-    NSString *date = [appointmentDict objectForKey:@"date"];
-    date = [ToolClass dateByFormat:@"EEE, MMM dd yyyy" dateString:date];
-    self.lbDate.text = date;
-    
-    NSString *fromTime  = [ToolClass convertHourToAM_PM:[appointmentDict objectForKey:@"from_time"]];
-    NSString *toTime    = [ToolClass convertHourToAM_PM:[appointmentDict objectForKey:@"to_time"]];
-    self.lbTime.text    = [NSString stringWithFormat:@"%@ - %@",fromTime,toTime];
-    
-    self.lbTimezone.text = [appointmentDict objectForKey:@"timezone"];
-    
-    [self performSelector:@selector(delayForLayout) withObject:nil afterDelay:0.5];
-    
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -165,6 +172,8 @@ enum {
 }
 
 - (void) delayForLayout {
+    [self.myFrontView removeFromSuperview];
+    
     NSString *messageText = [appointmentDict objectForKey:@"about"];
     
     UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, screenSize.width, 10)];
@@ -401,6 +410,127 @@ enum {
         self.lbStatus.text = @"Declined";
         self.lbStatus.textColor = RED_COLOR;
     }
+}
+
+- (void) getDetailAppointmentSuccess:(NSDictionary*)dict {
+    NSString *about = [dict objectForKey:@"about"];
+    NSString *tmpDate       = [dict objectForKey:@"date"];
+    
+    NSString *tmpFromTime   = [dict objectForKey:@"from_time"];
+    NSString *tmpToTime     = [dict objectForKey:@"to_time"];
+    NSString *timezone   = [dict objectForKey:@"client_timezone"];
+    
+    NSString *fromDateTime = [NSString stringWithFormat:@"%@ %@",tmpDate,tmpFromTime];
+    NSString *toDateTime = [NSString stringWithFormat:@"%@ %@",tmpDate,tmpToTime];
+    
+    tmpDate = [ToolClass dateByTimezone:timezone andDate:fromDateTime];
+    tmpFromTime = [ToolClass timeByTimezone:timezone andDateAndTime:fromDateTime];
+    tmpToTime   = [ToolClass timeByTimezone:timezone andDateAndTime:toDateTime];
+    
+    appointmentDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:about,@"about",[dict objectForKey:@"id"],@"appointmentId",[dict objectForKey:@"expert_avatar"],@"avatar",[dict objectForKey:@"client_avatar"],@"client_avatar",tmpDate,@"date",[dict objectForKey:@"duration"],@"duration",[dict objectForKey:@"client_email"],@"email",[dict objectForKey:@"expert_email"],@"expert_email",[dict objectForKey:@"expert_id"],@"expertId",tmpFromTime,@"from_time",[dict objectForKey:@"expert_name"],@"name",[dict objectForKey:@"state"],@"status",[dict objectForKey:@"client_timezone"],@"timezone",tmpToTime,@"to_time",[dict objectForKey:@"total"],@"total",[dict objectForKey:@"video_session"],@"video_session",[dict objectForKey:@"video_state"],@"video_state", nil];
+    
+    if (userRole == isUser)
+        [self loadDetailExpert];
+    else
+        [self loadDetailUser];
+    
+    self.navigationItem.title = [appointmentDict objectForKey:@"name"];
+    //status
+    int status = [[appointmentDict objectForKey:@"status"] intValue];
+    NSString *statusString;
+    UIColor *statusColor;
+    switch (status) {
+        case isPending:
+            statusString = @"Pending";
+            statusColor = [UIColor colorWithRed:(float)215/255 green:(float)186/255 blue:(float)53/255 alpha:1.0];
+            self.btnEnter.userInteractionEnabled = NO;
+            self.btnEnter.alpha = 0.7;
+            break;
+        case isApproved:
+            statusString = @"Approved";
+            statusColor  = GREEN_COLOR;
+            break;
+        case isDeclined:
+            statusString = @"Declined";
+            statusColor  = [UIColor colorWithRed:(float)215/255 green:(float)53/255 blue:(float)53/255 alpha:1.0];
+            self.btnEnter.hidden = YES;
+            break;
+        case isExpired:
+            statusString = @"Expired";
+            statusColor  = [UIColor colorWithRed:(float)215/255 green:(float)53/255 blue:(float)53/255 alpha:1.0];
+            self.btnEnter.hidden = YES;
+            break;
+        default:
+            break;
+    }
+    
+    //check if this appointment is finished, don't show Enter Room button
+    int video_state = [[appointmentDict objectForKey:@"video_state"] intValue];
+    if (video_state == 1){
+        statusString = @"Finished";
+        statusColor  = ORANGE_COLOR;
+        self.btnEnter.hidden = YES;
+    }
+    
+    self.lbStatus.text = statusString;
+    self.lbStatus.textColor = statusColor;
+    
+    if (userRole != isUser && status == isPending) {
+        //check display or not 2 button Accept or Decline
+        //hide enter meeting room
+        self.btnEnter.hidden = YES;
+        
+        //alloc Accept button
+        btnAccept = [UIButton buttonWithType:UIButtonTypeCustom];
+        btnAccept.tag = 1;
+        btnAccept.backgroundColor = [UIColor lightGrayColor];
+        [btnAccept setTitle:@"Accept" forState:UIControlStateNormal];
+        btnAccept.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+        [btnAccept setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [btnAccept addTarget:self action:@selector(handleUpdateAppointmentState:) forControlEvents:UIControlEventTouchUpInside];
+        [btnAccept setBackgroundImage:[ToolClass imageFromColor:GREEN_COLOR] forState:UIControlStateNormal];
+        btnAccept.layer.cornerRadius  = 5;
+        btnAccept.layer.masksToBounds = YES;
+        
+        //alloc Decline button
+        btnDecline = [UIButton buttonWithType:UIButtonTypeCustom];
+        btnDecline.backgroundColor = [UIColor lightGrayColor];
+        [btnDecline setTitle:@"Decline" forState:UIControlStateNormal];
+        btnDecline.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
+        [btnDecline setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [btnDecline addTarget:self action:@selector(handleUpdateAppointmentState:) forControlEvents:UIControlEventTouchUpInside];
+        [btnDecline setBackgroundImage:[ToolClass imageFromColor:RED_COLOR] forState:UIControlStateNormal];
+        btnDecline.layer.cornerRadius  = 5;
+        btnDecline.layer.masksToBounds = YES;
+        
+        int bottomPadding = 10;
+        int leftPadding = 10;
+        int height = 45;
+        
+        btnAccept.frame = CGRectMake(leftPadding, screenSize.height - bottomPadding - height, (screenSize.width-3*leftPadding)/2, height);
+        
+        btnDecline.frame = CGRectMake(2*leftPadding + btnAccept.frame.size.width, btnAccept.frame.origin.y, btnAccept.frame.size.width, btnAccept.frame.size.height);
+        
+        [self.view addSubview:btnAccept];
+        [self.view addSubview:btnDecline];
+    }
+    
+    //set appointment value
+    self.lbDuration.text = [NSString stringWithFormat:@"%d mins",[[appointmentDict objectForKey:@"duration"] intValue]];
+    self.lbTotalPrice.text = [NSString stringWithFormat:@"$%.2f",[[appointmentDict objectForKey:@"total"] floatValue]];
+    
+    NSString *date = [appointmentDict objectForKey:@"date"];
+    date = [ToolClass dateByFormat:@"EEE, MMM dd yyyy" dateString:date];
+    self.lbDate.text = date;
+    
+    NSString *fromTime  = [ToolClass convertHourToAM_PM:[appointmentDict objectForKey:@"from_time"]];
+    NSString *toTime    = [ToolClass convertHourToAM_PM:[appointmentDict objectForKey:@"to_time"]];
+    self.lbTime.text    = [NSString stringWithFormat:@"%@ - %@",fromTime,toTime];
+    
+    self.lbTimezone.text = [appointmentDict objectForKey:@"timezone"];
+    
+    [self performSelector:@selector(delayForLayout) withObject:nil afterDelay:0.5];
+    [self performSelectorInBackground:@selector(loadVideoToken) withObject:nil];
 }
 
 - (IBAction) closeView:(id)sender {

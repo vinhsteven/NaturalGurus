@@ -19,6 +19,8 @@
     UIButton *btnDecline;
 }
 
+@property (assign, readwrite) BOOL isPushNotification; //open from notification
+@property (assign, readwrite) long appointmentId;
 @property (strong, nonatomic) NSMutableDictionary *appointmentDict;
 @property (strong, nonatomic) NSDictionary *expertDict;
 @property (strong, nonatomic) NSDictionary *videoDict;
@@ -56,5 +58,6 @@
 - (void) reorganizeData;
 - (void) handleGetVideoTokenFailedWithMessage:(NSString*)message;
 - (void) handleAfterUpdateAppointmentSuccess:(int)type;
+- (void) getDetailAppointmentSuccess:(NSDictionary*)dict;
 
 @end

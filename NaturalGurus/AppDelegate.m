@@ -327,8 +327,9 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     NSLog(@"userInfo = %@",userInfo);
     NSString *message = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
-    
+    int orderId = [[[userInfo objectForKey:@"aps"] objectForKey:@"order_id"] intValue];
     UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Message" message:message delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",@"Cancel",nil];
+    dialog.tag = orderId;
     [dialog show];
 }
 
@@ -336,8 +337,8 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
         DetailAppointmentViewController *controller = [[DetailAppointmentViewController alloc] initWithNibName:@"DetailAppointmentViewController" bundle:nil];
-//        //    controller.appointmentDict = dict;
-//        [self.window.rootViewController presentViewController:controller animated:YES completion:nil];
+        controller.isPushNotification = YES;
+        controller.appointmentId = alertView.tag;
         [self.navController pushViewController:controller animated:YES];
     }
 }
