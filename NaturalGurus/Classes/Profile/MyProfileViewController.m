@@ -197,28 +197,12 @@
         if (screenSize.height == 480)
             self.view.center = CGPointMake(screenSize.width/2, screenSize.height/2);
     }
-//    else if (textField == self.txtEmail) {
-//        [self.txtCountryCode becomeFirstResponder];
-//    }
-//    else if (textField == self.txtCountryCode) {
-//        [self.txtPhoneNumber becomeFirstResponder];
-//    }
-//    else if (textField == self.txtPhoneNumber) {
-//        [textField resignFirstResponder];
-//
-//        if (screenSize.height == 480)
-//            self.view.center = CGPointMake(screenSize.width/2, screenSize.height/2);
-//    }
     return YES;
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    if (screenSize.height == 480)
-        self.view.center = CGPointMake(screenSize.width/2, screenSize.height/2-120);
-    //check if select country code text field
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     if (textField == self.txtCountryCode) {
         [self hideKeyboard];
-        
         [MMPickerView showPickerViewInView:self.view
                                withObjects:countryCodeArray
                                withOptions:nil
@@ -232,7 +216,14 @@
                                     
                                     [self.txtPhoneNumber becomeFirstResponder];
                                 }];
+        return NO;
     }
+    return YES;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (screenSize.height == 480)
+        self.view.center = CGPointMake(screenSize.width/2, screenSize.height/2-120);
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

@@ -447,6 +447,15 @@
     return date;
 }
 
++ (NSString*) dateTimeByTimezone:(NSString*)timezone andDate2:(NSDate*)date {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:timezone]];
+    NSString *dateStr = [dateFormatter stringFromDate:date];
+    
+    return dateStr;
+}
+
 + (NSString*) timeByTimezone:(NSString*)timezone andDateAndTime:(NSString*)dateTimeString {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];

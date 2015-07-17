@@ -45,6 +45,7 @@
 + (NSString*) dateByFormat:(NSString*)format dateString:(NSString*)dateString;
 + (NSString*) dateByTimezone:(NSString*)timezone andDate:(NSString*)dateTimeString;
 + (NSDate*) dateTimeByTimezone:(NSString*)timezone andDate:(NSString*)dateTimeString;
++ (NSString*) dateTimeByTimezone:(NSString*)timezone andDate2:(NSDate*)date;
 + (NSString*) timeByTimezone:(NSString*)timezone andDateAndTime:(NSString*)dateTimeString;
 
 #pragma mark HANDLE STORE DATA 

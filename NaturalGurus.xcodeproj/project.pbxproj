@@ -99,6 +99,8 @@
 		B0C9A4C71B4280AF00F74FCD /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C9A4C61B4280AF00F74FCD /* AdSupport.framework */; };
 		B0C9A4C81B42819A00F74FCD /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0C9A4B11B42802200F74FCD /* FacebookSDK.framework */; };
 		B0CC0E721B54AED5000A5798 /* AFNetworkActivityLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CC0E711B54AED5000A5798 /* AFNetworkActivityLogger.m */; };
+		B0CCAFA61B58E0B70002A397 /* InputPhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAFA41B58E0B70002A397 /* InputPhoneViewController.m */; };
+		B0CCAFA71B58E0B70002A397 /* InputPhoneViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0CCAFA51B58E0B70002A397 /* InputPhoneViewController.xib */; };
 		B0CD2E441B3901CF00764216 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CD2E421B3901CF00764216 /* LoginViewController.m */; };
 		B0CD2E451B3901CF00764216 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0CD2E431B3901CF00764216 /* LoginViewController.xib */; };
 		B0CD2E491B3901F800764216 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CD2E471B3901F800764216 /* SignUpViewController.m */; };
@@ -331,6 +333,9 @@
 		B0C9A4C61B4280AF00F74FCD /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		B0CC0E701B54AED5000A5798 /* AFNetworkActivityLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityLogger.h; sourceTree = "<group>"; };
 		B0CC0E711B54AED5000A5798 /* AFNetworkActivityLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkActivityLogger.m; sourceTree = "<group>"; };
+		B0CCAFA31B58E0B70002A397 /* InputPhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputPhoneViewController.h; sourceTree = "<group>"; };
+		B0CCAFA41B58E0B70002A397 /* InputPhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputPhoneViewController.m; sourceTree = "<group>"; };
+		B0CCAFA51B58E0B70002A397 /* InputPhoneViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InputPhoneViewController.xib; sourceTree = "<group>"; };
 		B0CD2E411B3901CF00764216 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		B0CD2E421B3901CF00764216 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		B0CD2E431B3901CF00764216 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -685,6 +690,9 @@
 				B0CD2E4B1B39224A00764216 /* ForgotPasswordViewController.h */,
 				B0CD2E4C1B39224A00764216 /* ForgotPasswordViewController.m */,
 				B0CD2E4D1B39224A00764216 /* ForgotPasswordViewController.xib */,
+				B0CCAFA31B58E0B70002A397 /* InputPhoneViewController.h */,
+				B0CCAFA41B58E0B70002A397 /* InputPhoneViewController.m */,
+				B0CCAFA51B58E0B70002A397 /* InputPhoneViewController.xib */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1150,6 +1158,7 @@
 				B0CD2E4F1B39224A00764216 /* ForgotPasswordViewController.xib in Resources */,
 				C2BA2F191B2C30CB00811E56 /* DetailBrowseViewController.xib in Resources */,
 				C2ED339A1B2FC4FE0032F885 /* DashboardViewController.xib in Resources */,
+				B0CCAFA71B58E0B70002A397 /* InputPhoneViewController.xib in Resources */,
 				B0CD2E4A1B3901F800764216 /* SignUpViewController.xib in Resources */,
 				C2ED33B11B302FE30032F885 /* btnEdit@2x.png in Resources */,
 				C2ED33B01B302FE30032F885 /* btnEdit.png in Resources */,
@@ -1279,6 +1288,7 @@
 				B0C52F991B53ADE300309DA0 /* STPColorUtils.m in Sources */,
 				B0D21C1E1B43849300D703B0 /* AFURLResponseSerialization.m in Sources */,
 				C2F740BD1B2A71D300C8635F /* UIImageView+WebCache.m in Sources */,
+				B0CCAFA61B58E0B70002A397 /* InputPhoneViewController.m in Sources */,
 				C2F740CD1B2A748C00C8635F /* BrowseViewController.m in Sources */,
 				B0D21C1C1B43849300D703B0 /* AFURLConnectionOperation.m in Sources */,
 				B0D21C1A1B43849300D703B0 /* AFNetworkReachabilityManager.m in Sources */,

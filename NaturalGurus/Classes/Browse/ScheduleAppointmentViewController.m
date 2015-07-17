@@ -173,6 +173,7 @@ enum {
                                 
                                 [self.scheduleDict setObject:[NSNumber numberWithFloat:value] forKey:@"duration"];
                                 [self.scheduleDict setObject:[NSNumber numberWithFloat:total] forKey:@"total"];
+                                
                             }];
     
 }
@@ -295,7 +296,51 @@ enum {
     NSDictionary *expertDict = [[ToolClass instance] getExpertDict];
     [self.scheduleDict setObject:[expertDict objectForKey:@"name"] forKey:@"expertName"];
     [self.scheduleDict setObject:[expertDict objectForKey:@"id"] forKey:@"expertId"];
-    [self.scheduleDict setObject:self.timeDict forKey:@"timeDict"];
+    
+    if (self.isBookLive) {
+        
+        //if Book Live, we dont need to choose availability, just get current device time and device timezone
+        
+        NSDate *currentDate  = [NSDate date];
+        NSTimeZone *timezone = [NSTimeZone systemTimeZone];
+        
+        NSString *currentDateStr = [ToolClass dateTimeByTimezone:timezone.name andDate2:currentDate];
+        NSLog(@"currentDate = %@",currentDateStr);
+        
+        int duration = [[self.scheduleDict objectForKey:@"duration"] intValue];
+        
+        NSDateComponents *dayComponent = [[NSDateComponents alloc] init];
+        dayComponent.day = 0;
+        dayComponent.minute = 5;
+        
+        NSCalendar *theCalendar = [NSCalendar currentCalendar];
+        
+        NSDate *fromDate = [theCalendar dateByAddingComponents:dayComponent toDate:currentDate options:0];
+        NSString *fromDateStr = [ToolClass dateTimeByTimezone:timezone.name andDate2:fromDate];
+        NSLog(@"fromDate = %@",fromDateStr);
+        
+        dayComponent.minute = duration;
+        NSDate *toDate = [theCalendar dateByAddingComponents:dayComponent toDate:fromDate options:0];
+        NSString *toDateStr = [ToolClass dateTimeByTimezone:timezone.name andDate2:toDate];
+        NSLog(@"toDate = %@",toDateStr);
+        
+        NSString *fromDateOnly = [ToolClass dateByTimezone:timezone.name andDate:fromDateStr];
+        NSString *toDateOnly   = [ToolClass dateByTimezone:timezone.name andDate:toDateStr];
+        
+        NSString *fromTimeOnly = [ToolClass timeByTimezone:timezone.name andDateAndTime:fromDateStr];
+        NSString *toTimeOnly   = [ToolClass timeByTimezone:timezone.name andDateAndTime:toDateStr];
+        
+        NSString *title = [NSString stringWithFormat:@"%@ - %@",[ToolClass convertHourToAM_PM:fromTimeOnly],[ToolClass convertHourToAM_PM:toTimeOnly]];
+        
+        [self.timeDict setValue:fromDateOnly forKey:@"date_from"];
+        [self.timeDict setValue:toDateOnly forKey:@"to_from"];
+        [self.timeDict setValue:[NSNumber numberWithInt:0] forKey:@"free"];
+        [self.timeDict setValue:fromTimeOnly forKey:@"from_time"];
+        [self.timeDict setValue:toTimeOnly forKey:@"to_time"];
+        [self.timeDict setValue:title forKey:@"title"];
+    }
+    else
+        [self.scheduleDict setObject:self.timeDict forKey:@"timeDict"];
     
     self.navigationItem.title = @"";
     

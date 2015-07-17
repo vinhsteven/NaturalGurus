@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "AFNetworkActivityLogger.h"
+#import "InputPhoneViewController.h"
 
 @implementation UINavigationController (Rotation_For_iOS6)
 
@@ -51,7 +52,7 @@
              
              //update data to our server
              NSString *deviceToken = [[ToolClass instance] getUserDeviceToken];
-             NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[user objectForKey:@"email"],@"email",[FBSession.activeSession.accessTokenData.accessToken substringToIndex:100],@"token",[user objectForKey:@"first_name"],@"firstname",[user objectForKey:@"last_name"],@"lastname",deviceToken,@"device_token", nil];
+             NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[user objectForKey:@"email"],@"email",[FBSession.activeSession.accessTokenData.accessToken substringToIndex:100],@"token",[user objectForKey:@"first_name"],@"firstname",[user objectForKey:@"last_name"],@"lastname",deviceToken,@"device_token", nil];
              
              NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
              
@@ -101,6 +102,19 @@
                      [dialog show];
                      
                  }
+                 else if (status == 500) {
+                     NSString *message = [responseObject objectForKey:@"message"];
+                     
+                     if ([message rangeOfString:@"is required"].location == NSNotFound) {
+                         ;
+                     }
+                     else {
+                         InputPhoneViewController *controller = [[InputPhoneViewController alloc] initWithNibName:@"InputPhoneViewController" bundle:nil];
+                         controller.parent = self.viewController;
+                         controller.params = params;
+                         [self.viewController presentViewController:controller animated:YES completion:nil];
+                     }
+                 }
                  
                  [MBProgressHUD hideAllHUDsForView:self.navController.view animated:YES];
                  
@@ -123,7 +137,7 @@
             if (!error) {
                 //update data to our server
                 NSString *deviceToken = [[ToolClass instance] getUserDeviceToken];
-                NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:email,@"email",session.authToken,@"token",session.userName,@"firstname",session.userName,@"lastname",deviceToken,@"device_token",@"", nil];
+                NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",session.authToken,@"token",session.userName,@"firstname",session.userName,@"lastname",deviceToken,@"device_token",@"", nil];
                 
                 NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
                 
@@ -171,7 +185,19 @@
                         NSString *message = [responseObject objectForKey:@"message"];
                         UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                         [dialog show];
+                    }
+                    else if (status == 500) {
+                        NSString *message = [responseObject objectForKey:@"message"];
                         
+                        if ([message rangeOfString:@"is required"].location == NSNotFound) {
+                            ;
+                        }
+                        else {
+                            InputPhoneViewController *controller = [[InputPhoneViewController alloc] initWithNibName:@"InputPhoneViewController" bundle:nil];
+                            controller.parent = self.viewController;
+                            controller.params = params;
+                            [self.viewController presentViewController:controller animated:YES completion:nil];
+                        }
                     }
                     
                     [MBProgressHUD hideAllHUDsForView:self.navController.view animated:YES];
@@ -193,7 +219,7 @@
         // TODO: Handle user not signed in (e.g. attempt to log in or show an alert)
     }
     
-    /* Get user info */
+    // Get user info
     [[[Twitter sharedInstance] APIClient] loadUserWithID:[session userID]
                                               completion:^(TWTRUser *user,
                                                            NSError *error)
@@ -313,9 +339,9 @@
     else if ([[ToolClass instance] getUserToken]) {
         [self performSelector:@selector(automaticalLogin) withObject:nil afterDelay:0.5];
     }
-    else if ([[Twitter sharedInstance] session]) {
-        [self performSelector:@selector(automaticalLogin) withObject:nil afterDelay:0.5];
-    }
+//    else if ([[Twitter sharedInstance] session]) {
+//        [self performSelector:@selector(automaticalLogin) withObject:nil afterDelay:0.5];
+//    }
     
     //init Twitter
 //    [Fabric with:@[TwitterKit]];

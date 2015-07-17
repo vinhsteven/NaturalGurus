@@ -23,6 +23,7 @@
 
 @property (assign, readwrite) BOOL isFreeSession;
 @property (assign, readwrite) int freeSessionDuration;
+@property (assign, readwrite) BOOL isBookLive;
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
 @property (strong, nonatomic) IBOutlet UILabel *lbMessageTo;
 @property (strong, nonatomic) IBOutlet UILabel *lbYourDetails;

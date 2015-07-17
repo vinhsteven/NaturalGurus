@@ -188,6 +188,7 @@
                     AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
                     // Call the app delegate's sessionStateChanged:state:error method to handle session state changes
                     [appDelegate twitterStateChanged:session];
+                    
                 } else {
                     NSLog(@"error: %@", [error localizedDescription]);
                 }

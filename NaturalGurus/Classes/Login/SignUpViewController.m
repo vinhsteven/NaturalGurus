@@ -252,21 +252,9 @@
 }
 
 #pragma mark UITextFieldDelegate
-- (void) textFieldDidBeginEditing:(UITextField *)textField {
-    self.mainScrollView.contentSize = CGSizeMake(self.mainScrollView.frame.size.width, screenSize.height+300);
-    
-    CGRect rect = [textField bounds];
-    rect = [textField convertRect:rect toView:self.mainScrollView];
-    rect.origin.x = 0 ;
-    rect.origin.y -= 60 ;
-    rect.size.height = 400;
-    
-    [self.mainScrollView scrollRectToVisible:rect animated:YES];
-    
-    //check if select country code text field
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     if (textField == self.txtCountryCode) {
         [self hideKeyboard];
-        
         [MMPickerView showPickerViewInView:self.view
                                withObjects:countryCodeArray
                                withOptions:nil
@@ -277,8 +265,23 @@
                                     NSDictionary *dict = [countryCodeArray objectAtIndex:currentCountrySelected];
                                     self.txtCountryCode.text = [NSString stringWithFormat:@"+%@",[dict objectForKey:@"value"]];
                                     [self.txtCountryCode resignFirstResponder];
+                                    
+                                    [self.txtPhone becomeFirstResponder];
                                 }];
+        return NO;
     }
+    return YES;
+}
+- (void) textFieldDidBeginEditing:(UITextField *)textField {
+    self.mainScrollView.contentSize = CGSizeMake(self.mainScrollView.frame.size.width, screenSize.height+300);
+    
+    CGRect rect = [textField bounds];
+    rect = [textField convertRect:rect toView:self.mainScrollView];
+    rect.origin.x = 0 ;
+    rect.origin.y -= 60 ;
+    rect.size.height = 400;
+    
+    [self.mainScrollView scrollRectToVisible:rect animated:YES];
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
@@ -315,7 +318,7 @@
     }
     else if (textField == self.txtConfirmPassword) {
 //        [self.txtCountryCode becomeFirstResponder];
-        [self textFieldDidBeginEditing:self.txtCountryCode];
+        [self textFieldShouldBeginEditing:self.txtCountryCode];
     }
     else if (textField == self.txtPhone) {
         [textField resignFirstResponder];
