@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BookLiveViewController">
+            <connections>
+                <outlet property="lbTitle" destination="a0f-dE-gq0" id="IaI-t7-shP"/>
+                <outlet property="txtMessage" destination="bbU-9Y-l1l" id="tHH-Bj-4s0"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="120 SECONDS LEFT" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a0f-dE-gq0">
+                    <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="J78-ra-SNv">
+                            <variation key="heightClass=regular-widthClass=compact" constant="60"/>
+                        </constraint>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="J78-ra-SNv"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=regular-widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="J78-ra-SNv"/>
+                        </mask>
+                    </variation>
+                </label>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bbU-9Y-l1l">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="290" id="1eV-hm-dBc"/>
+                    </constraints>
+                    <string key="text">Thank you for your requesting a live appointment. We have given the expert just under 2 minutes to confirm that he/she can attend the appointment.  If the expert confirms before the above timer expires, you will be prompted for payment and will immediately enter the meeting room for your session.  If they do not reply you can schedule an appointment for later or choose another expert.</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="1eV-hm-dBc"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=regular-widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="1eV-hm-dBc"/>
+                        </mask>
+                    </variation>
+                </textView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="bbU-9Y-l1l" firstAttribute="top" secondItem="a0f-dE-gq0" secondAttribute="bottom" constant="19" id="JIw-jA-6eS"/>
+                <constraint firstAttribute="trailing" secondItem="a0f-dE-gq0" secondAttribute="trailing" constant="10" id="JtE-fV-eiu"/>
+                <constraint firstAttribute="trailing" secondItem="bbU-9Y-l1l" secondAttribute="trailing" constant="10" id="PmW-fh-kdD"/>
+                <constraint firstItem="a0f-dE-gq0" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="101" id="iAf-O9-DFW"/>
+                <constraint firstItem="bbU-9Y-l1l" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="sWA-mJ-1Rt"/>
+                <constraint firstItem="a0f-dE-gq0" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="wyh-74-JCv"/>
+            </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="a0f-dE-gq0"/>
+                    <exclude reference="bbU-9Y-l1l"/>
+                </mask>
+                <mask key="constraints">
+                    <exclude reference="JtE-fV-eiu"/>
+                    <exclude reference="iAf-O9-DFW"/>
+                    <exclude reference="wyh-74-JCv"/>
+                    <exclude reference="JIw-jA-6eS"/>
+                    <exclude reference="PmW-fh-kdD"/>
+                    <exclude reference="sWA-mJ-1Rt"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular-widthClass=compact">
+                <mask key="subviews">
+                    <include reference="a0f-dE-gq0"/>
+                    <include reference="bbU-9Y-l1l"/>
+                </mask>
+                <mask key="constraints">
+                    <include reference="JtE-fV-eiu"/>
+                    <include reference="iAf-O9-DFW"/>
+                    <include reference="wyh-74-JCv"/>
+                    <include reference="JIw-jA-6eS"/>
+                    <include reference="PmW-fh-kdD"/>
+                    <include reference="sWA-mJ-1Rt"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+</document>

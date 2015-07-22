@@ -122,6 +122,7 @@ enum {
     
     //alloc schedule dict to save temporary data for booking
     self.scheduleDict = [[NSMutableDictionary alloc] init];
+    self.timeDict = [[NSMutableDictionary alloc] init];
     
     //check if free session, dont show select duration and total
     if (self.isFreeSession) {
@@ -144,6 +145,11 @@ enum {
     }
     else if (screenSize.height == 480) {
         [self.mainScrollView setContentSize:CGSizeMake(self.mainScrollView.frame.size.width, self.mainScrollView.frame.size.height+200)];
+    }
+    
+    if (self.isBookLive) {
+        self.btnViewAvailability.hidden = YES;
+        self.mainScrollView.frame = CGRectMake(self.mainScrollView.frame.origin.x, self.mainScrollView.frame.origin.y, self.mainScrollView.frame.size.width, screenSize.height-64);
     }
 }
 
@@ -274,7 +280,7 @@ enum {
             return;
         }
     }
-    if (self.timeDict == nil) {
+    if (self.timeDict == nil && !self.isBookLive) {
         UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select available time before proceeding the payment" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [dialog show];
         return;
@@ -298,7 +304,6 @@ enum {
     [self.scheduleDict setObject:[expertDict objectForKey:@"id"] forKey:@"expertId"];
     
     if (self.isBookLive) {
-        
         //if Book Live, we dont need to choose availability, just get current device time and device timezone
         
         NSDate *currentDate  = [NSDate date];
@@ -320,7 +325,6 @@ enum {
         dayComponent.minute = duration;
         NSDate *toDate = [theCalendar dateByAddingComponents:dayComponent toDate:fromDate options:0];
         NSString *toDateStr = [ToolClass dateTimeByTimezone:timezone.name andDate2:toDate];
-        NSLog(@"toDate = %@",toDateStr);
         
         NSString *fromDateOnly = [ToolClass dateByTimezone:timezone.name andDate:fromDateStr];
         NSString *toDateOnly   = [ToolClass dateByTimezone:timezone.name andDate:toDateStr];
@@ -331,29 +335,43 @@ enum {
         NSString *title = [NSString stringWithFormat:@"%@ - %@",[ToolClass convertHourToAM_PM:fromTimeOnly],[ToolClass convertHourToAM_PM:toTimeOnly]];
         
         [self.timeDict setValue:fromDateOnly forKey:@"date_from"];
-        [self.timeDict setValue:toDateOnly forKey:@"to_from"];
+        [self.timeDict setValue:toDateOnly forKey:@"date_to"];
         [self.timeDict setValue:[NSNumber numberWithInt:0] forKey:@"free"];
         [self.timeDict setValue:fromTimeOnly forKey:@"from_time"];
         [self.timeDict setValue:toTimeOnly forKey:@"to_time"];
         [self.timeDict setValue:title forKey:@"title"];
-    }
-    else
+        
         [self.scheduleDict setObject:self.timeDict forKey:@"timeDict"];
-    
-    self.navigationItem.title = @"";
-    
-    if (!self.isFreeSession) {
-        PaymentViewController *controller = [[PaymentViewController alloc] initWithNibName:@"PaymentViewController" bundle:nil];
-        controller.scheduleDict = self.scheduleDict;
-        [self.navigationController pushViewController:controller animated:YES];
+        
+        if (![BookLiveViewController instance].isOpening) {
+            UINavigationController *tmpNavController = [[UINavigationController alloc] initWithRootViewController:[BookLiveViewController instance]];
+            [self.navigationController presentViewController:tmpNavController animated:YES completion:nil];
+        }
+        [[BookLiveViewController instance] reloadInput];
+        [[BookLiveViewController instance] setScheduleDict:self.scheduleDict];
+        
+        //call API to send push notification to expert
+        
+//        NSLog(@"scheduleDict = %@",self.scheduleDict);
     }
     else {
-        //book appointment without payment
-        [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        [self.scheduleDict setObject:self.timeDict forKey:@"timeDict"];
         
-        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[self.scheduleDict objectForKey:@"message"],@"about",[self.scheduleDict objectForKey:@"expertId"],@"expert_id",[NSNumber numberWithInt:self.freeSessionDuration],@"duration",[self.timeDict objectForKey:@"timezone"],@"client_timezone",[NSNumber numberWithFloat:0],@"total",[self.timeDict objectForKey:@"date_from"],@"date",[self.timeDict objectForKey:@"from_time"],@"from_time",[self.timeDict objectForKey:@"to_time"],@"to_time",@"iOS",@"booked_from",[[ToolClass instance] getUserToken],@"token",[NSNumber numberWithInt:self.isFreeSession],@"free",@"",@"stripe_token", nil];
+        self.navigationItem.title = @"";
         
-        [[ToolClass instance] bookSchedule:params withViewController:self];
+        if (!self.isFreeSession) {
+            PaymentViewController *controller = [[PaymentViewController alloc] initWithNibName:@"PaymentViewController" bundle:nil];
+            controller.scheduleDict = self.scheduleDict;
+            [self.navigationController pushViewController:controller animated:YES];
+        }
+        else {
+            //book appointment without payment
+            [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[self.scheduleDict objectForKey:@"message"],@"about",[self.scheduleDict objectForKey:@"expertId"],@"expert_id",[NSNumber numberWithInt:self.freeSessionDuration],@"duration",[self.timeDict objectForKey:@"timezone"],@"client_timezone",[NSNumber numberWithFloat:0],@"total",[self.timeDict objectForKey:@"date_from"],@"date",[self.timeDict objectForKey:@"from_time"],@"from_time",[self.timeDict objectForKey:@"to_time"],@"to_time",@"iOS",@"booked_from",[[ToolClass instance] getUserToken],@"token",[NSNumber numberWithInt:self.isFreeSession],@"free",@"",@"stripe_token", nil];
+            
+            [[ToolClass instance] bookSchedule:params withViewController:self];
+        }
     }
 }
 

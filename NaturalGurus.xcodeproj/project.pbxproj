@@ -101,6 +101,8 @@
 		B0CC0E721B54AED5000A5798 /* AFNetworkActivityLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CC0E711B54AED5000A5798 /* AFNetworkActivityLogger.m */; };
 		B0CCAFA61B58E0B70002A397 /* InputPhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAFA41B58E0B70002A397 /* InputPhoneViewController.m */; };
 		B0CCAFA71B58E0B70002A397 /* InputPhoneViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0CCAFA51B58E0B70002A397 /* InputPhoneViewController.xib */; };
+		B0CCAFAE1B590F150002A397 /* BookLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CCAFAC1B590F150002A397 /* BookLiveViewController.m */; };
+		B0CCAFAF1B590F150002A397 /* BookLiveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0CCAFAD1B590F150002A397 /* BookLiveViewController.xib */; };
 		B0CD2E441B3901CF00764216 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CD2E421B3901CF00764216 /* LoginViewController.m */; };
 		B0CD2E451B3901CF00764216 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0CD2E431B3901CF00764216 /* LoginViewController.xib */; };
 		B0CD2E491B3901F800764216 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CD2E471B3901F800764216 /* SignUpViewController.m */; };
@@ -336,6 +338,9 @@
 		B0CCAFA31B58E0B70002A397 /* InputPhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputPhoneViewController.h; sourceTree = "<group>"; };
 		B0CCAFA41B58E0B70002A397 /* InputPhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputPhoneViewController.m; sourceTree = "<group>"; };
 		B0CCAFA51B58E0B70002A397 /* InputPhoneViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InputPhoneViewController.xib; sourceTree = "<group>"; };
+		B0CCAFAB1B590F150002A397 /* BookLiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookLiveViewController.h; sourceTree = "<group>"; };
+		B0CCAFAC1B590F150002A397 /* BookLiveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookLiveViewController.m; sourceTree = "<group>"; };
+		B0CCAFAD1B590F150002A397 /* BookLiveViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookLiveViewController.xib; sourceTree = "<group>"; };
 		B0CD2E411B3901CF00764216 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		B0CD2E421B3901CF00764216 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		B0CD2E431B3901CF00764216 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -1059,6 +1064,9 @@
 				B0C5E21D1B4CD7B2002810EE /* ConfirmedViewController.h */,
 				B0C5E21E1B4CD7B2002810EE /* ConfirmedViewController.m */,
 				B0C5E21F1B4CD7B2002810EE /* ConfirmedViewController.xib */,
+				B0CCAFAB1B590F150002A397 /* BookLiveViewController.h */,
+				B0CCAFAC1B590F150002A397 /* BookLiveViewController.m */,
+				B0CCAFAD1B590F150002A397 /* BookLiveViewController.xib */,
 			);
 			path = Browse;
 			sourceTree = "<group>";
@@ -1227,6 +1235,7 @@
 				C2A5E3C31B27FACB000F7F29 /* reveal-icon.png in Resources */,
 				C246389B1B317213002A4820 /* logo@2x.png in Resources */,
 				C21392001B36B6AE00A2A1B5 /* LeftSideViewController.xib in Resources */,
+				B0CCAFAF1B590F150002A397 /* BookLiveViewController.xib in Resources */,
 				C2ED33AD1B302D2E0032F885 /* MyProfileViewController.xib in Resources */,
 				C2195B031B2EC8AF005733EB /* ScheduleAppointmentViewController.xib in Resources */,
 				B0C3F4921B452C04001F44B9 /* TwitterKitResources.bundle in Resources */,
@@ -1320,6 +1329,7 @@
 				B00F66F41B380BF400521850 /* AvailabilityViewController.m in Sources */,
 				C2F740B41B2A71D300C8635F /* SDWebImageDownloader.m in Sources */,
 				B0C52F811B53ADE300309DA0 /* STPAPIClient+ApplePay.m in Sources */,
+				B0CCAFAE1B590F150002A397 /* BookLiveViewController.m in Sources */,
 				C2F740B91B2A71D300C8635F /* UIImage+GIF.m in Sources */,
 				B0C52FA01B53ADE300309DA0 /* STPBankAccount.m in Sources */,
 				C2E4C30E1B34405B000DF6BF /* TTTAttributedLabel.m in Sources */,

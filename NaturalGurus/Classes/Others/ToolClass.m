@@ -415,8 +415,12 @@
 
 + (NSString*) convertHourToAM_PM:(NSString*)rawHour {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"HH:mm:ss"];
     
+    if (rawHour.length > 5)
+        [dateFormatter setDateFormat:@"HH:mm:ss"];
+    else
+        [dateFormatter setDateFormat:@"HH:mm"];
+        
     NSDate *date = [dateFormatter dateFromString:rawHour];
     
     [dateFormatter setDateFormat:@"hh:mm a"];

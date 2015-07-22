@@ -416,10 +416,51 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     NSLog(@"userInfo = %@",userInfo);
     NSString *message = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
-    int orderId = [[userInfo objectForKey:@"order_id"] intValue];
-    UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Message" message:message delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",@"Cancel",nil];
-    dialog.tag = orderId;
-    [dialog show];
+    
+    //test
+    int type = [[[userInfo objectForKey:@"aps"] objectForKey:@"type"] intValue];
+    //end test
+    if (type == 1) {
+        //we have 3 steps for this flow
+        //step = 0: means request book live. When we recive this value, we need to show Booking Information. This step only handle UI for expert.
+        //step = 1: means expert send notification to Accept or Decline booking. This step only handle UI for Client.
+        //step = 2: means client send notification after processing payment success. This step handle show Detail Booking with Enter Meeting Room button for both on UI.
+        int step = [[[userInfo objectForKey:@"aps"] objectForKey:@"step"] intValue];
+
+        if (step == 0) {
+            //show Booking Information for Expert.
+            //step 1 contain some fields about booking such as: expert email (id), client email, client avatar, duration, timezone, date, time
+            
+        }
+        else if (step == 1){
+            //client receive push notification from expert, we need to check whether expert accept or decline.
+            int expertConfirm = [[[userInfo objectForKey:@"aps"] objectForKey:@"expert_confirm"] intValue];
+            if (expertConfirm == 0) {
+                //decline
+                [[BookLiveViewController instance] expertDecline];
+            }
+            else {
+                [[BookLiveViewController instance] expertAccept];
+            }
+        }
+        else if (step == 2) {
+            int paymentSuccess = [[[userInfo objectForKey:@"aps"] objectForKey:@"payment_success"] intValue];
+            int userRole = [[ToolClass instance] getUserRole];
+            
+            if (userRole == isUser) {
+                if (paymentSuccess) {
+                    int orderId = [[[userInfo objectForKey:@"aps"] objectForKey:@"order_id"] intValue];//[[userInfo objectForKey:@"order_id"] intValue];
+                    [[BookLiveViewController instance] handleAfterPaymentSuccess:orderId];
+                }
+            }
+        }
+    }
+    else {
+        int orderId = [[userInfo objectForKey:@"order_id"] intValue];
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Message" message:message delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",@"Cancel",nil];
+        dialog.tag = orderId;
+        [dialog show];
+    }
 }
 
 #pragma mark UIAlertViewDelegate

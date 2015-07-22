@@ -22,6 +22,7 @@
     #import "MBProgressHUD.h"
     #import "AFNetworking.h"
     #import "Stripe.h"
+    #import "BookLiveViewController.h"
 #endif
 
 #define HIDE_STATUS_BAR NO

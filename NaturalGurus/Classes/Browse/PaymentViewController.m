@@ -57,8 +57,9 @@ typedef enum {
     NSString *timeFrom  = [[self.scheduleDict objectForKey:@"timeDict"] objectForKey:@"from_time"];
     NSString *timeTo    = [[self.scheduleDict objectForKey:@"timeDict"] objectForKey:@"to_time"];
     
-    timeFrom    = [ToolClass convertHourToAM_PM:[NSString stringWithFormat:@"%@:00",timeFrom]];
-    timeTo      = [ToolClass convertHourToAM_PM:[NSString stringWithFormat:@"%@:00",timeTo]];
+    
+    timeFrom = [ToolClass convertHourToAM_PM:timeFrom];
+    timeTo = [ToolClass convertHourToAM_PM:timeTo];
     
     self.lbTime.text = [NSString stringWithFormat:@"%@ - %@",timeFrom,timeTo];
 }

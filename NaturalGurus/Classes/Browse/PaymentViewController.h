@@ -17,6 +17,7 @@
     int currentYearIndex;
 }
 
+@property (assign, readwrite) BOOL isBookLive;
 @property (strong, nonatomic) IBOutlet UITextField *txtNameOnCard;
 @property (strong, nonatomic) IBOutlet UITextField *txtCardNumber;
 @property (strong, nonatomic) IBOutlet UIButton *btnExpiredMonth;
