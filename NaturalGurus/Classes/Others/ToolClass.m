@@ -869,7 +869,6 @@
     
     [manager GET:@"/api/v1/experts" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         // 3
-//        NSLog(@"response: %@",(NSDictionary*)responseObject);
         //get status of request
         int status = [[responseObject objectForKey:@"status"] intValue];
         
@@ -878,10 +877,12 @@
             NSArray *expertArray = [[responseObject objectForKey:@"data"] objectForKey:@"items"];
             [viewController reorganizeExpertArray:expertArray];
         }
-        else if (status == 401){
-//            NSString *message = [responseObject objectForKey:@"message"];
-//            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//            [dialog show];
+        else {
+            [MBProgressHUD hideHUDForView:viewController.navigationController.view animated:YES];
+            
+            NSString *message = [responseObject objectForKey:@"message"];
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
             
         }
         
@@ -892,7 +893,7 @@
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                             message:[error localizedDescription]
                                                            delegate:nil
-                                                  cancelButtonTitle:@"Ok"
+                                                  cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
         [alertView show];
     }];
@@ -933,7 +934,7 @@
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                             message:[error localizedDescription]
                                                            delegate:nil
-                                                  cancelButtonTitle:@"Ok"
+                                                  cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
         [alertView show];
     }];
@@ -978,7 +979,7 @@
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                             message:[error localizedDescription]
                                                            delegate:nil
-                                                  cancelButtonTitle:@"Ok"
+                                                  cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
         [alertView show];
     }];
@@ -1023,7 +1024,7 @@
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                             message:[error localizedDescription]
                                                            delegate:nil
-                                                  cancelButtonTitle:@"Ok"
+                                                  cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
         [alertView show];
     }];
@@ -1064,7 +1065,7 @@
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                             message:[error localizedDescription]
                                                            delegate:nil
-                                                  cancelButtonTitle:@"Ok"
+                                                  cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
         [alertView show];
     }];

@@ -429,8 +429,17 @@
 
         if (step == 0) {
             //show Booking Information for Expert.
-            //step 1 contain some fields about booking such as: expert email (id), client email, client avatar, duration, timezone, date, time
+            //step 0 contain some fields about booking such as: expert email (id), client email, client avatar, duration, timezone, date, time
             
+            //test
+            BOOL isOpening = [[LiveRequestListViewController instance] isOpening];
+            if (!isOpening) {
+                UINavigationController *tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:[LiveRequestListViewController instance]];
+                [self.navController presentViewController:tmpNavigationController animated:YES completion:nil];
+            }
+            [[LiveRequestListViewController instance] reloadLiveRequest];
+            
+            //end test
         }
         else if (step == 1){
             //client receive push notification from expert, we need to check whether expert accept or decline.

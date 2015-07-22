@@ -108,13 +108,6 @@
     
     long expertId = [[ToolClass instance] getExpertId];
     
-//    //test
-//    expertId = 12;
-//    self.timezoneValueString = @"Asia/Jakarta";
-//    self.isFree = 0;
-//    self.duration = 45;
-//    //end test
-    
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.timezoneValueString,@"timezone",[NSNumber numberWithBool:self.isFree],@"free",[NSNumber numberWithInt:self.duration],@"duration",_fromDate,@"from_date",_toDate,@"to_date", nil];
     [[ToolClass instance] loadAvailabilitiesByExpertId:expertId params:params withViewController:self];
 }

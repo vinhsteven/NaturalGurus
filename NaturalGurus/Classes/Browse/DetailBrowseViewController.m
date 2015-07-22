@@ -212,8 +212,6 @@ enum {
 }
 
 - (void) getTotalExpertReviews {
-    //test
-//    self.expertId = 12;
     [[ToolClass instance] getTotalReviewsByExpertId:self.expertId pageIndex:1 withViewController:self];
 }
 
@@ -385,8 +383,6 @@ enum {
     [self.reviewData removeAllObjects];
     [self.reviewHeaders removeAllObjects];
     
-    //test
-//    self.expertId = 12;
     [self loadExpertReviewsById:self.expertId];
 }
 

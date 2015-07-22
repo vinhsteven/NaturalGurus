@@ -23,6 +23,7 @@
     #import "AFNetworking.h"
     #import "Stripe.h"
     #import "BookLiveViewController.h"
+    #import "LiveRequestListViewController.h"
 #endif
 
 #define HIDE_STATUS_BAR NO

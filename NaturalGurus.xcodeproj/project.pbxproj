@@ -124,6 +124,8 @@
 		B0D21C1F1B43849300D703B0 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B0D21C161B43849300D703B0 /* AFURLSessionManager.m */; };
 		B0D21C221B43896F00D703B0 /* TableView+RefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = B0D21C211B43896F00D703B0 /* TableView+RefreshControl.m */; };
 		B0D21C241B438F8800D703B0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0D21C231B438F8800D703B0 /* QuartzCore.framework */; };
+		B0D5939B1B5F894300C0186B /* LiveRequestListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0D593991B5F894300C0186B /* LiveRequestListViewController.m */; };
+		B0D5939C1B5F894300C0186B /* LiveRequestListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0D5939A1B5F894300C0186B /* LiveRequestListViewController.xib */; };
 		C21391FE1B36B19200A2A1B5 /* btnSave@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C21391FD1B36B19200A2A1B5 /* btnSave@2x.png */; };
 		C21392001B36B6AE00A2A1B5 /* LeftSideViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C21391FF1B36B6AE00A2A1B5 /* LeftSideViewController.xib */; };
 		C21392051B36B82000A2A1B5 /* iconBrowse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C21392011B36B82000A2A1B5 /* iconBrowse@2x.png */; };
@@ -376,6 +378,9 @@
 		B0D21C201B43896F00D703B0 /* TableView+RefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TableView+RefreshControl.h"; sourceTree = "<group>"; };
 		B0D21C211B43896F00D703B0 /* TableView+RefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TableView+RefreshControl.m"; sourceTree = "<group>"; };
 		B0D21C231B438F8800D703B0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B0D593981B5F894300C0186B /* LiveRequestListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveRequestListViewController.h; sourceTree = "<group>"; };
+		B0D593991B5F894300C0186B /* LiveRequestListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveRequestListViewController.m; sourceTree = "<group>"; };
+		B0D5939A1B5F894300C0186B /* LiveRequestListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LiveRequestListViewController.xib; sourceTree = "<group>"; };
 		C21391FD1B36B19200A2A1B5 /* btnSave@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btnSave@2x.png"; sourceTree = "<group>"; };
 		C21391FF1B36B6AE00A2A1B5 /* LeftSideViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftSideViewController.xib; sourceTree = "<group>"; };
 		C21392011B36B82000A2A1B5 /* iconBrowse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconBrowse@2x.png"; sourceTree = "<group>"; };
@@ -1067,6 +1072,9 @@
 				B0CCAFAB1B590F150002A397 /* BookLiveViewController.h */,
 				B0CCAFAC1B590F150002A397 /* BookLiveViewController.m */,
 				B0CCAFAD1B590F150002A397 /* BookLiveViewController.xib */,
+				B0D593981B5F894300C0186B /* LiveRequestListViewController.h */,
+				B0D593991B5F894300C0186B /* LiveRequestListViewController.m */,
+				B0D5939A1B5F894300C0186B /* LiveRequestListViewController.xib */,
 			);
 			path = Browse;
 			sourceTree = "<group>";
@@ -1206,6 +1214,7 @@
 				C21392051B36B82000A2A1B5 /* iconBrowse@2x.png in Resources */,
 				B0C5E2231B4CDC7E002810EE /* iconPaymentSuccessful@2x.png in Resources */,
 				B0C52F901B53ADE300309DA0 /* StripeOSX-Debug.xcconfig in Resources */,
+				B0D5939C1B5F894300C0186B /* LiveRequestListViewController.xib in Resources */,
 				C24638951B317213002A4820 /* btnFacebook@2x.png in Resources */,
 				B0C52F881B53ADE300309DA0 /* StripeiOS Tests-Shared.xcconfig in Resources */,
 				C21A94B71B26E12B00698B01 /* Images.xcassets in Resources */,
@@ -1313,6 +1322,7 @@
 				B0C5E2201B4CD7B2002810EE /* ConfirmedViewController.m in Sources */,
 				B0C3F46C1B45287E001F44B9 /* MBProgressHUD.m in Sources */,
 				B0D21C171B43849300D703B0 /* AFHTTPRequestOperation.m in Sources */,
+				B0D5939B1B5F894300C0186B /* LiveRequestListViewController.m in Sources */,
 				C2F462A81B283233005C5418 /* MMDrawerController.m in Sources */,
 				B0C52FA11B53ADE300309DA0 /* STPCard.m in Sources */,
 				C2F740B31B2A71D300C8635F /* SDWebImageDecoder.m in Sources */,

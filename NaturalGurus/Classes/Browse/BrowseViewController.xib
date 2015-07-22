@@ -42,14 +42,6 @@
                         <outlet property="delegate" destination="-1" id="hY1-7b-fWe"/>
                     </connections>
                 </searchBar>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="dpT-Yr-j7L" customClass="TableView_RefreshControl">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="enB-xn-MuS"/>
-                        <outlet property="delegate" destination="-1" id="vRc-iF-TxY"/>
-                    </connections>
-                </tableView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YLV-B1-NC3">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <color key="backgroundColor" red="1" green="0.02727628403" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -182,6 +174,14 @@
                         <action selector="handleSorting:" destination="-1" eventType="touchUpInside" id="2xO-p6-WGi"/>
                     </connections>
                 </button>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="dpT-Yr-j7L" customClass="TableView_RefreshControl">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="enB-xn-MuS"/>
+                        <outlet property="delegate" destination="-1" id="vRc-iF-TxY"/>
+                    </connections>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
@@ -217,11 +217,11 @@
             <variation key="default">
                 <mask key="subviews">
                     <exclude reference="ieQ-EV-eyL"/>
-                    <exclude reference="dpT-Yr-j7L"/>
                     <exclude reference="YLV-B1-NC3"/>
                     <exclude reference="T6i-y2-oAG"/>
                     <exclude reference="U2I-jB-mam"/>
                     <exclude reference="723-qh-pRt"/>
+                    <exclude reference="dpT-Yr-j7L"/>
                 </mask>
                 <mask key="constraints">
                     <exclude reference="QIc-fh-lsm"/>
@@ -248,11 +248,11 @@
             <variation key="heightClass=regular-widthClass=compact">
                 <mask key="subviews">
                     <include reference="ieQ-EV-eyL"/>
-                    <include reference="dpT-Yr-j7L"/>
                     <include reference="YLV-B1-NC3"/>
                     <include reference="T6i-y2-oAG"/>
                     <include reference="U2I-jB-mam"/>
                     <include reference="723-qh-pRt"/>
+                    <include reference="dpT-Yr-j7L"/>
                 </mask>
                 <mask key="constraints">
                     <include reference="QIc-fh-lsm"/>
