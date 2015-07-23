@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LiveRequestListViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface LiveRequestListViewController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
+    BOOL isLoading;
+}
 
 @property (assign,readwrite) BOOL isOpening; //to prevent present when it's opening
 @property (strong,nonatomic) IBOutlet UITableView *mainTableView;
@@ -16,5 +18,6 @@
 
 + (LiveRequestListViewController *) instance;
 - (void) reloadLiveRequest;
+- (void) reorganizeLiveRequest:(NSArray*)array;
 
 @end

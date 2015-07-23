@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "DetailBrowseViewController.h"
 #import "BrowseViewController.h"
-#import "ScheduleAppointmentViewController.h"
 
 enum {
     kAboutSection = 0,

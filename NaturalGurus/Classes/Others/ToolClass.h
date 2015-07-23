@@ -18,6 +18,7 @@
 #import "DetailAppointmentViewController.h"
 #import "MyProfileViewController.h"
 #import "StreamingVideoViewController.h"
+#import "LiveRequestListViewController.h"
 
 @interface ToolClass : NSObject  {
     unsigned long expertId;
@@ -134,5 +135,11 @@
 - (void) finishAppointment:(NSDictionary*)params withViewController:(StreamingVideoViewController*)viewController;
 - (void) handleUpdateAppointmentState:(int)type appointmentId:(long)appointmentId params:(NSDictionary*)params withViewController:(DetailAppointmentViewController*)viewController;
 - (void) loadDetailAppointmentById:(long)orderId params:(NSDictionary*)params withViewController:(DetailAppointmentViewController*)viewController;
+
+#pragma mark LIVE REQUEST
+- (void) sendLiveRequest:(NSDictionary*)params viewController:(ScheduleAppointmentViewController*)viewController;
+- (void) loadLiveRequestList:(NSDictionary*)params viewController:(LiveRequestListViewController*)viewController;
+- (void) approveLiveRequest:(NSDictionary*)params viewController:(LiveRequestListViewController*)viewController;
+- (void) declineLiveRequest:(NSDictionary*)params viewController:(LiveRequestListViewController*)viewController;
 
 @end

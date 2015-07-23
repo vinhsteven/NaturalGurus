@@ -43,7 +43,24 @@
     self.view.backgroundColor = TABLE_BACKGROUND_COLOR;
     
     self.txtMessage.backgroundColor = [UIColor clearColor];
-    
+}
+
+- (void) viewDidLayoutSubviews {
+    if (myIndicatorView == nil) {
+        myIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        myIndicatorView.center = CGPointMake(self.txtMessage.center.x, self.txtMessage.frame.origin.y+self.txtMessage.frame.size.height + 20);
+        [self.view addSubview:myIndicatorView];
+        myIndicatorView.hidden = YES;
+        [myIndicatorView startAnimating];
+    }
+}
+
+- (void) closeView {
+    self.isOpening = NO;
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void) showCloseButton {
     UIButton *btnLeft = [UIButton buttonWithType:UIButtonTypeCustom];
     btnLeft.frame = CGRectMake(0, 0, 24, 24);
     [btnLeft setImage:[UIImage imageNamed:@"btnClose.png"] forState:UIControlStateNormal];
@@ -53,12 +70,8 @@
     self.navigationItem.leftBarButtonItem = btnItem;
 }
 
-- (void) closeView {
-    self.isOpening = NO;
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 - (void) reloadInput {
+    myIndicatorView.hidden = NO;
     self.isOpening = YES;
     
     countDown = 120;
@@ -81,9 +94,13 @@
         [timer invalidate];
         timer = nil;
         
+        myIndicatorView.hidden = YES;
+        
         self.lbTitle.text = @"WE'RE SORRY, BUT THERE WAS NO REPLY FROM THE EXPERT.";
         
         self.txtMessage.text = @"You can always schedule an appointment for later or choose another expert.";
+        
+        [self showCloseButton];
     }
 }
 
@@ -92,11 +109,14 @@
         [timer invalidate];
         timer = nil;
     }
+    myIndicatorView.hidden = YES;
     self.lbTitle.text = @"WE'RE SORRY, BUT THE EXPERT HAS INDICATED THEY ARE NOT AVAILABLE AT THE MOMENT.";
     self.lbTitle.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:15];
     self.lbTitle.numberOfLines = 3;
     
     self.txtMessage.text = @"You can always schedule an appointment for later or choose another expert.";
+    
+    [self showCloseButton];
 }
 
 - (void) expertAccept {
@@ -107,6 +127,8 @@
     PaymentViewController *controller = [[PaymentViewController alloc] initWithNibName:@"PaymentViewController" bundle:nil];
     controller.scheduleDict = self.scheduleDict;
     [self.navigationController pushViewController:controller animated:YES];
+    
+    [self showCloseButton];
 }
 
 - (void) handleAfterPaymentSuccess:(long)orderId {

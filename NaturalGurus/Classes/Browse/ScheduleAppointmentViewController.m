@@ -149,7 +149,7 @@ enum {
     
     if (self.isBookLive) {
         self.btnViewAvailability.hidden = YES;
-        self.mainScrollView.frame = CGRectMake(self.mainScrollView.frame.origin.x, self.mainScrollView.frame.origin.y, self.mainScrollView.frame.size.width, screenSize.height-64);
+        self.mainScrollView.frame = CGRectMake(self.mainScrollView.frame.origin.x, self.mainScrollView.frame.origin.y, self.mainScrollView.frame.size.width, screenSize.height-44);
     }
 }
 
@@ -343,16 +343,11 @@ enum {
         
         [self.scheduleDict setObject:self.timeDict forKey:@"timeDict"];
         
-        if (![BookLiveViewController instance].isOpening) {
-            UINavigationController *tmpNavController = [[UINavigationController alloc] initWithRootViewController:[BookLiveViewController instance]];
-            [self.navigationController presentViewController:tmpNavController animated:YES completion:nil];
-        }
-        [[BookLiveViewController instance] reloadInput];
-        [[BookLiveViewController instance] setScheduleDict:self.scheduleDict];
-        
         //call API to send push notification to expert
+        NSString *token = [[ToolClass instance] getUserToken];
         
-//        NSLog(@"scheduleDict = %@",self.scheduleDict);
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:token,@"token",[self.scheduleDict objectForKey:@"expertId"],@"expert_id",[self.scheduleDict objectForKey:@"message"],@"about",[NSNumber numberWithInt:duration],@"duration",[self.scheduleDict objectForKey:@"total"],@"total", nil];
+        [[ToolClass instance] sendLiveRequest:params viewController:self];
     }
     else {
         [self.scheduleDict setObject:self.timeDict forKey:@"timeDict"];
@@ -378,6 +373,15 @@ enum {
 - (void) bookingSuccess {
     ConfirmedViewController *controller = [[ConfirmedViewController alloc] initWithNibName:@"ConfirmedViewController" bundle:nil];
     [self.navigationController pushViewController:controller animated:YES];
+}
+
+- (void) sendLiveRequestSuccessful {
+    if (![BookLiveViewController instance].isOpening) {
+        UINavigationController *tmpNavController = [[UINavigationController alloc] initWithRootViewController:[BookLiveViewController instance]];
+        [self.navigationController presentViewController:tmpNavController animated:YES completion:nil];
+    }
+    [[BookLiveViewController instance] reloadInput];
+    [[BookLiveViewController instance] setScheduleDict:self.scheduleDict];
 }
 
 #pragma mark UITextFieldDelegate

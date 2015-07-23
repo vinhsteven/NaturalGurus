@@ -13,6 +13,10 @@
     NSTimer *timer;
     int countDownDuration;
     UILabel *lbTimeLeft;
+    UILabel *lbAvailableTitle;
+    
+    UIButton *btnApprove;
+    UIButton *btnDecline;
 }
 
 @property (strong,nonatomic) NSMutableDictionary *timeDict;
@@ -113,16 +117,17 @@
         lbSecond.textColor = [UIColor lightGrayColor];
         [self addSubview:lbSecond];
         
-        UILabel *lbAvailableTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, lbTimeLeft.frame.origin.y+30, 250, 21)];
+        lbAvailableTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, lbTimeLeft.frame.origin.y+30, 270, 21)];
         lbAvailableTitle.backgroundColor = [UIColor clearColor];
         lbAvailableTitle.textColor = [UIColor lightGrayColor];
         lbAvailableTitle.font = [UIFont fontWithName:DEFAULT_FONT size:14];
         lbAvailableTitle.text = @"Are you available for this appointment now?";
         [self addSubview:lbAvailableTitle];
         
-        UIButton *btnApprove = [UIButton buttonWithType:UIButtonTypeCustom];
+        btnApprove = [UIButton buttonWithType:UIButtonTypeCustom];
         btnApprove.frame = CGRectMake(lbAvailableTitle.frame.origin.x, lbAvailableTitle.frame.origin.y+30, 80, 30);
         [btnApprove setTitle:@"Approve" forState:UIControlStateNormal];
+        btnApprove.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
         [btnApprove setBackgroundImage:[ToolClass imageFromColor:GREEN_COLOR] forState:UIControlStateNormal];
         [btnApprove addTarget:self action:@selector(approveLiveRequest) forControlEvents:UIControlEventTouchUpInside];
         
@@ -130,9 +135,10 @@
         btnApprove.layer.masksToBounds = YES;
         [self addSubview:btnApprove];
         
-        UIButton *btnDecline = [UIButton buttonWithType:UIButtonTypeCustom];
+        btnDecline = [UIButton buttonWithType:UIButtonTypeCustom];
         btnDecline.frame = CGRectMake(btnApprove.frame.origin.x + btnApprove.frame.size.width + 20, btnApprove.frame.origin.y, 80, 30);
         [btnDecline setTitle:@"Decline" forState:UIControlStateNormal];
+        btnDecline.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
         [btnDecline setBackgroundImage:[ToolClass imageFromColor:RED_COLOR] forState:UIControlStateNormal];
         [btnDecline addTarget:self action:@selector(declineLiveRequest) forControlEvents:UIControlEventTouchUpInside];
         
@@ -140,7 +146,19 @@
         btnDecline.layer.masksToBounds = YES;
         [self addSubview:btnDecline];
         
-        timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(countDown) userInfo:nil repeats:YES];
+        //handle if countdownduration <= 0
+        if (countDownDuration <= 0) {
+            countDownDuration = 0;
+            
+            lbTimeLeft.text = [NSString stringWithFormat:@"%d",countDownDuration];
+            
+            btnApprove.hidden = btnDecline.hidden = YES;
+            lbAvailableTitle.text = @"Time Up";
+            lbAvailableTitle.textColor = RED_COLOR;
+        }
+        else {
+            timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(countDown) userInfo:nil repeats:YES];
+        }
     }
     return self;
 }
@@ -148,8 +166,13 @@
 - (void) countDown {
     countDownDuration--;
     
-    if (countDownDuration == 0) {
+    if (countDownDuration <= 0) {
         [timer invalidate];
+        countDownDuration = 0;
+        
+        btnApprove.hidden = btnDecline.hidden = YES;
+        lbAvailableTitle.text = @"Time Up";
+        lbAvailableTitle.textColor = RED_COLOR;
     }
     
     lbTimeLeft.text = [NSString stringWithFormat:@"%d",countDownDuration];
@@ -225,30 +248,29 @@
 }
 
 - (void) reloadLiveRequest {
-    [mainArray removeAllObjects];
-    self.isOpening = YES;
-    
-    //test
-    NSString *about = @"Test booking";
-    NSString *clientAvatar = @"https://naturalgurus.com/templates/frontend/default/images/default.png";
-    NSString *date = @"2015-07-22";
-    int duration = 8;
-    NSString *email = @"vinhsteven@yahoo.com";
-    long expertId = 12;
-    NSString *fromTime = @"18:40:00";
-    NSString *toTime   = @"18:48:00";
-    NSString *timezone = @"Asia/Jakarta";
-    NSString *clientName = @"vinh xuan";
-    float total = 0;
-    int status = 0;
-    NSString *createdDate = @"2015-07-22 18:14:00";
-    NSString *type = @"Live appointment (right now)";
-    
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:about,@"about",clientAvatar,@"client_avatar",date,@"date",[NSNumber numberWithInt:duration],@"duration",email,@"email",[NSNumber numberWithLong:expertId],@"expertId",fromTime,@"from_time",toTime,@"to_time",timezone,@"timezone",clientName,@"name",[NSNumber numberWithFloat:total],@"total",[NSNumber numberWithInt:status],@"status",createdDate,@"created_at",type,@"type", nil];
-    [mainArray addObject:dict];
-    
+    if (!isLoading) {
+        isLoading = YES;
+        [mainArray removeAllObjects];
+        self.isOpening = YES;
+        
+        NSString *token = [[ToolClass instance] getUserToken];
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:token,@"token", nil];
+        [[ToolClass instance] loadLiveRequestList:params viewController:self];
+    }
+}
+
+- (void) reorganizeLiveRequest:(NSArray*)array {
+    for (int i=0;i < [array count];i++) {
+        NSDictionary *dict = [array objectAtIndex:i];
+        
+        //server response GMT
+        NSString *timezone = @"GMT";
+        NSString *type = @"Live appointment (right now)";
+        NSMutableDictionary *newDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[dict objectForKey:@"about"],@"about",[dict objectForKey:@"duration"],@"duration",[dict objectForKey:@"email"],@"email",[dict objectForKey:@"expert_id"],@"expertId",[dict objectForKey:@"name"],@"name",[dict objectForKey:@"total"],@"total",[dict objectForKey:@"created_at"],@"created_at",type,@"type",timezone,@"timezone", nil];
+        [mainArray addObject:newDict];
+    }
     [self.mainTableView reloadData];
-    //end test
+    isLoading = NO;
 }
 
 - (void) viewDidLayoutSubviews {

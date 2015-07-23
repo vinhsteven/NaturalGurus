@@ -295,6 +295,7 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+//    NSLog(@"%@",[NSTimeZone knownTimeZoneNames]);
     NSDictionary *navigationTitleAttribute = [NSDictionary dictionaryWithObjectsAndKeys:GREEN_COLOR,
      NSForegroundColorAttributeName,
      GREEN_COLOR,
@@ -417,29 +418,26 @@
     NSLog(@"userInfo = %@",userInfo);
     NSString *message = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
     
-    //test
-    int type = [[[userInfo objectForKey:@"aps"] objectForKey:@"type"] intValue];
-    //end test
-    if (type == 1) {
+    NSString *type = [userInfo objectForKey:@"type"];
+    type = [type lowercaseString];
+    
+    if ([type isEqualToString:@"live"]) {
         //we have 3 steps for this flow
         //step = 0: means request book live. When we recive this value, we need to show Booking Information. This step only handle UI for expert.
         //step = 1: means expert send notification to Accept or Decline booking. This step only handle UI for Client.
         //step = 2: means client send notification after processing payment success. This step handle show Detail Booking with Enter Meeting Room button for both on UI.
-        int step = [[[userInfo objectForKey:@"aps"] objectForKey:@"step"] intValue];
+        int step = [[userInfo objectForKey:@"step"] intValue];
 
         if (step == 0) {
             //show Booking Information for Expert.
             //step 0 contain some fields about booking such as: expert email (id), client email, client avatar, duration, timezone, date, time
             
-            //test
             BOOL isOpening = [[LiveRequestListViewController instance] isOpening];
             if (!isOpening) {
                 UINavigationController *tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:[LiveRequestListViewController instance]];
                 [self.navController presentViewController:tmpNavigationController animated:YES completion:nil];
             }
             [[LiveRequestListViewController instance] reloadLiveRequest];
-            
-            //end test
         }
         else if (step == 1){
             //client receive push notification from expert, we need to check whether expert accept or decline.

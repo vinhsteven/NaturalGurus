@@ -13,6 +13,7 @@
 #import "UIImageView+WebCache.h"
 #import "STCollapseTableView.h"
 #import "EDStarRating.h"
+#import "ScheduleAppointmentViewController.h"
 
 @interface DetailBrowseViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
     CGSize screenSize;

@@ -48,9 +48,31 @@
     
     if (userRole == isUser)
         [self reloadAppointment];
-    else
+    else {
         [self reloadExpertAppointments];
+        
+        //test
+        UIButton *btnRight = [UIButton buttonWithType:UIButtonTypeCustom];
+        btnRight.frame = CGRectMake(0, 0, 20, 16);
+        [btnRight setImage:[UIImage imageNamed:@"reveal-icon.png"] forState:UIControlStateNormal];
+        [btnRight addTarget:self action:@selector(listLiveRequest) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *btnItem = [[UIBarButtonItem alloc] initWithCustomView:btnRight];
+        
+        self.navigationItem.rightBarButtonItem = btnItem;
+        //end test
+    }
 }
+
+//test
+- (void) listLiveRequest {
+    BOOL isOpening = [[LiveRequestListViewController instance] isOpening];
+    if (!isOpening) {
+        UINavigationController *tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:[LiveRequestListViewController instance]];
+        [self.navigationController presentViewController:tmpNavigationController animated:YES completion:nil];
+    }
+    [[LiveRequestListViewController instance] reloadLiveRequest];
+}
+//end test
 
 - (void) viewWillAppear:(BOOL)animated {
     self.navigationItem.title = @"Dashboard";

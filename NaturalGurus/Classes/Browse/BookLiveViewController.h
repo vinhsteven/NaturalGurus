@@ -11,6 +11,7 @@
 @interface BookLiveViewController : UIViewController {
     int countDown;
     NSTimer *timer;
+    UIActivityIndicatorView *myIndicatorView;
 }
 
 @property (assign,readwrite) BOOL isOpening; //to prevent present when it's opening

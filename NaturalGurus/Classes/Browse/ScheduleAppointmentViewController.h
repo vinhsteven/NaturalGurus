@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SZTextView.h"
 
 @interface ScheduleAppointmentViewController : UIViewController <UITextFieldDelegate,UITextViewDelegate,UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate> {
     
@@ -49,5 +50,6 @@
 - (IBAction) handleViewAvailability:(id)sender;
 
 - (void) bookingSuccess;
+- (void) sendLiveRequestSuccessful;
 
 @end
