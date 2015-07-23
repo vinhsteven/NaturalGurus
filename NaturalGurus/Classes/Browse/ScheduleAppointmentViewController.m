@@ -149,7 +149,7 @@ enum {
     
     if (self.isBookLive) {
         self.btnViewAvailability.hidden = YES;
-        self.mainScrollView.frame = CGRectMake(self.mainScrollView.frame.origin.x, self.mainScrollView.frame.origin.y, self.mainScrollView.frame.size.width, screenSize.height-44);
+        self.mainScrollView.frame = CGRectMake(self.mainScrollView.frame.origin.x, self.mainScrollView.frame.origin.y, self.mainScrollView.frame.size.width, screenSize.height-84);
     }
 }
 

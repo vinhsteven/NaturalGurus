@@ -444,8 +444,10 @@
         }
         else if (step == 1){
             //client receive push notification from expert, we need to check whether expert accept or decline.
-            int expertConfirm = [[[userInfo objectForKey:@"aps"] objectForKey:@"expert_confirm"] intValue];
-            if (expertConfirm == 0) {
+            NSString *status = [userInfo objectForKey:@"status"];
+            status = [status lowercaseString];
+            
+            if ([status isEqualToString:@"declined"]) {
                 //decline
                 [[BookLiveViewController instance] expertDecline];
             }
@@ -462,6 +464,9 @@
                     int orderId = [[[userInfo objectForKey:@"aps"] objectForKey:@"order_id"] intValue];//[[userInfo objectForKey:@"order_id"] intValue];
                     [[BookLiveViewController instance] handleAfterPaymentSuccess:orderId];
                 }
+            }
+            else {
+                
             }
         }
     }

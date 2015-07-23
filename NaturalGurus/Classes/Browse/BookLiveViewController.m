@@ -72,6 +72,7 @@
 - (void) reloadInput {
     myIndicatorView.hidden = NO;
     self.isOpening = YES;
+    [self hideCloseButton];
     
     countDown = 120;
     
@@ -89,9 +90,11 @@
     
     self.lbTitle.text = [NSString stringWithFormat:@"%d SECONDS LEFT",countDown];
     
-    if (countDown == 0) {
+    if (countDown <= 0) {
         [timer invalidate];
         timer = nil;
+        
+        countDown = 0;
         
         myIndicatorView.hidden = YES;
         
@@ -127,7 +130,10 @@
     controller.scheduleDict = self.scheduleDict;
     [self.navigationController pushViewController:controller animated:YES];
     
-    [self showCloseButton];
+    self.navigationItem.title = @"";
+    controller.navigationItem.leftBarButtonItem = nil;
+    controller.navigationItem.hidesBackButton = YES;
+//    [self performSelector:@selector(hideCloseButton) withObject:nil afterDelay:0.2];
 }
 
 - (void) expertWaitingProcessPayment {
