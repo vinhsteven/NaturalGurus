@@ -365,6 +365,9 @@
     // Handle launching from a notification
     application.applicationIconBadgeNumber = 0;
     
+    //init BookLive instance
+    [BookLiveViewController instance];
+    
     [self.window makeKeyAndVisible];
     
     return YES;

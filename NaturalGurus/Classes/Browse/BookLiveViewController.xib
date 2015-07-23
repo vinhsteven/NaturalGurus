@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BookLiveViewController">
             <connections>
                 <outlet property="lbTitle" destination="a0f-dE-gq0" id="IaI-t7-shP"/>
+                <outlet property="myIndicatorView" destination="e52-WA-ul2" id="u2w-8U-LKH"/>
                 <outlet property="txtMessage" destination="bbU-9Y-l1l" id="tHH-Bj-4s0"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -58,21 +59,29 @@
                         </mask>
                     </variation>
                 </textView>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="e52-WA-ul2">
+                    <rect key="frame" x="-10" y="-10" width="20" height="20"/>
+                </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="bbU-9Y-l1l" firstAttribute="top" secondItem="a0f-dE-gq0" secondAttribute="bottom" constant="19" id="JIw-jA-6eS"/>
                 <constraint firstAttribute="trailing" secondItem="a0f-dE-gq0" secondAttribute="trailing" constant="10" id="JtE-fV-eiu"/>
                 <constraint firstAttribute="trailing" secondItem="bbU-9Y-l1l" secondAttribute="trailing" constant="10" id="PmW-fh-kdD"/>
+                <constraint firstItem="e52-WA-ul2" firstAttribute="top" secondItem="bbU-9Y-l1l" secondAttribute="bottom" constant="50" id="cTk-kZ-7HE">
+                    <variation key="heightClass=regular-widthClass=compact" constant="-70"/>
+                </constraint>
                 <constraint firstItem="a0f-dE-gq0" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="101" id="iAf-O9-DFW"/>
                 <constraint firstItem="bbU-9Y-l1l" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="sWA-mJ-1Rt"/>
                 <constraint firstItem="a0f-dE-gq0" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="wyh-74-JCv"/>
+                <constraint firstAttribute="centerX" secondItem="e52-WA-ul2" secondAttribute="centerX" id="xa6-Ao-Ngi"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <variation key="default">
                 <mask key="subviews">
                     <exclude reference="a0f-dE-gq0"/>
                     <exclude reference="bbU-9Y-l1l"/>
+                    <exclude reference="e52-WA-ul2"/>
                 </mask>
                 <mask key="constraints">
                     <exclude reference="JtE-fV-eiu"/>
@@ -81,12 +90,15 @@
                     <exclude reference="JIw-jA-6eS"/>
                     <exclude reference="PmW-fh-kdD"/>
                     <exclude reference="sWA-mJ-1Rt"/>
+                    <exclude reference="cTk-kZ-7HE"/>
+                    <exclude reference="xa6-Ao-Ngi"/>
                 </mask>
             </variation>
             <variation key="heightClass=regular-widthClass=compact">
                 <mask key="subviews">
                     <include reference="a0f-dE-gq0"/>
                     <include reference="bbU-9Y-l1l"/>
+                    <include reference="e52-WA-ul2"/>
                 </mask>
                 <mask key="constraints">
                     <include reference="JtE-fV-eiu"/>
@@ -95,6 +107,8 @@
                     <include reference="JIw-jA-6eS"/>
                     <include reference="PmW-fh-kdD"/>
                     <include reference="sWA-mJ-1Rt"/>
+                    <include reference="cTk-kZ-7HE"/>
+                    <include reference="xa6-Ao-Ngi"/>
                 </mask>
             </variation>
         </view>

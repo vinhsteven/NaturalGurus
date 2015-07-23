@@ -14,6 +14,7 @@
 @end
 
 @implementation BookLiveViewController
+@synthesize myIndicatorView;
 
 + (BookLiveViewController *) instance {
     static BookLiveViewController *sharedInstance = nil;
@@ -43,16 +44,9 @@
     self.view.backgroundColor = TABLE_BACKGROUND_COLOR;
     
     self.txtMessage.backgroundColor = [UIColor clearColor];
-}
-
-- (void) viewDidLayoutSubviews {
-    if (myIndicatorView == nil) {
-        myIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        myIndicatorView.center = CGPointMake(self.txtMessage.center.x, self.txtMessage.frame.origin.y+self.txtMessage.frame.size.height + 20);
-        [self.view addSubview:myIndicatorView];
-        myIndicatorView.hidden = YES;
-        [myIndicatorView startAnimating];
-    }
+    
+//    myIndicatorView.hidden = YES;
+    [myIndicatorView startAnimating];
 }
 
 - (void) closeView {
@@ -68,6 +62,11 @@
     UIBarButtonItem *btnItem = [[UIBarButtonItem alloc] initWithCustomView:btnLeft];
     
     self.navigationItem.leftBarButtonItem = btnItem;
+}
+
+- (void) hideCloseButton {
+    self.navigationItem.leftBarButtonItem = nil;
+    self.navigationItem.hidesBackButton = YES;
 }
 
 - (void) reloadInput {
@@ -129,6 +128,14 @@
     [self.navigationController pushViewController:controller animated:YES];
     
     [self showCloseButton];
+}
+
+- (void) expertWaitingProcessPayment {
+    myIndicatorView.hidden = NO;
+    self.isOpening = YES;
+    
+    self.lbTitle.text = @"DON'T MOVE! YOUR SESSION WILL BEGIN IN A FEW MINUTES.";
+    self.txtMessage.text = @"Thanks for confirming the appointment.\nRight now - the user is processing their payment via credit card. Once confirmed, you will be redirected to the meeting room. Please be patient.";
 }
 
 - (void) handleAfterPaymentSuccess:(long)orderId {

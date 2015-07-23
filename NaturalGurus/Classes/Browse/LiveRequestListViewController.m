@@ -19,6 +19,7 @@
     UIButton *btnDecline;
 }
 
+@property (unsafe_unretained) id parent;
 @property (strong,nonatomic) NSMutableDictionary *timeDict;
 
 - (id) initWithFrame:(CGRect)frame andData:(NSMutableDictionary*)_dict;
@@ -26,6 +27,7 @@
 @end
 
 @implementation LiveRequestCell
+@synthesize parent;
 @synthesize timeDict;
 
 - (id) initWithFrame:(CGRect)frame andData:(NSMutableDictionary*)_dict {
@@ -117,7 +119,7 @@
         lbSecond.textColor = [UIColor lightGrayColor];
         [self addSubview:lbSecond];
         
-        lbAvailableTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, lbTimeLeft.frame.origin.y+30, 270, 21)];
+        lbAvailableTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, lbTimeLeft.frame.origin.y+30, 290, 21)];
         lbAvailableTitle.backgroundColor = [UIColor clearColor];
         lbAvailableTitle.textColor = [UIColor lightGrayColor];
         lbAvailableTitle.font = [UIFont fontWithName:DEFAULT_FONT size:14];
@@ -179,11 +181,17 @@
 }
 
 - (void) approveLiveRequest {
+    NSString *token     = [[ToolClass instance] getUserToken];
     
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:token,@"token",[timeDict objectForKey:@"id"],@"id", nil];
+    [[ToolClass instance] approveLiveRequest:params viewController:parent];
 }
 
 - (void) declineLiveRequest {
+    NSString *token     = [[ToolClass instance] getUserToken];
     
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:token,@"token",[timeDict objectForKey:@"id"],@"id", nil];
+    [[ToolClass instance] declineLiveRequest:params viewController:parent];
 }
 
 - (void) dealloc {
@@ -266,11 +274,61 @@
         //server response GMT
         NSString *timezone = @"GMT";
         NSString *type = @"Live appointment (right now)";
-        NSMutableDictionary *newDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[dict objectForKey:@"about"],@"about",[dict objectForKey:@"duration"],@"duration",[dict objectForKey:@"email"],@"email",[dict objectForKey:@"expert_id"],@"expertId",[dict objectForKey:@"name"],@"name",[dict objectForKey:@"total"],@"total",[dict objectForKey:@"created_at"],@"created_at",type,@"type",timezone,@"timezone", nil];
+        NSMutableDictionary *newDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[dict objectForKey:@"about"],@"about",[dict objectForKey:@"duration"],@"duration",[dict objectForKey:@"email"],@"email",[dict objectForKey:@"expert_id"],@"expertId",[dict objectForKey:@"name"],@"name",[dict objectForKey:@"total"],@"total",[dict objectForKey:@"created_at"],@"created_at",type,@"type",timezone,@"timezone",[dict objectForKey:@"id"],@"id", nil];
         [mainArray addObject:newDict];
     }
     [self.mainTableView reloadData];
     isLoading = NO;
+}
+
+- (void) approveLiveRequestSuccessful {
+    self.navigationItem.title = @"";
+    
+    [self.navigationController pushViewController:[BookLiveViewController instance] animated:YES];
+    
+    [self performSelector:@selector(delayTransferView) withObject:nil afterDelay:0.2];
+}
+
+- (void) delayTransferView {
+    [[BookLiveViewController instance] hideCloseButton];
+    [[BookLiveViewController instance] expertWaitingProcessPayment];
+}
+
+- (void) declineLiveRequestSuccessful:(NSDictionary*)request {
+    @try {
+        long requestId = [[request objectForKey:@"id"] longValue];
+        
+        //loop all live request array and find this one, remove from mainArray
+        int removeId;
+        for (int i=0;i < [mainArray count];i++) {
+            NSDictionary *dict = [mainArray objectAtIndex:i];
+            if (requestId == [[dict objectForKey:@"id"] longValue]) {
+                //remove this one
+                removeId = i;
+                [mainArray removeObjectAtIndex:i];
+                break;
+            }
+        }
+        
+        //update tableview
+        NSMutableArray* indexPathsToDelete = [NSMutableArray arrayWithCapacity:1];
+        
+        [indexPathsToDelete addObject:[NSIndexPath indexPathForRow:removeId inSection:0]];
+        
+        [self.mainTableView beginUpdates];
+        [self.mainTableView deleteRowsAtIndexPaths:indexPathsToDelete withRowAnimation:UITableViewRowAnimationTop];
+        [self.mainTableView endUpdates];
+        
+        if ([mainArray count] == 0) {
+            [self closeView];
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
 }
 
 - (void) viewDidLayoutSubviews {
@@ -298,6 +356,7 @@
     NSMutableDictionary *dict = [mainArray objectAtIndex:indexPath.row];
     
     LiveRequestCell *view = [[LiveRequestCell alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, self.mainTableView.rowHeight) andData:dict];
+    view.parent = self;
 
     [cell.contentView addSubview:view];
     

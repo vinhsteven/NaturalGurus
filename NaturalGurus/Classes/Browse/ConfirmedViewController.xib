@@ -68,7 +68,7 @@
                                 <constraint firstAttribute="height" constant="21" id="VlV-Dw-ONV"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <variation key="default">
                                 <mask key="constraints">
@@ -89,7 +89,7 @@
                                 <constraint firstAttribute="height" constant="50" id="P8T-Pt-MXR"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <variation key="default">
                                 <mask key="constraints">
@@ -108,7 +108,7 @@
                                 <constraint firstAttribute="height" constant="50" id="cx7-nT-4TB"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <variation key="default">
                                 <mask key="constraints">
@@ -127,7 +127,7 @@
                                 <constraint firstAttribute="height" constant="50" id="NBG-xi-Zir"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <variation key="default">
                                 <mask key="constraints">
@@ -146,7 +146,7 @@
                                 <constraint firstAttribute="height" constant="50" id="NGX-gM-kDK"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <variation key="default">
                                 <mask key="constraints">
@@ -198,24 +198,24 @@
                         <mask key="constraints">
                             <exclude reference="GMp-ei-f6e"/>
                             <exclude reference="vVg-LN-G45"/>
-                            <exclude reference="dTT-A6-QkE"/>
-                            <exclude reference="qna-q7-ypd"/>
                             <exclude reference="Apa-3X-jRb"/>
                             <exclude reference="eAC-w0-TaB"/>
                             <exclude reference="3cC-qe-kum"/>
                             <exclude reference="MwD-Ls-2Pi"/>
                             <exclude reference="lZE-dc-4Jr"/>
                             <exclude reference="ui7-92-Fua"/>
-                            <exclude reference="5UI-7H-z5p"/>
-                            <exclude reference="Ewf-gc-2xU"/>
-                            <exclude reference="VHI-1N-zUH"/>
                             <exclude reference="KOB-hq-Qvi"/>
                             <exclude reference="WHc-cr-bv9"/>
                             <exclude reference="rlG-O1-mGw"/>
+                            <exclude reference="5UI-7H-z5p"/>
+                            <exclude reference="Ewf-gc-2xU"/>
+                            <exclude reference="VHI-1N-zUH"/>
                             <exclude reference="Guw-6G-W5i"/>
                             <exclude reference="YYg-BX-COi"/>
                             <exclude reference="Zi0-QZ-n3s"/>
                             <exclude reference="uEq-dl-b7e"/>
+                            <exclude reference="dTT-A6-QkE"/>
+                            <exclude reference="qna-q7-ypd"/>
                         </mask>
                     </variation>
                     <variation key="heightClass=regular-widthClass=compact" ambiguous="YES">
@@ -232,24 +232,24 @@
                         <mask key="constraints">
                             <include reference="GMp-ei-f6e"/>
                             <include reference="vVg-LN-G45"/>
-                            <include reference="dTT-A6-QkE"/>
-                            <include reference="qna-q7-ypd"/>
                             <include reference="Apa-3X-jRb"/>
                             <include reference="eAC-w0-TaB"/>
                             <include reference="3cC-qe-kum"/>
                             <include reference="MwD-Ls-2Pi"/>
                             <include reference="lZE-dc-4Jr"/>
                             <include reference="ui7-92-Fua"/>
-                            <include reference="5UI-7H-z5p"/>
-                            <include reference="Ewf-gc-2xU"/>
-                            <include reference="VHI-1N-zUH"/>
                             <include reference="KOB-hq-Qvi"/>
                             <include reference="WHc-cr-bv9"/>
                             <include reference="rlG-O1-mGw"/>
+                            <include reference="5UI-7H-z5p"/>
+                            <include reference="Ewf-gc-2xU"/>
+                            <include reference="VHI-1N-zUH"/>
                             <include reference="Guw-6G-W5i"/>
                             <include reference="YYg-BX-COi"/>
                             <include reference="Zi0-QZ-n3s"/>
                             <exclude reference="uEq-dl-b7e"/>
+                            <include reference="dTT-A6-QkE"/>
+                            <include reference="qna-q7-ypd"/>
                         </mask>
                     </variation>
                     <connections>

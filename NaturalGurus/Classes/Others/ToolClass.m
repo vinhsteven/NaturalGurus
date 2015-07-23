@@ -1773,13 +1773,13 @@
     
     [manager POST:@"/api/v1/live_requests/approve" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"response: %@",(NSDictionary*)responseObject);
-        [MBProgressHUD hideHUDForView:viewController.navigationController.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
         
         //get status of request
         int status = [[responseObject objectForKey:@"status"] intValue];
         
         if (status == 200) {
-//            [viewController sendLiveRequestSuccessful];
+            [viewController approveLiveRequestSuccessful];
         }
         else {
             NSString *message = [responseObject objectForKey:@"message"];
@@ -1788,7 +1788,7 @@
             
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [MBProgressHUD hideHUDForView:viewController.navigationController.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
         
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                             message:[error localizedDescription]
@@ -1810,13 +1810,14 @@
     
     [manager POST:@"/api/v1/live_requests/decline" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"response: %@",(NSDictionary*)responseObject);
-        [MBProgressHUD hideHUDForView:viewController.navigationController.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
         
         //get status of request
         int status = [[responseObject objectForKey:@"status"] intValue];
         
         if (status == 200) {
-            //            [viewController sendLiveRequestSuccessful];
+            NSDictionary *request = [[responseObject objectForKey:@"data"] objectForKey:@"live_request"];
+            [viewController declineLiveRequestSuccessful:request];
         }
         else {
             NSString *message = [responseObject objectForKey:@"message"];
@@ -1825,7 +1826,7 @@
             
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [MBProgressHUD hideHUDForView:viewController.navigationController.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
         
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                             message:[error localizedDescription]

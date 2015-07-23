@@ -20,4 +20,7 @@
 - (void) reloadLiveRequest;
 - (void) reorganizeLiveRequest:(NSArray*)array;
 
+- (void) approveLiveRequestSuccessful;
+- (void) declineLiveRequestSuccessful:(NSDictionary*)request;
+
 @end

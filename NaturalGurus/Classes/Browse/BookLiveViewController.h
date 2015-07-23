@@ -11,19 +11,22 @@
 @interface BookLiveViewController : UIViewController {
     int countDown;
     NSTimer *timer;
-    UIActivityIndicatorView *myIndicatorView;
 }
 
 @property (assign,readwrite) BOOL isOpening; //to prevent present when it's opening
 @property (strong,nonatomic) IBOutlet UILabel *lbTitle;
 @property (strong,nonatomic) IBOutlet UITextView *txtMessage;
 @property (strong,nonatomic) NSMutableDictionary *scheduleDict;
+@property (strong,nonatomic) IBOutlet UIActivityIndicatorView *myIndicatorView;
 
 + (BookLiveViewController *) instance;
+
+- (void) hideCloseButton;
 
 - (void) reloadInput;
 - (void) expertDecline;
 - (void) expertAccept;
+- (void) expertWaitingProcessPayment;
 - (void) handleAfterPaymentSuccess:(long)orderId;
 
 @end
