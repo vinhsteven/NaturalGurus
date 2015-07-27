@@ -268,6 +268,7 @@
 }
 
 - (void) reorganizeLiveRequest:(NSArray*)array {
+    NSLog(@"self = %@",self);
     for (int i=0;i < [array count];i++) {
         NSDictionary *dict = [array objectAtIndex:i];
         

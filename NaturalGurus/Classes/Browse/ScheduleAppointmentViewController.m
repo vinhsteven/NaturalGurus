@@ -375,12 +375,13 @@ enum {
     [self.navigationController pushViewController:controller animated:YES];
 }
 
-- (void) sendLiveRequestSuccessful {
+- (void) sendLiveRequestSuccessful:(NSDictionary*)request {
     if (![BookLiveViewController instance].isOpening) {
         UINavigationController *tmpNavController = [[UINavigationController alloc] initWithRootViewController:[BookLiveViewController instance]];
         [self.navigationController presentViewController:tmpNavController animated:YES completion:nil];
     }
     [[BookLiveViewController instance] reloadInput];
+    [self.scheduleDict setValue:[request objectForKey:@"id"] forKey:@"live_request_id"];
     [[BookLiveViewController instance] setScheduleDict:self.scheduleDict];
 }
 

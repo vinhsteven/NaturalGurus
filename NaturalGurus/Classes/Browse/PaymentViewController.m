@@ -253,8 +253,14 @@ typedef enum {
             NSLog(@"token = %@",token.tokenId);
             //connect server to process payment
             NSDictionary *timeDict = [self.scheduleDict objectForKey:@"timeDict"];
-            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[self.scheduleDict objectForKey:@"message"],@"about",[self.scheduleDict objectForKey:@"expertId"],@"expert_id",[self.scheduleDict objectForKey:@"duration"],@"duration",[self.scheduleDict objectForKey:@"timezone"],@"client_timezone",[self.scheduleDict objectForKey:@"total"],@"total",[timeDict objectForKey:@"date_from"],@"date",[timeDict objectForKey:@"from_time"],@"from_time",[timeDict objectForKey:@"to_time"],@"to_time",@"iOS",@"booked_from",[[ToolClass instance] getUserToken],@"token",[NSNumber numberWithInt:0],@"free",token.tokenId,@"stripe_token", nil];
+            NSDictionary *params;
+
+            if (self.isBookLive)
+                params = [NSDictionary dictionaryWithObjectsAndKeys:[self.scheduleDict objectForKey:@"message"],@"about",[self.scheduleDict objectForKey:@"expertId"],@"expert_id",[self.scheduleDict objectForKey:@"duration"],@"duration",[self.scheduleDict objectForKey:@"timezone"],@"client_timezone",[self.scheduleDict objectForKey:@"total"],@"total",[timeDict objectForKey:@"date_from"],@"date",[timeDict objectForKey:@"from_time"],@"from_time",[timeDict objectForKey:@"to_time"],@"to_time",@"iOS",@"booked_from",[[ToolClass instance] getUserToken],@"token",token.tokenId,@"stripe_token",[self.scheduleDict objectForKey:@"live_request_id"],@"live_request_id",[NSNumber numberWithInt:0],@"free", nil];
+            else
+                params = [NSDictionary dictionaryWithObjectsAndKeys:[self.scheduleDict objectForKey:@"message"],@"about",[self.scheduleDict objectForKey:@"expertId"],@"expert_id",[self.scheduleDict objectForKey:@"duration"],@"duration",[self.scheduleDict objectForKey:@"timezone"],@"client_timezone",[self.scheduleDict objectForKey:@"total"],@"total",[timeDict objectForKey:@"date_from"],@"date",[timeDict objectForKey:@"from_time"],@"from_time",[timeDict objectForKey:@"to_time"],@"to_time",@"iOS",@"booked_from",[[ToolClass instance] getUserToken],@"token",[NSNumber numberWithInt:0],@"free",token.tokenId,@"stripe_token", nil];
             NSLog(@"param = %@",params);
+
             [[ToolClass instance] bookSchedule:params withViewController:self];
         }
         else {
@@ -265,9 +271,30 @@ typedef enum {
     }];
 }
 
-- (void) bookingSuccess {
-    ConfirmedViewController *controller = [[ConfirmedViewController alloc] initWithNibName:@"ConfirmedViewController" bundle:nil];
-    [self.navigationController pushViewController:controller animated:YES];
+- (void) bookingSuccess:(long)orderId {
+    if (!self.isBookLive) {
+        ConfirmedViewController *controller = [[ConfirmedViewController alloc] initWithNibName:@"ConfirmedViewController" bundle:nil];
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+    else {
+        DetailAppointmentViewController *controller = [[DetailAppointmentViewController alloc] initWithNibName:@"DetailAppointmentViewController" bundle:nil];
+        controller.isPushNotification = YES;
+        controller.appointmentId = orderId;
+        [self.navigationController pushViewController:controller animated:YES];
+        
+        UIButton *btnLeft = [UIButton buttonWithType:UIButtonTypeCustom];
+        btnLeft.frame = CGRectMake(0, 0, 24, 24);
+        [btnLeft setImage:[UIImage imageNamed:@"btnClose.png"] forState:UIControlStateNormal];
+        [btnLeft addTarget:self action:@selector(closeView) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *btnItem = [[UIBarButtonItem alloc] initWithCustomView:btnLeft];
+        controller.navigationItem.leftBarButtonItem = btnItem;
+    }
+}
+
+- (void) closeView {
+    [LiveRequestListViewController instance].isOpening = NO;
+    [BookLiveViewController instance].isOpening = NO;
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark UITextFieldDelegate

@@ -50,6 +50,6 @@
 - (IBAction) handleViewAvailability:(id)sender;
 
 - (void) bookingSuccess;
-- (void) sendLiveRequestSuccessful;
+- (void) sendLiveRequestSuccessful:(NSDictionary*)request;
 
 @end

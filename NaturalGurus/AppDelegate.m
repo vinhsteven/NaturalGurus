@@ -447,26 +447,26 @@
             NSString *status = [userInfo objectForKey:@"status"];
             status = [status lowercaseString];
             
+            long liveRequestId = [[userInfo objectForKey:@"live_request_id"] longValue];
+            
             if ([status isEqualToString:@"declined"]) {
                 //decline
                 [[BookLiveViewController instance] expertDecline];
             }
             else {
-                [[BookLiveViewController instance] expertAccept];
+                [[BookLiveViewController instance] expertAccept:liveRequestId];
             }
         }
         else if (step == 2) {
-            int paymentSuccess = [[[userInfo objectForKey:@"aps"] objectForKey:@"payment_success"] intValue];
+            //after payment success, expert will receive push notification about order_id. We transit to Detail view.
             int userRole = [[ToolClass instance] getUserRole];
             
-            if (userRole == isUser) {
-                if (paymentSuccess) {
-                    int orderId = [[[userInfo objectForKey:@"aps"] objectForKey:@"order_id"] intValue];//[[userInfo objectForKey:@"order_id"] intValue];
-                    [[BookLiveViewController instance] handleAfterPaymentSuccess:orderId];
-                }
-            }
-            else {
+            if (userRole == isExpert) {
+                long orderId = [[userInfo objectForKey:@"order_id"] longValue];
+                [[BookLiveViewController instance] handleAfterPaymentSuccess:orderId];
                 
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Message" message:[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
             }
         }
     }

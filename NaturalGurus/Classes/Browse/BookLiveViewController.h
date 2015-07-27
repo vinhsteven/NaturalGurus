@@ -25,7 +25,7 @@
 
 - (void) reloadInput;
 - (void) expertDecline;
-- (void) expertAccept;
+- (void) expertAccept:(long)liveRequestId;
 - (void) expertWaitingProcessPayment;
 - (void) handleAfterPaymentSuccess:(long)orderId;
 

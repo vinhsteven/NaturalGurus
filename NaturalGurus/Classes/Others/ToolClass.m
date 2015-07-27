@@ -1466,7 +1466,12 @@
         int status = [[responseObject objectForKey:@"status"] intValue];
         
         if (status == 200) {
-            [viewController bookingSuccess];
+            if ([viewController isKindOfClass:[ScheduleAppointmentViewController class]])
+                [viewController bookingSuccess];
+            else if ([viewController isKindOfClass:[PaymentViewController class]]) {
+                long orderId = [[[[responseObject objectForKey:@"data"] objectForKey:@"order"] objectForKey:@"id"] longValue];
+                [viewController bookingSuccess:orderId];
+            }
             
             /* server will use push notification to send message for this
             //we will create 3 local notification for an appointment:
@@ -1688,7 +1693,9 @@
 
 #pragma mark LIVE REQUEST
 - (void) sendLiveRequest:(NSDictionary*)params viewController:(ScheduleAppointmentViewController*)viewController {
-    [MBProgressHUD showHUDAddedTo:viewController.navigationController.view animated:YES];
+    AppDelegate *delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    
+    [MBProgressHUD showHUDAddedTo:delegate.navController.view animated:YES];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
     
@@ -1698,13 +1705,14 @@
     
     [manager POST:@"/api/v1/live_requests" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"response: %@",(NSDictionary*)responseObject);
-        [MBProgressHUD hideHUDForView:viewController.navigationController.view animated:YES];
+        [MBProgressHUD hideHUDForView:delegate.navController.view animated:YES];
         
         //get status of request
         int status = [[responseObject objectForKey:@"status"] intValue];
         
         if (status == 200) {
-            [viewController sendLiveRequestSuccessful];
+            NSDictionary *dict = [[responseObject objectForKey:@"data"] objectForKey:@"live_request"];
+            [viewController sendLiveRequestSuccessful:dict];
         }
         else {
             NSString *message = [responseObject objectForKey:@"message"];
@@ -1713,7 +1721,7 @@
             
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [MBProgressHUD hideHUDForView:viewController.navigationController.view animated:YES];
+        [MBProgressHUD hideHUDForView:delegate.navController.view animated:YES];
         
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                             message:[error localizedDescription]
@@ -1725,7 +1733,9 @@
 }
 
 - (void) loadLiveRequestList:(NSDictionary*)params viewController:(LiveRequestListViewController*)viewController {
-    [MBProgressHUD showHUDAddedTo:viewController.navigationController.view animated:YES];
+    AppDelegate *delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    
+    [MBProgressHUD showHUDAddedTo:delegate.navController.view animated:YES];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
     
@@ -1735,7 +1745,7 @@
     
     [manager GET:@"/api/v1/live_requests" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"response: %@",(NSDictionary*)responseObject);
-        [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:delegate.navController.view animated:YES];
         
         //get status of request
         int status = [[responseObject objectForKey:@"status"] intValue];
@@ -1751,7 +1761,7 @@
             
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:delegate.navController.view animated:YES];
         
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                             message:[error localizedDescription]

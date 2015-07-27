@@ -51,7 +51,14 @@
 
 - (void) closeView {
     self.isOpening = NO;
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [LiveRequestListViewController instance].isOpening = NO;
+    
+    if (self.navigationController != nil)
+        [self dismissViewControllerAnimated:YES completion:nil];
+    else {
+        AppDelegate *delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        [delegate.navController dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 - (void) showCloseButton {
@@ -121,12 +128,16 @@
     [self showCloseButton];
 }
 
-- (void) expertAccept {
+- (void) expertAccept:(long)liveRequestId {
     if (timer != nil) {
         [timer invalidate];
         timer = nil;
     }
+    
+    [self.scheduleDict setObject:[NSNumber numberWithLong:liveRequestId] forKey:@"live_request_id"];
+    
     PaymentViewController *controller = [[PaymentViewController alloc] initWithNibName:@"PaymentViewController" bundle:nil];
+    controller.isBookLive = YES;
     controller.scheduleDict = self.scheduleDict;
     [self.navigationController pushViewController:controller animated:YES];
     
@@ -148,14 +159,29 @@
     DetailAppointmentViewController *controller = [[DetailAppointmentViewController alloc] initWithNibName:@"DetailAppointmentViewController" bundle:nil];
     controller.isPushNotification = YES;
     controller.appointmentId = orderId;
-    [self.navigationController pushViewController:controller animated:YES];
     
-    UIButton *btnLeft = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnLeft.frame = CGRectMake(0, 0, 24, 24);
-    [btnLeft setImage:[UIImage imageNamed:@"btnClose.png"] forState:UIControlStateNormal];
-    [btnLeft addTarget:self action:@selector(closeView) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *btnItem = [[UIBarButtonItem alloc] initWithCustomView:btnLeft];
-    controller.navigationItem.leftBarButtonItem = btnItem;
+    if (self.navigationController != nil) {
+        [self.navigationController pushViewController:controller animated:YES];
+        
+        UIButton *btnLeft = [UIButton buttonWithType:UIButtonTypeCustom];
+        btnLeft.frame = CGRectMake(0, 0, 24, 24);
+        [btnLeft setImage:[UIImage imageNamed:@"btnClose.png"] forState:UIControlStateNormal];
+        [btnLeft addTarget:self action:@selector(closeView) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *btnItem = [[UIBarButtonItem alloc] initWithCustomView:btnLeft];
+        controller.navigationItem.leftBarButtonItem = btnItem;
+    }
+    else {
+        AppDelegate *delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+        [delegate.navController presentViewController:navController animated:YES completion:nil];
+        
+        UIButton *btnLeft = [UIButton buttonWithType:UIButtonTypeCustom];
+        btnLeft.frame = CGRectMake(0, 0, 24, 24);
+        [btnLeft setImage:[UIImage imageNamed:@"btnClose.png"] forState:UIControlStateNormal];
+        [btnLeft addTarget:self action:@selector(closeView) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *btnItem = [[UIBarButtonItem alloc] initWithCustomView:btnLeft];
+        controller.navigationItem.leftBarButtonItem = btnItem;
+    }
 }
 
 @end

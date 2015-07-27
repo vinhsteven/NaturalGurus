@@ -40,4 +40,6 @@
 - (IBAction) selectYear:(id)sender;
 - (IBAction) confirmAppointment:(id)sender;
 
+- (void) bookingSuccess:(long)orderId;
+
 @end

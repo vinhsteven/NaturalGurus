@@ -143,7 +143,27 @@ enum {
     [btnShare addTarget:self action:@selector(handleShareAction) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *btnShareItem = [[UIBarButtonItem alloc] initWithCustomView:btnShare];
     self.navigationItem.rightBarButtonItem = btnShareItem;
-
+    
+    //check whether user enable push notification or not
+    //if not, make blur for Meet Now button
+    UIApplication *application = [UIApplication sharedApplication];
+    
+    BOOL enabled;
+    
+    // Try to use the newer isRegisteredForRemoteNotifications otherwise use the enabledRemoteNotificationTypes.
+    if ([application respondsToSelector:@selector(isRegisteredForRemoteNotifications)])
+    {
+        enabled = [application isRegisteredForRemoteNotifications];
+    }
+    else
+    {
+        UIRemoteNotificationType types = [application enabledRemoteNotificationTypes];
+        enabled = types & UIRemoteNotificationTypeAlert;
+    }
+    
+    if (!enabled) {
+        self.btnBookLive.alpha = 0.7;
+    }
 }
 
 - (void) setUpStyleForReviewButton {
@@ -835,24 +855,47 @@ enum {
 }
 #pragma mark HANLE EVENT
 - (IBAction) handleBookLive:(id)sender {
-    //init duration array for this expert
-    NSDictionary *durationDict = [expertDict objectForKey:@"durations"];
-    NSMutableArray *durationArray = [NSMutableArray arrayWithCapacity:1];
+    //check whether user enable push notification or not
+    //if not, make blur for Meet Now button
+    UIApplication *application = [UIApplication sharedApplication];
     
-    for (int i=0;i < [[durationDict allKeys] count];i++) {
-        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[[durationDict allValues] objectAtIndex:i],@"title",[[durationDict allKeys] objectAtIndex:i],@"value", nil];
-        [durationArray addObject:dict];
+    BOOL enabled;
+    
+    // Try to use the newer isRegisteredForRemoteNotifications otherwise use the enabledRemoteNotificationTypes.
+    if ([application respondsToSelector:@selector(isRegisteredForRemoteNotifications)])
+    {
+        enabled = [application isRegisteredForRemoteNotifications];
+    }
+    else
+    {
+        UIRemoteNotificationType types = [application enabledRemoteNotificationTypes];
+        enabled = types & UIRemoteNotificationTypeAlert;
     }
     
-    NSSortDescriptor *value = [[NSSortDescriptor alloc] initWithKey:@"value" ascending:YES];
-    [durationArray sortUsingDescriptors:[NSArray arrayWithObjects:value, nil]];
-    
-    self.navigationItem.title = @"";
-    ScheduleAppointmentViewController *controller = [[ScheduleAppointmentViewController alloc] initWithNibName:@"ScheduleAppointmentViewController" bundle:nil];
-    controller.durationArray = durationArray;
-    controller.isBookLive    = YES;
-    
-    [self.navigationController pushViewController:controller animated:YES];
+    if (!enabled) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please turn on the NaturalGurus' Push Notification in Setting -> Notification Center to use this function." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+    }
+    else {
+        //init duration array for this expert
+        NSDictionary *durationDict = [expertDict objectForKey:@"durations"];
+        NSMutableArray *durationArray = [NSMutableArray arrayWithCapacity:1];
+        
+        for (int i=0;i < [[durationDict allKeys] count];i++) {
+            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[[durationDict allValues] objectAtIndex:i],@"title",[[durationDict allKeys] objectAtIndex:i],@"value", nil];
+            [durationArray addObject:dict];
+        }
+        
+        NSSortDescriptor *value = [[NSSortDescriptor alloc] initWithKey:@"value" ascending:YES];
+        [durationArray sortUsingDescriptors:[NSArray arrayWithObjects:value, nil]];
+        
+        self.navigationItem.title = @"";
+        ScheduleAppointmentViewController *controller = [[ScheduleAppointmentViewController alloc] initWithNibName:@"ScheduleAppointmentViewController" bundle:nil];
+        controller.durationArray = durationArray;
+        controller.isBookLive    = YES;
+        
+        [self.navigationController pushViewController:controller animated:YES];
+    }
 }
 
 - (IBAction) handleScheduleAppointment:(id)sender {
