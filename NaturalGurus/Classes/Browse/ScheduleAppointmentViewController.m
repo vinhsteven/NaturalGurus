@@ -136,6 +136,8 @@ enum {
     
     NSDictionary *expertDict = [[ToolClass instance] getExpertDict];
     self.lbMessageTo.text = [NSString stringWithFormat:@"Message to %@:",[expertDict objectForKey:@"name"]];
+    
+    currentTimezoneSelectedDict = [NSDictionary dictionaryWithObjectsAndKeys:@"(UTC+10:00) Sydney",@"title",@"Australia/Sydney",@"value", nil];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -198,15 +200,15 @@ enum {
     
     [MMPickerView showPickerViewInView:self.view
                            withObjects:timezoneArray
-                           withOptions:nil
+                           withOptions:currentTimezoneSelectedDict
                             completion:^(NSInteger selectedIndex) {
                                 //return selected index
                                 currentTimeZoneSelected = (int)selectedIndex;
                                 
-                                NSDictionary *dict = [timezoneArray objectAtIndex:currentTimeZoneSelected];
-                                [self.btnTimeZone setTitle:[dict objectForKey:@"title"] forState:UIControlStateNormal];
+                                currentTimezoneSelectedDict = [timezoneArray objectAtIndex:currentTimeZoneSelected];
+                                [self.btnTimeZone setTitle:[currentTimezoneSelectedDict objectForKey:@"title"] forState:UIControlStateNormal];
                                 
-                                NSString *value = [dict objectForKey:@"value"];
+                                NSString *value = [currentTimezoneSelectedDict objectForKey:@"value"];
                                 [self.scheduleDict setObject:value forKey:@"timezone"];
                             }];
 }

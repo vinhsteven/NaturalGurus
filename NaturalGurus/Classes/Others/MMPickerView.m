@@ -197,7 +197,8 @@ NSString * const MMshowsSelectionIndicator = @"showsSelectionIndicator";
     
     _pickerViewArray = array;
     
-    id chosenObject = options[MMselectedObject];
+//    id chosenObject = options[MMselectedObject];
+    id chosenObject = options;
     NSInteger selectedRow;
     
     if (chosenObject!=nil) {

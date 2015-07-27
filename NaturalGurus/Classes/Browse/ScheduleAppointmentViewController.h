@@ -17,6 +17,8 @@
     
     NSMutableArray *timezoneArray;
     
+    NSDictionary *currentTimezoneSelectedDict;
+    
     int currentPickerSelected;
     int currentTimeZoneSelected;
     int currentDurationSelected;
