@@ -323,6 +323,8 @@
     
     [self.window setRootViewController:  self.navController];
 
+    [TwitterKit startWithConsumerKey:TWITTER_CONSUMER_KEY consumerSecret:TWITTER_CONSUMER_SECRET];
+    
     // Whenever a person opens app, check for a cached session
     if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
         [MBProgressHUD showHUDAddedTo:self.navController.view animated:YES];
@@ -346,7 +348,6 @@
     
     //init Twitter
 //    [Fabric with:@[TwitterKit]];
-    [TwitterKit startWithConsumerKey:TWITTER_CONSUMER_KEY consumerSecret:TWITTER_CONSUMER_SECRET];
     
     // Let the device know we want to receive push notifications
     if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {

@@ -289,11 +289,11 @@
             [[ToolClass instance] setUserToken:nil];
             [[Twitter sharedInstance] logOut];
             
-            NSURL *url = [NSURL URLWithString:@"https://api.twitter.com"];
-            NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:url];
-            for (NSHTTPCookie *cookie in cookies)
-            {
-                [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+            ACAccountStore *accountStore = [[ACAccountStore alloc] init];
+            
+//            ACAccountType *accountType= [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+            for (ACAccount *account in accountStore.accounts) {
+                [accountStore removeAccount:account withCompletionHandler:nil];
             }
             
             [((LoginViewController*)parent).drawerController.navigationController popViewControllerAnimated:YES];
