@@ -22,6 +22,7 @@ enum {
 };
 
 @implementation DetailBrowseViewController
+@synthesize parent;
 @synthesize expertDict;
 @synthesize tableView;
 @synthesize currentPage,lastPage;
@@ -855,6 +856,15 @@ enum {
 }
 #pragma mark HANLE EVENT
 - (IBAction) handleBookLive:(id)sender {
+    BOOL isLoggedIn = [[ToolClass instance] isLogin];
+    
+    if (!isLoggedIn) {
+        [(BrowseViewController*)parent leftButtonPress];
+        
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Sign In Required" message:@"Please sign in to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
     //check whether user enable push notification or not
     //if not, make blur for Meet Now button
     UIApplication *application = [UIApplication sharedApplication];
@@ -899,6 +909,16 @@ enum {
 }
 
 - (IBAction) handleScheduleAppointment:(id)sender {
+    BOOL isLoggedIn = [[ToolClass instance] isLogin];
+    
+    if (!isLoggedIn) {
+        [(BrowseViewController*)parent leftButtonPress];
+        
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Sign In Required" message:@"Please sign in to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    
     //init duration array for this expert
     NSDictionary *durationDict = [expertDict objectForKey:@"durations"];
     NSMutableArray *durationArray = [NSMutableArray arrayWithCapacity:1];

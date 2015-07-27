@@ -83,6 +83,14 @@
     [self.btnExpert setTitleColor:GREEN_COLOR forState:UIControlStateHighlighted];
     [self.btnExpert setTitleColor:GREEN_COLOR forState:UIControlStateSelected];
     
+    //style for Order button
+    self.btnSorting.layer.cornerRadius = self.btnSorting.frame.size.height/2;
+    self.btnSorting.layer.masksToBounds = YES;
+    self.btnSorting.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.btnSorting.layer.borderWidth = 1;
+    
+    [self.btnSorting setBackgroundImage:[ToolClass imageFromColor:TABLE_BACKGROUND_COLOR] forState:UIControlStateNormal];
+    
     //set row table height
     self.mainTableView.rowHeight = 138;
     self.mainTableView.separatorColor = [UIColor clearColor];
@@ -170,6 +178,10 @@
 }
 
 - (void) reloadTheLatestExpert {
+    //reset Order by title
+    [self.btnSorting setTitle:@"Order by" forState:UIControlStateNormal];
+    [self.btnCategory setTitle:@"CATEGORIES" forState:UIControlStateNormal];
+    
     currentList = byTheLatest;
     currentPage = 1;
     [expertArray removeAllObjects];
@@ -506,9 +518,9 @@
             bottomView.layer.mask = maskLayer;
             
             //add duration
-            UILabel *lbDuration = [[UILabel alloc] initWithFrame:CGRectMake(bgView.frame.size.width-75, 3, 65, 20)];
+            UILabel *lbDuration = [[UILabel alloc] initWithFrame:CGRectMake(bgView.frame.size.width-85, 3, 75, 20)];
             lbDuration.backgroundColor = [UIColor clearColor];
-            lbDuration.text = [NSString stringWithFormat:@"$%@/pm",[dict objectForKey:@"durationPrice"]];
+            lbDuration.text = [NSString stringWithFormat:@"$%@ mins",[dict objectForKey:@"durationPrice"]];
             lbDuration.textColor = [UIColor whiteColor];
             lbDuration.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
             lbDuration.textAlignment = NSTextAlignmentRight;
@@ -531,7 +543,7 @@
             int freeSession = [[dict objectForKey:@"free_session"] intValue];
             if (freeSession > 0) {
                 UIButton *lbFreeSession = [UIButton buttonWithType:UIButtonTypeCustom];
-                lbFreeSession.frame = CGRectMake(85, 5, 85, 15);
+                lbFreeSession.frame = CGRectMake(95, 5, 85, 15);
                 [lbFreeSession setBackgroundImage:[UIImage imageNamed:@"bgFreeSession.png"] forState:UIControlStateNormal];
                 [lbFreeSession setTitle:[NSString stringWithFormat:@"Free %d mins call",freeSession] forState:UIControlStateNormal];
                 [lbFreeSession setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -604,11 +616,16 @@
 //        controller.expertDescriptionString = [dict objectForKey:@"description"];
         controller.freeSession = [[dict objectForKey:@"free_session"] intValue];
         [[ToolClass instance] setExpertId:controller.expertId];
+        controller.parent = self;
         [self.navigationController pushViewController:controller animated:YES];
     }
     else {
+        [self.btnSorting setTitle:@"Order by" forState:UIControlStateNormal];
+        
         NSDictionary *dict = [categoryArray objectAtIndex:indexPath.row];
         currentCategoryIndex = [[dict objectForKey:@"categoryId"] intValue];
+        
+        [self.btnCategory setTitle:[dict objectForKey:@"categoryTitle"] forState:UIControlStateNormal];
         
         [self reloadExpertByCategory:currentCategoryIndex];
         [self selectExperts:nil];
@@ -719,6 +736,9 @@
                            withObjects:filterArray
                            withOptions:nil
                             completion:^(NSInteger selectedIndex) {
+                                [self.btnCategory setTitle:@"CATEGORIES" forState:UIControlStateNormal];
+                                [self.btnSorting setTitle:@"Order by" forState:UIControlStateNormal];
+                                
                                 //return selected index
                                 currentFilterIndex = (int)selectedIndex;
                                 [self reloadExpertByFilter:currentFilterIndex];
@@ -730,8 +750,16 @@
                            withObjects:sortArray
                            withOptions:nil
                             completion:^(NSInteger selectedIndex) {
+                                [self.btnCategory setTitle:@"CATEGORIES" forState:UIControlStateNormal];
+                                
                                 //return selected index
                                 currentSortingIndex = (int)selectedIndex;
+                                
+                                if (currentSortingIndex)
+                                    [self.btnSorting setTitle:@"Experience" forState:UIControlStateNormal];
+                                else
+                                    [self.btnSorting setTitle:@"Price" forState:UIControlStateNormal];
+                                
                                 [self reloadExpertBySorting:currentSortingIndex];
                             }];
 }

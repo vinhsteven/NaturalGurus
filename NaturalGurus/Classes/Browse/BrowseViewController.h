@@ -51,6 +51,8 @@ enum {
 @property (strong, nonatomic) IBOutlet UIButton *btnExpert;
 @property (strong, nonatomic) IBOutlet UIButton *btnSorting;
 
+- (void) leftButtonPress;
+
 - (IBAction) selectCategories:(id)sender;
 - (IBAction) selectExperts:(id)sender;
 - (IBAction) handleSorting:(id)sender;

@@ -20,6 +20,7 @@
     BOOL isSelectDescription;
 }
 
+@property (unsafe_unretained) id parent;
 @property (assign, readwrite) int currentPage;
 @property (assign, readwrite) int lastPage;
 @property (assign, readwrite) BOOL isLoading;

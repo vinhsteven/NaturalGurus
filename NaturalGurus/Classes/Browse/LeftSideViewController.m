@@ -358,7 +358,8 @@
             }
             
             //connect webservice to sign in
-            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.txtEmail.text,@"email",self.txtPassword.text,@"password", nil];
+            NSString *deviceToken = [[ToolClass instance] getUserDeviceToken];
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.txtEmail.text,@"email",self.txtPassword.text,@"password",deviceToken,@"device_token", nil];
             
             [[ToolClass instance] signIn:params withViewController:self];
         }

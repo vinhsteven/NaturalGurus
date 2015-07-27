@@ -52,13 +52,13 @@
         [self reloadExpertAppointments];
         
         //test
-        UIButton *btnRight = [UIButton buttonWithType:UIButtonTypeCustom];
-        btnRight.frame = CGRectMake(0, 0, 20, 16);
-        [btnRight setImage:[UIImage imageNamed:@"reveal-icon.png"] forState:UIControlStateNormal];
-        [btnRight addTarget:self action:@selector(listLiveRequest) forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem *btnItem = [[UIBarButtonItem alloc] initWithCustomView:btnRight];
-        
-        self.navigationItem.rightBarButtonItem = btnItem;
+//        UIButton *btnRight = [UIButton buttonWithType:UIButtonTypeCustom];
+//        btnRight.frame = CGRectMake(0, 0, 20, 16);
+//        [btnRight setImage:[UIImage imageNamed:@"reveal-icon.png"] forState:UIControlStateNormal];
+//        [btnRight addTarget:self action:@selector(listLiveRequest) forControlEvents:UIControlEventTouchUpInside];
+//        UIBarButtonItem *btnItem = [[UIBarButtonItem alloc] initWithCustomView:btnRight];
+//        
+//        self.navigationItem.rightBarButtonItem = btnItem;
         //end test
     }
 }

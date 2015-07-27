@@ -133,6 +133,9 @@ enum {
     self.txtFirstName.text = [[ToolClass instance] getUserFirstName];
     self.txtLastName.text  = [[ToolClass instance] getUserLastName];
     self.txtEmail.text     = [[ToolClass instance] getUserEmail];
+    
+    NSDictionary *expertDict = [[ToolClass instance] getExpertDict];
+    self.lbMessageTo.text = [NSString stringWithFormat:@"Message to %@:",[expertDict objectForKey:@"name"]];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
