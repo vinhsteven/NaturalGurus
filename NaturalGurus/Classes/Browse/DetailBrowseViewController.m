@@ -273,8 +273,8 @@ enum {
             NSString *experience    = [expertDict objectForKey:@"experience"] == nil ? @"" : [expertDict objectForKey:@"experience"];
             NSString *level         = [expertDict objectForKey:@"level"] == nil ? @"" : [expertDict objectForKey:@"level"];
             NSString *numberSession = [expertDict objectForKey:@"sessions"] == nil ? @"0" : [NSString stringWithFormat:@"%d",[[expertDict objectForKey:@"sessions"] intValue]];
-            NSString *minSession    = [expertDict objectForKey:@"min_duration"] == nil ? @"0" : [NSString stringWithFormat:@"%d",[[expertDict objectForKey:@"min_duration"] intValue]];
-            NSString *maxSession    = [expertDict objectForKey:@"max_duration"] == nil ? @"0" : [NSString stringWithFormat:@"%d",[[expertDict objectForKey:@"max_duration"] intValue]];
+            NSString *minSession    = [expertDict objectForKey:@"min_duration"] == nil ? @"0" : [NSString stringWithFormat:@"%d mins",[[expertDict objectForKey:@"min_duration"] intValue]];
+            NSString *maxSession    = [expertDict objectForKey:@"max_duration"] == nil ? @"0" : [NSString stringWithFormat:@"%d mins",[[expertDict objectForKey:@"max_duration"] intValue]];
             NSString *association   = [expertDict objectForKey:@"association"] == nil ? @"" : [expertDict objectForKey:@"association"];
             NSString *accreditation = [expertDict objectForKey:@"accreditation_number"] == nil ? @"" : [expertDict objectForKey:@"accreditation_number"];
             
