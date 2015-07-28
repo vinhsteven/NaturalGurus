@@ -257,17 +257,6 @@ enum {
             section = [expertDict objectForKey:@"qualifications"] == nil ? @[] : [expertDict objectForKey:@"qualifications"];
         }
         else if (i == kQuickStatsSection) {
-            NSString *quickStatsTitle[] = {
-                @"Joined",
-                @"Experience",
-                @"Level",
-                @"Sessions",
-                @"Minimum session",
-                @"Maximum session",
-                @"Association",
-                @"Accreditation #"
-            };
-            
             //init quickstat data
             NSString *joinDate      = [expertDict objectForKey:@"join_date"] == nil ? @"" : [expertDict objectForKey:@"join_date"];
             NSString *experience    = [expertDict objectForKey:@"experience"] == nil ? @"" : [expertDict objectForKey:@"experience"];
@@ -275,12 +264,26 @@ enum {
             NSString *numberSession = [expertDict objectForKey:@"sessions"] == nil ? @"0" : [NSString stringWithFormat:@"%d",[[expertDict objectForKey:@"sessions"] intValue]];
             NSString *minSession    = [expertDict objectForKey:@"min_duration"] == nil ? @"0" : [NSString stringWithFormat:@"%d mins",[[expertDict objectForKey:@"min_duration"] intValue]];
             NSString *maxSession    = [expertDict objectForKey:@"max_duration"] == nil ? @"0" : [NSString stringWithFormat:@"%d mins",[[expertDict objectForKey:@"max_duration"] intValue]];
-            NSString *association   = [expertDict objectForKey:@"association"] == nil ? @"" : [expertDict objectForKey:@"association"];
-            NSString *accreditation = [expertDict objectForKey:@"accreditation_number"] == nil ? @"" : [expertDict objectForKey:@"accreditation_number"];
             
-            NSArray *quickStatValueArray = [NSArray arrayWithObjects:joinDate,experience,level,numberSession,minSession,maxSession,association,accreditation, nil];
-            for (int i=0; i < sizeof(quickStatsTitle)/sizeof(quickStatsTitle[0]);i++) {
-                NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:quickStatsTitle[i],@"title",[quickStatValueArray objectAtIndex:i],@"value", nil];
+            NSString *association   = [expertDict objectForKey:@"association"];
+            NSString *accreditation = [expertDict objectForKey:@"accreditation_number"];
+            
+            NSMutableArray *quickStatsTitleArray = [NSMutableArray arrayWithObjects:@"Joined",@"Experience",@"Level",@"Sessions",@"Minimum session",@"Maximum session", nil];
+            
+            NSMutableArray *quickStatValueArray = [NSMutableArray arrayWithObjects:joinDate,experience,level,numberSession,minSession,maxSession, nil];
+            
+            if (association != nil && ![association isEqualToString:@""]) {
+                [quickStatsTitleArray addObject:@"Association"];
+                [quickStatValueArray addObject:association];
+            }
+            
+            if (accreditation != nil && ![accreditation isEqualToString:@""]) {
+                [quickStatsTitleArray addObject:@"Accreditation #"];
+                [quickStatValueArray addObject:accreditation];
+            }
+            
+            for (int i=0; i < [quickStatsTitleArray count];i++) {
+                NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[quickStatsTitleArray objectAtIndex:i],@"title",[quickStatValueArray objectAtIndex:i],@"value", nil];
                 [section addObject:dict];
             }
         }
@@ -635,7 +638,7 @@ enum {
             lbTitle.text = [quickStatsDict objectForKey:@"title"];
             [bgView addSubview:lbTitle];
             
-            UILabel *lbValue = [[UILabel alloc] initWithFrame:CGRectMake(bgView.frame.size.width-105, offsetY, 100, 21)];
+            UILabel *lbValue = [[UILabel alloc] initWithFrame:CGRectMake(bgView.frame.size.width-145, offsetY, 140, 21)];
             lbValue.backgroundColor = [UIColor clearColor];
             lbValue.font = [UIFont fontWithName:DEFAULT_FONT size:13];
             lbValue.text = [quickStatsDict objectForKey:@"value"];
