@@ -786,8 +786,8 @@
             [viewController loginSuccess];
         }
         else if (status == 401){
-            NSString *message = [responseObject objectForKey:@"message"];
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//            NSString *message = [responseObject objectForKey:@"message"];
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Sign In Unsuccessfully" message:@"These credentials do not match our records" delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [dialog show];
             
         }
@@ -799,8 +799,18 @@
             [MBProgressHUD hideHUDForView:((LeftSideViewController*)viewController).navigationController.view animated:YES];
         
         // 4
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                            message:[error localizedDescription]
+        NSString *message = [error localizedDescription];
+        
+        if ([message rangeOfString:@"401"].location != NSNotFound) {
+            //unauthorized
+            message = @"These credentials do not match our records";
+        }
+        else {
+            message = @"We didn't find your record. Please sign up an account and try again.";
+        }
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sign In Unsuccessfully"
+                                                            message:message
                                                            delegate:nil
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
