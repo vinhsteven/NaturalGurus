@@ -27,7 +27,7 @@
                         <constraint firstAttribute="height" constant="44" id="ZnM-H0-lrS"/>
                     </constraints>
                     <offsetWrapper key="searchTextPositionAdjustment" horizontal="0.0" vertical="0.0"/>
-                    <textInputTraits key="textInputTraits"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no"/>
                     <variation key="default">
                         <mask key="constraints">
                             <exclude reference="ZnM-H0-lrS"/>
@@ -160,9 +160,8 @@
                             <exclude reference="n8f-zu-0r9"/>
                         </mask>
                     </variation>
-                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                    <variation key="heightClass=regular-widthClass=compact">
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                        <rect key="frame" x="260" y="86" width="65" height="14"/>
                         <mask key="constraints">
                             <include reference="4Ok-Y6-gIU"/>
                             <exclude reference="GMO-kU-VzG"/>

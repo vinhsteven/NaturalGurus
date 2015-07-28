@@ -540,7 +540,7 @@
                                 <constraint firstAttribute="height" constant="44" id="yfP-Io-iWi"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="27"/>
-                            <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                             <variation key="default">
                                 <mask key="constraints">
                                     <exclude reference="yfP-Io-iWi"/>

@@ -206,6 +206,12 @@
         return;
     }
     
+    if (![[ToolClass instance] validateEmail:self.txtEmail.text]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Wrong email format. Please input the correct email's format. For example: johndoe@gmail.com" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    
     if ([self.txtPassword.text isEqualToString:@""]) {
         UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please input your password" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [dialog show];
@@ -289,9 +295,11 @@
         if ([[ToolClass instance] validateEmail:self.txtEmail.text])
             [self.txtPassword becomeFirstResponder];
         else {
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Wrong email format. Please input the correct format for email. For example: johndoe@gmail.com" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [dialog show];
-            return NO;
+            if (![self.txtEmail.text isEqualToString:@""]) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Wrong email format. Please input the correct email's format. For example: johndoe@gmail.com" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+//            return NO;
         }
     }
     return YES;
@@ -309,8 +317,12 @@
         if ([[ToolClass instance] validateEmail:self.txtEmail.text])
             [self.txtPassword becomeFirstResponder];
         else {
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Wrong email format. Please input the correct format for email. For example: johndoe@gmail.com" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [dialog show];
+            if (![self.txtEmail.text isEqualToString:@""]) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Wrong email format. Please input the correct email's format. For example: johndoe@gmail.com" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+            else
+                [self.txtPassword becomeFirstResponder];
         }
     }
     else if (textField == self.txtPassword) {

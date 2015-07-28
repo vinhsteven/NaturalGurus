@@ -110,7 +110,7 @@
                                 <constraint firstAttribute="height" constant="80" id="xeZ-An-GMP"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no"/>
                             <variation key="default">
                                 <mask key="constraints">
                                     <exclude reference="xeZ-An-GMP"/>
@@ -134,7 +134,7 @@
                                         <constraint firstAttribute="height" constant="30" id="oO4-8K-ilp"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
+                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no"/>
                                     <variation key="default">
                                         <mask key="constraints">
                                             <exclude reference="oO4-8K-ilp"/>
@@ -155,7 +155,7 @@
                                         <constraint firstAttribute="height" constant="30" id="Wg3-q0-xH2"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
+                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no"/>
                                     <variation key="default">
                                         <mask key="constraints">
                                             <exclude reference="Wg3-q0-xH2"/>
