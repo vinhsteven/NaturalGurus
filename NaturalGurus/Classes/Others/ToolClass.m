@@ -818,6 +818,19 @@
     }];
 }
 
+- (void) signOut:(NSDictionary*)params {
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager POST:@"/api/v1/sign_out" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"response: %@",(NSDictionary*)responseObject);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"error = %@",error);
+    }];
+}
+
 - (void) requestResetPassword:(NSDictionary*)params withViewController:(ForgotPasswordViewController*)viewController {
     UIView *view;
     if (viewController.isFirstScreen)

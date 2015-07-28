@@ -680,7 +680,24 @@
     //if user tap cancel or x button to cancel searching, set isSearching = NO to tell that we will end searching.
     if ([searchText isEqualToString:@""]) {
         isSearching = NO;
-        
+    }
+    else {
+        [searchArray removeAllObjects];
+        //loop all current expert array and add element satisfy searchText to searchArray
+        for (int i=0;i < [expertArray count];i++) {
+            NSDictionary *dict = [expertArray objectAtIndex:i];
+            NSString *name  = [dict objectForKey:@"expertName"];
+            NSString *title = [dict objectForKey:@"serviceName"];
+            
+            name  = [name lowercaseString];
+            title = [title lowercaseString];
+            searchText = [searchText lowercaseString];
+            
+            if ([name rangeOfString:searchText].location != NSNotFound || [title rangeOfString:searchText].location != NSNotFound) {
+                [searchArray addObject:dict];
+            }
+        }
+        [self.mainTableView reloadData];
     }
 }
 

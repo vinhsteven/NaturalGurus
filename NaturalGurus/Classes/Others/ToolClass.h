@@ -106,6 +106,7 @@
 /***************LOGIN*******************/
 - (void) registerAccount:(NSDictionary*)params withViewController:(SignUpViewController*)viewController;
 - (void) signIn:(NSDictionary*)params withViewController:(id)viewController;
+- (void) signOut:(NSDictionary*)params;
 - (void) requestResetPassword:(NSDictionary*)params withViewController:(ForgotPasswordViewController*)viewController;
 
 /***************BROWSE*******************/

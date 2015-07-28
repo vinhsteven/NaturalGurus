@@ -261,6 +261,8 @@
 }
 
 - (IBAction) handleLogout:(id)sender {
+    [self performSelectorInBackground:@selector(synchronizeSignOutWithServer) withObject:nil];
+    
     int loginType = [[ToolClass instance] getLoginType];
     
     switch (loginType) {
@@ -291,7 +293,6 @@
             
             ACAccountStore *accountStore = [[ACAccountStore alloc] init];
             
-//            ACAccountType *accountType= [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
             for (ACAccount *account in accountStore.accounts) {
                 [accountStore removeAccount:account withCompletionHandler:nil];
             }
@@ -301,6 +302,12 @@
         default:
             break;
     }
+}
+
+- (void) synchronizeSignOutWithServer {
+    NSString *token = [[ToolClass instance] getUserToken];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:token,@"token", nil];
+    [[ToolClass instance] signOut:params];
 }
 
 - (IBAction) loginButtonTapped:(id)sender {
