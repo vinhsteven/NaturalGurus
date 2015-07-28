@@ -520,7 +520,7 @@
             //add duration
             UILabel *lbDuration = [[UILabel alloc] initWithFrame:CGRectMake(bgView.frame.size.width-85, 3, 75, 20)];
             lbDuration.backgroundColor = [UIColor clearColor];
-            lbDuration.text = [NSString stringWithFormat:@"$%@ mins",[dict objectForKey:@"durationPrice"]];
+            lbDuration.text = [NSString stringWithFormat:@"$%@/min",[dict objectForKey:@"durationPrice"]];
             lbDuration.textColor = [UIColor whiteColor];
             lbDuration.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:13];
             lbDuration.textAlignment = NSTextAlignmentRight;

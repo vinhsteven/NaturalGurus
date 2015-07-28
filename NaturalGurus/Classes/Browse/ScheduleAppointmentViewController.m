@@ -285,10 +285,12 @@ enum {
             return;
         }
     }
-    if (self.timeDict == nil && !self.isBookLive) {
-        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select available time before proceeding the payment" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [dialog show];
-        return;
+    if (!self.isBookLive) {
+        if (self.timeDict == nil || [[self.timeDict allKeys] count] == 0) {
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please select available time before proceeding the payment" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+            return;
+        }
     }
     
     float total = [[self.scheduleDict objectForKey:@"total"] floatValue];

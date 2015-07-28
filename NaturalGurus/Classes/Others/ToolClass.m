@@ -1173,7 +1173,7 @@
     
     [manager GET:[NSString stringWithFormat:@"/api/v1/experts/%@/reviews",[NSString stringWithFormat:@"%ld",_expertId]] parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         // 3
-        NSLog(@"response: %@",(NSDictionary*)responseObject);
+//        NSLog(@"response: %@",(NSDictionary*)responseObject);
         //get status of request
         int status = [[responseObject objectForKey:@"status"] intValue];
         
@@ -1206,7 +1206,7 @@
     
     [manager GET:[NSString stringWithFormat:@"/api/v1/experts/%@/reviews",[NSString stringWithFormat:@"%ld",_expertId]] parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         // 3
-        NSLog(@"response: %@",(NSDictionary*)responseObject);
+//        NSLog(@"response: %@",(NSDictionary*)responseObject);
         //get status of request
         int status = [[responseObject objectForKey:@"status"] intValue];
         
@@ -1546,10 +1546,15 @@
              */
         }
         else {
-            NSString *message = [responseObject objectForKey:@"message"];
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [dialog show];
-            
+//            NSString *message = [responseObject objectForKey:@"message"];
+//            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//            [dialog show];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Something Wrong"
+                                                                message:@"Payment was unsuccessful, please double check your credit card details."
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+            [alertView show];
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -1558,8 +1563,8 @@
         else if ([viewController isKindOfClass:[PaymentViewController class]])
             [MBProgressHUD hideHUDForView:((PaymentViewController*)viewController).navigationController.view animated:YES];
         // 4
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                            message:[error localizedDescription]
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Something Wrong"
+                                                            message:@"Payment was unsuccessful, please double check your credit card details."
                                                            delegate:nil
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];

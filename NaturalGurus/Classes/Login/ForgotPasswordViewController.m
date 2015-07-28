@@ -82,6 +82,12 @@
         return;
     }
     
+    if (![[ToolClass instance] validateEmail:self.txtEmail.text]) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Wrong email format. Please input the correct email's format. For example: johndoe@gmail.com" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    
     //connect webservice to reset password
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.txtEmail.text,@"email", nil];
     [[ToolClass instance] requestResetPassword:params withViewController:self];

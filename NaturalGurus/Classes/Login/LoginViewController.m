@@ -156,6 +156,9 @@
 
 //handle login button tap
 - (IBAction) loginButtonTapped:(id)sender {
+    //hide keyboard
+    [self handleSingleTap:nil];
+    
     UIButton *btnLogin = (UIButton*)sender;
     switch (btnLogin.tag) {
         case kFacebookButton:
@@ -199,6 +202,12 @@
         {
             if ([self.txtEmail.text isEqualToString:@""]) {
                 UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Email Required" message:@"Please input your email" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+                return;
+            }
+            
+            if (![[ToolClass instance] validateEmail:self.txtEmail.text]) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Wrong email format. Please input the correct email's format. For example: johndoe@gmail.com" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
                 return;
             }
