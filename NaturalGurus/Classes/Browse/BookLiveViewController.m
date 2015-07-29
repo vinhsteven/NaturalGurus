@@ -153,6 +153,8 @@
     
     self.lbTitle.text = @"DON'T MOVE! YOUR SESSION WILL BEGIN IN A FEW MINUTES.";
     self.txtMessage.text = @"Thanks for confirming the appointment.\nRight now - the user is processing their payment via credit card. Once confirmed, you will be redirected to the meeting room. Please be patient.";
+    
+    [self showCloseButton];
 }
 
 - (void) handleAfterPaymentSuccess:(long)orderId {

@@ -87,16 +87,22 @@
         return;
     }
     
+    if (self.txtMessage.text.length < 10) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"The content must be at least 10 characters." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    
     NSDictionary *params;
     
     int userRole = [[ToolClass instance] getUserRole];
+    NSString *token = [[ToolClass instance] getUserToken];
     if (userRole == isUser) {
-        NSString *token = [[ToolClass instance] getUserToken];
         params = [NSDictionary dictionaryWithObjectsAndKeys:token,@"token",self.txtName.text,@"title",self.txtMessage.text,@"content",[NSNumber numberWithFloat:self.ratingView.rating],@"rate",[NSNumber numberWithLong:self.expertId],@"expert_id",[NSNumber numberWithLong:self.orderId],@"order_id", nil];
         [[ToolClass instance] writeReviewForExpert:params viewController:self];
     }
     else {
-        params = [NSDictionary dictionaryWithObjectsAndKeys:self.txtName.text,@"name",self.txtMessage.text,@"content",[NSNumber numberWithFloat:self.ratingView.rating],@"rate", nil];
+        params = [NSDictionary dictionaryWithObjectsAndKeys:self.txtName.text,@"name",self.txtMessage.text,@"content",[NSNumber numberWithFloat:self.ratingView.rating],@"rate",token,@"token", nil];
         [[ToolClass instance] writeReviewForNG:params viewController:self];
     }
 }

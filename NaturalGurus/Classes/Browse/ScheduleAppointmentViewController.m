@@ -258,6 +258,13 @@ enum {
         [dialog show];
         return;
     }
+    
+    if (self.txtMessage.text.length < 10) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"The content must be at least 10 characters." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+        return;
+    }
+    
     if ([self.txtFirstName.text isEqualToString:@""]) {
         UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please input your first name" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [dialog show];

@@ -528,10 +528,8 @@ enum {
         
         btnDecline.frame = CGRectMake(2*leftPadding + btnAccept.frame.size.width, btnAccept.frame.origin.y, btnAccept.frame.size.width, btnAccept.frame.size.height);
         
-        if (btnAccept == nil)
-            [self.view addSubview:btnAccept];
-        if (btnDecline == nil)
-            [self.view addSubview:btnDecline];
+        [self.view addSubview:btnAccept];
+        [self.view addSubview:btnDecline];
     }
     
     //set appointment value
