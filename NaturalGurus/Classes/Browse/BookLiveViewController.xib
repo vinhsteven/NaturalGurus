@@ -87,11 +87,11 @@
                     <exclude reference="JtE-fV-eiu"/>
                     <exclude reference="iAf-O9-DFW"/>
                     <exclude reference="wyh-74-JCv"/>
+                    <exclude reference="cTk-kZ-7HE"/>
+                    <exclude reference="xa6-Ao-Ngi"/>
                     <exclude reference="JIw-jA-6eS"/>
                     <exclude reference="PmW-fh-kdD"/>
                     <exclude reference="sWA-mJ-1Rt"/>
-                    <exclude reference="cTk-kZ-7HE"/>
-                    <exclude reference="xa6-Ao-Ngi"/>
                 </mask>
             </variation>
             <variation key="heightClass=regular-widthClass=compact">
@@ -104,11 +104,11 @@
                     <include reference="JtE-fV-eiu"/>
                     <include reference="iAf-O9-DFW"/>
                     <include reference="wyh-74-JCv"/>
+                    <include reference="cTk-kZ-7HE"/>
+                    <include reference="xa6-Ao-Ngi"/>
                     <include reference="JIw-jA-6eS"/>
                     <include reference="PmW-fh-kdD"/>
                     <include reference="sWA-mJ-1Rt"/>
-                    <include reference="cTk-kZ-7HE"/>
-                    <include reference="xa6-Ao-Ngi"/>
                 </mask>
             </variation>
         </view>

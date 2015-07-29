@@ -8,6 +8,7 @@
 
 #import "DashboardViewController.h"
 #import "DetailAppointmentViewController.h"
+#import "WriteReviewViewController.h"
 
 @interface DashboardViewController ()
 
@@ -50,27 +51,30 @@
         [self reloadAppointment];
     else {
         [self reloadExpertAppointments];
-        
-        //test
-//        UIButton *btnRight = [UIButton buttonWithType:UIButtonTypeCustom];
-//        btnRight.frame = CGRectMake(0, 0, 20, 16);
-//        [btnRight setImage:[UIImage imageNamed:@"reveal-icon.png"] forState:UIControlStateNormal];
-//        [btnRight addTarget:self action:@selector(listLiveRequest) forControlEvents:UIControlEventTouchUpInside];
-//        UIBarButtonItem *btnItem = [[UIBarButtonItem alloc] initWithCustomView:btnRight];
-//        
-//        self.navigationItem.rightBarButtonItem = btnItem;
-        //end test
     }
+    
+    //test
+//    UIButton *btnRight = [UIButton buttonWithType:UIButtonTypeCustom];
+//    btnRight.frame = CGRectMake(0, 0, 20, 16);
+//    [btnRight setImage:[UIImage imageNamed:@"reveal-icon.png"] forState:UIControlStateNormal];
+//    [btnRight addTarget:self action:@selector(listLiveRequest) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *btnItem = [[UIBarButtonItem alloc] initWithCustomView:btnRight];
+//    
+//    self.navigationItem.rightBarButtonItem = btnItem;
+    //end test
 }
 
 //test
 - (void) listLiveRequest {
-    BOOL isOpening = [[LiveRequestListViewController instance] isOpening];
-    if (!isOpening) {
-        UINavigationController *tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:[LiveRequestListViewController instance]];
-        [self.navigationController presentViewController:tmpNavigationController animated:YES completion:nil];
-    }
-    [[LiveRequestListViewController instance] reloadLiveRequest];
+//    BOOL isOpening = [[LiveRequestListViewController instance] isOpening];
+//    if (!isOpening) {
+//        UINavigationController *tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:[LiveRequestListViewController instance]];
+//        [self.navigationController presentViewController:tmpNavigationController animated:YES completion:nil];
+//    }
+//    [[LiveRequestListViewController instance] reloadLiveRequest];
+    WriteReviewViewController *controller = [[WriteReviewViewController alloc] initWithNibName:@"WriteReviewViewController" bundle:nil];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    [self presentViewController:navController animated:YES completion:nil];
 }
 //end test
 

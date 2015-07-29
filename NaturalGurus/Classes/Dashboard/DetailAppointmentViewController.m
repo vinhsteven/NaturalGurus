@@ -8,6 +8,7 @@
 
 #import "DetailAppointmentViewController.h"
 #import "StreamingVideoViewController.h"
+#import "WriteReviewViewController.h"
 
 enum {
     kEnterRoomDialog = 1,
@@ -168,6 +169,17 @@ enum {
         self.btnEnter.hidden = YES;
         
         [appointmentDict setObject:[NSNumber numberWithInt:1] forKey:@"video_state"];
+        
+        if (!self.isOpenWriteReview) {
+            self.isOpenWriteReview = YES;
+            //load write review controller
+            WriteReviewViewController *controller = [[WriteReviewViewController alloc] initWithNibName:@"WriteReviewViewController" bundle:nil];
+            controller.expertId = [[appointmentDict objectForKey:@"expertId"] longValue];
+            controller.orderId  = [[appointmentDict objectForKey:@"appointmentId"] longValue];
+            
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+            [self presentViewController:navController animated:YES completion:nil];
+        }
     }
 }
 

@@ -176,7 +176,7 @@ static bool subscribeToSelf = NO;
     [self.view addSubview:_publisher.view];
     [_publisher.view setFrame:CGRectMake(0, 0, screenSize.width, screenSize.height)];
     
-    [self.view insertSubview:btnClose atIndex:INT_MAX];
+//    [self.view insertSubview:btnClose atIndex:INT_MAX];
 }
 
 /**

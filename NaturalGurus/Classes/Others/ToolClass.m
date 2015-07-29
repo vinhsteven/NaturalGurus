@@ -1440,6 +1440,9 @@
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"dashboard error = %@",error);
+        [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone has logged in your account from another device. Please login again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
     }];
 }
 
@@ -1459,12 +1462,12 @@
             [viewController setVideoDict:data];
         }
         else {
-            NSLog(@"video token error: %@",[responseObject objectForKey:@"message"]);
+//            NSLog(@"video token error: %@",[responseObject objectForKey:@"message"]);
             NSString *message = [responseObject objectForKey:@"message"];
             [viewController handleGetVideoTokenFailedWithMessage:message];
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"video token error = %@",error);
+//        NSLog(@"video token error = %@",error);
     }];
 }
 
@@ -1865,6 +1868,81 @@
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
+}
+
+#pragma mark WRITE REVIEW
+
+- (void) writeReviewForExpert:(NSDictionary*)params viewController:(WriteReviewViewController*)viewController {
+    [MBProgressHUD showHUDAddedTo:viewController.view animated:YES];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer.timeoutInterval = 120;
+    
+    [manager POST:@"/api/v1/orders/feedback" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"response: %@",(NSDictionary*)responseObject);
+        [MBProgressHUD hideAllHUDsForView:viewController.view animated:YES];
+        
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        NSString *message = [responseObject objectForKey:@"message"];
+        
+        if (status == 200) {
+            [viewController submitReviewSuccessful];
+        }
+        else {
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [MBProgressHUD hideAllHUDsForView:viewController.view animated:YES];
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
+}
+
+- (void) writeReviewForNG:(NSDictionary*)params viewController:(WriteReviewViewController*)viewController {
+    [MBProgressHUD showHUDAddedTo:viewController.view animated:YES];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer.timeoutInterval = 120;
+    
+    [manager POST:@"/api/v1/ng/feedback" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"response: %@",(NSDictionary*)responseObject);
+        [MBProgressHUD hideAllHUDsForView:viewController.view animated:YES];
+        
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        
+        NSString *message = [responseObject objectForKey:@"message"];
+        
+        if (status == 200) {
+            [viewController submitReviewSuccessful];
+        }
+        else {
+            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [dialog show];
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [MBProgressHUD hideAllHUDsForView:viewController.view animated:YES];
         
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                             message:[error localizedDescription]

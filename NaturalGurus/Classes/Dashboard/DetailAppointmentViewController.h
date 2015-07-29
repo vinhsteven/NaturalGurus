@@ -46,6 +46,7 @@
 @property (strong, nonatomic) IBOutlet UIView *myFrontView;
 
 @property (assign, readwrite) BOOL isFinishMeeting;
+@property (assign, readwrite) BOOL isOpenWriteReview;
 
 @property (strong, nonatomic) IBOutlet UIView *topView;
 @property (strong, nonatomic) IBOutlet UILabel *lbTitle;

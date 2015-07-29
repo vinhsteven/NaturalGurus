@@ -19,6 +19,7 @@
 #import "MyProfileViewController.h"
 #import "StreamingVideoViewController.h"
 #import "LiveRequestListViewController.h"
+#import "WriteReviewViewController.h"
 
 @interface ToolClass : NSObject  {
     unsigned long expertId;
@@ -142,5 +143,9 @@
 - (void) loadLiveRequestList:(NSDictionary*)params viewController:(LiveRequestListViewController*)viewController;
 - (void) approveLiveRequest:(NSDictionary*)params viewController:(LiveRequestListViewController*)viewController;
 - (void) declineLiveRequest:(NSDictionary*)params viewController:(LiveRequestListViewController*)viewController;
+
+#pragma mark WRITE REVIEW
+- (void) writeReviewForExpert:(NSDictionary*)params viewController:(WriteReviewViewController*)viewController;
+- (void) writeReviewForNG:(NSDictionary*)params viewController:(WriteReviewViewController*)viewController;
 
 @end
