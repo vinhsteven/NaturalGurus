@@ -157,10 +157,10 @@
     token = [token substringToIndex:token.length]; //our server just store 100 characters
 
     NSString *image64String = @"";
-    if (isChangeAvatar) {
+//    if (isChangeAvatar) {
         NSData *imageData = UIImageJPEGRepresentation(self.imgExpertView.image, 1.0);
         image64String = [imageData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn];
-    }
+//    }
     
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.txtFirstName.text,@"firstname",self.txtLastName.text,@"lastname",self.txtPhoneNumber.text,@"phone",[self.txtCountryCode.text substringFromIndex:1],@"phone_code",[NSNumber numberWithInt:self.switchPushNotification.on],@"receive_push",[NSNumber numberWithInt:self.switchSMS.on],@"receive_sms",token,@"token",image64String,@"avatar", nil];
     [[ToolClass instance] updateUserProfile:params withViewController:self];

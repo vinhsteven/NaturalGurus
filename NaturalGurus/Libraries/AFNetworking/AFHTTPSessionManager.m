@@ -243,7 +243,8 @@
     dataTask = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {
         if (error) {
             if (failure) {
-                failure(dataTask, error);
+//                failure(dataTask, error);
+                success(dataTask, responseObject);
             }
         } else {
             if (success) {

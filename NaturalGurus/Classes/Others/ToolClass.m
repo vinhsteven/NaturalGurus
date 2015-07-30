@@ -1161,10 +1161,17 @@
                 [(DetailAppointmentViewController*)viewController reorganizeData];
             }
         }
-        else if (status == 401){
+        else {
             NSString *message = [responseObject objectForKey:@"message"];
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [dialog show];
+            message = [message lowercaseString];
+            if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+            else {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -1192,14 +1199,20 @@
         
         if (status == 200) {
             viewController.lastPage = [[[responseObject objectForKey:@"data"] objectForKey:@"last_page"] intValue];
-//            NSMutableArray *reviewArray = [[responseObject objectForKey:@"data"] objectForKey:@"data"];
             NSMutableArray *reviewArray = [[responseObject objectForKey:@"data"] objectForKey:@"items"];
             [viewController reorganizeReviewArray:reviewArray];
         }
         else {
             NSString *message = [responseObject objectForKey:@"message"];
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [dialog show];
+            message = [message lowercaseString];
+            if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+            else {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -1228,7 +1241,16 @@
             [viewController setUpStyleForReviewButton];
         }
         else {
-            NSLog(@"totalReview error");
+            NSString *message = [responseObject objectForKey:@"message"];
+            message = [message lowercaseString];
+            if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+            else {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -1254,7 +1276,16 @@
             [viewController reorganizeAvailabilities:data];
         }
         else {
-            NSLog(@"availibilities error = %@",[responseObject objectForKey:@"message"]);
+            NSString *message = [responseObject objectForKey:@"message"];
+            message = [message lowercaseString];
+            if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+            else {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -1292,7 +1323,7 @@
             
             NSString *message = [responseObject objectForKey:@"message"];
             message = [message lowercaseString];
-            if ([message rangeOfString:@"token invalid"].location == NSNotFound) {
+            if ([message rangeOfString:@"invalid token"].location == NSNotFound) {
                 UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Something wrong" message:[responseObject objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
             }
@@ -1345,9 +1376,15 @@
         }
         else {
             NSString *message = [responseObject objectForKey:@"message"];
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [dialog show];
-            
+            message = [message lowercaseString];
+            if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+            else {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -1429,7 +1466,7 @@
             
             NSString *message = [responseObject objectForKey:@"message"];
             message = [message lowercaseString];
-            if ([message rangeOfString:@"token invalid"].location == NSNotFound) {
+            if ([message rangeOfString:@"invalid token"].location == NSNotFound) {
                 UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Something wrong" message:[responseObject objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
             }
@@ -1462,7 +1499,6 @@
             [viewController setVideoDict:data];
         }
         else {
-//            NSLog(@"video token error: %@",[responseObject objectForKey:@"message"]);
             NSString *message = [responseObject objectForKey:@"message"];
             [viewController handleGetVideoTokenFailedWithMessage:message];
         }
@@ -1562,15 +1598,20 @@
              */
         }
         else {
-//            NSString *message = [responseObject objectForKey:@"message"];
-//            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//            [dialog show];
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Something Wrong"
-                                                                message:@"Payment was unsuccessful, please double check your credit card details."
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-            [alertView show];
+            NSString *message = [responseObject objectForKey:@"message"];
+            message = [message lowercaseString];
+            if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+            else {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Something Wrong"
+                                                                    message:@"Payment was unsuccessful, please double check your credit card details."
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"OK"
+                                                          otherButtonTitles:nil];
+                [alertView show];
+            }
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -1609,9 +1650,15 @@
         }
         else {
             NSString *message = [responseObject objectForKey:@"message"];
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [dialog show];
-            
+            message = [message lowercaseString];
+            if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+            else {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -1662,9 +1709,15 @@
         }
         else {
             NSString *message = [responseObject objectForKey:@"message"];
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [dialog show];
-            
+            message = [message lowercaseString];
+            if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+            else {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -1705,9 +1758,15 @@
         }
         else {
             NSString *message = [responseObject objectForKey:@"message"];
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:viewController cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [dialog show];
-            
+            message = [message lowercaseString];
+            if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+            else {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -1747,9 +1806,15 @@
         }
         else {
             NSString *message = [responseObject objectForKey:@"message"];
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [dialog show];
-            
+            message = [message lowercaseString];
+            if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+            else {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [MBProgressHUD hideHUDForView:delegate.navController.view animated:YES];
@@ -1787,15 +1852,21 @@
         }
         else {
             NSString *message = [responseObject objectForKey:@"message"];
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [dialog show];
-            
+            message = [message lowercaseString];
+            if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+            else {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [MBProgressHUD hideAllHUDsForView:delegate.navController.view animated:YES];
         
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                            message:[error localizedDescription]
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Disconnected"
+                                                            message:@"Someone has logged in with this account. Please login again."
                                                            delegate:nil
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
@@ -1824,9 +1895,15 @@
         }
         else {
             NSString *message = [responseObject objectForKey:@"message"];
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [dialog show];
-            
+            message = [message lowercaseString];
+            if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+            else {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
@@ -1862,9 +1939,15 @@
         }
         else {
             NSString *message = [responseObject objectForKey:@"message"];
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [dialog show];
-            
+            message = [message lowercaseString];
+            if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+            else {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
@@ -1895,14 +1978,21 @@
         
         //get status of request
         int status = [[responseObject objectForKey:@"status"] intValue];
-        NSString *message = [responseObject objectForKey:@"message"];
         
         if (status == 200) {
             [viewController submitReviewSuccessful];
         }
         else {
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [dialog show];
+            NSString *message = [responseObject objectForKey:@"message"];
+            message = [message lowercaseString];
+            if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+            else {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [MBProgressHUD hideAllHUDsForView:viewController.view animated:YES];
@@ -1932,14 +2022,20 @@
         //get status of request
         int status = [[responseObject objectForKey:@"status"] intValue];
         
-        NSString *message = [responseObject objectForKey:@"message"];
-        
         if (status == 200) {
             [viewController submitReviewSuccessful];
         }
         else {
-            UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [dialog show];
+            NSString *message = [responseObject objectForKey:@"message"];
+            message = [message lowercaseString];
+            if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+            else {
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [MBProgressHUD hideAllHUDsForView:viewController.view animated:YES];

@@ -267,6 +267,15 @@ streamDestroyed:(OTStream *)stream
         [self cleanupSubscriber];
         
         [self handleEndCalling];
+        
+        OTError *error = nil;
+        [session signalWithType:@"session_stop" string:nil connection:nil error:nil];
+        if (error) {
+            NSLog(@"signal error %@", error);
+        }
+        else {
+            NSLog(@"signal sent");
+        }
     }
 }
 
@@ -286,6 +295,15 @@ connectionDestroyed:(OTConnection *)connection
         [self cleanupSubscriber];
         
         [self handleEndCalling];
+        
+        OTError *error = nil;
+        [session signalWithType:@"session_stop" string:nil connection:nil error:nil];
+        if (error) {
+            NSLog(@"signal error %@", error);
+        }
+        else {
+            NSLog(@"signal sent");
+        }
     }
 }
 

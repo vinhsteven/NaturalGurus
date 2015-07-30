@@ -662,6 +662,7 @@
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="6uV-61-zM1" secondAttribute="bottom" id="8LS-NB-ucl"/>
                 <constraint firstItem="DAa-xG-eYI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="KSd-wv-ehW"/>
+                <constraint firstItem="6uV-61-zM1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="MNW-KS-Cs0"/>
                 <constraint firstItem="6uV-61-zM1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="45" id="QKk-II-7Wy"/>
                 <constraint firstItem="6uV-61-zM1" firstAttribute="top" secondItem="DAa-xG-eYI" secondAttribute="bottom" id="Rhb-Fv-tRU"/>
                 <constraint firstItem="6uV-61-zM1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="45" id="Y5c-id-tsm">
@@ -678,7 +679,7 @@
                 <constraint firstItem="DAa-xG-eYI" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="yzh-RA-Xbw"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-            <nil key="simulatedTopBarMetrics"/>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
             <variation key="default">
                 <mask key="subviews">
@@ -686,7 +687,11 @@
                     <exclude reference="DAa-xG-eYI"/>
                 </mask>
                 <mask key="constraints">
+                    <exclude reference="KSd-wv-ehW"/>
+                    <exclude reference="YfH-pM-RI5"/>
+                    <exclude reference="yzh-RA-Xbw"/>
                     <exclude reference="8LS-NB-ucl"/>
+                    <exclude reference="MNW-KS-Cs0"/>
                     <exclude reference="QKk-II-7Wy"/>
                     <exclude reference="Rhb-Fv-tRU"/>
                     <exclude reference="Y5c-id-tsm"/>
@@ -695,9 +700,6 @@
                     <exclude reference="jAv-NN-FKe"/>
                     <exclude reference="kf4-De-1wQ"/>
                     <exclude reference="wGz-un-T8B"/>
-                    <exclude reference="KSd-wv-ehW"/>
-                    <exclude reference="YfH-pM-RI5"/>
-                    <exclude reference="yzh-RA-Xbw"/>
                 </mask>
             </variation>
             <variation key="heightClass=regular-widthClass=compact">
@@ -706,18 +708,19 @@
                     <include reference="DAa-xG-eYI"/>
                 </mask>
                 <mask key="constraints">
+                    <include reference="KSd-wv-ehW"/>
+                    <include reference="YfH-pM-RI5"/>
+                    <include reference="yzh-RA-Xbw"/>
                     <include reference="8LS-NB-ucl"/>
+                    <include reference="MNW-KS-Cs0"/>
                     <exclude reference="QKk-II-7Wy"/>
-                    <include reference="Rhb-Fv-tRU"/>
+                    <exclude reference="Rhb-Fv-tRU"/>
                     <exclude reference="Y5c-id-tsm"/>
                     <include reference="ZXA-Ba-qPa"/>
                     <exclude reference="dsm-GD-cmL"/>
                     <include reference="jAv-NN-FKe"/>
                     <include reference="kf4-De-1wQ"/>
                     <exclude reference="wGz-un-T8B"/>
-                    <include reference="KSd-wv-ehW"/>
-                    <include reference="YfH-pM-RI5"/>
-                    <include reference="yzh-RA-Xbw"/>
                 </mask>
             </variation>
         </view>

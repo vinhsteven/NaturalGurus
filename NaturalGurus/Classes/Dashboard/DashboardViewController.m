@@ -66,15 +66,12 @@
 
 //test
 - (void) listLiveRequest {
-//    BOOL isOpening = [[LiveRequestListViewController instance] isOpening];
-//    if (!isOpening) {
-//        UINavigationController *tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:[LiveRequestListViewController instance]];
-//        [self.navigationController presentViewController:tmpNavigationController animated:YES completion:nil];
-//    }
-//    [[LiveRequestListViewController instance] reloadLiveRequest];
-    WriteReviewViewController *controller = [[WriteReviewViewController alloc] initWithNibName:@"WriteReviewViewController" bundle:nil];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
-    [self presentViewController:navController animated:YES completion:nil];
+    BOOL isOpening = [[LiveRequestListViewController instance] isOpening];
+    if (!isOpening) {
+        UINavigationController *tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:[LiveRequestListViewController instance]];
+        [self.navigationController presentViewController:tmpNavigationController animated:YES completion:nil];
+    }
+    [[LiveRequestListViewController instance] reloadLiveRequest];
 }
 //end test
 

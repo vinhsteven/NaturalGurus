@@ -126,6 +126,14 @@
                         </mask>
                     </variation>
                 </imageView>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="j0X-7B-EwF" customClass="STCollapseTableView">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="tVJ-Yz-AKd"/>
+                        <outlet property="delegate" destination="-1" id="Bxt-4a-U8L"/>
+                    </connections>
+                </tableView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconOnline.png" translatesAutoresizingMaskIntoConstraints="NO" id="6FH-05-fPb">
                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                     <constraints>
@@ -244,14 +252,6 @@
                         </mask>
                     </variation>
                 </view>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="j0X-7B-EwF" customClass="STCollapseTableView">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                    <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="tVJ-Yz-AKd"/>
-                        <outlet property="delegate" destination="-1" id="Bxt-4a-U8L"/>
-                    </connections>
-                </tableView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pvn-H9-nji" customClass="EDStarRating">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -325,7 +325,9 @@
                 <constraint firstItem="6FH-05-fPb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="50" id="h6H-1N-Qaf"/>
                 <constraint firstAttribute="centerX" secondItem="j0X-7B-EwF" secondAttribute="centerX" id="khT-zK-Ppj"/>
                 <constraint firstAttribute="bottom" secondItem="oaJ-Y8-BVU" secondAttribute="bottom" id="pLl-HY-YT6"/>
-                <constraint firstItem="j0X-7B-EwF" firstAttribute="top" secondItem="Eug-wy-abM" secondAttribute="bottom" constant="15" id="s2c-Pv-CGa"/>
+                <constraint firstItem="j0X-7B-EwF" firstAttribute="top" secondItem="Eug-wy-abM" secondAttribute="bottom" constant="15" id="s2c-Pv-CGa">
+                    <variation key="heightClass=regular-widthClass=compact" constant="10"/>
+                </constraint>
                 <constraint firstItem="epE-uv-Tc7" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="59" id="t6f-Gv-9Be">
                     <variation key="heightClass=regular-widthClass=compact" constant="79"/>
                 </constraint>
@@ -346,12 +348,12 @@
                     <exclude reference="wXp-17-6jh"/>
                     <exclude reference="epE-uv-Tc7"/>
                     <exclude reference="YW8-2f-NrG"/>
+                    <exclude reference="j0X-7B-EwF"/>
                     <exclude reference="6FH-05-fPb"/>
                     <exclude reference="Eug-wy-abM"/>
                     <exclude reference="7YJ-Kg-nca"/>
                     <exclude reference="DlW-zZ-Yg8"/>
                     <exclude reference="oaJ-Y8-BVU"/>
-                    <exclude reference="j0X-7B-EwF"/>
                     <exclude reference="Pvn-H9-nji"/>
                     <exclude reference="ooU-Rt-dEE"/>
                 </mask>
@@ -403,12 +405,12 @@
                     <include reference="wXp-17-6jh"/>
                     <include reference="epE-uv-Tc7"/>
                     <include reference="YW8-2f-NrG"/>
+                    <include reference="j0X-7B-EwF"/>
                     <include reference="6FH-05-fPb"/>
                     <include reference="Eug-wy-abM"/>
                     <include reference="7YJ-Kg-nca"/>
                     <include reference="DlW-zZ-Yg8"/>
                     <include reference="oaJ-Y8-BVU"/>
-                    <include reference="j0X-7B-EwF"/>
                     <include reference="Pvn-H9-nji"/>
                     <include reference="ooU-Rt-dEE"/>
                 </mask>

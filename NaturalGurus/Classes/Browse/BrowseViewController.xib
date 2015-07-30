@@ -59,6 +59,14 @@
                         </mask>
                     </variation>
                 </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="dpT-Yr-j7L" customClass="TableView_RefreshControl">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="enB-xn-MuS"/>
+                        <outlet property="delegate" destination="-1" id="vRc-iF-TxY"/>
+                    </connections>
+                </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T6i-y2-oAG">
                     <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                     <constraints>
@@ -175,19 +183,13 @@
                         <action selector="handleSorting:" destination="-1" eventType="touchUpInside" id="2xO-p6-WGi"/>
                     </connections>
                 </button>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="dpT-Yr-j7L" customClass="TableView_RefreshControl">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="enB-xn-MuS"/>
-                        <outlet property="delegate" destination="-1" id="vRc-iF-TxY"/>
-                    </connections>
-                </tableView>
             </subviews>
             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="YLV-B1-NC3" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="5pJ-Ul-LF6"/>
-                <constraint firstItem="dpT-Yr-j7L" firstAttribute="top" secondItem="YLV-B1-NC3" secondAttribute="bottom" constant="12" id="AzP-ua-adw"/>
+                <constraint firstItem="dpT-Yr-j7L" firstAttribute="top" secondItem="YLV-B1-NC3" secondAttribute="bottom" constant="12" id="AzP-ua-adw">
+                    <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                </constraint>
                 <constraint firstItem="T6i-y2-oAG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="30" id="CEN-Ck-eP8">
                     <variation key="heightClass=regular-widthClass=compact" constant="5"/>
                 </constraint>
@@ -212,17 +214,19 @@
                 <constraint firstItem="YLV-B1-NC3" firstAttribute="top" secondItem="ieQ-EV-eyL" secondAttribute="bottom" id="jVt-yS-yWD"/>
                 <constraint firstItem="ieQ-EV-eyL" firstAttribute="leading" secondItem="dpT-Yr-j7L" secondAttribute="leading" id="qKi-AY-FHZ"/>
                 <constraint firstAttribute="trailing" secondItem="YLV-B1-NC3" secondAttribute="trailing" id="wFC-5X-rts"/>
-                <constraint firstAttribute="bottom" secondItem="dpT-Yr-j7L" secondAttribute="bottom" id="y3o-4Y-MOY"/>
+                <constraint firstAttribute="bottom" secondItem="dpT-Yr-j7L" secondAttribute="bottom" id="y3o-4Y-MOY">
+                    <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                </constraint>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <variation key="default">
                 <mask key="subviews">
                     <exclude reference="ieQ-EV-eyL"/>
                     <exclude reference="YLV-B1-NC3"/>
+                    <exclude reference="dpT-Yr-j7L"/>
                     <exclude reference="T6i-y2-oAG"/>
                     <exclude reference="U2I-jB-mam"/>
                     <exclude reference="723-qh-pRt"/>
-                    <exclude reference="dpT-Yr-j7L"/>
                 </mask>
                 <mask key="constraints">
                     <exclude reference="QIc-fh-lsm"/>
@@ -250,10 +254,10 @@
                 <mask key="subviews">
                     <include reference="ieQ-EV-eyL"/>
                     <include reference="YLV-B1-NC3"/>
+                    <include reference="dpT-Yr-j7L"/>
                     <include reference="T6i-y2-oAG"/>
                     <include reference="U2I-jB-mam"/>
                     <include reference="723-qh-pRt"/>
-                    <include reference="dpT-Yr-j7L"/>
                 </mask>
                 <mask key="constraints">
                     <include reference="QIc-fh-lsm"/>

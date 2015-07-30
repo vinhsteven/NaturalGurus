@@ -94,7 +94,7 @@
     //set row table height
     self.mainTableView.rowHeight = 138;
     self.mainTableView.separatorColor = [UIColor clearColor];
-    self.mainTableView.backgroundColor = TABLE_BACKGROUND_COLOR;
+    self.mainTableView.backgroundColor = [UIColor clearColor];
     [self.mainTableView.refreshControl addTarget:self action:@selector(handleRefresh) forControlEvents:UIControlEventValueChanged];
     
     //default is expert
@@ -445,7 +445,7 @@
             NSDictionary *dict = [tmpArray objectAtIndex:indexPath.row];
             
             //create background view cell
-            UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, self.mainTableView.rowHeight-6)];
+            UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(10, 12, screenSize.width-20, self.mainTableView.rowHeight-6)];
             bgView.tag = kBGVIEW_TAG;
             bgView.backgroundColor = [UIColor whiteColor];
             bgView.layer.cornerRadius = 5;
