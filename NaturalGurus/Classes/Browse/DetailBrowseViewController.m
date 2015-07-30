@@ -206,11 +206,11 @@ enum {
     name = [name stringByReplacingOccurrencesOfString:@" " withString:@"-"];
     name = [name lowercaseString];
     
-    NSURL *urlToShare = [NSURL URLWithString:[NSString stringWithFormat:@"https://naturalgurus.com/profile/%@/%ld",name,self.expertId]];
+//    NSURL *urlToShare = [NSURL URLWithString:[NSString stringWithFormat:@"https://naturalgurus.com/profile/%@/%ld",name,self.expertId]];
     
     NSString *textToShare = [NSString stringWithFormat:@"Please check out this expert: %@",[NSString stringWithFormat:@"https://naturalgurus.com/profile/%@/%ld",name,self.expertId]];
     
-    NSArray *objectsToShare = @[textToShare,urlToShare];
+    NSArray *objectsToShare = @[textToShare];
 //    NSArray *applicationArray = @[UIActivityTypePostToFacebook,UIActivityTypePostToTwitter,UIActivityTypeMail];
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
     

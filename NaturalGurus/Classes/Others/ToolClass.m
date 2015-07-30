@@ -1828,6 +1828,30 @@
     }];
 }
 
+- (void) checkLiveRequestList:(NSDictionary*)params viewController:(AppDelegate*)viewController {
+    NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:urlStr]];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer.timeoutInterval = 120;
+    
+    [manager GET:@"/api/v1/live_requests" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+        //get status of request
+        int status = [[responseObject objectForKey:@"status"] intValue];
+        
+        if (status == 200) {
+            NSArray *array = [[responseObject objectForKey:@"data"] objectForKey:@"requests"];
+            if ([array count] > 0)
+                [viewController loadLiveRequestList];
+        }
+        else {
+            NSLog(@"checkLiveRequest error = %@",[responseObject objectForKey:@"message"]);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"checkLiveRequest error = %@",error);
+    }];
+}
+
 - (void) loadLiveRequestList:(NSDictionary*)params viewController:(LiveRequestListViewController*)viewController {
     AppDelegate *delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     

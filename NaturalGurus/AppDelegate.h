@@ -15,7 +15,9 @@
 @interface UINavigationController (Rotation_For_iOS6)
 @end
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate> {
+    NSTimer *timer;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) LoginViewController *viewController;
@@ -23,7 +25,10 @@
 
 + (void) showMessage:(NSString*)message withTitle:(NSString*)title;
 - (void) twitterStateChanged:(TWTRSession*) session;
-- (void)sessionStateChanged:(FBSession *)session state:(FBSessionState) state error:(NSError *)error;
+- (void) sessionStateChanged:(FBSession *)session state:(FBSessionState) state error:(NSError *)error;
+
+- (void) loadLiveRequestList;
+- (void) checkLiveRequestList;
 
 @end
 

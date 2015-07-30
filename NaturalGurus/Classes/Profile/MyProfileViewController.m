@@ -101,7 +101,8 @@
     self.txtLastName.text   = [[ToolClass instance] getUserLastName];
     self.txtEmail.text      = [[ToolClass instance] getUserEmail];
     self.switchSMS.on       = [[ToolClass instance] getUserSMS];
-    self.switchPushNotification.on = [[ToolClass instance] getUserPush];
+//    self.switchPushNotification.on = [[ToolClass instance] getUserPush];
+    
     self.txtPhoneNumber.text    = [[ToolClass instance] getUserPhone];
     self.txtCountryCode.text    = [NSString stringWithFormat:@"+%@",[[ToolClass instance] getUserCountryCode]];
     
@@ -120,6 +121,29 @@
     //make image circle shape
     [imgExpertView.layer setCornerRadius:EXPERT_IMAGE_WIDTH/2];
     [imgExpertView.layer setMasksToBounds:YES];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+}
+
+- (void)appWillEnterForeground:(NSNotification *)notification {
+    //check whether user enable push notification or not
+    //if not, make blur for Meet Now button
+    UIApplication *application = [UIApplication sharedApplication];
+    
+    BOOL enabled;
+    
+    // Try to use the newer isRegisteredForRemoteNotifications otherwise use the enabledRemoteNotificationTypes.
+    if ([application respondsToSelector:@selector(isRegisteredForRemoteNotifications)])
+    {
+        enabled = [application isRegisteredForRemoteNotifications];
+    }
+    else
+    {
+        UIRemoteNotificationType types = [application enabledRemoteNotificationTypes];
+        enabled = types & UIRemoteNotificationTypeAlert;
+    }
+    
+    self.switchPushNotification.on = enabled;
 }
 
 - (void) viewDidLayoutSubviews {
@@ -127,7 +151,24 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+    //check whether user enable push notification or not
+    //if not, make blur for Meet Now button
+    UIApplication *application = [UIApplication sharedApplication];
     
+    BOOL enabled;
+    
+    // Try to use the newer isRegisteredForRemoteNotifications otherwise use the enabledRemoteNotificationTypes.
+    if ([application respondsToSelector:@selector(isRegisteredForRemoteNotifications)])
+    {
+        enabled = [application isRegisteredForRemoteNotifications];
+    }
+    else
+    {
+        UIRemoteNotificationType types = [application enabledRemoteNotificationTypes];
+        enabled = types & UIRemoteNotificationTypeAlert;
+    }
+    
+    self.switchPushNotification.on = enabled;
 }
 
 - (void) addNavigationBottomLine {
@@ -180,6 +221,36 @@
 
 - (void) leftButtonPress {
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+}
+
+- (IBAction) handleSwitchChange:(UISwitch*)sender {
+    if (sender.on) {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"You can not switch on this here. Please go to Setting -> Notification Center and switch on it." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+    }
+    else {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"You can not switch off this here. Please go to Setting -> Notification Center and switch off it." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [dialog show];
+    }
+    
+    //check whether user enable push notification or not
+    //if not, make blur for Meet Now button
+    UIApplication *application = [UIApplication sharedApplication];
+    
+    BOOL enabled;
+    
+    // Try to use the newer isRegisteredForRemoteNotifications otherwise use the enabledRemoteNotificationTypes.
+    if ([application respondsToSelector:@selector(isRegisteredForRemoteNotifications)])
+    {
+        enabled = [application isRegisteredForRemoteNotifications];
+    }
+    else
+    {
+        UIRemoteNotificationType types = [application enabledRemoteNotificationTypes];
+        enabled = types & UIRemoteNotificationTypeAlert;
+    }
+    
+    self.switchPushNotification.on = enabled;
 }
 
 #pragma mark UITextFieldDelegate
@@ -334,6 +405,10 @@
     [imgExpertView.layer setMasksToBounds:YES];
     
     [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /*

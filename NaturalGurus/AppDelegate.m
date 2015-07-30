@@ -390,6 +390,12 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    int userRole = [[ToolClass instance] getUserRole];
+    NSString *token = [[ToolClass instance] getUserToken];
+    
+    if (userRole == isExpert && token != nil) {
+        timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(autoCheckLiveRequestList) userInfo:nil repeats:YES];
+    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -477,6 +483,30 @@
         dialog.tag = orderId;
         [dialog show];
     }
+}
+
+//auto check live request list and open this view if there is any live request
+- (void) autoCheckLiveRequestList {
+    if (timer != nil) {
+        [timer invalidate];
+        timer = nil;
+    }
+    [self performSelectorInBackground:@selector(checkLiveRequestList) withObject:nil];
+}
+
+- (void) checkLiveRequestList {
+    NSString *token = [[ToolClass instance] getUserToken];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:token,@"token", nil];
+    [[ToolClass instance] checkLiveRequestList:params viewController:self];
+}
+
+- (void) loadLiveRequestList {
+    BOOL isOpening = [[LiveRequestListViewController instance] isOpening];
+    if (!isOpening) {
+        UINavigationController *tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:[LiveRequestListViewController instance]];
+        [self.navController presentViewController:tmpNavigationController animated:YES completion:nil];
+    }
+    [[LiveRequestListViewController instance] reloadLiveRequest];
 }
 
 #pragma mark UIAlertViewDelegate

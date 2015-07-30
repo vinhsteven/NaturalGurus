@@ -141,6 +141,7 @@
 #pragma mark LIVE REQUEST
 - (void) sendLiveRequest:(NSDictionary*)params viewController:(ScheduleAppointmentViewController*)viewController;
 - (void) loadLiveRequestList:(NSDictionary*)params viewController:(LiveRequestListViewController*)viewController;
+- (void) checkLiveRequestList:(NSDictionary*)params viewController:(AppDelegate*)viewController;
 - (void) approveLiveRequest:(NSDictionary*)params viewController:(LiveRequestListViewController*)viewController;
 - (void) declineLiveRequest:(NSDictionary*)params viewController:(LiveRequestListViewController*)viewController;
 

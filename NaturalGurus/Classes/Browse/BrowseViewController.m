@@ -62,11 +62,12 @@
     self.navigationItem.leftBarButtonItems = @[leftSpacer, btnItem, rightSpacer];
 
     //right bar button
-    UIButton *btnRight = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnRight.frame = CGRectMake(0, 0, 17, 20);
-    [btnRight setImage:[UIImage imageNamed:@"btnFilter.png"] forState:UIControlStateNormal];
-    [btnRight addTarget:self action:@selector(handleFilter) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *btnItem2 = [[UIBarButtonItem alloc] initWithCustomView:btnRight];
+    btnFilter = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnFilter.frame = CGRectMake(0, 0, 17, 20);
+    [btnFilter setImage:[UIImage imageNamed:@"btnFilter.png"] forState:UIControlStateNormal];
+    [btnFilter addTarget:self action:@selector(handleFilter) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *btnItem2 = [[UIBarButtonItem alloc] initWithCustomView:btnFilter];
     self.navigationItem.rightBarButtonItem = btnItem2;
     
     self.navigationItem.rightBarButtonItems = @[leftSpacer, btnItem2, rightSpacer];
@@ -96,6 +97,9 @@
     self.mainTableView.separatorColor = [UIColor clearColor];
     self.mainTableView.backgroundColor = [UIColor clearColor];
     [self.mainTableView.refreshControl addTarget:self action:@selector(handleRefresh) forControlEvents:UIControlEventValueChanged];
+    
+    self.searchDisplayController.searchResultsTableView.backgroundColor = TABLE_BACKGROUND_COLOR;
+    self.searchDisplayController.searchResultsTableView.separatorColor  = [UIColor clearColor];
     
     //default is expert
     isSelectCategory = YES;
@@ -667,12 +671,21 @@
     
         //return to the latest expert list
         [self reloadTheLatestExpert];
+        
+        //make filter button normal
+        btnFilter.userInteractionEnabled = YES;
+        btnFilter.alpha = 1.0;
     }
 }
 
 - (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    if (![text isEqualToString:@""] && searchBar.text.length > 1)
+    if (![text isEqualToString:@""] && searchBar.text.length > 1) {
         isSearching = YES;
+        
+        //make filter button blur
+        btnFilter.userInteractionEnabled = NO;
+        btnFilter.alpha = 0.5;
+    }
     return YES;
 }
 
@@ -680,6 +693,10 @@
     //if user tap cancel or x button to cancel searching, set isSearching = NO to tell that we will end searching.
     if ([searchText isEqualToString:@""]) {
         isSearching = NO;
+        
+        //make filter button normal
+        btnFilter.userInteractionEnabled = YES;
+        btnFilter.alpha = 1.0;
     }
     else {
         [searchArray removeAllObjects];

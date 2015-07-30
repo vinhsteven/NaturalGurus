@@ -105,10 +105,10 @@
         NSTimeInterval timeInterval = [currentDate timeIntervalSinceDate:createdDate];
         countDownDuration = 120 - timeInterval;
         
-        lbTimeLeft = [[UILabel alloc] initWithFrame:CGRectMake(lbTimeLeftTitle.frame.origin.x+lbTimeLeftTitle.frame.size.width+10, lbTimeLeftTitle.frame.origin.y, 50, 21)];
+        lbTimeLeft = [[UILabel alloc] initWithFrame:CGRectMake(lbTimeLeftTitle.frame.origin.x+lbTimeLeftTitle.frame.size.width+10, lbTimeLeftTitle.frame.origin.y, 40, 21)];
         lbTimeLeft.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:16];
         lbTimeLeft.textAlignment = NSTextAlignmentLeft;
-        lbTimeLeft.text = [NSString stringWithFormat:@"%.0f",timeInterval];
+        lbTimeLeft.text = [NSString stringWithFormat:@"%d",countDownDuration];
         lbTimeLeft.textColor = [UIColor lightGrayColor];
         [self addSubview:lbTimeLeft];
         
@@ -195,7 +195,9 @@
 }
 
 - (void) dealloc {
-    NSLog(@"LiveRequestCell dealloc");
+//    NSLog(@"LiveRequestCell dealloc");
+    [timer invalidate];
+    timer = nil;
 }
 
 @end
@@ -278,6 +280,10 @@
         [mainArray addObject:newDict];
     }
     [self.mainTableView reloadData];
+    
+    NSIndexPath *lastIndexPath = [self lastIndexPath];
+    [self.mainTableView scrollToRowAtIndexPath:lastIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    
     isLoading = NO;
 }
 
@@ -329,6 +335,13 @@
     @finally {
         
     }
+}
+
+-(NSIndexPath *)lastIndexPath
+{
+    NSInteger lastSectionIndex = MAX(0, [self.mainTableView numberOfSections] - 1);
+    NSInteger lastRowIndex = MAX(0, [self.mainTableView numberOfRowsInSection:lastSectionIndex] - 1);
+    return [NSIndexPath indexPathForRow:lastRowIndex inSection:lastSectionIndex];
 }
 
 - (void) viewDidLayoutSubviews {

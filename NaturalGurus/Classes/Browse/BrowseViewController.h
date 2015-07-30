@@ -40,6 +40,8 @@ enum {
     
     NSMutableArray *filterArray;
     NSMutableArray *sortArray;
+    
+    UIButton *btnFilter; //filter button
 }
 
 @property (assign, readwrite) int currentPage;

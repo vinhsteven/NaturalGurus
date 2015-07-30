@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "UIImageView+WebCache.h"
 
-@interface MyProfileViewController : UIViewController <UITextFieldDelegate,UIImagePickerControllerDelegate,UIActionSheetDelegate>{
+@interface MyProfileViewController : UIViewController <UITextFieldDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIActionSheetDelegate>{
     
     CGSize screenSize;
     CGPoint originalPoint;
@@ -31,5 +31,6 @@
 @property (strong, nonatomic) IBOutlet UIView *containerView;
 
 - (IBAction) handleEditProfile:(UIButton*)sender;
+- (IBAction) handleSwitchChange:(UISwitch*)sender;
 
 @end

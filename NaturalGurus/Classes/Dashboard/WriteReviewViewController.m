@@ -70,7 +70,14 @@
 
 - (void) submitReview {
     if ([self.txtName.text isEqualToString:@""]) {
-        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Please input your name." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        int userRole = [[ToolClass instance] getUserRole];
+        NSString *title;
+        if (userRole == isUser)
+            title = @"Please input your title.";
+        else
+            title = @"Please input your name.";
+        
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [dialog show];
         return;
     }

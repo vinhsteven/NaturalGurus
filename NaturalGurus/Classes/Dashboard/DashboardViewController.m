@@ -57,15 +57,19 @@
 //    UIButton *btnRight = [UIButton buttonWithType:UIButtonTypeCustom];
 //    btnRight.frame = CGRectMake(0, 0, 20, 16);
 //    [btnRight setImage:[UIImage imageNamed:@"reveal-icon.png"] forState:UIControlStateNormal];
-//    [btnRight addTarget:self action:@selector(listLiveRequest) forControlEvents:UIControlEventTouchUpInside];
+//    [btnRight addTarget:self action:@selector(loadLiveRequestList) forControlEvents:UIControlEventTouchUpInside];
 //    UIBarButtonItem *btnItem = [[UIBarButtonItem alloc] initWithCustomView:btnRight];
 //    
 //    self.navigationItem.rightBarButtonItem = btnItem;
     //end test
+    
+    //whenever expert open this screen, call API to check live request list
+    AppDelegate *delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    [delegate checkLiveRequestList];
 }
 
 //test
-- (void) listLiveRequest {
+- (void) loadLiveRequestList {
     BOOL isOpening = [[LiveRequestListViewController instance] isOpening];
     if (!isOpening) {
         UINavigationController *tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:[LiveRequestListViewController instance]];
@@ -81,7 +85,6 @@
     //reload current selected row to check local data, use after updating schedule
     NSArray *array = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:currentSelectedIndex inSection:0], nil];
     [self.mainTableView reloadRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationAutomatic];
-    
 }
 
 - (void) setupUI {
