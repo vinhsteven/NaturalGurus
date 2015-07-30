@@ -563,8 +563,6 @@ enum {
         //create background view cell
         UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, 40)];
         bgView.backgroundColor = [UIColor whiteColor];
-//        bgView.layer.borderWidth = 1.0;
-//        bgView.layer.borderColor = LIGHT_GREY_COLOR.CGColor;
         
         UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, bgView.frame.size.width, bgView.frame.size.height) byRoundingCorners:(UIRectCornerBottomLeft | UIRectCornerBottomRight) cornerRadii:CGSizeMake(5.0, 5.0)];
         
@@ -576,13 +574,21 @@ enum {
         if (indexPath.section == kAboutSection) {
             NSAttributedString *desciptionText = [[self.data objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
             
-            UITextView *txtView = [[UITextView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-10, 10)];
+            UITextView *txtView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, bgView.frame.size.width, 10)];
             txtView.userInteractionEnabled = NO;
             txtView.attributedText = desciptionText;
-            CGSize size = [txtView sizeThatFits:CGSizeMake(screenSize.width, CGFLOAT_MAX)];
             
-            txtView.frame = CGRectMake(0, -5, bgView.frame.size.width, size.height+10);
+//            CGSize size = [txtView sizeThatFits:CGSizeMake(screenSize.width, CGFLOAT_MAX)];
+//            txtView.frame = CGRectMake(0, -5, bgView.frame.size.width, size.height+10);
+            CGFloat fixedWidth = txtView.frame.size.width;
+            CGSize newSize = [txtView sizeThatFits:CGSizeMake(fixedWidth, MAXFLOAT)];
+            CGRect newFrame = txtView.frame;
+            newFrame.size = CGSizeMake(fmaxf(newSize.width, fixedWidth), newSize.height);
+            txtView.frame = newFrame;
+            
             txtView.textContainerInset = UIEdgeInsetsMake(5.0, 5.0, 0.0, 0.0);
+            
+            bgView.frame = CGRectMake(bgView.frame.origin.x, bgView.frame.origin.y, bgView.frame.size.width, txtView.frame.size.height);
             [bgView addSubview:txtView];
             
             //set corner border for textview
@@ -676,12 +682,20 @@ enum {
             
             NSString *desciptionText = [self.reviewData objectAtIndex:indexPath.row+indexPath.section];
             
-            UITextView *txtView = [[UITextView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-10, 10)];
+//            UITextView *txtView = [[UITextView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-10, 10)];
+            UITextView *txtView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, screenSize.width-20, 10)];
             txtView.userInteractionEnabled = NO;
             txtView.text = desciptionText;
-            CGSize size = [txtView sizeThatFits:CGSizeMake(screenSize.width, CGFLOAT_MAX)];
             
-            txtView.frame = CGRectMake(0, -5, bgView.frame.size.width, size.height);
+//            CGSize size = [txtView sizeThatFits:CGSizeMake(screenSize.width, CGFLOAT_MAX)];
+//            txtView.frame = CGRectMake(0, -5, bgView.frame.size.width, size.height);
+            // get the size of the UITextView based on what it would be with the text
+            CGFloat fixedWidth = txtView.frame.size.width;
+            CGSize newSize = [txtView sizeThatFits:CGSizeMake(fixedWidth, MAXFLOAT)];
+            CGRect newFrame = txtView.frame;
+            newFrame.size = CGSizeMake(fmaxf(newSize.width, fixedWidth), newSize.height);
+            txtView.frame = newFrame;
+            
             [bgView addSubview:txtView];
             
             //set corner border for textview
@@ -768,10 +782,14 @@ enum {
             //get description text
             NSAttributedString *desciptionText = [[self.data objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
             
-            UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, screenSize.width, 10)];
-            view.attributedText = desciptionText;
-            CGSize size = [view sizeThatFits:CGSizeMake(screenSize.width, CGFLOAT_MAX)];
-            rowHeight = size.height;
+            UITextView *txtView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, screenSize.width-20, 10)];
+            txtView.attributedText = desciptionText;
+            
+            CGFloat fixedWidth = txtView.frame.size.width;
+            CGSize newSize = [txtView sizeThatFits:CGSizeMake(fixedWidth, MAXFLOAT)];
+            CGRect newFrame = txtView.frame;
+            newFrame.size = CGSizeMake(fmaxf(newSize.width, fixedWidth), newSize.height);
+            rowHeight = newFrame.size.height;
         }
     }
     else {
@@ -780,10 +798,15 @@ enum {
         else {
             NSString *reviewText = [self.reviewData objectAtIndex:indexPath.row+indexPath.section];
             
-            UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, screenSize.width, 10)];
-            view.text = reviewText;
-            CGSize size = [view sizeThatFits:CGSizeMake(screenSize.width, CGFLOAT_MAX)];
-            rowHeight = size.height;
+            UITextView *txtView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, screenSize.width-20, 10)];
+            txtView.text = reviewText;
+            
+            CGFloat fixedWidth = txtView.frame.size.width;
+            CGSize newSize = [txtView sizeThatFits:CGSizeMake(fixedWidth, MAXFLOAT)];
+            CGRect newFrame = txtView.frame;
+            newFrame.size = CGSizeMake(fmaxf(newSize.width, fixedWidth), newSize.height);
+            rowHeight = newFrame.size.height;
+            
         }
     }
     
