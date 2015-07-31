@@ -176,7 +176,7 @@ static bool subscribeToSelf = NO;
     [self.view addSubview:_publisher.view];
     [_publisher.view setFrame:CGRectMake(0, 0, screenSize.width, screenSize.height)];
     
-//    [self.view insertSubview:btnClose atIndex:INT_MAX];
+    [self.view insertSubview:btnClose atIndex:INT_MAX];
 }
 
 /**
@@ -337,6 +337,9 @@ didFailWithError:(OTError*)error
     //start count down
     [self.view insertSubview:lbTimer atIndex:INT_MAX];
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateTimer) userInfo:nil repeats:YES];
+    
+    //remove btnClose
+    [btnClose removeFromSuperview];
 }
 
 - (void)subscriber:(OTSubscriberKit*)subscriber
