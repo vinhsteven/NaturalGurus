@@ -426,6 +426,7 @@ enum {
 
 - (void) bookingSuccess {
     ConfirmedViewController *controller = [[ConfirmedViewController alloc] initWithNibName:@"ConfirmedViewController" bundle:nil];
+    controller.isFreeSession = YES;
     [self.navigationController pushViewController:controller animated:YES];
 }
 

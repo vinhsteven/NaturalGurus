@@ -38,6 +38,9 @@
     
     NSRange range = [self.lbReferFAQ.text rangeOfString:@"FAQ's"];
     [self.lbReferFAQ addLinkToURL:[NSURL URLWithString:@"https://naturalgurus.com/f-a-q"] withRange:range];
+    
+    if (self.isFreeSession)
+        self.lbTitle.text = @"Booking is successful";
 }
 
 - (void) viewDidLayoutSubviews {

@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ConfirmedViewController">
             <connections>
                 <outlet property="lbReferFAQ" destination="yA9-90-BuN" id="0xq-3Q-bTc"/>
+                <outlet property="lbTitle" destination="E2H-jh-6Ct" id="H4p-rN-XCM"/>
                 <outlet property="scrollView" destination="Mrr-bq-Mdd" id="ub5-iB-SE6"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>

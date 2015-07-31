@@ -12,6 +12,8 @@
     CGSize screenSize;
 }
 
+@property (assign, readwrite) BOOL isFreeSession;
+@property (strong, nonatomic) IBOutlet UILabel *lbTitle;
 @property (strong, nonatomic) IBOutlet TTTAttributedLabel *lbReferFAQ;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 

@@ -429,6 +429,7 @@
 #pragma mark HANDLE EVENT
 - (void) handleSelectAvailability:(AvailabilityButton*)sender {
     ((ScheduleAppointmentViewController*)self.parent).timeDict = sender.dataDict;
+    [((ScheduleAppointmentViewController*)self.parent).btnViewAvailability setTitle:[NSString stringWithFormat:@"%@ %@",[sender.dataDict objectForKey:@"date_from"],[sender.dataDict objectForKey:@"title"]] forState:UIControlStateNormal];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
