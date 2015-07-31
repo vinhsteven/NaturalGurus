@@ -137,7 +137,47 @@ enum {
     NSDictionary *expertDict = [[ToolClass instance] getExpertDict];
     self.lbMessageTo.text = [NSString stringWithFormat:@"Message to %@:",[expertDict objectForKey:@"name"]];
     
-    currentTimezoneSelectedDict = [NSDictionary dictionaryWithObjectsAndKeys:@"(UTC+10:00) Sydney",@"title",@"Australia/Sydney",@"value", nil];
+    //get current timezone of device
+    NSTimeZone *deviceTimezone = [NSTimeZone localTimeZone];
+    
+    for (int i=0;i < [timezoneArray count];i++) {
+        NSDictionary *timezoneDict = [timezoneArray objectAtIndex:i];
+        NSTimeZone *timezone = [NSTimeZone timeZoneWithName:[timezoneDict objectForKey:@"value"]];
+        
+        NSInteger deviceIntervalTime = [deviceTimezone secondsFromGMT] - [deviceTimezone daylightSavingTimeOffset];
+        NSInteger intervalTime = [timezone secondsFromGMT] - [timezone daylightSavingTimeOffset];
+        
+        if (deviceIntervalTime == intervalTime) {
+            //get interval time from device timezone to GMT
+            if ([deviceTimezone isEqualToTimeZone:timezone]) {
+                currentTimezoneSelectedDict = timezoneDict;
+            }
+            else {
+                
+                int hour = (int)deviceIntervalTime/3600;
+                int min  = (deviceIntervalTime % 3600) / 60;
+                
+                NSString *timezoneName = [deviceTimezone name];
+                
+                NSArray *tmpArray = [timezoneName componentsSeparatedByString:@"/"];
+                NSEnumerator *nse = [tmpArray objectEnumerator];
+                NSString *zone = [nse nextObject]; // don't remove this line
+                NSString *city = [nse nextObject];
+                
+                NSString *sign = @"";
+                if (hour > 0)
+                    sign = @"+";
+                
+                NSString *timezoneTitle = [NSString stringWithFormat:@"UTC(%@%02d:%02d) %@",sign,hour,min,city];
+                
+                currentTimezoneSelectedDict = [NSDictionary dictionaryWithObjectsAndKeys:timezoneTitle,@"title",timezoneName,@"value", nil];
+                [timezoneArray insertObject:currentTimezoneSelectedDict atIndex:i];
+            }
+            break;
+        }
+    }
+    
+//    currentTimezoneSelectedDict = [NSDictionary dictionaryWithObjectsAndKeys:@"(UTC+10:00) Sydney",@"title",@"Australia/Sydney",@"value", nil];
 }
 
 - (void) viewWillAppear:(BOOL)animated {

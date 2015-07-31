@@ -544,8 +544,9 @@ enum {
     if (isSelectDescription)
         return [self.data count];
     else {
-        if ([self.reviewHeaders count] == 0)
+        if ([self.reviewHeaders count] == 0) {
             return 1;
+        }
         return [self.reviewHeaders count];
     }
 }
@@ -672,7 +673,12 @@ enum {
             UILabel *lbTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, 40)];
             lbTitle.backgroundColor = [UIColor colorWithRed:(float)245/255 green:(float)245/255 blue:(float)245/255 alpha:1];
             lbTitle.font = [UIFont fontWithName:DEFAULT_FONT size:13];
-            lbTitle.text = @"There isn't any reviews for this expert.";
+            
+            if (indexPath.section == 0)
+                lbTitle.text = @"There isn't any reviews for this expert.";
+            else
+                lbTitle.text = @"";
+            
             lbTitle.textAlignment = NSTextAlignmentCenter;
             [cell.contentView addSubview:lbTitle];
         }
@@ -723,8 +729,9 @@ enum {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (isSelectDescription)
+    if (isSelectDescription) {
         return [[self.data objectAtIndex:section] count];
+    }
     else
         return 1;
 }
@@ -806,7 +813,6 @@ enum {
             CGRect newFrame = txtView.frame;
             newFrame.size = CGSizeMake(fmaxf(newSize.width, fixedWidth), newSize.height);
             rowHeight = newFrame.size.height;
-            
         }
     }
     
@@ -819,7 +825,7 @@ enum {
     
     if (index >= 0)
     {
-        [self.tableView toggleSection:(NSUInteger)index animated:YES];
+        [self.tableView toggleSection:(NSUInteger)index animated:NO];
         
         //check the status of this section to change compatible arrow image
         BOOL isSectionOpen = [self.tableView isOpenSection:index];
@@ -988,14 +994,61 @@ enum {
     [self.btnReview setImage:nil forState:UIControlStateNormal];
     
     [self.tableView reloadData];
-    [self.tableView openSection:0 animated:NO];
-    [self.tableView openSection:1 animated:NO];
-    [self.tableView openSection:2 animated:NO];
+    [self.tableView closeSection:0 animated:NO];
+    [self.tableView closeSection:1 animated:NO];
+    [self.tableView closeSection:2 animated:NO];
+    
+    //check the status of this section to change compatible arrow image
+    for (int index=0;index < 3;index++) {
+        //always open all sections when select description
+        [self.tableView toggleSection:(NSUInteger)index animated:NO];
+        
+        //check the status of this section to change compatible arrow image
+        BOOL isSectionOpen = [self.tableView isOpenSection:index];
+        UILabel *lbHeaderSection;
+        UIImageView *imgArrow;
+//        if (isSelectDescription) {
+            lbHeaderSection = (UILabel*)[[self.headers objectAtIndex:index] viewWithTag:kLabelHeaderTag];
+            imgArrow = (UIImageView*)[[self.headers objectAtIndex:index] viewWithTag:kIconArrowTag];
+//        }
+//        else {
+//            lbHeaderSection = (UILabel*)[[self.reviewHeaders objectAtIndex:index] viewWithTag:kLabelHeaderTag];
+//            imgArrow = (UIImageView*)[[self.reviewHeaders objectAtIndex:index] viewWithTag:kIconArrowTag];
+//        }
+        
+        if (isSectionOpen) {
+            UIImage *landscapeImage = [UIImage imageNamed:@"iconArrowDown.png"];
+            imgArrow.image = landscapeImage;
+            
+            imgArrow.frame  = CGRectMake(imgArrow.frame.origin.x, imgArrow.frame.origin.y, 12, 7);
+            imgArrow.center = CGPointMake(imgArrow.center.x, lbHeaderSection.center.y);
+            
+            //set corner radius for header section label: just top left and top right
+            UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, lbHeaderSection.frame.size.width, lbHeaderSection.frame.size.height) byRoundingCorners:(UIRectCornerTopLeft | UIRectCornerTopRight) cornerRadii:CGSizeMake(5.0, 5.0)];
+            
+            CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+            maskLayer.path  = maskPath.CGPath;
+            lbHeaderSection.layer.mask = maskLayer;
+            
+            //remove previous layer
+            CAShapeLayer *previousLayer = [lbHeaderSection.layer.sublayers lastObject];
+            [previousLayer removeFromSuperlayer];
+            
+            //add new layer
+            CAShapeLayer *strokeLayer = [self addBorderLineWithFrame:lbHeaderSection.frame top:YES bottom:NO left:YES right:YES];
+            [lbHeaderSection.layer addSublayer:strokeLayer];
+        }
+        
+    }
 }
 
 - (IBAction) selectReview:(id)sender {
     if (!isSelectDescription)
         return;
+    
+    //check section=0 is opened or not, if not then open it to display there isn't reviews record if there isn't any reviews
+    [self.tableView openSection:0 animated:NO];
+    
     isSelectDescription = NO;
     //disable touch for this button and enable for another button
     self.btnDescription.userInteractionEnabled = YES;
