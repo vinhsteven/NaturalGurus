@@ -21,7 +21,7 @@
 #import "LiveRequestListViewController.h"
 #import "WriteReviewViewController.h"
 
-@interface ToolClass : NSObject  {
+@interface ToolClass : NSObject <UIAlertViewDelegate> {
     unsigned long expertId;
     float expertPrice;
     NSDictionary *expertDict;

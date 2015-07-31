@@ -509,6 +509,56 @@
     [[LiveRequestListViewController instance] reloadLiveRequest];
 }
 
+- (void) handleLogOut {
+    [self performSelectorInBackground:@selector(synchronizeSignOutWithServer) withObject:nil];
+    
+    int loginType = [[ToolClass instance] getLoginType];
+    
+    switch (loginType) {
+        case LOGIN_FACEBOOK:
+            if (FBSession.activeSession.state == FBSessionStateOpen
+                || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
+                
+                [[ToolClass instance] setLogin:NO];
+                [[ToolClass instance] setUserToken:nil];
+                // Close the session and remove the access token from the cache
+                // The session state handler (in the app delegate) will be called automatically
+                [FBSession.activeSession closeAndClearTokenInformation];
+                
+                [self.viewController.drawerController.navigationController popViewControllerAnimated:YES];
+            }
+            
+            break;
+        case LOGIN_EMAIL:
+            [[ToolClass instance] setLogin:NO];
+            [[ToolClass instance] setUserToken:nil];
+            [self.viewController.drawerController.navigationController popViewControllerAnimated:YES];
+            break;
+        case LOGIN_TWITTER:
+        {
+            [[ToolClass instance] setLogin:NO];
+            [[ToolClass instance] setUserToken:nil];
+            [[Twitter sharedInstance] logOut];
+            
+            ACAccountStore *accountStore = [[ACAccountStore alloc] init];
+            
+            for (ACAccount *account in accountStore.accounts) {
+                [accountStore removeAccount:account withCompletionHandler:nil];
+            }
+            
+            [self.viewController.drawerController.navigationController popViewControllerAnimated:YES];
+        }
+        default:
+            break;
+    }
+}
+
+- (void) synchronizeSignOutWithServer {
+    NSString *token = [[ToolClass instance] getUserToken];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:token,@"token", nil];
+    [[ToolClass instance] signOut:params];
+}
+
 #pragma mark UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {

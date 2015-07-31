@@ -1165,7 +1165,7 @@
             NSString *message = [responseObject objectForKey:@"message"];
             message = [message lowercaseString];
             if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
-                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
             }
             else {
@@ -1206,7 +1206,7 @@
             NSString *message = [responseObject objectForKey:@"message"];
             message = [message lowercaseString];
             if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
-                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
             }
             else {
@@ -1244,7 +1244,7 @@
             NSString *message = [responseObject objectForKey:@"message"];
             message = [message lowercaseString];
             if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
-                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
             }
             else {
@@ -1279,7 +1279,7 @@
             NSString *message = [responseObject objectForKey:@"message"];
             message = [message lowercaseString];
             if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
-                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
             }
             else {
@@ -1328,7 +1328,7 @@
                 [dialog show];
             }
             else {
-                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone has logged in your account from another device. Please login again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone has logged in your account from another device. Please login again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
             }
         }
@@ -1378,7 +1378,7 @@
             NSString *message = [responseObject objectForKey:@"message"];
             message = [message lowercaseString];
             if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
-                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
             }
             else {
@@ -1471,14 +1471,14 @@
                 [dialog show];
             }
             else {
-                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone has logged in your account from another device. Please login again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone has logged in your account from another device. Please login again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
             }
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"dashboard error = %@",error);
         [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
-        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone has logged in your account from another device. Please login again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone has logged in your account from another device. Please login again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [dialog show];
     }];
 }
@@ -1601,7 +1601,7 @@
             NSString *message = [responseObject objectForKey:@"message"];
             message = [message lowercaseString];
             if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
-                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
             }
             else {
@@ -1652,7 +1652,7 @@
             NSString *message = [responseObject objectForKey:@"message"];
             message = [message lowercaseString];
             if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
-                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
             }
             else {
@@ -1711,7 +1711,7 @@
             NSString *message = [responseObject objectForKey:@"message"];
             message = [message lowercaseString];
             if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
-                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
             }
             else {
@@ -1760,7 +1760,7 @@
             NSString *message = [responseObject objectForKey:@"message"];
             message = [message lowercaseString];
             if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
-                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
             }
             else {
@@ -1808,7 +1808,7 @@
             NSString *message = [responseObject objectForKey:@"message"];
             message = [message lowercaseString];
             if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
-                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
             }
             else {
@@ -1878,7 +1878,7 @@
             NSString *message = [responseObject objectForKey:@"message"];
             message = [message lowercaseString];
             if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
-                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
             }
             else {
@@ -1891,7 +1891,7 @@
         
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Disconnected"
                                                             message:@"Someone has logged in with this account. Please login again."
-                                                           delegate:nil
+                                                           delegate:self
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
         [alertView show];
@@ -1921,7 +1921,7 @@
             NSString *message = [responseObject objectForKey:@"message"];
             message = [message lowercaseString];
             if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
-                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
             }
             else {
@@ -1965,7 +1965,7 @@
             NSString *message = [responseObject objectForKey:@"message"];
             message = [message lowercaseString];
             if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
-                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
             }
             else {
@@ -2010,7 +2010,7 @@
             NSString *message = [responseObject objectForKey:@"message"];
             message = [message lowercaseString];
             if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
-                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
             }
             else {
@@ -2053,7 +2053,7 @@
             NSString *message = [responseObject objectForKey:@"message"];
             message = [message lowercaseString];
             if ([message rangeOfString:@"invalid token"].location != NSNotFound) {
-                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Someone login your account on another device. Please login again to continue." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [dialog show];
             }
             else {
@@ -2071,6 +2071,12 @@
                                                   otherButtonTitles:nil];
         [alertView show];
     }];
+}
+
+#pragma mark UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    AppDelegate *delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    [delegate handleLogOut];
 }
 
 @end

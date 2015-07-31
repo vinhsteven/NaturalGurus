@@ -29,6 +29,7 @@
 
 - (void) loadLiveRequestList;
 - (void) checkLiveRequestList;
+- (void) handleLogOut;
 
 @end
 
