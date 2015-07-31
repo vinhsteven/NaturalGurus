@@ -108,6 +108,15 @@ static bool subscribeToSelf = NO;
         timer = nil;
     }
     
+    OTError *error = nil;
+    [_session signalWithType:@"session_stop" string:nil connection:nil error:nil];
+    if (error) {
+        NSLog(@"signal error %@", error);
+    }
+    else {
+        NSLog(@"signal sent");
+    }
+    
     //just client update data and just when they do it intentionlly, not by connection interrupt
     int userRole = [[ToolClass instance] getUserRole];
     if (userRole == isUser) {
@@ -267,15 +276,6 @@ streamDestroyed:(OTStream *)stream
         [self cleanupSubscriber];
         
         [self handleEndCalling];
-        
-        OTError *error = nil;
-        [session signalWithType:@"session_stop" string:nil connection:nil error:nil];
-        if (error) {
-            NSLog(@"signal error %@", error);
-        }
-        else {
-            NSLog(@"signal sent");
-        }
     }
 }
 
@@ -295,15 +295,6 @@ connectionDestroyed:(OTConnection *)connection
         [self cleanupSubscriber];
         
         [self handleEndCalling];
-        
-        OTError *error = nil;
-        [session signalWithType:@"session_stop" string:nil connection:nil error:nil];
-        if (error) {
-            NSLog(@"signal error %@", error);
-        }
-        else {
-            NSLog(@"signal sent");
-        }
     }
 }
 
