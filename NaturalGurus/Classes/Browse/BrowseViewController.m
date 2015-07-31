@@ -670,7 +670,7 @@
         [searchArray removeAllObjects];
     
         //return to the latest expert list
-        [self reloadTheLatestExpert];
+//        [self reloadTheLatestExpert];
         
         //make filter button normal
         btnFilter.userInteractionEnabled = YES;

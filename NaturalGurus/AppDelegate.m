@@ -524,15 +524,12 @@
                 // Close the session and remove the access token from the cache
                 // The session state handler (in the app delegate) will be called automatically
                 [FBSession.activeSession closeAndClearTokenInformation];
-                
-                [self.viewController.drawerController.navigationController popViewControllerAnimated:YES];
             }
-            
             break;
         case LOGIN_EMAIL:
             [[ToolClass instance] setLogin:NO];
             [[ToolClass instance] setUserToken:nil];
-            [self.viewController.drawerController.navigationController popViewControllerAnimated:YES];
+            
             break;
         case LOGIN_TWITTER:
         {
@@ -540,17 +537,25 @@
             [[ToolClass instance] setUserToken:nil];
             [[Twitter sharedInstance] logOut];
             
+            NSURL *url = [NSURL URLWithString:@"https://api.twitter.com"];
+            NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:url];
+            for (NSHTTPCookie *cookie in cookies)
+            {
+                [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+            }
+            
             ACAccountStore *accountStore = [[ACAccountStore alloc] init];
             
             for (ACAccount *account in accountStore.accounts) {
                 [accountStore removeAccount:account withCompletionHandler:nil];
             }
-            
-            [self.viewController.drawerController.navigationController popViewControllerAnimated:YES];
         }
         default:
             break;
     }
+    
+//    [self.viewController.drawerController.navigationController popViewControllerAnimated:YES];
+    [self.navController popToRootViewControllerAnimated:YES];
 }
 
 - (void) synchronizeSignOutWithServer {
