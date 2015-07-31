@@ -90,7 +90,7 @@
     [self.params setValue:countryCode forKey:@"phone_code"];
     [self.params setValue:self.txtPhone.text forKey:@"phone"];
     
-    [MBProgressHUD showHUDAddedTo:((LoginViewController*)_parent).navigationController.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@",BASE_URL];
     
@@ -133,11 +133,11 @@
             [dialog show];
         }
         
-        [MBProgressHUD hideAllHUDsForView:((LoginViewController*)_parent).navigationController.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"FB failed: %@",error);
-        [MBProgressHUD hideAllHUDsForView:((LoginViewController*)_parent).navigationController.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
 }
 
