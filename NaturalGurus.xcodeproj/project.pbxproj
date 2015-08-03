@@ -114,6 +114,8 @@
 		B0CD2E4E1B39224A00764216 /* ForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CD2E4C1B39224A00764216 /* ForgotPasswordViewController.m */; };
 		B0CD2E4F1B39224A00764216 /* ForgotPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0CD2E4D1B39224A00764216 /* ForgotPasswordViewController.xib */; };
 		B0CD30231B4B910C00FD2688 /* TimeZone.plist in Resources */ = {isa = PBXBuildFile; fileRef = B0CD30221B4B910C00FD2688 /* TimeZone.plist */; };
+		B0D01C841B6F72A50037527D /* icon_camera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B0D01C831B6F72A50037527D /* icon_camera@2x.png */; };
+		B0D01C861B6F768C0037527D /* star_highlighted_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B0D01C851B6F768C0037527D /* star_highlighted_2@2x.png */; };
 		B0D21BFE1B43842900D703B0 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0D21BFD1B43842900D703B0 /* MobileCoreServices.framework */; };
 		B0D21C001B43843000D703B0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0D21BFF1B43843000D703B0 /* SystemConfiguration.framework */; };
 		B0D21C021B43843F00D703B0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0D21C011B43843F00D703B0 /* Security.framework */; };
@@ -362,6 +364,8 @@
 		B0CD2E4C1B39224A00764216 /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; };
 		B0CD2E4D1B39224A00764216 /* ForgotPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ForgotPasswordViewController.xib; sourceTree = "<group>"; };
 		B0CD30221B4B910C00FD2688 /* TimeZone.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TimeZone.plist; sourceTree = "<group>"; };
+		B0D01C831B6F72A50037527D /* icon_camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera@2x.png"; sourceTree = "<group>"; };
+		B0D01C851B6F768C0037527D /* star_highlighted_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star_highlighted_2@2x.png"; sourceTree = "<group>"; };
 		B0D21BFD1B43842900D703B0 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		B0D21BFF1B43843000D703B0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B0D21C011B43843F00D703B0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -878,6 +882,7 @@
 		C2A5E3C01B27FACB000F7F29 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B0D01C831B6F72A50037527D /* icon_camera@2x.png */,
 				B0C822EA1B6788BD00672BE3 /* big_star_highlighted@2x.png */,
 				B0C822EB1B6788BD00672BE3 /* big_star@2x.png */,
 				B0C68D0E1B4E8025003A7A1F /* avatarDefault@2x.png */,
@@ -923,6 +928,7 @@
 				C2BA2F1E1B2C33FB00811E56 /* camera@2x.png */,
 				C2BA2F101B2C291200811E56 /* star_highlighted.png */,
 				C2BA2F111B2C291200811E56 /* star_highlighted@2x.png */,
+				B0D01C851B6F768C0037527D /* star_highlighted_2@2x.png */,
 				C2BA2F121B2C291200811E56 /* star.png */,
 				C2BA2F131B2C291200811E56 /* star@2x.png */,
 				C2A5E3C11B27FACB000F7F29 /* reveal-icon.png */,
@@ -1176,6 +1182,7 @@
 			files = (
 				B0C52F931B53ADE300309DA0 /* StripeOSXTests-Debug.xcconfig in Resources */,
 				B0C52F8F1B53ADE300309DA0 /* StripeiOSStaticWithoutApplePay.xcconfig in Resources */,
+				B0D01C841B6F72A50037527D /* icon_camera@2x.png in Resources */,
 				B0C68D081B4E6EA8003A7A1F /* bgFreeAvailability_0@2x.png in Resources */,
 				B0C52F951B53ADE300309DA0 /* StripeOSXTests-Shared.xcconfig in Resources */,
 				C21AFF831B35672A002DCACC /* iconArrowDown@2x.png in Resources */,
@@ -1246,6 +1253,7 @@
 				C2BA2F1F1B2C33FB00811E56 /* camera.png in Resources */,
 				C22633D21B32D5E400CB368D /* btnFilter@2x.png in Resources */,
 				B0C52F8D1B53ADE300309DA0 /* StripeiOSStaticFramework.xcconfig in Resources */,
+				B0D01C861B6F768C0037527D /* star_highlighted_2@2x.png in Resources */,
 				B0C68D091B4E6EA8003A7A1F /* bgFreeAvailability_1@2x.png in Resources */,
 				B00F66F51B380BF400521850 /* AvailabilityViewController.xib in Resources */,
 				B0CD30231B4B910C00FD2688 /* TimeZone.plist in Resources */,

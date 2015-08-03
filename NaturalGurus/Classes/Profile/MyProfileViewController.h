@@ -31,6 +31,7 @@
 @property (strong, nonatomic) IBOutlet UIView *containerView;
 
 - (IBAction) handleEditProfile:(UIButton*)sender;
+- (IBAction) handleEditProfileImage:(id)sender;
 - (IBAction) handleSwitchChange:(UISwitch*)sender;
 
 @end

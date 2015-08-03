@@ -27,38 +27,6 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zur-zy-Rmt">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="buj-cj-AEd">
-                            <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="16" id="Scv-1l-KHP"/>
-                                <constraint firstAttribute="height" constant="16" id="XcN-vr-Ist"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                            <inset key="titleEdgeInsets" minX="-20" minY="0.0" maxX="0.0" maxY="0.0"/>
-                            <state key="normal" image="btnEdit.png">
-                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <state key="selected" image="btnEditSelected.png"/>
-                            <state key="highlighted">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="Scv-1l-KHP"/>
-                                    <exclude reference="XcN-vr-Ist"/>
-                                </mask>
-                            </variation>
-                            <variation key="heightClass=regular-widthClass=compact">
-                                <mask key="constraints">
-                                    <include reference="Scv-1l-KHP"/>
-                                    <include reference="XcN-vr-Ist"/>
-                                </mask>
-                            </variation>
-                            <connections>
-                                <action selector="handleEditProfile:" destination="-1" eventType="touchUpInside" id="AJA-zh-AMK"/>
-                            </connections>
-                        </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First name:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kNJ-3n-AAA">
                             <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                             <constraints>
@@ -273,6 +241,38 @@
                                 <outlet property="delegate" destination="-1" id="Kyn-Gu-v8m"/>
                             </connections>
                         </textField>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="buj-cj-AEd">
+                            <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="16" id="Scv-1l-KHP"/>
+                                <constraint firstAttribute="height" constant="16" id="XcN-vr-Ist"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <inset key="titleEdgeInsets" minX="-20" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" image="btnEdit.png">
+                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="selected" image="btnEditSelected.png"/>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="Scv-1l-KHP"/>
+                                    <exclude reference="XcN-vr-Ist"/>
+                                </mask>
+                            </variation>
+                            <variation key="heightClass=regular-widthClass=compact">
+                                <mask key="constraints">
+                                    <include reference="Scv-1l-KHP"/>
+                                    <include reference="XcN-vr-Ist"/>
+                                </mask>
+                            </variation>
+                            <connections>
+                                <action selector="handleEditProfile:" destination="-1" eventType="touchUpInside" id="AJA-zh-AMK"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -310,7 +310,6 @@
                     </constraints>
                     <variation key="default">
                         <mask key="subviews">
-                            <exclude reference="buj-cj-AEd"/>
                             <exclude reference="kNJ-3n-AAA"/>
                             <exclude reference="wmG-Mu-8HC"/>
                             <exclude reference="8nk-Gd-OBr"/>
@@ -320,6 +319,7 @@
                             <exclude reference="fva-uJ-bmv"/>
                             <exclude reference="eT5-d6-N4k"/>
                             <exclude reference="ul2-0W-V8z"/>
+                            <exclude reference="buj-cj-AEd"/>
                         </mask>
                         <mask key="constraints">
                             <exclude reference="mLY-XI-rkL"/>
@@ -351,7 +351,6 @@
                     </variation>
                     <variation key="heightClass=regular-widthClass=compact">
                         <mask key="subviews">
-                            <include reference="buj-cj-AEd"/>
                             <include reference="kNJ-3n-AAA"/>
                             <include reference="wmG-Mu-8HC"/>
                             <include reference="8nk-Gd-OBr"/>
@@ -361,6 +360,7 @@
                             <include reference="fva-uJ-bmv"/>
                             <include reference="eT5-d6-N4k"/>
                             <include reference="ul2-0W-V8z"/>
+                            <include reference="buj-cj-AEd"/>
                         </mask>
                         <mask key="constraints">
                             <include reference="mLY-XI-rkL"/>
@@ -489,9 +489,39 @@
                         <action selector="handleSwitchChange:" destination="-1" eventType="valueChanged" id="7u1-A3-RY8"/>
                     </connections>
                 </switch>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sMR-Fv-Itu">
+                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="0fV-3A-R4l">
+                            <variation key="heightClass=regular-widthClass=compact" constant="24"/>
+                        </constraint>
+                        <constraint firstAttribute="height" constant="30" id="y1H-Db-axo">
+                            <variation key="heightClass=regular-widthClass=compact" constant="24"/>
+                        </constraint>
+                    </constraints>
+                    <state key="normal" image="icon_camera.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="0fV-3A-R4l"/>
+                            <exclude reference="y1H-Db-axo"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=regular-widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="0fV-3A-R4l"/>
+                            <include reference="y1H-Db-axo"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <action selector="handleEditProfileImage:" destination="-1" eventType="touchUpInside" id="6m8-yV-FwG"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="sMR-Fv-Itu" firstAttribute="top" secondItem="eeu-P2-5Vn" secondAttribute="bottom" constant="-22" id="4VM-VB-4rs"/>
                 <constraint firstItem="ccy-0R-xgr" firstAttribute="centerY" secondItem="jQ6-FZ-hm9" secondAttribute="centerY" id="4wc-Pu-bbX"/>
                 <constraint firstItem="3aR-4m-TXp" firstAttribute="top" secondItem="joY-YA-Zm0" secondAttribute="bottom" constant="28" id="C46-cY-Ewn"/>
                 <constraint firstAttribute="trailing" secondItem="uVC-R3-WlW" secondAttribute="trailing" constant="10" id="ClT-3G-dxB"/>
@@ -507,7 +537,12 @@
                 <constraint firstItem="jQ6-FZ-hm9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="WGp-qh-9RF"/>
                 <constraint firstAttribute="trailing" secondItem="ccy-0R-xgr" secondAttribute="trailing" constant="10" id="WYa-ep-cWv"/>
                 <constraint firstAttribute="trailing" secondItem="zur-zy-Rmt" secondAttribute="trailing" constant="10" id="b1e-1g-yse"/>
+                <constraint firstAttribute="centerX" secondItem="sMR-Fv-Itu" secondAttribute="centerX" id="cqL-2d-YHg"/>
                 <constraint firstItem="jQ6-FZ-hm9" firstAttribute="centerY" secondItem="ccy-0R-xgr" secondAttribute="centerY" id="cr9-y0-nrx"/>
+                <constraint firstItem="sMR-Fv-Itu" firstAttribute="top" secondItem="eeu-P2-5Vn" secondAttribute="bottom" constant="-16" id="dKs-XQ-7Qw"/>
+                <constraint firstItem="sMR-Fv-Itu" firstAttribute="leading" secondItem="eeu-P2-5Vn" secondAttribute="trailing" constant="1" id="fKG-F6-737">
+                    <variation key="heightClass=regular-widthClass=compact" constant="-10"/>
+                </constraint>
                 <constraint firstAttribute="bottom" secondItem="joY-YA-Zm0" secondAttribute="bottom" constant="188" id="fzt-fF-OpM">
                     <variation key="heightClass=regular-widthClass=compact" constant="120"/>
                 </constraint>
@@ -533,6 +568,7 @@
                     <exclude reference="uVC-R3-WlW"/>
                     <exclude reference="eeu-P2-5Vn"/>
                     <exclude reference="ccy-0R-xgr"/>
+                    <exclude reference="sMR-Fv-Itu"/>
                 </mask>
                 <mask key="constraints">
                     <exclude reference="Eqc-Zb-c1X"/>
@@ -542,6 +578,10 @@
                     <exclude reference="MbR-Uc-2kv"/>
                     <exclude reference="b1e-1g-yse"/>
                     <exclude reference="zHP-0g-lHZ"/>
+                    <exclude reference="4VM-VB-4rs"/>
+                    <exclude reference="cqL-2d-YHg"/>
+                    <exclude reference="dKs-XQ-7Qw"/>
+                    <exclude reference="fKG-F6-737"/>
                     <exclude reference="fzt-fF-OpM"/>
                     <exclude reference="h6N-vm-jjx"/>
                     <exclude reference="n6Z-5W-elm"/>
@@ -569,6 +609,7 @@
                     <include reference="uVC-R3-WlW"/>
                     <include reference="eeu-P2-5Vn"/>
                     <include reference="ccy-0R-xgr"/>
+                    <include reference="sMR-Fv-Itu"/>
                 </mask>
                 <mask key="constraints">
                     <include reference="Eqc-Zb-c1X"/>
@@ -578,6 +619,10 @@
                     <include reference="MbR-Uc-2kv"/>
                     <include reference="b1e-1g-yse"/>
                     <include reference="zHP-0g-lHZ"/>
+                    <exclude reference="4VM-VB-4rs"/>
+                    <exclude reference="cqL-2d-YHg"/>
+                    <include reference="dKs-XQ-7Qw"/>
+                    <include reference="fKG-F6-737"/>
                     <include reference="fzt-fF-OpM"/>
                     <exclude reference="h6N-vm-jjx"/>
                     <include reference="n6Z-5W-elm"/>
@@ -601,5 +646,6 @@
     <resources>
         <image name="btnEdit.png" width="16" height="16"/>
         <image name="btnEditSelected.png" width="16" height="16"/>
+        <image name="icon_camera.png" width="24" height="24"/>
     </resources>
 </document>

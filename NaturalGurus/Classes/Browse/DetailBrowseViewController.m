@@ -131,7 +131,7 @@ enum {
     
     //set number of rating
     self.starRatingView.backgroundImage = nil;
-    self.starRatingView.starImage = [UIImage imageNamed:@"star_highlighted.png"];
+    self.starRatingView.starImage = [UIImage imageNamed:@"star_highlighted_2.png"];
     self.starRatingView.starHighlightedImage = [UIImage imageNamed:@"star.png"];
     self.starRatingView.maxRating = 5.0;
     self.starRatingView.horizontalMargin = 0;

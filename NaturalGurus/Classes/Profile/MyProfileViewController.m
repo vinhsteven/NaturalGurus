@@ -86,8 +86,8 @@
     [self.view addGestureRecognizer:singleTap];
     
     //handle tap profile picture
-    UITapGestureRecognizer *profileImageTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditProfileImage)];
-    [self.imgExpertView addGestureRecognizer:profileImageTap];
+//    UITapGestureRecognizer *profileImageTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditProfileImage)];
+//    [self.imgExpertView addGestureRecognizer:profileImageTap];
     
     self.switchSMS.on = [[ToolClass instance] getUserSMS];
     self.switchPushNotification.on = [[ToolClass instance] getUserPush];
@@ -340,8 +340,8 @@
     }
 }
 
-- (void) handleEditProfileImage {
-    if (self.txtFirstName.enabled) {
+- (IBAction) handleEditProfileImage:(id)sender {
+//    if (self.txtFirstName.enabled) {
         NSString *other1 = @"Take Photo";
         NSString *other2 = @"Choose Existing";
         
@@ -353,7 +353,7 @@
                                       destructiveButtonTitle:nil
                                       otherButtonTitles:other1, other2, nil];
         [actionSheet showInView:self.view];
-    }
+//    }
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
