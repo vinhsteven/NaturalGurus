@@ -670,7 +670,7 @@
         [searchArray removeAllObjects];
     
         //return to the latest expert list
-//        [self reloadTheLatestExpert];
+        [self reloadTheLatestExpert];  //we must reload this one because we need to know value of the lastPage for the latest expert list. 
         
         //make filter button normal
         btnFilter.userInteractionEnabled = YES;

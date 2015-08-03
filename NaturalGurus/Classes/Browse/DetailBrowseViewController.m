@@ -12,8 +12,8 @@
 
 enum {
     kAboutSection = 0,
-    kQualificationsSection,
     kQuickStatsSection,
+    kQualificationsSection
 };
 
 enum {
@@ -238,7 +238,12 @@ enum {
 - (void) setupTableViewData {
     self.navigationItem.title = [expertDict objectForKey:@"name"];
     
-    NSArray *sectionArray = @[@"ABOUT",@"QUALIFICATIONS",@"QUICK STATS"];
+//    NSArray *sectionArray = @[@"ABOUT",@"QUALIFICATIONS",@"QUICK STATS"];
+    NSMutableArray *sectionArray = [NSMutableArray arrayWithObjects:@"ABOUT",@"QUICK STATS", nil];
+    
+    NSMutableArray *qualificationsArray = [expertDict objectForKey:@"qualifications"];
+    if ([qualificationsArray count] > 0)
+        [sectionArray addObject:@"QUALIFICATIONS"];
     
     self.data = [[NSMutableArray alloc] init];
     
@@ -246,7 +251,6 @@ enum {
         //init section data
         NSMutableArray* section = [[NSMutableArray alloc] init];
         if (i == kAboutSection) {
-//            NSString *description = self.expertDescriptionString;
             NSString *description = [expertDict objectForKey:@"description"];
             
             NSAttributedString * attrStr = [[NSAttributedString alloc] initWithData:[description dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
@@ -254,7 +258,7 @@ enum {
             [section addObject:attrStr];
         }
         else if (i == kQualificationsSection){
-            section = [expertDict objectForKey:@"qualifications"] == nil ? @[] : [expertDict objectForKey:@"qualifications"];
+            section = qualificationsArray;
         }
         else if (i == kQuickStatsSection) {
             //init quickstat data
@@ -287,14 +291,12 @@ enum {
                 [section addObject:dict];
             }
         }
-        else {
-            
-        }
+
         [self.data addObject:section];
     }
     
     self.headers = [[NSMutableArray alloc] init];
-    for (int i = 0 ; i <= kQuickStatsSection ; i++)
+    for (int i = kAboutSection ; i < [sectionArray count] ; i++)
     {
         UIView* header = [[UIView alloc] initWithFrame:CGRectMake(10, 0, screenSize.width-20, 40)];
         [header setBackgroundColor:[UIColor clearColor]];
@@ -353,6 +355,9 @@ enum {
     
     //set Service name label text
     self.lbServiceName.text = [expertDict objectForKey:@"title"];
+    self.lbServiceName.numberOfLines = 0;
+    [self.lbServiceName sizeToFit];
+    self.lbServiceName.adjustsFontSizeToFitWidth = YES;
     
     //get expert image
     NSString *avatar = [expertDict objectForKey:@"avatar"];
@@ -999,7 +1004,7 @@ enum {
     [self.tableView closeSection:2 animated:NO];
     
     //check the status of this section to change compatible arrow image
-    for (int index=0;index < 3;index++) {
+    for (int index=kAboutSection;index < [self.headers count];index++) {
         //always open all sections when select description
         [self.tableView toggleSection:(NSUInteger)index animated:NO];
         

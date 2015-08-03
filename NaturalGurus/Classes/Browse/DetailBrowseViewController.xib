@@ -79,10 +79,12 @@
                         </mask>
                     </variation>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Herbal Remedies Advice" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epE-uv-Tc7">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Herbal Remedies Advice" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epE-uv-Tc7">
                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="21" id="8Rw-Lb-lBY"/>
+                        <constraint firstAttribute="height" constant="21" id="8Rw-Lb-lBY">
+                            <variation key="heightClass=regular-widthClass=compact" constant="44"/>
+                        </constraint>
                         <constraint firstAttribute="width" constant="210" id="cxY-1v-AuZ">
                             <variation key="heightClass=regular-widthClass=compact" constant="194"/>
                         </constraint>
