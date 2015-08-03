@@ -161,8 +161,10 @@ enum {
                 
                 NSArray *tmpArray = [timezoneName componentsSeparatedByString:@"/"];
                 NSEnumerator *nse = [tmpArray objectEnumerator];
-                NSString *zone = [nse nextObject]; // don't remove this line
+                
+                [nse nextObject]; // don't remove this line, omit zone 
                 NSString *city = [nse nextObject];
+                city = [city stringByReplacingOccurrencesOfString:@"_" withString:@" "];
                 
                 NSString *sign = @"";
                 if (hour > 0)

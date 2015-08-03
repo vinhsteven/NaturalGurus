@@ -92,7 +92,7 @@
     
     [self addNavigationBottomLine];
     
-    self.mainTableView.rowHeight = 60;
+    self.mainTableView.rowHeight = 90;
     self.mainTableView.separatorColor = [UIColor clearColor];
     self.mainTableView.backgroundColor = TABLE_BACKGROUND_COLOR;
     [self.mainTableView.refreshControl addTarget:self action:@selector(handleRefresh) forControlEvents:UIControlEventValueChanged];
@@ -301,18 +301,35 @@
     lbStatus.textAlignment = NSTextAlignmentRight;
     [bgView addSubview:lbStatus];
     
+    UILabel *lbDate = [[UILabel alloc] initWithFrame:CGRectMake(5, 30, screenSize.width, 21)];
+    lbDate.backgroundColor = [UIColor clearColor];
+    lbDate.font = [UIFont fontWithName:DEFAULT_FONT size:13];
+    lbDate.text = [NSString stringWithFormat:@"%@",[ToolClass dateByFormat:@"EEE, MMM dd yyyy" dateString:[dict objectForKey:@"date"]]];
+    lbDate.textColor = [UIColor blackColor];
+    [bgView addSubview:lbDate];
     
     //add time label
     NSString *fromTime  = [ToolClass convertHourToAM_PM:[dict objectForKey:@"from_time"]];
     NSString *toTime    = [ToolClass convertHourToAM_PM:[dict objectForKey:@"to_time"]];
     
-    NSString *dateTime = [NSString stringWithFormat:@"%@, %@ %@",[NSString stringWithFormat:@"%@ : %@",fromTime,toTime],[dict objectForKey:@"date"],[NSString stringWithFormat:@"(%@)",[dict objectForKey:@"timezone"]]];
-    UILabel *lbDateTime = [[UILabel alloc] initWithFrame:CGRectMake(5, 30, screenSize.width, 21)];
-    lbDateTime.backgroundColor = [UIColor clearColor];
-    lbDateTime.font = [UIFont fontWithName:DEFAULT_FONT size:13];
-    lbDateTime.text = dateTime;
-    lbDateTime.textColor = [UIColor blackColor];
-    [bgView addSubview:lbDateTime];
+    NSString *timezoneName = [dict objectForKey:@"timezone"];
+    int hourInterval = [ToolClass getHourIntervalByTimezone:timezoneName];
+    int minInterval  = [ToolClass getMinIntervalByTimezone:timezoneName];
+    
+    NSString *timezoneBySign = @"";
+    if (hourInterval > 0)
+        timezoneBySign = @"+";
+    
+    timezoneName = [timezoneName stringByReplacingOccurrencesOfString:@"_" withString:@" "];
+    
+    NSString *timeAndTimezone = [NSString stringWithFormat:@"%@ %@",[NSString stringWithFormat:@"%@ - %@",fromTime,toTime],[NSString stringWithFormat:@"(%@ %@%d:%02d)",timezoneName,timezoneBySign,hourInterval,minInterval]];
+    
+    UILabel *lbTime = [[UILabel alloc] initWithFrame:CGRectMake(5, 60, screenSize.width, 21)];
+    lbTime.backgroundColor = [UIColor clearColor];
+    lbTime.font = [UIFont fontWithName:DEFAULT_FONT size:13];
+    lbTime.text = timeAndTimezone;
+    lbTime.textColor = [UIColor blackColor];
+    [bgView addSubview:lbTime];
     
     [cell.contentView addSubview:bgView];
     

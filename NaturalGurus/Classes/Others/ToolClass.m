@@ -473,6 +473,19 @@
     return [dateFormatter stringFromDate:date];
 }
 
++ (int) getHourIntervalByTimezone:(NSString*)timezoneName {
+    NSTimeZone *timezone = [NSTimeZone timeZoneWithName:timezoneName];
+    NSInteger intervalTime = [timezone secondsFromGMT] - [timezone daylightSavingTimeOffset];
+    return (int)intervalTime/3600;
+}
+
++ (int) getMinIntervalByTimezone:(NSString*)timezoneName {
+    NSTimeZone *timezone = [NSTimeZone timeZoneWithName:timezoneName];
+    NSInteger intervalTime = [timezone secondsFromGMT] - [timezone daylightSavingTimeOffset];
+
+    return (intervalTime % 3600) / 60;
+}
+
 #pragma mark HANDLE STORE DATA
 - (void) setLogin:(BOOL)isLogin {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];

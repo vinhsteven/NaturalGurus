@@ -49,6 +49,8 @@
 + (NSDate*) dateTimeByTimezone:(NSString*)timezone andDate:(NSString*)dateTimeString;
 + (NSString*) dateTimeByTimezone:(NSString*)timezone andDate2:(NSDate*)date;
 + (NSString*) timeByTimezone:(NSString*)timezone andDateAndTime:(NSString*)dateTimeString;
++ (int) getHourIntervalByTimezone:(NSString*)timezoneName;
++ (int) getMinIntervalByTimezone:(NSString*)timezoneName;
 
 #pragma mark HANDLE STORE DATA 
 - (void) setLogin:(BOOL)isLogin;

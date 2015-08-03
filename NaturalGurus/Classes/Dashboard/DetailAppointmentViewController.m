@@ -147,7 +147,20 @@ enum {
         NSString *toTime    = [ToolClass convertHourToAM_PM:[appointmentDict objectForKey:@"to_time"]];
         self.lbTime.text    = [NSString stringWithFormat:@"%@ - %@",fromTime,toTime];
         
-        self.lbTimezone.text = [appointmentDict objectForKey:@"timezone"];
+        //set timezone format
+        NSString *timezoneName = [appointmentDict objectForKey:@"timezone"];
+        int hourInterval = [ToolClass getHourIntervalByTimezone:timezoneName];
+        int minInterval  = [ToolClass getMinIntervalByTimezone:timezoneName];
+        
+        NSString *timezoneBySign = @"";
+        if (hourInterval > 0)
+            timezoneBySign = @"+";
+        
+        timezoneName = [timezoneName stringByReplacingOccurrencesOfString:@"_" withString:@" "];
+        
+        NSString *timezoneString = [NSString stringWithFormat:@"%@ %@%d:%02d",timezoneName,timezoneBySign,hourInterval,minInterval];
+        
+        self.lbTimezone.text = timezoneString;
         
         [self performSelector:@selector(delayForLayout) withObject:nil afterDelay:0.5];
     }
@@ -544,7 +557,20 @@ enum {
     NSString *toTime    = [ToolClass convertHourToAM_PM:[appointmentDict objectForKey:@"to_time"]];
     self.lbTime.text    = [NSString stringWithFormat:@"%@ - %@",fromTime,toTime];
     
-    self.lbTimezone.text = [appointmentDict objectForKey:@"timezone"];
+    //set timezone format
+    NSString *timezoneName = [appointmentDict objectForKey:@"timezone"];
+    int hourInterval = [ToolClass getHourIntervalByTimezone:timezoneName];
+    int minInterval  = [ToolClass getMinIntervalByTimezone:timezoneName];
+    
+    NSString *timezoneBySign = @"";
+    if (hourInterval > 0)
+        timezoneBySign = @"+";
+    
+    timezoneName = [timezoneName stringByReplacingOccurrencesOfString:@"_" withString:@" "];
+    
+    NSString *timezoneString = [NSString stringWithFormat:@"%@ %@%d:%02d",timezoneName,timezoneBySign,hourInterval,minInterval];
+    
+    self.lbTimezone.text = timezoneString;
     
     [self performSelector:@selector(delayForLayout) withObject:nil afterDelay:0.5];
     [self performSelectorInBackground:@selector(loadVideoToken) withObject:nil];
