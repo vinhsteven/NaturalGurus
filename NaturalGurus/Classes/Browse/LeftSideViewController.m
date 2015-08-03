@@ -399,6 +399,34 @@
     [[ToolClass instance] setLogin:YES];
     
     self.scrollView.hidden = YES;
+    
+    [mainArray removeAllObjects];
+    
+    NSString *imageTitle[] = {
+        @"iconDashboard.png",
+        @"iconBrowse.png",
+        @"iconProfile.png",
+    };
+    
+    NSString *titleStr[] = {
+        @"DASHBOARD",
+        @"BROWSE",
+        @"PROFILE",
+    };
+    
+    userRole = [[ToolClass instance] getUserRole];
+    if (userRole == isUser) {
+        for (int i=0;i < sizeof(imageTitle)/sizeof(imageTitle[0]);i++) {
+            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:i],@"index",titleStr[i],@"title",imageTitle[i],@"image", nil];
+            [mainArray addObject:dict];
+        }
+    }
+    else {
+        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0],@"index",titleStr[0],@"title",imageTitle[0],@"image", nil];
+        [mainArray addObject:dict];
+    }
+    
+    [self.tableView reloadData];
 }
 
 - (IBAction) createAccount:(id)sender {

@@ -52,15 +52,15 @@ static bool subscribeToSelf = NO;
     btnEndCall = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnEndCall setImage:[UIImage imageNamed:@"btnEndCall.png"] forState:UIControlStateNormal];
     btnEndCall.frame = CGRectMake(0, 0, 64, 64);
-    btnEndCall.center = CGPointMake(screenSize.width/2, screenSize.height-100);
+    btnEndCall.center = CGPointMake(screenSize.width/2, screenSize.height-50);
     [btnEndCall addTarget:self action:@selector(handleEndCalling) forControlEvents:UIControlEventTouchUpInside];
     
     btnEndCall.hidden = YES;
     
-    lbTimer = [[UILabel alloc] initWithFrame:CGRectMake(10, screenSize.height-50, 100, 21)];
+    lbTimer = [[UILabel alloc] initWithFrame:CGRectMake(0, screenSize.height-21, 100, 21)];
     lbTimer.backgroundColor = [UIColor whiteColor];
     lbTimer.textColor = [UIColor blackColor];
-    lbTimer.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:16];
+    lbTimer.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:14];
     lbTimer.textAlignment = NSTextAlignmentCenter;
     
     int hour = duration / 3600;

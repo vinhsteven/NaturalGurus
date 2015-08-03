@@ -1482,8 +1482,17 @@
         
         if (status == 200) {
             NSArray *data = [[responseObject objectForKey:@"data"] objectForKey:@"items"];
-            viewController.lastPage = [[[responseObject objectForKey:@"data"] objectForKey:@"last_page"] intValue];
-            [viewController reorganizeAppointments:data];
+            
+            if ([data count] == 0) {
+                [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
+                
+                UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"No Appointments Found" message:@"There is not any appointments for your account." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [dialog show];
+            }
+            else {
+                viewController.lastPage = [[[responseObject objectForKey:@"data"] objectForKey:@"last_page"] intValue];
+                [viewController reorganizeAppointments:data];
+            }
         }
         else {
             [MBProgressHUD hideAllHUDsForView:viewController.navigationController.view animated:YES];
@@ -1678,6 +1687,10 @@
         int status = [[responseObject objectForKey:@"status"] intValue];
         
         if (status == 200) {
+            [viewController finishAppointment];
+        }
+        else if (status == 422) {
+            //the session is over, so we just close the view.
             [viewController finishAppointment];
         }
         else {
