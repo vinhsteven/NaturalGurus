@@ -242,8 +242,18 @@ enum {
     NSMutableArray *sectionArray = [NSMutableArray arrayWithObjects:@"ABOUT",@"QUICK STATS", nil];
     
     NSMutableArray *qualificationsArray = [expertDict objectForKey:@"qualifications"];
-    if ([qualificationsArray count] > 0)
-        [sectionArray addObject:@"QUALIFICATIONS"];
+    if ([qualificationsArray count] > 0) {
+        if ([qualificationsArray count] == 1) {
+            NSDictionary *dict = [qualificationsArray objectAtIndex:0];
+            NSString *name = [dict objectForKey:@""];
+            if ([name isEqualToString:@""] || name == nil)
+                ;
+            else
+                [sectionArray addObject:@"QUALIFICATIONS"];
+        }
+        else
+            [sectionArray addObject:@"QUALIFICATIONS"];
+    }
     
     self.data = [[NSMutableArray alloc] init];
     
@@ -613,17 +623,22 @@ enum {
             NSMutableArray *qualificationArray = [self.data objectAtIndex:indexPath.section];
             NSDictionary *qualificationDict = [qualificationArray objectAtIndex:indexPath.row];
             
-            UILabel *lbQualificationTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, offsetY, 200, 21)];
+            UILabel *lbQualificationTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, offsetY, 200, 42)];
             lbQualificationTitle.backgroundColor = [UIColor clearColor];
             lbQualificationTitle.text = [qualificationDict objectForKey:@"name"];
             lbQualificationTitle.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:12];
+            lbQualificationTitle.numberOfLines = 0;
+            [lbQualificationTitle sizeToFit];
+            lbQualificationTitle.adjustsFontSizeToFitWidth = YES;
             [bgView addSubview:lbQualificationTitle];
             
-            UILabel *lbQualificationYear = [[UILabel alloc] initWithFrame:CGRectMake(bgView.frame.size.width-205, offsetY, 200, 21)];
+            UILabel *lbQualificationYear = [[UILabel alloc] initWithFrame:CGRectMake(bgView.frame.size.width-75, offsetY, 100, 42)];
             lbQualificationYear.backgroundColor = [UIColor clearColor];
             lbQualificationYear.text = [NSString stringWithFormat:@"%@ - %@",[qualificationDict objectForKey:@"start"],[qualificationDict objectForKey:@"end"]];
             lbQualificationYear.textAlignment = NSTextAlignmentRight;
             lbQualificationYear.font = [UIFont fontWithName:DEFAULT_FONT_BOLD size:12];
+            lbQualificationYear.numberOfLines = 0;
+            [lbQualificationYear sizeToFit];
             [bgView addSubview:lbQualificationYear];
             
             //make corner radius for last row
@@ -655,6 +670,7 @@ enum {
             lbValue.font = [UIFont fontWithName:DEFAULT_FONT size:13];
             lbValue.text = [quickStatsDict objectForKey:@"value"];
             lbValue.textAlignment = NSTextAlignmentRight;
+            lbValue.adjustsFontSizeToFitWidth = YES;
             [bgView addSubview:lbValue];
             
             //make corner radius for last row
