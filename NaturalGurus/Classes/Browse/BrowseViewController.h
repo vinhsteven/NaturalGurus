@@ -46,6 +46,8 @@ enum {
 
 @property (assign, readwrite) int currentPage;
 @property (assign, readwrite) int lastPage;
+@property (assign, readwrite) int lastPageBeforeSearch;
+@property (assign, readwrite) int currentListBeforeSearch;
 @property (assign, readwrite) BOOL isLoading;
 @property (strong, nonatomic) IBOutlet TableView_RefreshControl *mainTableView;
 @property (strong, nonatomic) IBOutlet UIView *containerView;

@@ -209,14 +209,7 @@
 
 - (void) handleSingleTap:(UITapGestureRecognizer*)recognizer {
     //hide keyboard if it has already showed
-    [self.txtFirstName resignFirstResponder];
-    [self.txtLastName resignFirstResponder];
-    [self.txtEmail resignFirstResponder];
-    [self.txtCountryCode resignFirstResponder];
-    [self.txtPhoneNumber resignFirstResponder];
-    
-    if (screenSize.height == 480)
-        self.view.center = CGPointMake(screenSize.width/2, screenSize.height/2);
+    [self hideKeyboard];
 }
 
 - (void) leftButtonPress {
@@ -225,11 +218,11 @@
 
 - (IBAction) handleSwitchChange:(UISwitch*)sender {
     if (sender.on) {
-        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"You can not switch on this here. Please go to Setting -> Notification Center and switch on it." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"You can not switch on Push Notification here. Please go to Setting -> Notification Center and switch on it." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [dialog show];
     }
     else {
-        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"You can not switch off this here. Please go to Setting -> Notification Center and switch off it." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"You can not switch off Push Notification here. Please go to Setting -> Notification Center and switch off it." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [dialog show];
     }
     
@@ -315,6 +308,9 @@
     [self.txtEmail resignFirstResponder];
     [self.txtCountryCode resignFirstResponder];
     [self.txtPhoneNumber resignFirstResponder];
+    
+    if (screenSize.height == 480)
+        self.view.center = CGPointMake(screenSize.width/2, screenSize.height/2);
 }
 
 - (IBAction) handleEditProfile:(UIButton*)sender {

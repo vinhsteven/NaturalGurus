@@ -370,7 +370,7 @@ enum {
                           placeholderImage:[UIImage imageNamed:@"avatarDefault.png"]
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                                      
-                                     se.image = [[ToolClass instance] imageByScalingAndCroppingForSize:CGSizeMake(EXPERT_IN_LIST_WIDTH, EXPERT_IN_LIST_HEIGHT) source:image];
+                                     se.image = [[ToolClass instance] imageByScalingAndCroppingForSize:CGSizeMake(self.imgExpertView.frame.size.width, self.imgExpertView.frame.size.height) source:image];
                                      
                                  }];
     self.imgExpertView.layer.cornerRadius  = EXPERT_IMAGE_WIDTH/2;

@@ -661,7 +661,17 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
 //    [expertArray removeAllObjects];
-    currentList = bySearch;
+    if (btnFilter.userInteractionEnabled) {
+        self.currentListBeforeSearch = currentList; //when start searching, save current list before searching, we will return this current list before searching after finishing searching.
+        
+        currentList = bySearch;
+        
+        //make filter button blur
+        btnFilter.userInteractionEnabled = NO;
+        btnFilter.alpha = 0.5;
+        
+        self.lastPageBeforeSearch = self.lastPage; //when start searching, save current last page for Browse list, we will return this current last page after finishing searching.
+    }
 }
 
 - (void) searchBarTextDidEndEditing:(UISearchBar *)searchBar {
@@ -670,7 +680,9 @@
         [searchArray removeAllObjects];
     
         //return to the latest expert list
-        [self reloadTheLatestExpert];  //we must reload this one because we need to know value of the lastPage for the latest expert list. 
+//        [self reloadTheLatestExpert];  //we must reload this one because we need to know value of the lastPage for the latest expert list.
+        currentList = self.currentListBeforeSearch;
+        self.lastPage = self.lastPageBeforeSearch;
         
         //make filter button normal
         btnFilter.userInteractionEnabled = YES;
@@ -681,10 +693,6 @@
 - (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     if (![text isEqualToString:@""] && searchBar.text.length > 1) {
         isSearching = YES;
-        
-        //make filter button blur
-        btnFilter.userInteractionEnabled = NO;
-        btnFilter.alpha = 0.5;
     }
     return YES;
 }
